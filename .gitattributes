@@ -1,0 +1,15 @@
+# Binärdateien NICHT durch Zeilenenden-Konvertierung verändern lassen
+*.jpg   binary
+*.jpeg  binary
+*.png   binary
+*.gif   binary
+*.webp  binary
+*.ico   binary
+*.pdf   binary
+*.zip   binary
+*.mp3   binary
+*.mp4   binary
+*.mov   binary
+
+# Skripte immer mit LF
+*.sh    text eol=lf
