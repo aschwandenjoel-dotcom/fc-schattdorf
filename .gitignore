@@ -1,0 +1,11 @@
+# lokale Geheimnisse / Umgebung
+.env
+
+# WordPress-Core & Uploads (liegen im Docker-Volume, nicht im Repo)
+wp-content/uploads/
+wp-content/plugins/
+wp-content/themes/*/
+!wp-content/themes/fcschattdorf-child/
+
+# OS
+.DS_Store

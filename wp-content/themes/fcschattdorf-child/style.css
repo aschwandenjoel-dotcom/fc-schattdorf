@@ -1,0 +1,13 @@
+/*
+Theme Name:   FC Schattdorf Child
+Theme URI:    https://www.fcschattdorf.ch/
+Description:  Child-Theme auf Basis von Astra für die Vereinsseite des FC Schattdorf.
+              Hier kommen alle eigenen Anpassungen rein (Farben, Logo, Layout),
+              damit Updates des Eltern-Themes nichts überschreiben.
+Author:       FC Schattdorf
+Template:     astra
+Version:      0.1.0
+Text Domain:  fcschattdorf-child
+*/
+
+/* Die eigentlichen Styles liegen in assets/custom.css */

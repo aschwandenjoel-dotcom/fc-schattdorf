@@ -1,0 +1,64 @@
+/* ====================================================================
+   FC Schattdorf – eigene Styles
+   Vereinsfarben anpassen: einfach die Variablen unten ändern.
+   (Platzhalter Rot/Weiss – bitte an das echte Vereinslogo angleichen.)
+   ==================================================================== */
+
+:root {
+	--fcs-primary:   #c8102e;  /* Hauptfarbe (Rot) */
+	--fcs-primary-d: #9b0c23;  /* dunkler für Hover */
+	--fcs-dark:      #1a1a1a;  /* Text/Footer */
+	--fcs-light:     #f5f5f5;  /* Hintergrund hell */
+}
+
+/* Buttons & Links in Vereinsfarbe */
+.ast-button,
+.wp-block-button__link,
+button.menu-toggle {
+	background-color: var(--fcs-primary);
+	border-color: var(--fcs-primary);
+}
+.ast-button:hover,
+.wp-block-button__link:hover {
+	background-color: var(--fcs-primary-d);
+	border-color: var(--fcs-primary-d);
+}
+
+a { color: var(--fcs-primary); }
+a:hover { color: var(--fcs-primary-d); }
+
+/* Header-Akzentlinie */
+.site-header {
+	border-top: 4px solid var(--fcs-primary);
+}
+
+/* Footer dunkel mit Sponsoren-Raster */
+.site-footer {
+	background: var(--fcs-dark);
+	color: #ddd;
+}
+
+/* Sponsoren-Logos (per Block "Galerie" oder Shortcode platzierbar) */
+.fcs-sponsoren {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+	gap: 1.5rem;
+	align-items: center;
+	padding: 2rem 0;
+}
+.fcs-sponsoren img {
+	max-width: 100%;
+	height: auto;
+	filter: grayscale(100%);
+	opacity: .8;
+	transition: all .2s ease;
+}
+.fcs-sponsoren img:hover {
+	filter: none;
+	opacity: 1;
+}
+
+/* News-/Beitragskarten etwas freundlicher */
+.ast-article-post {
+	border-radius: 8px;
+}
