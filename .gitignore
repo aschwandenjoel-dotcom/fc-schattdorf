@@ -7,6 +7,10 @@ wp-content/plugins/
 wp-content/themes/*/
 !wp-content/themes/fcschattdorf-child/
 
+# Hinweis: import/ enthält urheberrechtlich geschützte Original-Assets
+# der fcschattdorf.ch-Website. Wird NUR ins PRIVATE Repo eingecheckt –
+# niemals öffentlich machen!
+
 # OS
 .DS_Store
 
