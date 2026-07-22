@@ -3,10 +3,10 @@ services:
     image: mysql:8.0
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: wordpress
-      MYSQL_USER: wordpress
-      MYSQL_PASSWORD: wordpress
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root_geheim}
+      MYSQL_DATABASE: ${DB_NAME:-wordpress}
+      MYSQL_USER: ${DB_USER:-wordpress}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-wordpress}
     volumes:
       - db_data:/var/lib/mysql
 
@@ -14,15 +14,38 @@ services:
     image: wordpress:latest
     restart: always
     ports:
-      - "8090:80"
+      - "${WP_PORT:-8080}:80"
     environment:
       WORDPRESS_DB_HOST: db
-      WORDPRESS_DB_USER: wordpress
-      WORDPRESS_DB_PASSWORD: wordpress
-      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_USER: ${DB_USER:-wordpress}
+      WORDPRESS_DB_PASSWORD: ${DB_PASSWORD:-wordpress}
+      WORDPRESS_DB_NAME: ${DB_NAME:-wordpress}
+      WORDPRESS_DEBUG: ${WP_DEBUG:-0}
     volumes:
       - wordpress_data:/var/www/html
       - ./wp-content/themes/fcschattdorf-child:/var/www/html/wp-content/themes/fcschattdorf-child
+    depends_on:
+      - db
+
+  wpcli:
+    image: wordpress:cli
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: ${DB_USER:-wordpress}
+      WORDPRESS_DB_PASSWORD: ${DB_PASSWORD:-wordpress}
+      WORDPRESS_DB_NAME: ${DB_NAME:-wordpress}
+    volumes:
+      - wordpress_data:/var/www/html
+      - ./wp-content/themes/fcschattdorf-child:/var/www/html/wp-content/themes/fcschattdorf-child
+    depends_on:
+      - db
+      - wordpress
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "${ADMINER_PORT:-8081}:8080"
     depends_on:
       - db
 
