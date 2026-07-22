@@ -1,0 +1,712 @@
+/* ====================================================================
+   FC Schattdorf – Startseite (Neuaufbau)
+   Eigenständiges System: News-first, ruhige Fläche, Rot als einziger
+   Akzent. Prefix .fcx- ; überschreibt gezielt einzelne .fcsh-Regeln.
+   ==================================================================== */
+
+:root{
+  --fcx-red:#e63124;
+  --fcx-red-deep:#d9261c;
+  --fcx-ink:#101214;
+  --fcx-ink-2:#1c1f23;
+  --fcx-paper:#ffffff;
+  /* Vereinsgrau: minimaler Rotstich statt Technik-Kühlgrau (siehe DESIGN.md 3.a "Wärme") */
+  --fcx-mist:#f5f1f0;
+  --fcx-line:#e7e0de;
+  --fcx-muted:#5c6169;
+  /* Radius für Inhalts-/Bildflächen (Fotos, Personen-/Infokarten) — interaktive
+     Chrome (Buttons/Badges/Nav) bleibt bei 0px, siehe DESIGN.md Components. */
+  --fcx-radius:8px;
+  /* Gefüllte Bedienelemente tragen das tiefere Rot: Weiss darauf erreicht
+     4.95:1, das helle #e63124 nur 4.35:1 und fällt damit unter AA. */
+  --fcx-red-solid:#d9261c;
+  --fcx-red-press:#c8201a;
+  /* Trikot-/Logo-Rot, abgedunkelt, als Fläche; die Karten sind
+     derselbe Farbton, nur eine Stufe heller. */
+  --fcx-wine:#711712;
+  --fcx-wine-card:#8d1d16;
+  --fcx-wine-card-hi:#a7221b;
+
+  --fcx-pad:clamp(1.25rem, 5vw, 5rem);
+  --fcx-gap:clamp(1rem, 2vw, 1.75rem);
+
+  /* Motion: exponentielles Ausklingen, keine Bounce-Kurven */
+  --fcx-ease:cubic-bezier(.22,1,.36,1);
+  --fcx-fast:150ms;
+  --fcx-mid:220ms;
+}
+
+.fcsh{background:var(--fcx-paper);color:var(--fcx-ink);}
+
+/* Tastaturfokus überall sichtbar – auch auf dunklen Flächen */
+:where(a,button,input,select,textarea,summary):focus-visible{
+  outline:3px solid var(--fcx-red);outline-offset:3px;border-radius:2px;
+}
+.fcx-sec--ink :where(a,button):focus-visible,
+.fcx-hdr :where(a,button):focus-visible{outline-color:#fff;}
+
+/* ── Volle Breite auf Seiten mit eigenem Layout ────────────── */
+body.fcx-wide #content,
+body.fcx-wide .ast-container,
+body.fcx-wide #primary,
+body.fcx-wide .entry-content,
+body.fcx-wide .ast-article-single{
+  max-width:100% !important;width:100% !important;
+  margin:0 !important;padding:0 !important;border:0 !important;
+}
+body.fcx-wide .entry-header,
+body.fcx-wide .ast-single-post-order,
+body.fcx-wide .post-navigation{display:none !important;}
+body.fcx-wide #content{background:var(--fcx-paper);}
+/* Astras Container ist ein Flex-Element. Als Flex-Item wird unsere Sektion
+   in Safari auf Inhaltsbreite geschrumpft (rechts blieb die Seite weiss) –
+   als Block-Container füllt sie zuverlässig die volle Breite. */
+body.fcx-wide #content > .ast-container{display:block !important;}
+body.fcx-wide #content > .ast-container > *{width:100% !important;}
+
+/* ── KOPFZEILE: Logo mittig, Navigation drumherum ──────────── */
+.fcx-hdr{
+  position:sticky;top:0;z-index:200;background:var(--fcx-ink);
+  font-family:'Inter','Helvetica Neue',Arial,sans-serif;
+}
+.fcx-hdr__bar{
+  display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
+  gap:clamp(2.5rem,7vw,7rem);padding:0 clamp(.75rem,2vw,1.5rem);height:6.25rem;
+  transition:height var(--fcx-mid) var(--fcx-ease);
+}
+.fcx-hdr.is-scrolled .fcx-hdr__bar{height:4.75rem;}
+.fcx-hdr__nav{display:flex;align-items:center;gap:clamp(.75rem,2vw,2rem);flex-wrap:wrap;}
+.fcx-hdr__nav--left{justify-content:flex-end;}
+.fcx-hdr__nav--right{justify-content:flex-start;}
+.fcx-hdr__item{
+  position:relative;background:none;border:0;cursor:pointer;
+  color:#fff;font-size:.9375rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  padding:.5rem 0;font-family:inherit;line-height:1;white-space:nowrap;
+}
+.fcx-hdr__item::after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:2px;
+  background:var(--fcx-red);transform:scaleX(0);transform-origin:left;
+  transition:transform var(--fcx-mid) var(--fcx-ease);
+}
+.fcx-hdr__item.is-active::after,
+.fcx-hdr__item[aria-expanded="true"]::after{transform:scaleX(1);}
+@media(hover:hover) and (pointer:fine){
+  .fcx-hdr__item:hover::after{transform:scaleX(1);}
+}
+.fcx-hdr__logo{display:block;padding:.35rem 0;}
+.fcx-hdr__logo img{height:5rem;width:auto;display:block;transition:height var(--fcx-mid) var(--fcx-ease);}
+.fcx-hdr.is-scrolled .fcx-hdr__logo img{height:3.4rem;}
+
+.fcx-hdr__burger{
+  display:none;background:none;border:0;cursor:pointer;padding:.6rem;
+  flex-direction:column;gap:5px;justify-self:end;
+}
+.fcx-hdr__burger span{display:block;width:26px;height:2px;background:#fff;}
+
+/* Unterkategorien-Panel */
+/* Panel legt sich über den Inhalt statt ihn zu verschieben - kein Layout-Sprung.
+   Transition statt Keyframes, damit schnelles Hovern sauber umschaltet. */
+.fcx-mega{
+  position:absolute;top:100%;left:0;right:0;
+  background:var(--fcx-ink-2);border-top:1px solid rgba(255,255,255,.08);
+  box-shadow:0 18px 40px rgba(0,0,0,.35);
+  opacity:0;visibility:hidden;transform:translateY(-.5rem);
+  transition:opacity var(--fcx-mid) var(--fcx-ease),
+             transform var(--fcx-mid) var(--fcx-ease),
+             visibility 0s linear var(--fcx-mid);
+}
+.fcx-mega.is-open{
+  opacity:1;visibility:visible;transform:none;
+  transition-delay:0s;
+}
+.fcx-mega__inner{
+  display:grid;grid-template-columns:minmax(0,14rem) minmax(0,1fr);
+  gap:clamp(1.5rem,4vw,4rem);
+  padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,5vw,5rem);
+  max-width:90rem;margin:0 auto;
+}
+.fcx-mega__title{
+  margin:0;color:#fff;font-size:clamp(1.5rem,3vw,2.25rem);font-weight:900;
+  letter-spacing:-.02em;text-transform:uppercase;line-height:1;
+}
+/* Untereinander wie in der Referenz; ab 6 Einträgen bricht eine zweite Spalte um */
+.fcx-mega__links{
+  display:grid;grid-auto-flow:column;grid-template-rows:repeat(6,auto);
+  gap:.1rem clamp(2rem,5vw,5rem);justify-content:start;align-content:start;
+}
+.fcx-mega__links a{
+  display:block;padding:.5rem 0;color:rgba(255,255,255,.82);
+  font-size:.9375rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+  transition:color var(--fcx-fast) var(--fcx-ease),
+             transform var(--fcx-fast) var(--fcx-ease);
+}
+@media(hover:hover) and (pointer:fine){
+  .fcx-mega__links a:hover{color:var(--fcx-red);transform:translateX(.3rem);}
+}
+
+@media(max-width:64rem){
+  .fcx-hdr__bar{grid-template-columns:1fr auto;min-height:5.5rem;height:5.5rem;}
+  .fcx-hdr__nav{display:none;}
+  .fcx-hdr__logo{justify-self:start;}
+  .fcx-hdr__logo img{height:3.75rem;}
+  .fcx-hdr__burger{display:flex;}
+  .fcx-mega{display:none !important;}
+  .fcx-hdr.is-scrolled .fcx-hdr__bar{min-height:4.5rem;height:4.5rem;}
+  .fcx-hdr.is-scrolled .fcx-hdr__logo img{height:3rem;}
+}
+@media(max-width:48rem){
+  .fcx-mega__links{grid-auto-flow:row;grid-template-rows:none;}
+}
+
+/* Alte Kopfzeilen-Reste der Startseite ruhigstellen */
+.fcsh-nav{display:none;}
+
+/* ── Team-Umschalter (Geschwisterseiten, z.B. alle Juniorenteams) ──
+   Vorher: 10px graue Schrift auf Schwarz, aktiv in Rot (4.0:1 – zu wenig).
+   Jetzt: helles Band, Ink-Text, aktiv als Ink-Pille mit roter Marke. */
+.fcsh-sub-nav--grid{
+  position:relative;z-index:150;
+  height:auto;background:var(--fcx-mist);
+  display:flex;flex-wrap:wrap;justify-content:center;align-items:center;
+  gap:.35rem;padding:.75rem var(--fcx-pad);
+  border-top:none;border-bottom:1px solid var(--fcx-line);
+  overflow:visible;
+}
+.fcsh-sub-nav--grid a{
+  height:auto;border:none;
+  padding:.45rem .85rem;
+  font-size:.8125rem;font-weight:600;letter-spacing:.01em;text-transform:none;
+  color:var(--fcx-ink);background:transparent;
+  transition:background var(--fcx-fast) var(--fcx-ease),color var(--fcx-fast) var(--fcx-ease);
+}
+@media(hover:hover) and (pointer:fine){
+  .fcsh-sub-nav--grid a:hover{background:var(--fcx-paper);color:var(--fcx-ink);}
+}
+.fcsh-sub-nav--grid a:active{transform:scale(.98);}
+.fcsh-sub-nav--grid a.is-active{
+  position:relative;
+  background:var(--fcx-ink);color:#fff;
+}
+.fcsh-sub-nav--grid a.is-active::after{
+  content:"";position:absolute;left:.85rem;right:.85rem;bottom:.2rem;
+  height:2px;background:var(--fcx-red);
+}
+/* Ab hier bräuchten 20 Teams vier Zeilen – als Wischleiste bleibt es eine. */
+@media(max-width:64rem){
+  .fcsh-sub-nav--grid{
+    flex-wrap:nowrap;justify-content:flex-start;
+    overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;
+  }
+  .fcsh-sub-nav--grid::-webkit-scrollbar{display:none;}
+  .fcsh-sub-nav--grid a{white-space:nowrap;}
+}
+
+/* ── Bausteine ─────────────────────────────────────────────── */
+.fcx-sec{padding:clamp(3rem,7vw,6rem) var(--fcx-pad);}
+.fcx-sec--mist{background:var(--fcx-mist);}
+.fcx-sec--ink{background:var(--fcx-ink);color:#fff;}
+.fcx-sec--wine{background:var(--fcx-wine);color:#fff;}
+.fcx-sec--wine .fcx-h2{color:#fff;}
+.fcx-sec--wine .fcx-sechead{border-bottom-color:rgba(255,255,255,.16);}
+/* Damit unter der Sektion (Footer-Rand, Overscroll) kein Weiss aufblitzt */
+body.fcx-newspage,
+body.fcx-newspage #content{background:var(--fcx-wine);}
+/* Wiederverwendbar für alle weiteren Weinrot-Seiten (Vereinsseiten, Kontakt, Shop, …) */
+body.fcx-wine-page,
+body.fcx-wine-page #content{background:var(--fcx-wine);}
+
+/* Funktionales Label über einer Linkliste – kein Section-Eyebrow */
+.fcx-kicker{
+  display:flex;align-items:center;gap:.75rem;
+  font-size:.6875rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--fcx-red);margin:0 0 .75rem;
+}
+
+/* Die rote Marke sitzt als kurze Linie über der Headline, ohne Textetikett */
+.fcx-h2{
+  position:relative;padding-top:1.4rem;
+  font-size:clamp(1.9rem,4.5vw,3.25rem);font-weight:900;line-height:1.03;
+  letter-spacing:-.025em;text-transform:uppercase;margin:0;color:var(--fcx-ink);
+  text-wrap:balance;
+}
+.fcx-h2::before{
+  content:"";position:absolute;top:0;left:0;width:3rem;height:3px;background:var(--fcx-red);
+}
+.fcx-sec--ink .fcx-h2{color:#fff;}
+.fcx-sechead{
+  display:flex;align-items:flex-end;justify-content:space-between;gap:1.5rem;
+  flex-wrap:wrap;margin-bottom:clamp(1.75rem,3vw,2.75rem);
+  border-bottom:1px solid var(--fcx-line);padding-bottom:1.25rem;
+}
+.fcx-sec--ink .fcx-sechead{border-bottom-color:rgba(255,255,255,.14);}
+
+.fcx-btn{
+  display:inline-flex;align-items:center;gap:.6rem;
+  background:var(--fcx-red-solid);color:#fff;
+  font-size:.75rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+  padding:.9rem 1.6rem;
+  transition:background var(--fcx-fast) var(--fcx-ease),
+             transform var(--fcx-fast) var(--fcx-ease);
+}
+.fcx-btn:focus-visible{background:var(--fcx-red-press);color:#fff;}
+@media(hover:hover) and (pointer:fine){
+  .fcx-btn:hover{background:var(--fcx-red-press);color:#fff;}
+}
+/* Druckgefühl: der Knopf antwortet auf den Klick */
+.fcx-btn:active{transform:scale(.97);}
+.fcx-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;flex:0 0 auto;}
+.fcx-btn--ghost{background:transparent;color:inherit;border:1px solid currentColor;}
+.fcx-btn--ghost:hover,.fcx-btn--ghost:focus-visible{background:var(--fcx-red-solid);border-color:var(--fcx-red-solid);color:#fff;}
+
+/* ── HERO (überschreibt fcs-home.css) ──────────────────────── */
+.fcsh-hero{height:calc(100vh - 6.25rem);min-height:520px;background:var(--fcx-ink);}
+.fcsh-hero__slide{transform:scale(1.04);transition:opacity .9s ease, transform 9s linear;}
+.fcsh-hero__slide.is-active{transform:scale(1);}
+.fcsh-hero__overlay{
+  background:linear-gradient(to bottom,rgba(16,18,20,.55) 0%,rgba(16,18,20,0) 35%,rgba(16,18,20,.92) 100%);
+}
+.fcsh-hero__content{padding:0 var(--fcx-pad) clamp(3.5rem,7vw,5.5rem);}
+.fcsh-hero__inner{max-width:60rem;}
+.fcsh-hero__meta{gap:1rem;margin-bottom:1.1rem;}
+.fcsh-tag{
+  background:var(--fcx-red-solid);font-size:.6875rem;font-weight:800;
+  letter-spacing:.16em;padding:.35rem .8rem;
+}
+.fcsh-hero__date{color:rgba(255,255,255,.72);font-size:.8125rem;letter-spacing:.08em;font-weight:600;}
+.fcsh-hero__title{
+  font-size:clamp(1.9rem,5.2vw,4.25rem);letter-spacing:-.03em;line-height:1.02;
+  text-shadow:0 2px 24px rgba(0,0,0,.45);
+}
+.fcsh-hero__controls{gap:1.25rem;margin-top:2rem;}
+.fcsh-hero__count{color:rgba(255,255,255,.55);letter-spacing:.14em;font-size:.75rem;}
+.fcsh-arrow{
+  width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,.35);
+  font-size:1.1rem;transition:background .15s ease,border-color .15s ease,transform .15s ease;
+}
+.fcsh-arrow:hover{background:var(--fcx-red);border-color:var(--fcx-red);transform:scale(1.06);}
+.fcsh-arrow svg{width:16px;height:16px;stroke:currentColor;fill:none;flex:0 0 auto;}
+.fcsh-hero__sponsor{bottom:clamp(1.25rem,3vw,2rem);right:var(--fcx-pad);}
+/* Sponsorenzeile war auf dem Foto kaum lesbar */
+.fcsh-hero__sponsor .lbl{letter-spacing:.2em;color:rgba(255,255,255,.72);}
+.fcsh-hero__socials a{color:rgba(255,255,255,.8);}
+.fcsh-hero__sponsor .name{font-size:1.1rem;letter-spacing:.08em;}
+.fcsh-scroll{
+  background:var(--fcx-red-solid);letter-spacing:.14em;font-size:.6875rem;font-weight:800;
+  padding:.95rem 1.4rem;
+}
+.fcsh-scroll:hover{background:var(--fcx-red-press);color:#fff;}
+@media(max-width:700px){
+  .fcsh-hero__sponsor{display:none;}
+}
+
+/* ── NEWS-GRID: Kartenraster im Format der FC-Luzern-Newsseite ──
+   Dunkle Fläche, hochformatige Bilder, Meta als reiner Text statt
+   Badge-Overlay, Filter-Pills über dem Feed. */
+.fcx-news{padding-top:clamp(2rem,4vw,3rem);}
+.fcx-newsfilter{
+  display:flex;flex-wrap:wrap;gap:.6rem;
+  margin-bottom:clamp(2rem,4vw,3rem);
+}
+.fcx-pill{
+  display:inline-flex;align-items:center;
+  padding:.55rem 1.15rem;border-radius:999px;
+  border:1px solid rgba(255,255,255,.3);color:rgba(255,255,255,.82);
+  font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  transition:border-color var(--fcx-fast) var(--fcx-ease),
+             background var(--fcx-fast) var(--fcx-ease),
+             color var(--fcx-fast) var(--fcx-ease);
+}
+.fcx-pill:hover{border-color:#fff;color:#fff;}
+.fcx-pill.is-active{background:#fff;border-color:#fff;color:var(--fcx-red-deep);}
+
+/* Zwei grosse Beiträge pro Reihe – ab Handy-Breite einspaltig */
+.fcx-newsgrid{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:clamp(1.5rem,3vw,2.5rem);
+}
+@media(max-width:48rem){
+  .fcx-newsgrid{grid-template-columns:1fr;}
+}
+/* Karte als eigene Fläche: hebt sich vom Weinrot ab, rundum abgerundet */
+.fcx-ncard{
+  display:flex;flex-direction:column;
+  background:var(--fcx-wine-card);
+  border-radius:1.1rem;overflow:hidden;
+  box-shadow:0 10px 26px rgba(0,0,0,.28);
+  transition:background var(--fcx-mid) var(--fcx-ease),
+             transform var(--fcx-mid) var(--fcx-ease),
+             box-shadow var(--fcx-mid) var(--fcx-ease);
+}
+.fcx-ncard__img{position:relative;overflow:hidden;aspect-ratio:16/9;background:rgba(0,0,0,.25);}
+.fcx-ncard__img img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform 600ms var(--fcx-ease);
+}
+@media(hover:hover) and (pointer:fine){
+  .fcx-ncard:hover{
+    background:var(--fcx-wine-card-hi);transform:translateY(-4px);
+    box-shadow:0 18px 38px rgba(0,0,0,.38);
+  }
+  .fcx-ncard:hover .fcx-ncard__img img{transform:scale(1.045);}
+}
+.fcx-ncard__date{
+  margin:clamp(1.25rem,2vw,1.75rem) clamp(1.4rem,2.2vw,2rem) 0;
+  font-size:.8125rem;font-weight:700;letter-spacing:.06em;
+  color:rgba(255,255,255,.55);
+}
+.fcx-ncard__title{
+  font-size:clamp(1.25rem,1.9vw,1.75rem);font-weight:800;line-height:1.2;color:#fff;
+  margin:.6rem clamp(1.4rem,2.2vw,2rem) .75rem;
+  letter-spacing:-.015em;text-transform:uppercase;
+  text-wrap:balance;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+.fcx-ncard__teaser{
+  font-size:.9375rem;line-height:1.65;color:rgba(255,255,255,.62);
+  margin:0 clamp(1.4rem,2.2vw,2rem) clamp(1.4rem,2.2vw,1.9rem);
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;
+}
+
+/* Dunkle Variante der Blätterung/Leermeldung auf der News-Seite */
+.fcx-sec--ink .fcx-pager .page-numbers,
+.fcx-sec--wine .fcx-pager .page-numbers{border-color:rgba(255,255,255,.3);color:#fff;}
+.fcx-sec--ink .fcx-pager .page-numbers:hover,
+.fcx-sec--wine .fcx-pager .page-numbers:hover{border-color:#fff;}
+.fcx-sec--ink .fcx-pager .page-numbers.current{background:var(--fcx-red-solid);border-color:var(--fcx-red-solid);color:#fff;}
+.fcx-sec--wine .fcx-pager .page-numbers.current{background:#fff;border-color:#fff;color:var(--fcx-red-deep);}
+.fcx-sec--ink .fcx-empty,
+.fcx-sec--wine .fcx-empty{color:rgba(255,255,255,.6);}
+
+/* Einblendeffekt der News-Liste: auffälliger als das ruhige Fade-Up
+   anderer Reveal-Gruppen – Scale + leichte Unschärfe lösen sich auf. */
+.fcx-reveal-ready .fcx-newsgrid .fcx-reveal{
+  opacity:0;transform:translateY(28px) scale(.94);filter:blur(6px);
+  transition:opacity 620ms var(--fcx-ease),
+             transform 620ms var(--fcx-ease),
+             filter 620ms var(--fcx-ease);
+  transition-delay:calc(var(--fcx-i,0) * 80ms);
+}
+.fcx-reveal-ready .fcx-newsgrid .fcx-reveal.is-in{
+  opacity:1;transform:none;filter:blur(0);
+}
+
+/* Blätterung */
+.fcx-pager{
+  display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;
+  margin-top:clamp(2.5rem,5vw,4rem);
+}
+.fcx-pager .page-numbers{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:2.75rem;height:2.75rem;padding:0 .9rem;
+  border:1px solid var(--fcx-line);color:var(--fcx-ink);
+  font-size:.8125rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+  transition:background .15s ease,border-color .15s ease,color .15s ease;
+}
+.fcx-pager .page-numbers:hover{border-color:var(--fcx-ink);}
+.fcx-pager .page-numbers.current{background:var(--fcx-red-solid);border-color:var(--fcx-red-solid);color:#fff;}
+.fcx-pager .dots{border-color:transparent;}
+.fcx-empty{color:var(--fcx-muted);font-size:1rem;}
+
+/* ── PROSE: Editor-Inhalte im neuen System ─────────────────── */
+.fcx-prose{max-width:78rem;}
+.fcx-prose > h2{
+  font-size:clamp(1.3rem,2.5vw,1.9rem);font-weight:900;letter-spacing:-.015em;
+  text-transform:uppercase;color:var(--fcx-ink);margin:0 0 2rem;
+}
+/* Die erste Überschrift aus dem Editor ist der Seitentitel und wird so behandelt */
+.fcx-prose > h2:first-child{
+  position:relative;padding-top:1.4rem;
+  font-size:clamp(1.9rem,4.5vw,3.25rem);line-height:1.03;letter-spacing:-.025em;
+  text-wrap:balance;
+  margin-bottom:clamp(1.75rem,3vw,2.75rem);
+  padding-bottom:1.25rem;border-bottom:1px solid var(--fcx-line);
+}
+.fcx-prose > h2:first-child::before{
+  content:"";position:absolute;top:0;left:0;width:3rem;height:3px;background:var(--fcx-red);
+}
+.fcx-prose p{font-size:.9375rem;line-height:1.7;color:var(--fcx-muted);max-width:68ch;text-wrap:pretty;}
+.fcx-prose a{color:var(--fcx-red);text-decoration:underline;text-underline-offset:2px;}
+.fcx-prose a:hover{color:var(--fcx-red-deep);}
+
+/* Personen-Raster (Vorstand): Editor-Spalten werden zu Karten */
+.fcx-people .fcx-prose .wp-block-columns{
+  display:grid !important;gap:var(--fcx-gap) !important;
+  grid-template-columns:repeat(auto-fill,minmax(15rem,1fr)) !important;
+  flex-wrap:wrap !important;
+  margin-bottom:var(--fcx-gap) !important;
+}
+.fcx-people .fcx-prose .wp-block-column{
+  /* WordPress setzt hier max-width:calc(33.333% - 24px) – im Grid muss das weg. */
+  max-width:none !important;width:auto !important;flex-basis:auto !important;margin:0 !important;
+  border-bottom:1px solid var(--fcx-line);padding-bottom:1.25rem;
+}
+.fcx-people .fcx-prose .wp-block-column figure{margin:0 0 1rem;overflow:hidden;background:var(--fcx-mist);}
+.fcx-people .fcx-prose .wp-block-column img{
+  width:100% !important;height:auto !important;aspect-ratio:4/5;object-fit:cover;object-position:center top;display:block;max-width:none !important;
+  transition:transform .5s cubic-bezier(.2,.7,.2,1);
+}
+.fcx-people .fcx-prose .wp-block-column:hover img{transform:scale(1.04);}
+.fcx-people .fcx-prose .wp-block-column h3{
+  font-size:1.0625rem;font-weight:800;letter-spacing:0;text-transform:none;
+  color:var(--fcx-ink);margin:0 0 .35rem;
+}
+.fcx-people .fcx-prose .wp-block-column p{font-size:.8125rem;line-height:1.7;margin:0;}
+.fcx-people .fcx-prose .wp-block-column p strong{
+  display:block;color:var(--fcx-ink);font-size:.6875rem;font-weight:800;
+  letter-spacing:.12em;text-transform:uppercase;margin-bottom:.4rem;
+}
+
+/* ── SPONSORENBALKEN unter dem Titelbild ───────────────────
+   Schmale Leiste, alle Partner auf einen Blick. Auf schmalen
+   Schirmen scrollt sie seitwärts statt umzubrechen. */
+.fcx-spbar{
+  background:#eceef0;
+  border-bottom:1px solid var(--fcx-line);
+  padding:.9rem var(--fcx-pad);
+}
+.fcx-spbar__track{
+  display:flex;align-items:center;justify-content:center;flex-wrap:wrap;
+  gap:.85rem clamp(1.25rem,3vw,2.5rem);
+}
+.fcx-spbar__track::-webkit-scrollbar{display:none;}
+.fcx-spbar__item{flex:0 0 auto;display:block;}
+.fcx-spbar__item img{
+  height:2.5rem;width:auto;max-width:9rem;object-fit:contain;display:block;
+  opacity:.9;
+  transition:opacity var(--fcx-fast) var(--fcx-ease),transform var(--fcx-fast) var(--fcx-ease);
+}
+.fcx-spbar__item img[src*="arnold-color"]{filter:grayscale(1);}
+@media(hover:hover) and (pointer:fine){
+  .fcx-spbar__item:hover img{opacity:1;transform:translateY(-2px);}
+}
+@media(max-width:48rem){
+  /* Auf dem Handy eine wischbare Reihe statt vieler Umbrüche */
+  .fcx-spbar__track{
+    flex-wrap:nowrap;justify-content:flex-start;
+    overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;
+  }
+  .fcx-spbar__track::-webkit-scrollbar{display:none;}
+  .fcx-spbar__item img{height:2rem;}
+}
+
+/* ── AGENDA: Termine + Spielbetrieb, rotes Band unter dem Hero ──
+   Rot trägt die ganze Fläche; alle Kleintexte sitzen auf weissen
+   Karten, damit der Kontrast trotz Signalfarbe stimmt. */
+.fcx-agenda{background:var(--fcx-red-deep);color:#fff;position:relative;overflow:hidden;isolation:isolate;}
+.fcx-agenda::before{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background-image:repeating-linear-gradient(
+    178deg,
+    rgba(0,0,0,.34) 0px,
+    rgba(0,0,0,.34) 2px,
+    rgba(0,0,0,0) 2px,
+    rgba(0,0,0,0) 9px
+  );
+}
+.fcx-agenda .fcx-sechead,.fcx-agenda .fcx-band{position:relative;z-index:1;}
+.fcx-agenda .fcx-h2{color:#e4e5e8;}
+.fcx-agenda .fcx-h2::before{background:#000;}
+.fcx-agenda .fcx-sechead{border-bottom-color:rgba(255,255,255,.4);}
+.fcx-agenda .fcx-btn{background:var(--fcx-ink);color:#fff;}
+@media(hover:hover) and (pointer:fine){
+  .fcx-agenda .fcx-btn:hover{background:#000;}
+}
+
+.fcx-band{
+  display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);
+  gap:clamp(1.5rem,4vw,3.5rem);align-items:start;
+}
+@media(max-width:60rem){.fcx-band{grid-template-columns:1fr;}}
+
+/* Termin-Karte */
+.fcx-event{
+  display:flex;gap:1.25rem;align-items:center;
+  background:var(--fcx-paper);color:var(--fcx-ink);
+  padding:1rem 1.25rem;margin-bottom:.75rem;
+  transition:transform var(--fcx-fast) var(--fcx-ease);
+}
+.fcx-event:last-child{margin-bottom:0;}
+@media(hover:hover) and (pointer:fine){
+  .fcx-event:hover{transform:translateX(4px);}
+  .fcx-event:hover .fcx-event__title{color:var(--fcx-red);}
+}
+.fcx-event__date{
+  flex:0 0 auto;width:4rem;height:4rem;background:var(--fcx-ink);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+}
+.fcx-event__day{font-size:1.6rem;font-weight:900;line-height:1;color:#fff;}
+.fcx-event__mon{font-size:.625rem;font-weight:800;letter-spacing:.14em;color:#fff;margin-top:3px;}
+.fcx-event__body{display:flex;flex-direction:column;min-width:0;}
+.fcx-event__title{
+  font-size:1.0625rem;font-weight:800;margin:0 0 .2rem;line-height:1.25;
+  color:var(--fcx-ink);transition:color var(--fcx-fast) var(--fcx-ease);
+}
+.fcx-event__loc{font-size:.8125rem;color:var(--fcx-muted);margin:0;}
+.fcx-event__full{font-size:.75rem;color:var(--fcx-muted);margin:.15rem 0 0;letter-spacing:.06em;}
+
+/* Spielbetrieb: Kacheln statt Linkliste, damit sie auffallen */
+.fcx-spielbetrieb__lbl{
+  margin:0 0 1rem;color:#fff;
+  font-size:.6875rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;
+}
+.fcx-tiles{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,11rem),1fr));
+  gap:.75rem;
+}
+.fcx-tile{
+  display:flex;align-items:center;justify-content:space-between;gap:.75rem;
+  background:var(--fcx-paper);color:var(--fcx-ink);
+  padding:1rem 1.15rem;
+  font-size:.8125rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+  transition:background var(--fcx-fast) var(--fcx-ease),
+             color var(--fcx-fast) var(--fcx-ease),
+             transform var(--fcx-fast) var(--fcx-ease);
+}
+.fcx-tile svg{width:14px;height:14px;stroke:currentColor;fill:none;flex:0 0 auto;opacity:.5;}
+@media(hover:hover) and (pointer:fine){
+  .fcx-tile:hover{background:var(--fcx-ink);color:#fff;}
+}
+.fcx-tile:active{transform:scale(.98);}
+
+/* ── AKTUELLSTE NEWS: Bild-Text-Box unterhalb Termine ──────────
+   Weisse Seitenfläche, die Box selbst hebt sich in Mist-Grau ab.
+   Bild links (breiter Anteil), Titel rechts vertikal zentriert. */
+.fcx-latestbox{
+  display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);
+  align-items:stretch;background:var(--fcx-mist);
+  border-radius:1.5rem;overflow:hidden;
+  transition:transform var(--fcx-fast) var(--fcx-ease);
+}
+@media(hover:hover) and (pointer:fine){
+  .fcx-latestbox:hover .fcx-latestbox__title{color:var(--fcx-red);}
+  .fcx-latestbox:hover .fcx-latestbox__img img{transform:scale(1.03);}
+}
+.fcx-latestbox__img{
+  position:relative;overflow:hidden;background:var(--fcx-line);
+  min-height:16rem;aspect-ratio:16/9;
+}
+.fcx-latestbox__img img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform 500ms var(--fcx-ease);
+}
+.fcx-latestbox__body{
+  display:flex;align-items:center;
+  padding:clamp(1.5rem,3vw,3rem);
+}
+.fcx-latestbox__title{
+  margin:0;font-size:clamp(1.15rem,2vw,1.6rem);font-weight:800;line-height:1.3;
+  color:var(--fcx-ink);letter-spacing:-.01em;text-wrap:balance;
+  transition:color var(--fcx-fast) var(--fcx-ease);
+}
+@media(max-width:48rem){
+  .fcx-latestbox{grid-template-columns:1fr;border-radius:1.25rem;}
+  .fcx-latestbox__img{aspect-ratio:16/10;min-height:0;}
+}
+
+/* Hero-Aktionen */
+.fcx-hero__cta{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.75rem;}
+.fcx-btn--onphoto{
+  background:rgba(16,18,20,.55);border:1px solid rgba(255,255,255,.7);color:#fff;
+}
+@media(hover:hover) and (pointer:fine){
+  .fcx-btn--onphoto:hover{background:#fff;color:var(--fcx-ink);border-color:#fff;}
+}
+
+/* ── SPONSOREN (prominent, mittig) ─────────────────────────── */
+/* Kopf links wie in allen Sektionen, die Logos selbst mittig */
+.fcx-spgroup{text-align:center;}
+.fcx-spgroup + .fcx-spgroup{margin-top:clamp(2rem,4vw,3rem);}
+.fcx-spgroup__lbl{
+  font-size:.6875rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--fcx-ink);margin:0 0 1.25rem;
+  display:flex;align-items:center;justify-content:center;gap:1rem;
+}
+.fcx-spgroup__lbl::before,.fcx-spgroup__lbl::after{
+  content:"";height:1px;background:var(--fcx-line);flex:1 1 auto;max-width:8rem;
+}
+.fcx-spgroup__items{
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:center;
+  gap:clamp(1.5rem,4vw,3.5rem);
+}
+.fcx-spgroup__item{display:block;}
+.fcx-spgroup__item img{
+  height:clamp(3.25rem,6vw,5rem);width:auto;max-width:14rem;object-fit:contain;
+  opacity:.85;transition:opacity .2s ease,transform .2s ease;
+}
+.fcx-spgroup__item:hover img{opacity:1;transform:translateY(-3px);}
+.fcx-spgroup--lead .fcx-spgroup__item img{height:clamp(4.5rem,9vw,7.5rem);max-width:22rem;opacity:1;}
+.fcx-sponsors__cta{margin-top:clamp(2.5rem,5vw,4rem);}
+
+/* ── CLAIM-BAND ────────────────────────────────────────────── */
+/* Gleicher Hintergrund wie .fcx-agenda (Termine & Spielbetrieb): Rot + Streifenmuster. */
+.fcsh-parallax{
+  height:clamp(20rem,42vh,26rem);min-height:0;
+  background:var(--fcx-red-deep) !important;
+  position:relative;overflow:hidden;isolation:isolate;
+}
+.fcsh-parallax::before{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background-image:repeating-linear-gradient(
+    178deg,
+    rgba(0,0,0,.34) 0px,
+    rgba(0,0,0,.34) 2px,
+    rgba(0,0,0,0) 2px,
+    rgba(0,0,0,0) 9px
+  );
+}
+.fcsh-parallax__txt{left:var(--fcx-pad);bottom:clamp(2rem,5vw,3.5rem);right:var(--fcx-pad);z-index:1;}
+.fcsh-parallax__txt p{font-size:.6875rem;font-weight:800;letter-spacing:.2em;opacity:.75;}
+.fcsh-parallax__txt h2{font-size:clamp(1.75rem,4vw,3.25rem);letter-spacing:-.025em;}
+
+/* ── FOOTER ────────────────────────────────────────────────── */
+.fcx-foot{background:var(--fcx-ink);color:#fff;border-top:4px solid var(--fcx-red);}
+.fcx-foot__main{
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:clamp(2.5rem,5vw,5rem);
+  padding:clamp(3rem,6vw,5rem) var(--fcx-pad);
+}
+@media(max-width:60rem){.fcx-foot__main{grid-template-columns:1fr;}}
+.fcx-foot__logo img{height:5rem;width:auto;display:block;margin-bottom:1.5rem;}
+.fcx-foot__claim{font-size:.9375rem;line-height:1.7;color:rgba(255,255,255,.62);margin:0 0 2rem;max-width:38ch;}
+.fcx-foot__social{display:flex;gap:1rem;}
+.fcx-foot__social a{
+  width:2.5rem;height:2.5rem;border:1px solid rgba(255,255,255,.25);
+  display:flex;align-items:center;justify-content:center;color:#fff;
+  transition:background .15s ease,border-color .15s ease;
+}
+.fcx-foot__social a:hover{background:var(--fcx-red);border-color:var(--fcx-red);}
+.fcx-foot__nav{display:grid;grid-template-columns:repeat(auto-fit,minmax(10rem,1fr));gap:2.75rem;}
+.fcx-foot__col h3{
+  font-size:.8125rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--fcx-red);margin:0 0 1.35rem;
+}
+.fcx-foot__col a{
+  display:block;color:rgba(255,255,255,.72);font-size:1.0625rem;padding:.45rem 0;
+  transition:color .15s ease;
+}
+.fcx-foot__col a:hover{color:#fff;}
+.fcx-foot__bar{
+  background:#0a0b0c;padding:1.1rem var(--fcx-pad);
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem;
+}
+.fcx-foot__bar p{margin:0;font-size:.75rem;color:rgba(255,255,255,.4);}
+.fcx-foot__bar div{display:flex;gap:1.5rem;}
+.fcx-foot__bar a{font-size:.75rem;color:rgba(255,255,255,.4);letter-spacing:.06em;text-transform:uppercase;}
+.fcx-foot__bar a:hover{color:#fff;}
+
+/* ── Scroll-Reveal ─────────────────────────────────────────
+   Greift nur, wenn JS die Klasse gesetzt hat: ohne JS bleibt alles
+   sichtbar, statt in einem nie ausgelösten Übergang zu verschwinden. */
+.fcx-reveal-ready .fcx-reveal{
+  opacity:0;transform:translateY(14px);
+  transition:opacity 420ms var(--fcx-ease),transform 420ms var(--fcx-ease);
+  transition-delay:calc(var(--fcx-i,0) * 55ms);
+}
+.fcx-reveal-ready .fcx-reveal.is-in{opacity:1;transform:none;}
+
+/* ── Motion-Rücksicht ──────────────────────────────────────── */
+@media(prefers-reduced-motion:reduce){
+  .fcx-reveal-ready .fcx-reveal{opacity:1 !important;transform:none !important;}
+  .fcsh *,.fcx-ncard__img img,.fcsh-hero__slide{transition-duration:.01ms !important;animation:none !important;}
+  .fcsh-parallax{background-attachment:scroll;}
+}

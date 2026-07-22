@@ -1,0 +1,157 @@
+/* ====================================================================
+   FC Schattdorf – Vorstand
+   Restyled entirely via CSS on top of the existing Gutenberg-Markup
+   (wp:columns / wp:image / wp:heading / wp:paragraph) — Inhalt bleibt
+   unangetastet, es wird ausschliesslich das Layout neu gedacht.
+   ==================================================================== */
+
+/* ── Hero ─────────────────────────────────────────────────────────── */
+.fcvo-hero {
+  background: var(--fcx-paper, #fff);
+  border-bottom: 1px solid var(--fcx-line, #e4e4e7);
+  padding: clamp(3rem, 7vw, 5.5rem) var(--fcx-pad, clamp(1.25rem, 5vw, 5rem)) clamp(2rem, 4vw, 3rem);
+}
+.fcvo-hero__eyebrow {
+  font-size: .6875rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--fcx-red, #e63124);
+  margin: 0 0 .75rem;
+}
+.fcvo-hero__title {
+  font-size: clamp(2.25rem, 5.5vw, 3.75rem);
+  font-weight: 900;
+  letter-spacing: -.025em;
+  line-height: 1.05;
+  text-transform: uppercase;
+  color: var(--fcx-ink, #101214);
+  margin: 0 0 .875rem;
+  position: relative;
+  padding-top: 1.4rem;
+}
+.fcvo-hero__title::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3rem; height: 3px;
+  background: var(--fcx-red, #e63124);
+}
+.fcvo-hero__sub {
+  font-size: 1rem;
+  color: var(--fcx-muted, #5c6169);
+  max-width: 60ch;
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* ── Body wrapper ─────────────────────────────────────────────────── */
+.fcvo-body { background: var(--fcx-paper, #fff); }
+.fcvo-grid { max-width: 1180px; margin: 0 auto; }
+
+/* Die redundante Ãœberschrift aus dem Editor-Inhalt ausblenden - der Hero traegt sie bereits */
+.fcvo-grid > h2:first-child { display: none; }
+
+/* ── Gutenberg-Columns als Karten-Grid ────────────────────────────── */
+.fcvo-grid .wp-block-columns {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.75rem;
+  margin: 0 0 1.75rem;
+}
+.fcvo-grid .wp-block-column {
+  display: flex !important;
+  flex-direction: column;
+  width: 100% !important;
+  min-width: 0;
+  max-width: none !important;
+  flex-basis: auto !important;
+  flex-grow: 0 !important;
+  background: var(--fcx-mist, #f5f1f0);
+  border: 1px solid var(--fcx-line, #e7e0de);
+  border-radius: var(--fcx-radius, 8px);
+  overflow: hidden;
+  transition: border-color 220ms var(--fcx-ease, cubic-bezier(.22,1,.36,1)),
+              box-shadow 220ms var(--fcx-ease, cubic-bezier(.22,1,.36,1)),
+              transform 220ms var(--fcx-ease, cubic-bezier(.22,1,.36,1));
+}
+.fcvo-grid .wp-block-column:hover {
+  border-color: var(--fcx-red-solid, #d9261c);
+  box-shadow: 0 10px 28px rgba(16,18,20,.10);
+  transform: translateY(-3px);
+}
+.fcvo-grid .wp-block-column:active {
+  transform: translateY(-3px) scale(0.98);
+}
+
+/* Foto */
+.fcvo-grid .wp-block-column figure.wp-block-image {
+  margin: 0;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: var(--fcx-line, #e4e4e7);
+}
+.fcvo-grid .wp-block-column figure.wp-block-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+
+/* Name */
+.fcvo-grid .wp-block-column h3.wp-block-heading {
+  font-size: 1.0625rem;
+  font-weight: 800;
+  letter-spacing: .01em;
+  color: var(--fcx-ink, #101214);
+  margin: 1.125rem 1.25rem 0;
+  line-height: 1.25;
+}
+
+/* Rolle / Kontakt */
+.fcvo-grid .wp-block-column p {
+  margin: .5rem 1.25rem 1.25rem;
+  font-size: .875rem;
+  line-height: 1.7;
+  color: var(--fcx-muted, #5c6169);
+}
+.fcvo-grid .wp-block-column p strong {
+  display: block;
+  font-size: .6875rem;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--fcx-red-solid, #d9261c);
+  margin-bottom: .4rem;
+}
+.fcvo-grid .wp-block-column p a {
+  color: var(--fcx-ink, #101214);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 150ms var(--fcx-ease, cubic-bezier(.22,1,.36,1));
+}
+.fcvo-grid .wp-block-column p a:hover { color: var(--fcx-red-solid, #d9261c); }
+
+/* ── Entrance ─────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: no-preference) {
+  .fcvo-grid .wp-block-column {
+    opacity: 0;
+    transform: translateY(14px);
+    animation: fcvo-in 520ms var(--fcx-ease, cubic-bezier(.22,1,.36,1)) forwards;
+  }
+  .fcvo-grid .wp-block-column:nth-child(1) { animation-delay: 0ms; }
+  .fcvo-grid .wp-block-column:nth-child(2) { animation-delay: 60ms; }
+  .fcvo-grid .wp-block-column:nth-child(3) { animation-delay: 120ms; }
+}
+@keyframes fcvo-in {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Responsive ───────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .fcvo-grid .wp-block-columns { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) {
+  .fcvo-grid .wp-block-columns { grid-template-columns: 1fr; }
+}

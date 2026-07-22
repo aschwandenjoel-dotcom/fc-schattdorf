@@ -1,0 +1,283 @@
+/* ====================================================================
+   FC Schattdorf – Schiedsrichter
+   ==================================================================== */
+
+body.page-id-39 #content,
+body.page-id-39 .ast-container { max-width: 100% !important; padding: 0 !important; }
+body.page-id-39 #primary,
+body.page-id-39 .entry-content,
+body.page-id-39 .entry-header { padding: 0 !important; margin: 0 !important; }
+
+.fcsr-page {
+  width: 100%;
+  flex: 1 1 100%;
+  min-width: 0;
+  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background: #f5f6f8;
+}
+
+/* ── Page Title ── */
+.fcsr-page-title {
+  background: #fff;
+  padding: clamp(3rem, 7vw, 5.5rem) clamp(1.25rem, 5vw, 5rem) clamp(2rem, 4vw, 3rem);
+}
+.fcsr-page-title h1 {
+  font-size: clamp(1.75rem, 4vw, 2.75rem) !important;
+  font-weight: 900 !important;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: #111 !important;
+  margin: 0 !important;
+  line-height: 1.05 !important;
+  position: relative;
+  padding-top: 1.4rem;
+}
+.fcsr-page-title h1::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3rem;
+  height: 3px;
+  background: var(--fcx-red, #e63124);
+}
+
+/* ── Section base ── */
+.fcsr-section { padding: 4rem 0; }
+.fcsr-section--referees { background: #f5f6f8; }
+.fcsr-section--become   { background: #fff; }
+.fcsr-section--spielleiter { background: #f0f2f5; }
+
+.fcsr-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 3rem;
+}
+
+/* ── Section header ── */
+.fcsr-section__header { margin-bottom: 2.5rem; }
+/* Chip-Etikett stillgelegt: die rote Marke über der Headline markiert
+   den Abschnitt bereits, ein zweites Signal ist Gerüst. */
+.fcsr-label { display: none; }
+.fcsr-section__header h2 {
+  color: #111;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  margin: 0;
+
+  position: relative;
+  padding-top: 1.4rem;
+}
+.fcsr-section__header h2::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3rem;
+  height: 3px;
+  background: var(--fcx-red, #e63124);
+}
+
+/* ── Referee cards ── */
+.fcsr-referees {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.fcsr-referee {
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 12px rgba(0,0,0,.07);
+  transition: box-shadow .2s, transform .2s;
+}
+.fcsr-referee:hover {
+  box-shadow: 0 8px 28px rgba(0,0,0,.13);
+  transform: translateY(-3px);
+}
+.fcsr-referee:active {
+  transform: translateY(-3px) scale(0.98);
+}
+
+.fcsr-referee__photo {
+  width: 100%;
+  aspect-ratio: 3/4;
+  overflow: hidden;
+  background: linear-gradient(135deg, #e8eaf0 0%, #d0d4e0 100%);
+  flex-shrink: 0;
+}
+.fcsr-referee__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+.fcsr-referee__placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.fcsr-referee__placeholder svg {
+  width: 64px;
+  height: 64px;
+  stroke: rgba(0,0,0,.15);
+}
+
+.fcsr-referee__info {
+  padding: 1rem 1.125rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: .375rem;
+  flex: 1;
+}
+.fcsr-referee__name {
+  font-size: .9375rem;
+  font-weight: 800;
+  color: #111;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  line-height: 1.2;
+}
+.fcsr-referee__role {
+  font-size: .8rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+.fcsr-ifv-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .375rem;
+  margin-top: .375rem;
+  color: var(--fcx-red-solid, #d9261c);
+  font-size: .75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  text-decoration: none;
+  transition: opacity .15s;
+}
+.fcsr-ifv-btn:hover { opacity: .7; }
+.fcsr-ifv-btn svg { width: 13px; height: 13px; stroke: var(--fcx-red-solid, #d9261c); }
+
+/* ── Werde Schiedsrichter ── */
+.fcsr-become {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+@media (max-width: 720px) { .fcsr-become { grid-template-columns: 1fr; } }
+
+.fcsr-become__card {
+  background: #f5f6f8;
+  border-radius: 16px;
+  padding: 2.5rem 2.25rem;
+  display: flex;
+  gap: 1.75rem;
+  align-items: flex-start;
+  border: 1px solid #e5e7eb;
+}
+.fcsr-become__icon {
+  flex-shrink: 0;
+  width: 60px;
+  height: 60px;
+  background: #fff0f0;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.fcsr-become__icon svg { width: 32px; height: 32px; }
+.fcsr-become__title {
+  font-size: .9375rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: #111;
+  margin-bottom: .65rem;
+}
+.fcsr-become__card p {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.7;
+  margin: 0 0 1rem;
+}
+.fcsr-contact-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem .75rem;
+  align-items: center;
+  font-size: 1rem;
+}
+.fcsr-contact-line a { color: var(--fcx-red-solid, #d9261c); text-decoration: none; font-weight: 600; }
+.fcsr-contact-line a:hover { text-decoration: underline; }
+.fcsr-contact-line span { color: #d1d5db; }
+
+.fcsr-link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  color: var(--fcx-red-solid, #d9261c);
+  font-size: .875rem;
+  font-weight: 700;
+  text-decoration: none;
+  border: 2px solid var(--fcx-red, #e63124);
+  padding: .4rem 1rem;
+  border-radius: 8px;
+  transition: background .15s, color .15s;
+}
+.fcsr-link-btn:hover { background: var(--fcx-red-solid, #d9261c); color: #fff; }
+.fcsr-link-btn svg { width: 14px; height: 14px; }
+
+/* ── Spielleiter grid ── */
+.fcsr-intro-text {
+  color: #4b5563;
+  font-size: .9375rem;
+  margin: 0 0 1.75rem;
+  line-height: 1.7;
+}
+.fcsr-spielleiter {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: .625rem;
+  margin-bottom: 2rem;
+}
+.fcsr-spielleiter__item {
+  display: flex;
+  align-items: center;
+  gap: .625rem;
+  background: #fff;
+  border-radius: 8px;
+  padding: .75rem 1rem;
+  color: #1f2937;
+  font-size: .9rem;
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(0,0,0,.06);
+}
+.fcsr-spielleiter__item svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+.fcsr-footnote {
+  color: #6b7280;
+  font-size: .85rem;
+  line-height: 1.7;
+  margin: 0;
+  border-top: 1px solid #e5e7eb;
+  padding-top: 1.25rem;
+}
+
+@media (max-width: 900px) {
+  .fcsr-referees { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); }
+  .fcsr-inner { padding: 0 1.5rem; }
+}
+@media (max-width: 560px) {
+  .fcsr-referees { grid-template-columns: repeat(2, 1fr); }
+  .fcsr-hero { padding: 2rem 1.5rem; }
+}

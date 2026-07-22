@@ -1,0 +1,94 @@
+/* ====================================================================
+   FC Schattdorf – Juniorengeschichte
+   ==================================================================== */
+
+body.page-id-53 #content,
+body.page-id-53 .ast-container { max-width: 100% !important; padding: 0 !important; }
+body.page-id-53 #primary,
+body.page-id-53 .entry-content,
+body.page-id-53 .entry-header { padding: 0 !important; margin: 0 !important; }
+
+.fcjg-page {
+  width: 100%;
+  flex: 1 1 100%;
+  min-width: 0;
+  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background: var(--fcx-wine, #711712);
+}
+
+/* ── Page Title ── */
+.fcjg-page-title {
+  background: var(--fcx-wine, #711712);
+  padding: clamp(3rem, 7vw, 5.5rem) clamp(1.25rem, 5vw, 5rem) clamp(2rem, 4vw, 3rem);
+}
+.fcjg-page-title h1 {
+  font-size: clamp(1.75rem, 4vw, 2.75rem) !important;
+  font-weight: 900 !important;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: #fff !important;
+  margin: 0 !important;
+  line-height: 1.05 !important;
+  position: relative;
+  padding-top: 1.4rem;
+}
+.fcjg-page-title h1::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3rem;
+  height: 3px;
+  background: var(--fcx-red, #e63124);
+}
+
+/* ── Hero image ── */
+.fcjg-hero-img {
+  width: 100%;
+  background: var(--fcx-wine, #711712);
+}
+.fcjg-hero-img img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ── Section base ── */
+.fcjg-section { padding: 4rem 0; background: var(--fcx-wine, #711712); }
+
+.fcjg-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 3rem;
+}
+
+/* ── Section header ── */
+.fcjg-section__header { margin-bottom: 2rem; }
+.fcjg-section__header h2 {
+  color: #fff;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  margin: 0;
+}
+
+/* ── Body text ── */
+.fcjg-text p {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, .78);
+  line-height: 1.8;
+  margin: 0 0 1rem;
+  max-width: 820px;
+}
+.fcjg-text p:last-child { margin-bottom: 0; }
+
+@media (max-width: 900px) {
+  .fcjg-inner { padding: 0 1.5rem; }
+  .fcjg-hero-img img { height: 260px; }
+}
+@media (max-width: 560px) {
+  .fcjg-hero-img img { height: 200px; }
+  .fcjg-section { padding: 2.5rem 0; }
+}

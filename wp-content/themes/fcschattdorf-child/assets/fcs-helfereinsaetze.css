@@ -1,0 +1,269 @@
+/* ================================================================
+   FC Schattdorf – Helfereinsätze
+   ================================================================ */
+
+/* Inter wird bereits global geladen (fcsh-inter-font), kein Font-Import nötig. */
+
+:root {
+  --red:      var(--fcx-red-solid, #d9261c);
+  --red-hi:   var(--fcx-red, #e63124);
+  --red-press:var(--fcx-red-press, #c8201a);
+  --black:    #111111;
+  --muted:    #6b7280;
+  --rule:     var(--fcx-line, #e7e0de);
+  --bg:       #ffffff;
+  --surf:     var(--fcx-mist, #f5f1f0);
+  --radius:   var(--fcx-radius, 8px);
+  --ease:     var(--fcx-ease, cubic-bezier(.22,1,.36,1));
+  --f-display: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  --f-body:    'Inter', 'Helvetica Neue', Arial, sans-serif;
+}
+
+body.page-id-44 #content,
+body.page-id-44 .ast-container { max-width: 100% !important; padding: 0 !important; }
+body.page-id-44 #primary,
+body.page-id-44 .entry-content,
+body.page-id-44 .entry-header  { padding: 0 !important; margin: 0 !important; }
+
+.fche-page {
+  width: 100%;
+  background: var(--bg);
+  font-family: var(--f-body);
+  -webkit-font-smoothing: antialiased;
+  color: var(--black);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .fche-in {
+    animation: fche-fade-up 620ms var(--ease) both;
+  }
+}
+@keyframes fche-fade-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Hero ──────────────────────────────────────────────────────── */
+.fche-hero {
+  position: relative;
+  display: grid;
+  min-height: clamp(280px, 46vw, 480px);
+}
+/* Helfereinsätze: Hero füllt exakt den Viewport (wie Startseite),
+   abzüglich der Kopfzeile (.fcx-hdr, 100px), die oben mitscrollt */
+body.page-id-44 .fche-hero {
+  height: calc(100vh - 100px);
+  min-height: 500px;
+  overflow: hidden;
+}
+.fche-hero__img,
+.fche-hero__scrim,
+.fche-hero__text {
+  grid-area: 1 / 1;
+}
+.fche-hero__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.fche-hero__scrim {
+  background: linear-gradient(to top, rgba(0,0,0,.72) 0%, rgba(0,0,0,.15) 55%, transparent 100%);
+}
+.fche-hero__text {
+  align-self: end;
+  padding: 2.5rem clamp(1.25rem, 5vw, 5rem) 2rem;
+}
+.fche-hero__heading {
+  font-family: var(--f-display) !important;
+  color: #fff !important;
+  font-size: clamp(1.4rem, 3vw, 2.4rem) !important;
+  font-weight: 900 !important;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  line-height: 1.1 !important;
+  margin: 0 !important;
+  position: relative;
+  padding-top: 1.4rem;
+}
+.fche-hero__heading::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3rem;
+  height: 3px;
+  background: var(--red-hi);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .fche-hero__img { animation: fche-hero-zoom 900ms var(--ease) both; }
+}
+@keyframes fche-hero-zoom {
+  from { transform: scale(1.04); opacity: .0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+/* ── Inhaltsbereich ───────────────────────────────────────────── */
+.fche-content {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: clamp(2.5rem, 5vw, 3.5rem) clamp(1.25rem, 5vw, 2rem) clamp(3.5rem, 7vw, 5.5rem);
+}
+
+/* ── Portal-Karte (Intro + primärer Link) ────────────────────────
+   The Solid-Red Rule: Fläche mit weisser Beschriftung trägt --red
+   (4.95:1), nicht das helle Markenrot. */
+.fche-portal {
+  background: var(--surf);
+  border: 1px solid var(--rule);
+  border-top: 3px solid var(--red);
+  border-radius: var(--radius);
+  padding: clamp(1.5rem, 4vw, 2.25rem) clamp(1.5rem, 4vw, 2.25rem) clamp(1.75rem, 4vw, 2.25rem);
+  margin-bottom: clamp(2rem, 5vw, 2.75rem);
+}
+.fche-portal__label {
+  font-size: .625rem;
+  font-weight: 600;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: .75rem;
+}
+.fche-portal__text {
+  font-size: .9375rem;
+  line-height: 1.75;
+  color: var(--muted);
+  margin: 0;
+}
+.fche-portal__text a {
+  display: inline-flex;
+  align-items: center;
+  gap: .3em;
+  color: var(--red);
+  font-weight: 700;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 160ms var(--ease), color 160ms var(--ease);
+}
+.fche-portal__text a:hover { border-color: var(--red); }
+.fche-portal__text a:active { transform: scale(.98); }
+.fche-portal__text a svg {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+  transition: transform 160ms var(--ease);
+}
+.fche-portal__text a:hover svg { transform: translateX(2px); }
+
+/* ── Sektionstitel ────────────────────────────────────────────── */
+.fche-section {
+  margin-bottom: clamp(2rem, 5vw, 2.75rem);
+}
+.fche-section:last-child { margin-bottom: 0; }
+.fche-section__title {
+  font-family: var(--f-display) !important;
+  font-size: 1.25rem !important;
+  font-weight: 800 !important;
+  letter-spacing: -.005em;
+  text-transform: uppercase;
+  color: var(--black) !important;
+  margin: 0 0 1.125rem !important;
+}
+
+/* ── Zielgruppen-Chips ────────────────────────────────────────── */
+.fche-eligibility {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: .75rem;
+}
+.fche-eligibility li {
+  display: flex;
+  align-items: center;
+  gap: .625rem;
+  background: #fff;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: .85rem 1rem;
+  font-size: .875rem;
+  font-weight: 500;
+  color: var(--black);
+  transition: border-color 200ms var(--ease), box-shadow 200ms var(--ease);
+}
+.fche-eligibility li:hover {
+  border-color: var(--red);
+  box-shadow: 0 6px 18px -12px rgba(0,0,0,.28);
+}
+.fche-eligibility li svg {
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+  color: var(--red);
+}
+
+/* ── PDF-Download ─────────────────────────────────────────────── */
+.fche-download {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: #fff;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: 1.125rem 1.375rem;
+  text-decoration: none;
+  transition: border-color 200ms var(--ease), box-shadow 200ms var(--ease), transform 160ms var(--ease);
+}
+.fche-download:hover {
+  border-color: var(--red);
+  box-shadow: 0 10px 26px -16px rgba(0,0,0,.32);
+}
+.fche-download:active { transform: scale(.99); }
+.fche-download__icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius);
+  background: var(--surf);
+  display: grid;
+  place-items: center;
+  color: var(--red);
+}
+.fche-download__icon svg { width: 19px; height: 19px; }
+.fche-download__label {
+  font-size: .9375rem;
+  font-weight: 600;
+  color: var(--black);
+  line-height: 1.4;
+}
+.fche-download__meta {
+  font-size: .75rem;
+  color: var(--muted);
+  margin-top: .15rem;
+}
+.fche-download__arrow {
+  width: 16px;
+  height: 16px;
+  margin-left: auto;
+  flex-shrink: 0;
+  color: var(--muted);
+  transition: transform 160ms var(--ease), color 160ms var(--ease);
+}
+.fche-download:hover .fche-download__arrow { color: var(--red); transform: translateX(2px); }
+
+/* ── Stagger für Eligibility-Chips ───────────────────────────── */
+@media (prefers-reduced-motion: no-preference) {
+  .fche-eligibility li { animation: fche-fade-up 520ms var(--ease) both; }
+  .fche-eligibility li:nth-child(1) { animation-delay: 40ms; }
+  .fche-eligibility li:nth-child(2) { animation-delay: 90ms; }
+  .fche-eligibility li:nth-child(3) { animation-delay: 140ms; }
+  .fche-eligibility li:nth-child(4) { animation-delay: 190ms; }
+}
+
+/* ── Responsive ───────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .fche-hero__text { padding: 1.75rem 1.25rem 1.5rem; }
+  .fche-content { padding: 2.25rem 1.25rem 3.5rem; }
+  .fche-eligibility { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,184 @@
+/* ====================================================================
+   FC Schattdorf – Ehren- und Freimitglieder
+   ==================================================================== */
+
+/* Inter wird bereits global geladen (fcsh-inter-font), kein zweiter Font-Import nötig. */
+
+:root {
+  --red:   var(--fcx-red-solid, #d9261c);
+  --black: #ffffff;
+  --white: var(--fcx-wine, #711712);
+  --gray:  var(--fcx-wine-card, #8d1d16);
+  --muted: rgba(255,255,255,.65);
+  --rule:  rgba(255,255,255,.16);
+  --f-display: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  --f-body:    'Inter', 'Helvetica Neue', Arial, sans-serif;
+}
+
+body.page-id-40 #content,
+body.page-id-40 .ast-container { max-width: 100% !important; padding: 0 !important; }
+body.page-id-40 #primary,
+body.page-id-40 .entry-content,
+body.page-id-40 .entry-header { padding: 0 !important; margin: 0 !important; }
+
+.fcem-page {
+  width: 100%;
+  flex: 1 1 100%;
+  min-width: 0;
+  background: var(--white);
+  font-family: var(--f-body);
+  -webkit-font-smoothing: antialiased;
+  color: var(--black);
+}
+
+/* ═══════════════════════════════
+   HERO
+═══════════════════════════════ */
+.fcem-hero {
+  background: var(--white);
+  padding: clamp(3rem, 7vw, 5.5rem) clamp(1.25rem, 5vw, 5rem) clamp(2rem, 4vw, 3rem);
+}
+.fcem-hero__eyebrow { display: none; }
+.fcem-hero__title {
+  margin: 0 !important;
+  font-family: var(--f-display);
+  font-size: clamp(2rem, 5vw, 3.75rem);
+  letter-spacing: -0.02em;
+  font-weight: 900 !important;
+  text-transform: uppercase;
+  line-height: 1.02 !important;
+  position: relative;
+  padding-top: 1.4rem;
+}
+.fcem-hero__title::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3rem;
+  height: 3px;
+  background: var(--fcx-red, #e63124);
+}
+.fcem-hero__line1 { color: var(--black); display: inline; }
+.fcem-hero__line2 { color: var(--black); display: inline; }
+.fcem-hero__redline { display: none; }
+
+/* ═══════════════════════════════
+   STATS
+═══════════════════════════════ */
+.fcem-stats { display: none; }
+
+/* president wrap no longer used */
+.fcem-president-wrap { display: none; }
+
+/* ═══════════════════════════════
+   TABLE BLOCKS
+═══════════════════════════════ */
+.fcem-block {
+  margin: 0 3rem;
+  border-bottom: 1px solid var(--rule);
+}
+.fcem-block + .fcem-block {
+  margin-top: 2.5rem;
+}
+.fcem-block:last-of-type {
+  border-bottom: none;
+  margin-bottom: 3rem;
+}
+.fcem-block__header {
+  padding: 0 0 1rem 0;
+  background: var(--white);
+}
+.fcem-block__tag {
+  font-family: var(--f-display);
+  font-size: 1.375rem;
+  font-weight: 800;
+  letter-spacing: -.01em;
+  color: var(--black);
+  text-transform: uppercase;
+}
+
+/* ── Table ── */
+.fcem-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+  font-family: var(--f-body);
+  table-layout: fixed;
+}
+
+/* Feste Spaltenbreiten – identisch in allen drei Sektionen */
+.fcem-table th:nth-child(1),
+.fcem-table td:nth-child(1) { width: 42%; }
+.fcem-table th:nth-child(2),
+.fcem-table td:nth-child(2) { width: 22%; }
+.fcem-table th:nth-child(3),
+.fcem-table td:nth-child(3) { width: 20%; }
+.fcem-table th:nth-child(4),
+.fcem-table td:nth-child(4) { width: 16%; }
+
+.fcem-table thead tr {
+  background: var(--gray);
+  border-bottom: 1px solid rgba(255,255,255,.2);
+}
+.fcem-table thead th {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--black);
+  padding: 0.7rem 1rem;
+  text-align: left;
+  border: none;
+  overflow: hidden;
+}
+.fcem-table thead th:first-child { padding-left: 0; }
+.fcem-table tbody tr { border-bottom: 1px solid var(--rule); transition: background-color 150ms ease; }
+.fcem-table tbody tr:hover { background-color: var(--gray); }
+.fcem-table tbody tr:last-child { border-bottom: none; }
+.fcem-table tbody td {
+  padding: 0.6rem 1rem;
+  vertical-align: middle;
+  border: none;
+  color: var(--black);
+  font-weight: 400;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.fcem-table tbody td:first-child {
+  padding-left: 0;
+  font-weight: 600;
+  white-space: normal;
+}
+.fcem-table tbody td:last-child { font-variant-numeric: tabular-nums; }
+
+/* Verstorbene: gleich wie alle anderen */
+.fcem-table tbody tr.row--deceased td { color: var(--black); }
+.fcem-table tbody tr.row--deceased td:first-child { font-weight: 600; }
+
+/* ═══════════════════════════════
+   FOOTER NOTE
+═══════════════════════════════ */
+.fcem-footer-note {
+  padding: 1.5rem 3rem 2rem;
+  font-size: 0.8125rem;
+  color: var(--muted);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  background: var(--white);
+}
+
+/* ═══════════════════════════════
+   RESPONSIVE
+═══════════════════════════════ */
+@media (max-width: 900px) {
+  .fcem-block { margin: 0 1.5rem; }
+}
+@media (max-width: 600px) {
+  .fcem-table { font-size: 0.8125rem; }
+  .fcem-table tbody td,
+  .fcem-table thead th { padding: 0.5rem 0.75rem; }
+  .fcem-table tbody td:first-child,
+  .fcem-table thead th:first-child { padding-left: 0; }
+}

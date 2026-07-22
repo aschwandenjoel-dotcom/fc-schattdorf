@@ -1,0 +1,184 @@
+/* ====================================================================
+   FC Schattdorf – Junioren Organisation
+   ==================================================================== */
+
+body.page-id-54 #content,
+body.page-id-54 .ast-container,
+body.page-id-56 #content,
+body.page-id-56 .ast-container { max-width: 100% !important; padding: 0 !important; }
+body.page-id-54 #primary,
+body.page-id-54 .entry-content,
+body.page-id-54 .entry-header,
+body.page-id-56 #primary,
+body.page-id-56 .entry-content,
+body.page-id-56 .entry-header { padding: 0 !important; margin: 0 !important; }
+
+.fcjo-page {
+  width: 100%;
+  flex: 1 1 100%;
+  min-width: 0;
+  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background: #f5f6f8;
+}
+
+/* ── Page Title ── */
+.fcjo-page-title {
+  background: #fff;
+  padding: clamp(3rem, 7vw, 5.5rem) clamp(1.25rem, 5vw, 5rem) clamp(2rem, 4vw, 3rem);
+}
+.fcjo-page-title h1 {
+  font-size: clamp(1.75rem, 4vw, 2.75rem) !important;
+  font-weight: 900 !important;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: #111 !important;
+  margin: 0 !important;
+  line-height: 1.05 !important;
+  position: relative;
+  padding-top: 1.4rem;
+}
+.fcjo-page-title h1::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3rem;
+  height: 3px;
+  background: var(--fcx-red, #e63124);
+}
+
+/* ── Section base ── */
+.fcjo-section { padding: 4rem 0; }
+.fcjo-section--light { background: #fff; }
+.fcjo-section--gray  { background: #f0f2f5; }
+
+.fcjo-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 3rem;
+}
+
+/* ── Section header ── */
+.fcjo-section__header { margin-bottom: 2.5rem; }
+.fcjo-label {
+  display: inline-block;
+  background: var(--fcx-red-solid, #d9261c);
+  color: #fff;
+  font-size: .6875rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  padding: .3rem .75rem;
+  border-radius: 4px;
+  margin-bottom: .75rem;
+}
+.fcjo-section__header h2 {
+  color: #111;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  margin: 0;
+
+  position: relative;
+  padding-top: 1.4rem;
+}
+.fcjo-section__header h2::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3rem;
+  height: 3px;
+  background: var(--fcx-red, #e63124);
+}
+
+/* ── Person card grid ── */
+.fcjo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+.fcjo-card {
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 12px rgba(0,0,0,.07);
+  transition: box-shadow .2s, transform .2s;
+}
+.fcjo-card:hover {
+  box-shadow: 0 8px 28px rgba(0,0,0,.13);
+  transform: translateY(-3px);
+}
+
+.fcjo-card__photo {
+  width: 100%;
+  aspect-ratio: 3/4;
+  overflow: hidden;
+  background: linear-gradient(135deg, #e8eaf0 0%, #d0d4e0 100%);
+  flex-shrink: 0;
+}
+.fcjo-card__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+.fcjo-card__photo--silhouette {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.fcjo-card__photo--silhouette svg {
+  width: 64px;
+  height: 64px;
+  stroke: rgba(0,0,0,.15);
+}
+
+.fcjo-card__info {
+  padding: 1rem 1.125rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+  flex: 1;
+}
+.fcjo-card__name {
+  font-size: .9375rem;
+  font-weight: 800;
+  color: #111;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  line-height: 1.2;
+}
+.fcjo-card__role {
+  font-size: .8rem;
+  color: #6b7280;
+  font-weight: 500;
+  line-height: 1.4;
+}
+.fcjo-card__email {
+  display: inline-block;
+  margin-top: .25rem;
+  color: var(--fcx-red-solid, #d9261c);
+  font-size: .75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  text-decoration: none;
+  transition: opacity .15s;
+}
+.fcjo-card__email:hover { opacity: .7; }
+
+@media (max-width: 900px) {
+  .fcjo-inner { padding: 0 1.5rem; }
+  .fcjo-grid  { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+}
+@media (max-width: 560px) {
+  .fcjo-grid  { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+  .fcjo-section { padding: 2.5rem 0; }
+}

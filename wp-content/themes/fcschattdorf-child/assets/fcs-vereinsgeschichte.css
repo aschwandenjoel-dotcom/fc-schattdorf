@@ -1,0 +1,489 @@
+/* ================================================================
+   FC Schattdorf – Vereinsgeschichte – Light Edition
+   ================================================================ */
+
+/* Inter wird bereits global geladen (fcsh-inter-font), kein zweiter Font-Import nötig. */
+
+/* ── Design tokens ────────────────────────────────────────────── */
+:root {
+  --red:       var(--fcx-red-solid, #d9261c);
+  --red-glow:  rgba(227, 6, 19, 0.10);
+  --red-dim:   rgba(227, 6, 19, 0.22);
+  --bg:        var(--fcx-wine, #711712);
+  --surface:   #f8f6f5;
+  --black:     #111111;
+  --white:     #ffffff;
+  --muted:     #6b7280;
+  --rule:      #e8e2e0;
+  --rule-mid:  #d8d0cd;
+  /* Nur für Elemente, die direkt auf der Weinrot-Fläche liegen (kein eigenes
+     Kartenweiss) – Kartenränder/-texte nutzen weiterhin --rule/--black/--muted. */
+  --rule-onbg: rgba(255,255,255,.18);
+  --f-display: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  --f-serif:   'Inter', 'Helvetica Neue', Arial, sans-serif;
+  --f-body:    'Inter', 'Helvetica Neue', Arial, sans-serif;
+  --year-col:  156px;
+  --node-col:  44px;
+  --tl-pad:    3.5rem;
+}
+
+/* ── WP layout overrides ──────────────────────────────────────── */
+body.page-id-41 #content,
+body.page-id-41 .ast-container { max-width: 100% !important; padding: 0 !important; }
+body.page-id-41 #primary,
+body.page-id-41 .entry-content,
+body.page-id-41 .entry-header  { padding: 0 !important; margin: 0 !important; }
+
+/* ── Progress bar ─────────────────────────────────────────────── */
+.fcvg-progress-bar {
+  position: fixed;
+  top: 0; left: 0;
+  width: 0%;
+  height: 3px;
+  background: var(--red);
+  z-index: 9999;
+  pointer-events: none;
+  transition: width .08s linear;
+}
+
+/* ── Page shell ───────────────────────────────────────────────── */
+.fcvg-page {
+  width: 100%;
+  background: var(--bg);
+  font-family: var(--f-body);
+  -webkit-font-smoothing: antialiased;
+  color: var(--black);
+}
+
+/* ================================================================
+   HERO
+   ================================================================ */
+.fcvg-hero {
+  background: var(--bg);
+  border-bottom: 1px solid var(--rule-onbg);
+  text-align: center;
+  padding: 3.5rem 2rem 0;
+  position: relative;
+}
+
+/* Thin red top accent */
+.fcvg-hero::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--red);
+}
+
+.fcvg-hero__content {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.fcvg-hero__eyebrow {
+  font-family: var(--f-body);
+  font-size: .6875rem;
+  font-weight: 500;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin: 0 0 1.25rem;
+}
+
+.fcvg-hero__title {
+  font-family: var(--f-display);
+  font-size: clamp(2.25rem, 6.5vw, 5.5rem) !important;
+  font-weight: 900 !important;
+  letter-spacing: -.02em;
+  line-height: .97 !important;
+  color: #fff !important;
+  text-transform: uppercase;
+  margin: 0 0 1.5rem !important;
+  text-wrap: balance;
+}
+
+/* Red divider line below title */
+.fcvg-hero__title::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 3px;
+  background: var(--red);
+  margin: 1.25rem auto 0;
+}
+
+.fcvg-hero__sub {
+  font-family: var(--f-serif);
+  font-size: clamp(.9375rem, 2vw, 1.125rem);
+  font-style: italic;
+  font-weight: 500;
+  color: rgba(255,255,255,.72);
+  margin: 0 0 2.5rem;
+}
+
+/* Stats row */
+.fcvg-hero__stats {
+  display: flex;
+  align-items: stretch;
+  border-top: 1px solid var(--rule-onbg);
+  margin-top: 2.5rem;
+}
+
+.fcvg-stat {
+  flex: 1;
+  padding: 1.75rem 1.5rem 1.625rem;
+  border-right: 1px solid var(--rule-onbg);
+  text-align: center;
+}
+.fcvg-stat:last-child { border-right: none; }
+
+.fcvg-stat__num {
+  display: block;
+  font-family: var(--f-display);
+  font-size: clamp(2rem, 4.5vw, 3.25rem);
+  font-weight: 900;
+  line-height: 1;
+  color: #fff;
+  letter-spacing: -.01em;
+}
+
+.fcvg-stat--accent .fcvg-stat__num { color: var(--red); }
+
+.fcvg-stat__x {
+  font-family: var(--f-display);
+  font-size: 1.125rem;
+  font-weight: 900;
+  color: var(--red);
+  vertical-align: super;
+  line-height: 1;
+}
+
+.fcvg-stat__label {
+  display: block;
+  font-size: .6875rem;
+  font-weight: 500;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.68);
+  margin-top: .45rem;
+}
+
+/* ================================================================
+   DECADE NAV  (stays dark for contrast)
+   ================================================================ */
+.fcvg-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #111111;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.fcvg-nav__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 var(--tl-pad);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+
+.fcvg-nav__link {
+  font-family: var(--f-display);
+  font-size: .875rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  color: rgba(255,255,255,0.42);
+  text-decoration: none;
+  padding: .875rem 1rem;
+  border-bottom: 2px solid transparent;
+  transition: color .18s, border-color .18s;
+  white-space: nowrap;
+}
+
+.fcvg-nav__link:hover     { color: rgba(255,255,255,0.75); }
+.fcvg-nav__link.is-active { color: #ffffff; border-bottom-color: var(--red); }
+
+/* ================================================================
+   TIMELINE
+   ================================================================ */
+.fcvg-timeline {
+  position: relative;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 4rem var(--tl-pad) 8rem;
+}
+
+/* Vertical spine */
+.fcvg-spine {
+  position: absolute;
+  left: calc(var(--tl-pad) + var(--year-col) + var(--node-col) / 2);
+  top: 0; bottom: 0;
+  width: 1px;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    var(--rule-onbg) 4%,
+    var(--rule-onbg) 96%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+/* ── Decade markers ───────────────────────────────────────────── */
+.fcvg-decade {
+  display: grid;
+  grid-template-columns: var(--year-col) 1fr;
+  align-items: center;
+  margin: 4rem 0 1.5rem;
+  position: relative;
+  z-index: 5;
+}
+
+.fcvg-decade:first-child { margin-top: 1.5rem; }
+
+.fcvg-decade__label {
+  font-family: var(--f-display);
+  font-size: .875rem;
+  font-weight: 800;
+  letter-spacing: .16em;
+  color: var(--red);
+  text-align: right;
+  padding-right: 1.25rem;
+  white-space: nowrap;
+}
+
+.fcvg-decade__rule {
+  display: block;
+  height: 1px;
+  background: linear-gradient(to right, var(--red-dim) 0%, var(--rule-onbg) 50%, transparent 100%);
+  margin-left: calc(var(--node-col) / 2);
+}
+
+/* ── Entry rows ───────────────────────────────────────────────── */
+.fcvg-entry {
+  display: grid;
+  grid-template-columns: var(--year-col) var(--node-col) 1fr;
+  align-items: start;
+  margin-bottom: 1rem;
+  position: relative;
+
+  /* Immer sichtbar per Default (kein Scroll-/JS-Gate — Inhalt darf nie
+     dauerhaft unsichtbar bleiben, auch nicht ohne JS oder in Headless-
+     Renderern). Der Einblend-Effekt unten ist reine, einmalige
+     Lade-Animation mit garantiert endlicher Laufzeit. */
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .fcvg-entry {
+    animation: fcvg-in 600ms cubic-bezier(.22,1,.36,1) both;
+  }
+  .fcvg-entry:nth-of-type(4n+1) { animation-delay: 0ms; }
+  .fcvg-entry:nth-of-type(4n+2) { animation-delay: 55ms; }
+  .fcvg-entry:nth-of-type(4n+3) { animation-delay: 110ms; }
+  .fcvg-entry:nth-of-type(4n+4) { animation-delay: 165ms; }
+}
+
+@keyframes fcvg-in {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Year stamp */
+.fcvg-entry__year {
+  font-family: var(--f-display);
+  font-size: 1.625rem;
+  font-weight: 800;
+  letter-spacing: -.01em;
+  line-height: 1;
+  color: rgba(0,0,0,0.14);
+  text-align: right;
+  padding-right: 1.25rem;
+  padding-top: .9rem;
+  white-space: nowrap;
+  transition: color .3s;
+  user-select: none;
+}
+
+.fcvg-entry:hover .fcvg-entry__year          { color: rgba(0,0,0,0.45); }
+.fcvg-entry--milestone .fcvg-entry__year     { color: rgba(227,6,19,0.45); }
+.fcvg-entry--milestone:hover .fcvg-entry__year { color: var(--red); }
+
+/* Node column */
+.fcvg-entry__node {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 1.3rem;
+}
+
+.fcvg-entry__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--white);
+  border: 1.5px solid var(--rule-mid);
+  transition:
+    border-color .22s,
+    transform .3s cubic-bezier(.34,1.56,.64,1),
+    box-shadow .22s;
+}
+
+.fcvg-entry:hover .fcvg-entry__dot {
+  border-color: #9ca3af;
+  transform: scale(1.4);
+}
+
+.fcvg-entry--milestone .fcvg-entry__dot {
+  width: 12px;
+  height: 12px;
+  background: var(--red);
+  border-color: var(--red);
+  box-shadow: 0 0 0 3px var(--red-glow);
+  margin-top: -1px;
+}
+
+.fcvg-entry--milestone:hover .fcvg-entry__dot {
+  transform: scale(1.3);
+  box-shadow: 0 0 0 6px var(--red-glow);
+}
+
+/* Card — same width for ALL entries */
+.fcvg-entry__card {
+  background: var(--white);
+  border: 1px solid var(--rule);
+  border-radius: var(--fcx-radius, 8px);
+  width: 100%;
+  max-width: 600px;
+  margin-left: 1.375rem;
+  transition:
+    border-color .22s,
+    box-shadow .28s,
+    transform .22s;
+}
+
+.fcvg-entry:hover .fcvg-entry__card {
+  border-color: var(--rule-mid);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+  transform: translateY(-2px);
+}
+
+/* Milestone: red left accent */
+.fcvg-entry--milestone .fcvg-entry__card {
+  border-top: 3px solid var(--red);
+}
+
+.fcvg-entry--milestone:hover .fcvg-entry__card {
+  border-color: var(--rule-mid);
+  border-left-color: var(--red);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+}
+
+/* Card body */
+.fcvg-entry__body {
+  padding: 1.125rem 1.375rem 1.375rem;
+}
+
+/* Badge */
+.fcvg-entry__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
+  background: var(--red);
+  color: #fff;
+  font-family: var(--f-body);
+  font-size: .5625rem;
+  font-weight: 600;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  padding: .22rem .6rem .22rem .5rem;
+  border-radius: 2px;
+  margin-bottom: .65rem;
+  user-select: none;
+}
+
+/* Title */
+.fcvg-entry__title {
+  font-family: var(--f-body) !important;
+  font-size: .9375rem !important;
+  font-weight: 600 !important;
+  font-style: normal !important;
+  letter-spacing: .01em !important;
+  color: var(--black) !important;
+  margin: 0 0 .55rem !important;
+  line-height: 1.3 !important;
+}
+
+/* Milestone: Playfair serif */
+.fcvg-entry--milestone .fcvg-entry__title {
+  font-family: var(--f-serif) !important;
+  font-size: 1.125rem !important;
+  font-weight: 700 !important;
+  font-style: italic !important;
+  letter-spacing: 0 !important;
+  line-height: 1.25 !important;
+}
+
+/* Body text */
+.fcvg-entry__text {
+  font-size: .875rem;
+  font-weight: 400;
+  line-height: 1.7;
+  color: var(--muted);
+  margin: 0;
+}
+
+.fcvg-entry--milestone .fcvg-entry__text {
+  color: #4b5563;
+}
+
+/* ================================================================
+   ANIMATIONS
+   ================================================================ */
+@keyframes vg-fadeup {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Hero elements animate in on load */
+.fcvg-hero__eyebrow { animation: vg-fadeup .7s .05s cubic-bezier(.22,1,.36,1) both; }
+.fcvg-hero__title   { animation: vg-fadeup .8s .18s cubic-bezier(.22,1,.36,1) both; }
+.fcvg-hero__sub     { animation: vg-fadeup .8s .30s cubic-bezier(.22,1,.36,1) both; }
+.fcvg-hero__stats   { animation: vg-fadeup .8s .42s cubic-bezier(.22,1,.36,1) both; }
+
+/* ================================================================
+   RESPONSIVE
+   ================================================================ */
+@media (max-width: 860px) {
+  :root {
+    --year-col: 90px;
+    --node-col: 36px;
+    --tl-pad: 2rem;
+  }
+  .fcvg-stat { padding: 1.5rem 1rem; }
+}
+
+@media (max-width: 600px) {
+  :root {
+    --year-col: 60px;
+    --node-col: 30px;
+    --tl-pad: 1.25rem;
+  }
+
+  .fcvg-hero { padding: 3rem 1.5rem 0; }
+  .fcvg-hero__stats { flex-direction: column; }
+  .fcvg-stat {
+    border-right: none;
+    border-bottom: 1px solid var(--rule-onbg);
+    padding: 1.125rem 2rem;
+  }
+  .fcvg-stat:last-child { border-bottom: none; }
+
+  .fcvg-entry__year { font-size: 1.125rem; padding-right: .75rem; }
+  .fcvg-entry__card { margin-left: .75rem; }
+  .fcvg-timeline { padding: 2.5rem var(--tl-pad) 5rem; }
+  .fcvg-decade   { margin: 3rem 0 1.25rem; }
+  .fcvg-nav__link { padding: .75rem .625rem; font-size: .875rem; }
+}

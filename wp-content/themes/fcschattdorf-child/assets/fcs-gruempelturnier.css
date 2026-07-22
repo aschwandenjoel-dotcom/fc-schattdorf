@@ -1,0 +1,360 @@
+/* ====================================================================
+   FC Schattdorf – Dorf- und Grümpelturnier 2026
+   ==================================================================== */
+
+body.page-id-72 #content, body.page-id-72 .ast-container { max-width: 100% !important; padding: 0 !important; }
+body.page-id-72 #primary, body.page-id-72 .entry-content, body.page-id-72 .entry-header
+{ padding: 0 !important; margin: 0 !important; }
+
+.fgt-page {
+  width: 100%; flex: 1 1 100%; min-width: 0;
+  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background: #f5f6f8;
+}
+
+/* ── Hero ── */
+.fgt-hero { position: relative; background: #0a0a0a; }
+.fgt-hero__img {
+  width: 100%; height: auto; display: block;
+  opacity: .55;
+}
+.fgt-hero__overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(160deg, rgba(0,0,0,.2) 0%, rgba(0,0,0,.1) 40%, rgba(0,0,0,.75) 100%);
+  display: flex; align-items: flex-end;
+  padding: 3.5rem 4rem 4.5rem;
+}
+.fgt-hero__content { max-width: 800px; }
+
+.fgt-hero__edition {
+  display: inline-flex; align-items: center; gap: .5rem;
+  background: var(--fcx-red-solid, #d9261c);
+  color: #fff;
+  font-size: .75rem; font-weight: 800;
+  text-transform: uppercase; letter-spacing: .16em;
+  padding: .35rem 1rem;
+  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 100%, 8px 100%);
+  margin-bottom: 1.25rem;
+}
+
+.fgt-hero__title {
+  font-size: clamp(2.5rem, 7vw, 5.5rem);
+  font-weight: 900;
+  color: #fff;
+  line-height: .95;
+  text-transform: uppercase;
+  letter-spacing: -.01em;
+  margin: 0 0 1rem;
+}
+.fgt-hero__title em { font-style: normal; color: var(--fcx-red-solid, #d9261c); }
+
+.fgt-hero__sub {
+  font-size: clamp(1rem, 2.5vw, 1.375rem);
+  color: rgba(255,255,255,.8);
+  font-weight: 500;
+  margin-bottom: 2rem;
+  letter-spacing: .02em;
+}
+
+.fgt-hero__cta {
+  display: inline-flex; align-items: center; gap: .75rem;
+  background: var(--fcx-red-solid, #d9261c); color: #fff;
+  text-decoration: none;
+  font-size: 1rem; font-weight: 800;
+  text-transform: uppercase; letter-spacing: .1em;
+  padding: 1rem 2.25rem;
+  border-radius: 6px;
+  transition: background .15s, transform .15s;
+}
+.fgt-hero__cta:hover { background: #b8000e; transform: translateY(-2px); color: #fff; }
+.fgt-hero__cta svg { transition: transform .2s; }
+.fgt-hero__cta:hover svg { transform: translateX(4px); }
+
+/* ── Facts strip ── */
+.fgt-facts {
+  background: var(--fcx-red-solid, #d9261c);
+  display: flex; overflow: hidden;
+}
+.fgt-fact {
+  flex: 1;
+  padding: 1.5rem 2rem;
+  border-right: 1px solid rgba(255,255,255,.18);
+  display: flex; flex-direction: column; gap: .2rem;
+}
+.fgt-fact:last-child { border-right: none; }
+.fgt-fact__value {
+  font-size: 1.375rem; font-weight: 900;
+  color: #fff; line-height: 1;
+}
+.fgt-fact__label {
+  font-size: .6875rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: .1em;
+  color: rgba(255,255,255,.75);
+}
+
+/* ── Section scaffold ── */
+.fgt-section { padding: 4.5rem 0; }
+.fgt-section--white { background: #fff; }
+.fgt-section--gray  { background: #f5f6f8; }
+.fgt-section--dark  { background: #111; }
+
+.fgt-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 2.5rem;
+}
+
+.fgt-section__header { margin-bottom: 2.5rem; }
+.fgt-section__header h2 {
+  font-size: clamp(1.25rem, 2.5vw, 1.875rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: #111;
+  margin: 0;
+  line-height: 1.1;
+
+  position: relative;
+  padding-top: 1.4rem;
+}
+.fgt-section__header h2::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3rem;
+  height: 3px;
+  background: var(--fcx-red, #e63124);
+}
+.fgt-section__sub {
+  margin-top: .5rem; padding-left: calc(1rem + 4px);
+  font-size: .9375rem; color: #6b7280;
+}
+
+/* ── Day program ── */
+.fgt-program {
+  display: flex; flex-direction: column; gap: 1px;
+  background: #e5e7eb;
+  border-radius: 14px; overflow: hidden;
+  box-shadow: 0 2px 16px rgba(0,0,0,.06);
+}
+.fgt-program-day {
+  background: #fff;
+  display: grid;
+  grid-template-columns: 140px 1fr;
+}
+.fgt-program-day__date {
+  padding: 1.75rem 1.5rem;
+  background: #f8f9fa;
+  border-right: 1px solid #e5e7eb;
+  display: flex; flex-direction: column;
+  justify-content: center;
+}
+.fgt-program-day__weekday {
+  font-size: .6875rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .1em;
+  color: #9ca3af; margin-bottom: .2rem;
+}
+.fgt-program-day__dmy {
+  font-size: 1.125rem; font-weight: 900;
+  color: #111; line-height: 1.1;
+}
+.fgt-program-day__dmy span {
+  display: block;
+  font-size: .75rem; font-weight: 500; color: #9ca3af;
+}
+.fgt-program-day__body {
+  padding: 1.75rem 2rem;
+}
+.fgt-program-day__badge {
+  display: inline-block;
+  background: var(--fcx-red-solid, #d9261c); color: #fff;
+  font-size: .625rem; font-weight: 800;
+  text-transform: uppercase; letter-spacing: .12em;
+  padding: .2rem .625rem; border-radius: 4px;
+  margin-bottom: .6rem;
+}
+.fgt-program-day__badge--gray {
+  background: #6b7280;
+}
+.fgt-program-day__title {
+  font-size: 1.0625rem; font-weight: 800;
+  color: #111; margin-bottom: .35rem;
+}
+.fgt-program-day__desc {
+  font-size: .875rem; color: #6b7280; line-height: 1.6;
+}
+
+/* ── Category cards ── */
+.fgt-cat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.25rem;
+}
+.fgt-cat-card {
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,.07);
+  display: flex; flex-direction: column;
+  transition: box-shadow .2s, transform .2s;
+}
+.fgt-cat-card:hover { box-shadow: 0 8px 28px rgba(0,0,0,.12); transform: translateY(-2px); }
+.fgt-cat-card__top {
+  padding: 1.5rem 1.75rem 1.25rem;
+  flex: 1;
+}
+.fgt-cat-card__label {
+  font-size: .6875rem; font-weight: 800;
+  text-transform: uppercase; letter-spacing: .14em;
+  color: var(--fcx-red-solid, #d9261c); margin-bottom: .5rem;
+}
+.fgt-cat-card__name {
+  font-size: 1.25rem; font-weight: 900;
+  color: #111; text-transform: uppercase;
+  letter-spacing: .03em; margin-bottom: .3rem;
+}
+.fgt-cat-card__birth {
+  font-size: .8125rem; color: #6b7280;
+  font-weight: 500;
+}
+.fgt-cat-card__bottom {
+  padding: 1rem 1.75rem;
+  border-top: 1px solid #f0f1f3;
+}
+.fgt-cat-card__pdf {
+  display: inline-flex; align-items: center; gap: .5rem;
+  font-size: .8125rem; font-weight: 700;
+  color: var(--fcx-red-solid, #d9261c); text-decoration: none;
+  text-transform: uppercase; letter-spacing: .06em;
+  transition: color .15s;
+}
+.fgt-cat-card__pdf:hover { color: #b8000e; }
+.fgt-cat-card__pdf svg { flex-shrink: 0; }
+.fgt-cat-card__no-pdf {
+  font-size: .8125rem; color: #9ca3af;
+}
+
+/* ── Highlights ── */
+.fgt-highlights {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.25rem;
+}
+.fgt-highlight {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.75rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+  border-top: 3px solid var(--fcx-red, #e63124);
+}
+.fgt-highlight__icon { font-size: 1.75rem; margin-bottom: .875rem; display: block; }
+.fgt-highlight__title {
+  font-size: 1rem; font-weight: 800;
+  color: #111; text-transform: uppercase;
+  letter-spacing: .04em; margin-bottom: .4rem;
+}
+.fgt-highlight__text {
+  font-size: .875rem; color: #6b7280; line-height: 1.6;
+}
+
+/* ── Sponsoren ── */
+.fgt-sponsor-group { margin-bottom: 3rem; }
+.fgt-sponsor-group__label {
+  font-size: .6875rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .14em;
+  color: #9ca3af;
+  margin-bottom: 1.25rem;
+  padding-bottom: .5rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+.fgt-sponsor-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 1.5rem 2rem;
+}
+.fgt-sponsor-grid--main {
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+}
+.fgt-sponsor-box {
+  display: flex; flex-direction: column;
+  align-items: center; gap: .75rem;
+  text-align: center;
+}
+.fgt-sponsor-box__logo {
+  width: 100%; height: 120px;
+  display: flex; align-items: center; justify-content: center;
+  background: #fff;
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,.06);
+  transition: box-shadow .2s;
+}
+.fgt-sponsor-box:hover .fgt-sponsor-box__logo {
+  box-shadow: 0 6px 20px rgba(0,0,0,.1);
+}
+.fgt-sponsor-box__logo img {
+  max-width: 100%; max-height: 95px;
+  object-fit: contain; display: block;
+  transition: opacity .2s;
+}
+.fgt-sponsor-box:hover .fgt-sponsor-box__logo img { opacity: .8; }
+.fgt-sponsor-box__name {
+  font-size: 1rem; font-weight: 600;
+  color: #374151; text-decoration: none;
+  line-height: 1.3;
+}
+a.fgt-sponsor-box__name { color: var(--fcx-red-solid, #d9261c); }
+a.fgt-sponsor-box__name:hover { text-decoration: underline; }
+
+/* ── Registration CTA ── */
+.fgt-cta {
+  text-align: center;
+  padding: 5rem 2rem;
+  background: #fff;
+  border-top: 1px solid #f0f1f3;
+}
+.fgt-cta__label {
+  font-size: .6875rem; font-weight: 800;
+  text-transform: uppercase; letter-spacing: .18em;
+  color: var(--fcx-red-solid, #d9261c); margin-bottom: .75rem;
+}
+.fgt-cta h2 {
+  font-size: clamp(1.75rem, 4vw, 3rem) !important;
+  font-weight: 900 !important;
+  text-transform: uppercase;
+  letter-spacing: -.01em;
+  color: #111 !important; margin: 0 0 .75rem !important;
+}
+.fgt-cta__deadline {
+  font-size: 1rem; color: #6b7280; margin-bottom: 2rem;
+}
+.fgt-cta__deadline strong { color: var(--fcx-red-solid, #d9261c); }
+.fgt-cta__btn {
+  display: inline-flex; align-items: center; gap: .75rem;
+  background: var(--fcx-red-solid, #d9261c); color: #fff;
+  text-decoration: none;
+  font-size: 1.0625rem; font-weight: 800;
+  text-transform: uppercase; letter-spacing: .1em;
+  padding: 1.125rem 2.75rem;
+  border-radius: 8px;
+  transition: background .15s, transform .15s;
+}
+.fgt-cta__btn:hover { background: #b8000e; transform: translateY(-2px); color: #fff; }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .fgt-hero__overlay { padding: 2rem 1.5rem 3rem; }
+  .fgt-facts { flex-wrap: wrap; }
+  .fgt-fact { flex: 1 1 50%; border-bottom: 1px solid rgba(255,255,255,.18); }
+  .fgt-program-day { grid-template-columns: 110px 1fr; }
+  .fgt-cat-grid { grid-template-columns: 1fr; }
+  .fgt-inner { padding: 0 1.25rem; }
+  .fgt-section { padding: 3rem 0; }
+}
+@media (max-width: 480px) {
+  .fgt-fact { flex: 1 1 100%; border-right: none; }
+  .fgt-program-day { grid-template-columns: 1fr; }
+  .fgt-program-day__date { border-right: none; border-bottom: 1px solid #e5e7eb; padding: 1rem 1.25rem; flex-direction: row; align-items: center; gap: 1rem; }
+}

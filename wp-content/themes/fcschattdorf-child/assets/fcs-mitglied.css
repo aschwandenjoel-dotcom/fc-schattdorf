@@ -1,0 +1,313 @@
+/* ================================================================
+   FC Schattdorf – Mitglied werden
+   Form folgt der Startseite (fcs-front.css): linksbündige Titel mit
+   roter Marke, scharfe Kanten, ruhige Flächen. Inhalt unverändert.
+   ================================================================ */
+
+:root {
+  --red:     var(--fcx-red,   #e63124);
+  --red-btn: var(--fcx-red-solid, #d9261c);
+  --black:   var(--fcx-ink,   #101214);
+  --muted:   var(--fcx-muted, #5c6169);
+  --rule:    var(--fcx-line,  #e4e4e7);
+  --bg:      var(--fcx-paper, #ffffff);
+  --surf:    var(--fcx-mist,  #f4f4f5);
+  --pad:     var(--fcx-pad, clamp(1.25rem, 5vw, 5rem));
+  --ease:    var(--fcx-ease, cubic-bezier(.22,1,.36,1));
+  --f-display: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  --f-body: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+}
+
+body.page-id-36 #content,
+body.page-id-36 .ast-container { max-width: 100% !important; padding: 0 !important; }
+body.page-id-36 #primary,
+body.page-id-36 .entry-content,
+body.page-id-36 .entry-header  { padding: 0 !important; margin: 0 !important; }
+
+.fcmb-page {
+  width: 100%;
+  background: var(--bg);
+  font-family: var(--f-body);
+  -webkit-font-smoothing: antialiased;
+  color: var(--black);
+}
+
+/* ================================================================
+   SEITENKOPF
+   ================================================================ */
+.fcmb-header {
+  padding: clamp(3rem, 7vw, 5.5rem) var(--pad) clamp(2rem, 4vw, 3rem);
+}
+
+.fcmb-header__title {
+  position: relative;
+  padding-top: 1.4rem;
+  font-family: var(--f-display) !important;
+  font-size: clamp(2.25rem, 6vw, 4rem) !important;
+  font-weight: 900 !important;
+  letter-spacing: -.03em;
+  text-transform: uppercase;
+  color: var(--black) !important;
+  margin: 0 0 1rem !important;
+  line-height: 1.02 !important;
+  text-wrap: balance;
+}
+.fcmb-header__title::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3rem;
+  height: 3px;
+  background: var(--red);
+}
+
+.fcmb-header__sub {
+  font-size: 1.0625rem;
+  color: var(--muted);
+  margin: 0;
+  line-height: 1.65;
+  max-width: 46ch;
+}
+
+/* ================================================================
+   EINSTIEGSWEGE – drei Bänder statt drei gleicher Karten
+   ================================================================ */
+.fcmb-tracks-wrap { background: var(--bg); }
+.fcmb-tracks { display: block; }
+
+.fcmb-track {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr);
+  grid-template-rows: auto auto;
+  column-gap: clamp(2rem, 5vw, 5rem);
+  row-gap: 1.5rem;
+  align-items: start;
+  padding: clamp(2.25rem, 4vw, 3.5rem) var(--pad);
+  border-top: 1px solid var(--rule);
+}
+/* Jedes zweite Band auf Nebelgrau – Rhythmus statt Kartenraster. */
+.fcmb-track:nth-child(even) { background: var(--surf); }
+.fcmb-track:last-child { border-bottom: 1px solid var(--rule); }
+
+.fcmb-track__top {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+}
+
+.fcmb-track__tag {
+  display: inline-block;
+  background: var(--black);
+  color: #fff;
+  font-size: .6875rem;
+  font-weight: 800;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  padding: .3rem .7rem;
+  margin-bottom: 1.25rem;
+}
+
+.fcmb-track__icon {
+  width: 40px;
+  height: 40px;
+  color: var(--red);
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.fcmb-track__title {
+  font-family: var(--f-display) !important;
+  font-size: clamp(1.75rem, 4vw, 2.75rem) !important;
+  font-weight: 900 !important;
+  letter-spacing: -.025em;
+  text-transform: uppercase;
+  color: var(--black) !important;
+  margin: 0 0 .75rem !important;
+  line-height: 1.05 !important;
+  text-wrap: balance;
+}
+
+.fcmb-track__text {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--muted);
+  margin: 0;
+  max-width: 52ch;
+}
+
+/* ── Kontakt-Block ── */
+.fcmb-track__contact {
+  grid-column: 2;
+  grid-row: 1;
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  padding: 1.5rem;
+}
+.fcmb-track:nth-child(even) .fcmb-track__contact { border-color: #dcdce0; }
+
+.fcmb-track__contact-name {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--black);
+  margin-bottom: .2rem;
+}
+
+.fcmb-track__contact-role {
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 1.125rem;
+}
+
+.fcmb-track__contact-links {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+.fcmb-track__link {
+  font-size: .9375rem;
+  color: var(--black);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: .55rem;
+  overflow-wrap: anywhere;
+  transition: color var(--fcx-fast, 150ms) var(--ease);
+}
+@media (hover: hover) and (pointer: fine) {
+  .fcmb-track__link:hover { color: var(--red-btn); text-decoration: underline; text-underline-offset: 3px; }
+}
+.fcmb-track__link::before {
+  content: '';
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  background: var(--red);
+  flex-shrink: 0;
+}
+
+/* ── CTA ── */
+.fcmb-track__cta {
+  grid-column: 2;
+  grid-row: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  justify-self: start;
+  padding: .95rem 1.75rem;
+  background: var(--red-btn);
+  color: #fff;
+  font-family: var(--f-body);
+  font-size: .75rem;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  text-align: center;
+  text-decoration: none;
+  transition: background var(--fcx-fast, 150ms) var(--ease),
+              transform var(--fcx-fast, 150ms) var(--ease);
+}
+@media (hover: hover) and (pointer: fine) {
+  .fcmb-track__cta:hover { background: var(--fcx-red-press, #c8201a); color: #fff; }
+}
+.fcmb-track__cta:active { transform: scale(.97); }
+
+/* ================================================================
+   NEWSLETTER – Abschlussband
+   Bewusst hell: der Footer darunter ist bereits eine dunkle Fläche
+   mit eigenem Newsletter-Block, zwei Ink-Bänder würden verschmelzen.
+   ================================================================ */
+.fcmb-newsletter {
+  background: var(--surf);
+  color: var(--black);
+  border-top: 1px solid var(--rule);
+}
+
+.fcmb-newsletter__inner {
+  padding: clamp(2.5rem, 5vw, 4rem) var(--pad);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.fcmb-newsletter__label {
+  font-size: .6875rem;
+  font-weight: 800;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--black);
+  margin-bottom: .6rem;
+}
+
+.fcmb-newsletter__title {
+  font-family: var(--f-display) !important;
+  font-size: clamp(1.6rem, 3.5vw, 2.5rem) !important;
+  font-weight: 900 !important;
+  letter-spacing: -.025em;
+  text-transform: uppercase;
+  color: var(--black) !important;
+  margin: 0 0 .5rem !important;
+  line-height: 1.05 !important;
+}
+
+.fcmb-newsletter__sub {
+  font-size: .9375rem;
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 0;
+  max-width: 52ch;
+}
+
+.fcmb-newsletter__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .6rem;
+  background: var(--red-btn);
+  color: #fff;
+  font-family: var(--f-body);
+  font-size: .75rem;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 1rem 1.75rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background var(--fcx-fast, 150ms) var(--ease),
+              transform var(--fcx-fast, 150ms) var(--ease);
+}
+@media (hover: hover) and (pointer: fine) {
+  .fcmb-newsletter__btn:hover { background: var(--fcx-red-press, #c8201a); color: #fff; }
+}
+.fcmb-newsletter__btn:active { transform: scale(.97); }
+
+.fcmb-newsletter__btn svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+/* ================================================================
+   RESPONSIVE
+   ================================================================ */
+@media (max-width: 60rem) {
+  .fcmb-track {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+  }
+  .fcmb-track__top     { grid-column: 1; grid-row: 1; }
+  .fcmb-track__contact { grid-column: 1; grid-row: 2; }
+  .fcmb-track__cta     { grid-column: 1; grid-row: 3; justify-self: stretch; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fcmb-track__cta,
+  .fcmb-newsletter__btn,
+  .fcmb-track__link { transition: none; }
+  .fcmb-track__cta:active,
+  .fcmb-newsletter__btn:active { transform: none; }
+}

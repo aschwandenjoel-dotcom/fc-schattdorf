@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-06-30T00:00:00Z",
+  "title": "Design System: FC Schattdorf",
+  "extensions": {
+    "colorMeta": {
+      "primary": { "role": "primary", "displayName": "FCS Rot", "canonical": "#e63124", "tonalRamp": ["#3a0a06", "#5c100b", "#8a1810", "#b82014", "#e63124", "#ec5b4f", "#f28f86", "#f9c6c1"] },
+      "primary-deep": { "role": "primary", "displayName": "FCS Rot Tief", "canonical": "#d9261c", "tonalRamp": ["#330905", "#52100a", "#7d1810", "#a81f15", "#d9261c", "#e2554c", "#ec8a82", "#f6c2bd"] },
+      "ink": { "role": "neutral", "displayName": "Spielfeld-Anthrazit", "canonical": "#181818", "tonalRamp": ["#000000", "#0c0c0c", "#181818", "#2e2e2e", "#4a4a4a", "#6e6e6e", "#9a9a9a", "#cccccc"] },
+      "ink-soft": { "role": "neutral", "displayName": "Tiefes Graphit", "canonical": "#1f2937", "tonalRamp": ["#05070a", "#0f141b", "#1f2937", "#374151", "#4b5563", "#6b7280", "#9ca3af", "#d1d5db"] },
+      "neutral-muted": { "role": "neutral", "displayName": "Nebel-Grau", "canonical": "#6b7280", "tonalRamp": ["#1f2327", "#374151", "#4b5563", "#6b7280", "#9ca3af", "#c1c7cf", "#dde1e6", "#f3f4f6"] },
+      "neutral-bg": { "role": "neutral", "displayName": "Trainingsplatz-Hellgrau", "canonical": "#f5f5f5", "tonalRamp": ["#1a1a1a", "#333333", "#666666", "#999999", "#cccccc", "#e5e5e5", "#f5f5f5", "#fafafa"] },
+      "neutral-white": { "role": "neutral", "displayName": "Vereinsweiss", "canonical": "#ffffff", "tonalRamp": ["#cccccc", "#dddddd", "#eeeeee", "#f5f5f5", "#f8f8f8", "#fafafa", "#fdfdfd", "#ffffff"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Hero-Headlines (z.B. Helfereinsätze-Hero)." },
+      "headline": { "displayName": "Headline", "purpose": "News-Karten-Titel, Sektionstitel." },
+      "label": { "displayName": "Label", "purpose": "Sub-Navigation, Tags, Badges — Versalien." },
+      "body": { "displayName": "Body", "purpose": "Fliesstext, Excerpts." }
+    },
+    "shadows": [
+      { "name": "flyout", "value": "2px 2px 8px rgba(0,0,0,0.4)", "purpose": "Untermenüs der dritten Navigationsebene beim Aufklappen." },
+      { "name": "image-scrim", "value": "linear-gradient(to top, rgba(0,0,0,.7) 0%, transparent 100%)", "purpose": "Über Hero-/Teaser-Bildern für Textlesbarkeit." }
+    ],
+    "motion": [
+      { "name": "aos-fade-up", "value": "AOS fade-up, duration 700ms, ease-out, once: false", "purpose": "Scroll-Eintritts-Animation für Footer/Sektionen (bereits im Projekt via AOS-Library aktiv)." },
+      { "name": "color-transition", "value": "transition: all .2s ease", "purpose": "Hover-Feedback auf Buttons, Sponsorenlogos, Links." }
+    ],
+    "breakpoints": [
+      { "name": "mobile", "value": "600px" },
+      { "name": "tablet", "value": "900px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Haupt-CTA-Button (Anmelden, Mehr erfahren, Formular absenden).",
+      "html": "<button class=\"ds-btn-primary\">Mehr erfahren</button>",
+      "css": ".ds-btn-primary { background: #e63124; color: #ffffff; padding: 0.75rem 1.5rem; border: none; border-radius: 0; font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif; font-weight: 700; transition: background 0.2s ease; cursor: pointer; } .ds-btn-primary:hover, .ds-btn-primary:focus-visible { background: #d9261c; } .ds-btn-primary:focus-visible { outline: 2px solid #ffffff; outline-offset: 2px; }"
+    },
+    {
+      "name": "News Card",
+      "kind": "card",
+      "refersTo": "badge-date",
+      "description": "Karte im News-Grid mit Datums-/Kategorie-Badge-Overlay.",
+      "html": "<article class=\"ds-news-card\"><div class=\"ds-news-card__media\"><img src=\"\" alt=\"\"/><div class=\"ds-news-card__meta\"><time class=\"ds-news-card__date\">28.06.2026</time><span class=\"ds-news-card__cat\">1. Mannschaft</span></div></div><h3 class=\"ds-news-card__title\">Spielbericht: FCS – Altdorf 3:1</h3><p class=\"ds-news-card__excerpt\">Kurzer Teaser-Text zum Spielbericht …</p></article>",
+      "css": ".ds-news-card { background: #ffffff; font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif; } .ds-news-card__media { position: relative; } .ds-news-card__media img { width: 100%; height: auto; display: block; } .ds-news-card__meta { position: relative; z-index: 5; margin-top: -2.25rem; display: flex; gap: 0; } .ds-news-card__date { background: #e63124; color: #fff; font-size: .8125rem; font-weight: 700; padding: .375rem .75rem; } .ds-news-card__cat { background: #1f2937; color: #fff; font-size: .8125rem; font-weight: 600; padding: .375rem .75rem; } .ds-news-card__title { font-size: 1.125rem; font-weight: 800; line-height: 1.3; margin: .5rem 0; text-transform: uppercase; letter-spacing: .02em; color: #111827; } .ds-news-card:hover .ds-news-card__title { color: #e63124; } .ds-news-card__excerpt { font-size: .9rem; color: #4b5563; line-height: 1.6; }"
+    },
+    {
+      "name": "Sub Navigation Tab",
+      "kind": "nav",
+      "refersTo": null,
+      "description": "Horizontal scrollbarer Tab in der dunklen Sub-Navigation unter dem Inner-Header.",
+      "html": "<nav class=\"ds-subnav\"><a href=\"#\" class=\"ds-subnav__link is-active\">Aktive</a><a href=\"#\" class=\"ds-subnav__link\">Junioren</a><a href=\"#\" class=\"ds-subnav__link\">Sponsoren</a></nav>",
+      "css": ".ds-subnav { background: #111111; display: flex; align-items: center; height: 44px; font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif; } .ds-subnav__link { color: rgba(255,255,255,.6); font-size: .6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; padding: 0 1.25rem; height: 100%; display: flex; align-items: center; text-decoration: none; border-right: 1px solid rgba(255,255,255,.07); transition: color .15s ease; } .ds-subnav__link:hover, .ds-subnav__link:focus-visible { color: #ffffff; } .ds-subnav__link.is-active { color: #e63124; }"
+    },
+    {
+      "name": "Sponsor Logo",
+      "kind": "custom",
+      "refersTo": null,
+      "description": "Sponsorenlogo im Footer-Grid — graustufig in Ruhe, farbig bei Hover.",
+      "html": "<a class=\"ds-sponsor\" href=\"#\"><img src=\"\" alt=\"Sponsor\"/></a>",
+      "css": ".ds-sponsor img { max-width: 100%; height: auto; filter: grayscale(100%); opacity: .8; transition: all .2s ease; } .ds-sponsor:hover img, .ds-sponsor:focus-visible img { filter: none; opacity: 1; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Der Spielfeldrand",
+    "overview": "Der Blick von der Seitenlinie: fokussiert, aufmerksam, immer in Bewegung, nie überladen. Das System trägt die echte Vereinsidentität — Logo, Rot/Schwarz/Weiss — aber mit der Präzision eines gut geführten Clubs statt der losen Optik einer Dorfvereinsseite. Jede Komponente ist taktil und selbstbewusst: klare Kanten, kräftige Kontraste, spürbares Feedback bei Interaktion.",
+    "keyCharacteristics": [
+      "Rot (#e63124) ist die einzige Akzentfarbe — sparsam, aber unverkennbar",
+      "Schwarz/Anthrazit trägt Struktur (Header, Footer, Badges), nicht Dekoration",
+      "Inter in Versalien + Letter-Spacing für Navigation/Labels, ruhiger Fliesstext darunter",
+      "Flach bei Ruhe, Bewegung als Antwort auf Zustand (Hover, Scroll-Eintritt via AOS)"
+    ],
+    "rules": [
+      { "name": "The One-Red Rule", "body": "Es gibt genau eine Akzentfarbe: #e63124. Keine zweite Ersatzfarbe, keine Verwässerung.", "section": "colors" },
+      { "name": "The Single-Family Rule", "body": "Nur Inter, nie eine zweite Schriftfamilie. Unterscheidung über Gewicht, Grösse, Versalien/Tracking.", "section": "typography" },
+      { "name": "The Flat-By-Default Rule", "body": "Karten und Flächen sind im Ruhezustand schattenlos. Schatten erscheinen nur bei Interaktion oder zur Textlesbarkeit über Bildern.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do ausschliesslich #e63124 / #d9261c als Akzentrot verwenden",
+      "Do Inter in allen Gewichten (400–900) als einzige Schriftfamilie nutzen",
+      "Do Schatten nur zustandsgebunden einsetzen",
+      "Do alle Texte, Bilder, PDFs, Sponsorenlogos und Links unverändert übernehmen",
+      "Do alle 50 bestehenden Seiten nach dem Umbau weiterhin erreichbar halten"
+    ],
+    "donts": [
+      "Don't eine andere Primärfarbe (z.B. Blau) einführen",
+      "Don't die drei aktuell im CSS verstreuten Rot-Platzhalter (#c8102e, #9b0c23, #E30613) weiterführen",
+      "Don't generische Card-Raster ohne Hierarchie oder Stock-Foto-Hero-Slider verwenden",
+      "Don't Gradient-Text, Glassmorphismus-Standardeinsatz oder Seiten-Akzentstreifen einsetzen",
+      "Don't Texte, Bildpfade, PDF-Dateien, Sponsorenlogos oder externe Links verändern"
+    ]
+  }
+}

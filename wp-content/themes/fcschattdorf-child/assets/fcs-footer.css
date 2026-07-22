@@ -1,0 +1,209 @@
+/* ====================================================================
+   FC Schattdorf – Custom Footer
+   ==================================================================== */
+
+.fcsh-footer {
+  background: #1a1a1a;
+  color: #fff;
+  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Main two-column layout ── */
+.fcsh-footer__main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: 1px solid #333;
+}
+
+/* ── Left column ── */
+.fcsh-footer__left {
+  padding: 3.5rem 3rem 3rem;
+  border-right: 1px solid #333;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.fcsh-footer__nl-icon {
+  color: #fff;
+  margin-bottom: -.5rem;
+}
+
+.fcsh-footer__nl-title {
+  font-size: clamp(2.5rem, 5vw, 3.75rem);
+  font-weight: 900;
+  letter-spacing: -.02em;
+  line-height: 1;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+.fcsh-footer__nl-link {
+  display: inline-flex;
+  align-items: center;
+  gap: .6rem;
+  font-size: .75rem;
+  font-weight: 800;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: #fff;
+  text-decoration: none;
+  border: 1.5px solid rgba(255,255,255,.35);
+  border-radius: 999px;
+  padding: .55rem 1.125rem;
+  width: fit-content;
+  transition: border-color .2s, background .2s;
+}
+.fcsh-footer__nl-link:hover {
+  border-color: #fff;
+  background: rgba(255,255,255,.06);
+}
+.fcsh-footer__nl-link svg { flex-shrink: 0; }
+
+.fcsh-footer__logo img {
+  height: 64px;
+  width: auto;
+  display: block;
+}
+
+.fcsh-footer__quicklinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+}
+
+.fcsh-footer__quicklinks a {
+  display: inline-block;
+  font-size: .6875rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #fff;
+  text-decoration: none;
+  border: 1.5px solid rgba(255,255,255,.3);
+  border-radius: 4px;
+  padding: .45rem .875rem;
+  transition: border-color .2s, background .2s;
+}
+.fcsh-footer__quicklinks a:hover {
+  border-color: rgba(255,255,255,.7);
+  background: rgba(255,255,255,.05);
+}
+
+/* ── Right column: sponsors ── */
+.fcsh-footer__right {
+  padding: 3.5rem 3rem 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.fcsh-footer__sp-row {
+  padding: 1.375rem 0;
+  border-bottom: 1px solid #2e2e2e;
+}
+.fcsh-footer__sp-row:first-child { padding-top: 0; }
+.fcsh-footer__sp-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.fcsh-footer__sp-label {
+  font-size: .6rem;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: #666;
+  margin-bottom: .875rem;
+}
+
+.fcsh-footer__sp-items {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 1.75rem 2rem;
+}
+
+.fcsh-footer__sp-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  gap: .5rem;
+  min-width: 60px;
+}
+
+.fcsh-footer__sp-logo {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fcsh-footer__sp-logo img {
+  display: block !important;
+  height: 54px !important;
+  width: auto !important;
+  max-width: 150px !important;
+  object-fit: contain;
+  filter: grayscale(1) brightness(1.4);
+  opacity: .85;
+  transition: opacity .2s;
+}
+
+.fcsh-footer__sp-name {
+  font-size: .6875rem;
+  font-weight: 600;
+  color: #888;
+  letter-spacing: .04em;
+  text-align: center;
+  line-height: 1.3;
+}
+
+.fcsh-footer__sp-item:hover .fcsh-footer__sp-name { color: #bbb; }
+.fcsh-footer__sp-item:hover .fcsh-footer__sp-logo img { opacity: 1; }
+
+/* ── Bottom bar ── */
+.fcsh-footer__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.125rem 3rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.fcsh-footer__copy {
+  font-size: .6875rem;
+  color: #555;
+  letter-spacing: .03em;
+}
+
+.fcsh-footer__legal {
+  display: flex;
+  gap: 1.5rem;
+}
+.fcsh-footer__legal a {
+  font-size: .6875rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #555;
+  text-decoration: none;
+  transition: color .15s;
+}
+.fcsh-footer__legal a:hover { color: #fff; }
+
+@media (max-width: 900px) {
+  .fcsh-footer__main { grid-template-columns: 1fr; }
+  .fcsh-footer__left { border-right: none; border-bottom: 1px solid #333; padding: 2.5rem 1.75rem; }
+  .fcsh-footer__right { padding: 2.5rem 1.75rem; }
+  .fcsh-footer__bar { padding: 1rem 1.75rem; }
+}
+@media (max-width: 560px) {
+  .fcsh-footer__left { padding: 2rem 1.25rem; }
+  .fcsh-footer__right { padding: 2rem 1.25rem; }
+  .fcsh-footer__bar { padding: .875rem 1.25rem; flex-direction: column; align-items: flex-start; gap: .5rem; }
+  .fcsh-footer__nl-title { font-size: 2.25rem; }
+}

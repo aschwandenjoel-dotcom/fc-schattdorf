@@ -9,3 +9,9 @@ wp-content/themes/*/
 
 # OS
 .DS_Store
+
+# Backup des alten WordPress-Standes (298 MB, nicht Teil der Repo-Historie)
+wp-content-backup/
+
+# Next.js Dev-Cache (Build-Artefakt, kein Projektcode)
+.next/

@@ -1,0 +1,366 @@
+/* ====================================================================
+   FC Schattdorf – Junioren Info Pages
+   Goalietraining (57) · Fussballschule (58) · Betreuer werden (60) · Juniorenkonzept (61)
+   ==================================================================== */
+
+body.page-id-57 #content, body.page-id-57 .ast-container,
+body.page-id-58 #content, body.page-id-58 .ast-container,
+body.page-id-60 #content, body.page-id-60 .ast-container,
+body.page-id-61 #content, body.page-id-61 .ast-container { max-width: 100% !important; padding: 0 !important; }
+body.page-id-57 #primary, body.page-id-57 .entry-content, body.page-id-57 .entry-header,
+body.page-id-58 #primary, body.page-id-58 .entry-content, body.page-id-58 .entry-header,
+body.page-id-60 #primary, body.page-id-60 .entry-content, body.page-id-60 .entry-header,
+body.page-id-61 #primary, body.page-id-61 .entry-content, body.page-id-61 .entry-header
+{ padding: 0 !important; margin: 0 !important; }
+
+/* ── Base ── */
+.fcji-page {
+  width: 100%; flex: 1 1 100%; min-width: 0;
+  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background: #f5f6f8;
+}
+
+/* ── Hero photo strip ── */
+.fcji-hero {
+  width: 100%;
+  position: relative;
+  background: #111;
+}
+.fcji-hero img {
+  width: 100%; height: auto;
+  display: block;
+}
+
+/* Fussballschule/Goalietraining: Hero füllt exakt den Viewport (wie Startseite),
+   abzüglich der Kopfzeile (.fcx-hdr, 100px), die oben mitscrollt */
+body.page-id-58 .fcji-hero,
+body.page-id-57 .fcji-hero {
+  height: calc(100vh - 100px);
+  min-height: 500px;
+  overflow: hidden;
+}
+body.page-id-58 .fcji-hero img,
+body.page-id-57 .fcji-hero img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.fcji-hero__overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,.1) 40%, rgba(0,0,0,.55) 100%);
+  display: flex; align-items: flex-end;
+  padding: 2rem 3rem 2.5rem;
+}
+.fcji-hero__title {
+  color: #fff;
+  font-size: clamp(1.75rem, 4vw, 3rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  line-height: 1;
+  margin: 0;
+
+  position: relative;
+  padding-top: 1.4rem;
+}
+.fcji-hero__title::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3rem;
+  height: 3px;
+  background: var(--fcx-red, #e63124);
+}
+
+/* ── Page title (no-hero variant) ── */
+.fcji-page-title {
+  background: #fff;
+  text-align: center;
+  padding: 3rem 2rem 2.5rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+.fcji-page-title h1 {
+  font-size: clamp(1.75rem, 4vw, 2.75rem) !important;
+  font-weight: 900 !important;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: #111 !important;
+  margin: 0 !important;
+  line-height: 1.05 !important;
+}
+
+/* ── Sections ── */
+.fcji-section { padding: 4rem 0; }
+.fcji-section--white { background: #fff; }
+.fcji-section--gray  { background: #f5f6f8; }
+.fcji-section--dark  { background: #111; }
+
+.fcji-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 2.5rem;
+}
+
+/* ── Section header ── */
+.fcji-section__header { margin-bottom: 2.5rem; }
+.fcji-section__header h2 {
+  color: #111;
+  font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  margin: 0;
+
+  position: relative;
+  padding-top: 1.4rem;
+}
+.fcji-section__header h2::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3rem;
+  height: 3px;
+  background: var(--fcx-red, #e63124);
+}
+
+/* ── Info cards (schedule etc.) ── */
+.fcji-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+.fcji-info-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.5rem 1.75rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+  border-top: 3px solid var(--fcx-red, #e63124);
+}
+.fcji-info-card__label {
+  font-size: .6875rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: var(--fcx-red-solid, #d9261c);
+  margin-bottom: .5rem;
+}
+.fcji-info-card__title {
+  font-size: 1.0625rem;
+  font-weight: 800;
+  color: #111;
+  margin-bottom: .35rem;
+}
+.fcji-info-card__detail {
+  font-size: .875rem;
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+/* ── Person cards (reuse from junioren-org but scoped) ── */
+.fcji-person-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+.fcji-card {
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,.07);
+  transition: box-shadow .2s, transform .2s;
+}
+.fcji-card:hover { box-shadow: 0 8px 28px rgba(0,0,0,.13); transform: translateY(-3px); }
+.fcji-card__photo {
+  width: 100%; aspect-ratio: 3/4;
+  overflow: hidden;
+  background: #e8eaf0;
+}
+.fcji-card__photo img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center top; display: block;
+}
+.fcji-card__info {
+  padding: 1rem 1.125rem 1.25rem;
+  display: flex; flex-direction: column; gap: .3rem;
+}
+.fcji-card__name {
+  font-size: .9375rem; font-weight: 800;
+  color: #111; text-transform: uppercase;
+  letter-spacing: .04em; line-height: 1.2;
+}
+.fcji-card__role { font-size: .8rem; color: #6b7280; font-weight: 500; }
+
+/* ── PDF download button ── */
+.fcji-pdf-btn {
+  display: inline-flex; align-items: center; gap: .75rem;
+  background: var(--fcx-red-solid, #d9261c); color: #fff;
+  text-decoration: none;
+  font-size: .875rem; font-weight: 800;
+  text-transform: uppercase; letter-spacing: .08em;
+  padding: .875rem 1.75rem;
+  border-radius: 8px;
+  transition: background .15s, transform .15s;
+  margin-top: 1.5rem;
+}
+.fcji-pdf-btn:hover { background: #b8000e; transform: translateY(-2px); color: #fff; }
+.fcji-pdf-btn svg { flex-shrink: 0; }
+
+/* ── Flyer row (Betreuer werden) ── */
+.fcji-flyer-row {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 3rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.fcji-flyer-img {
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0,0,0,.12);
+}
+.fcji-flyer-img img { width: 100%; display: block; }
+.fcji-flyer-badge {
+  display: inline-block;
+  background: var(--fcx-red-solid, #d9261c); color: #fff;
+  font-size: .75rem; font-weight: 800;
+  text-transform: uppercase; letter-spacing: .12em;
+  padding: .3rem .875rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+.fcji-flyer-text p {
+  font-size: 1.0625rem; color: #374151; line-height: 1.75; margin: 0;
+}
+@media (max-width: 768px) {
+  .fcji-flyer-row { grid-template-columns: 1fr; gap: 1.5rem; }
+  .fcji-flyer-img { max-width: 320px; }
+}
+
+/* ── Diploma path (Betreuer werden) ── */
+.fcji-path { display: flex; flex-direction: column; gap: 0; position: relative; }
+.fcji-path::before {
+  content: '';
+  position: absolute; left: 28px; top: 0; bottom: 0;
+  width: 2px; background: #e5e7eb;
+}
+.fcji-step {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 0 1.5rem;
+  align-items: start;
+  padding: 0 0 2.5rem;
+  position: relative;
+}
+.fcji-step:last-child { padding-bottom: 0; }
+.fcji-step__num {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: var(--fcx-red-solid, #d9261c); color: #fff;
+  font-size: 1.125rem; font-weight: 900;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; position: relative; z-index: 1;
+  box-shadow: 0 0 0 4px #fff;
+}
+.fcji-step__body { padding-top: .75rem; }
+.fcji-step__title {
+  font-size: 1.0625rem; font-weight: 900;
+  color: #111; margin: 0 0 .5rem;
+  text-transform: uppercase; letter-spacing: .03em;
+}
+.fcji-step__meta {
+  display: flex; flex-wrap: wrap; gap: .5rem;
+  margin-bottom: .75rem;
+}
+.fcji-step__tag {
+  background: #f0f2f5; color: #374151;
+  font-size: .75rem; font-weight: 700;
+  padding: .25rem .625rem; border-radius: 20px;
+}
+.fcji-step__desc { font-size: .875rem; color: #6b7280; line-height: 1.6; }
+
+/* ── Contact block (clean) ── */
+.fcji-contact-clean {
+  margin-top: 3.5rem;
+}
+.fcji-contact-clean__divider {
+  width: 48px; height: 3px;
+  background: var(--fcx-red-solid, #d9261c);
+  margin-bottom: 1.75rem;
+}
+.fcji-contact-clean__inner {
+  display: flex; flex-direction: column; gap: .6rem;
+}
+.fcji-contact-clean__label {
+  font-size: .6875rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .12em;
+  color: #9ca3af;
+}
+.fcji-contact-clean__name {
+  font-size: 1.375rem; font-weight: 800;
+  color: #111; letter-spacing: -.01em;
+}
+.fcji-contact-clean__links {
+  display: flex; flex-wrap: wrap; gap: .5rem 1.75rem;
+  margin-top: .25rem;
+}
+.fcji-contact-clean__link {
+  display: inline-flex; align-items: center; gap: .45rem;
+  font-size: .9rem; font-weight: 600;
+  color: #374151; text-decoration: none;
+  transition: color .15s;
+}
+.fcji-contact-clean__link svg { color: var(--fcx-red-solid, #d9261c); flex-shrink: 0; }
+.fcji-contact-clean__link:hover { color: var(--fcx-red-solid, #d9261c); }
+.fcji-contact-clean__note {
+  margin-top: .75rem;
+  font-size: .85rem; color: #9ca3af; line-height: 1.65;
+  max-width: 480px;
+}
+
+/* ── Big PDF block (Juniorenkonzept) ── */
+.fcji-pdf-block {
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center;
+  padding: 5rem 2rem;
+  gap: 1.5rem;
+}
+.fcji-pdf-block__icon {
+  width: 80px; height: 80px;
+  background: var(--fcx-red-solid, #d9261c);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+.fcji-pdf-block__icon svg { color: #fff; }
+.fcji-pdf-block h2 {
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 900; color: #111;
+  text-transform: uppercase; letter-spacing: .04em;
+  margin: 0;
+}
+.fcji-pdf-block p {
+  font-size: 1rem; color: #6b7280; max-width: 520px; line-height: 1.65;
+  margin: 0;
+}
+
+/* ── Intro text ── */
+.fcji-intro {
+  font-size: 1.0625rem; color: #374151;
+  line-height: 1.75; max-width: 760px;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 768px) {
+  .fcji-hero__overlay { padding: 1.5rem 1.5rem 2rem; }
+  .fcji-inner { padding: 0 1.25rem; }
+  .fcji-section { padding: 2.5rem 0; }
+  .fcji-path::before { left: 24px; }
+  .fcji-step { grid-template-columns: 48px 1fr; }
+  .fcji-step__num { width: 48px; height: 48px; font-size: 1rem; }
+  .fcji-contact { flex-direction: column; gap: 1.25rem; }
+}
