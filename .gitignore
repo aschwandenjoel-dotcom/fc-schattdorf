@@ -11,6 +11,15 @@ wp-content/themes/*/
 # der fcschattdorf.ch-Website. Wird NUR ins PRIVATE Repo eingecheckt –
 # niemals öffentlich machen!
 
+# Lokale Backups (DB + Uploads, siehe scripts/backup.sh)
+backups/
+
+# Deploy-Paket für Hostpoint (enthält DB-Dump und Salts – nie einchecken)
+# deploy/* statt deploy/, damit die Ausnahme darunter greifen kann
+deploy/*
+# Ausnahme: Export-Vorlage ohne Geheimnisse — wird von scripts/pull-prod-db.sh gebraucht
+!deploy/fcs-db-export.php.tpl
+
 # OS
 .DS_Store
 

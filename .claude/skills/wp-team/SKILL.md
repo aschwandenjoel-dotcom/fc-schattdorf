@@ -14,7 +14,7 @@ Du legst ein neues Team für den FC Schattdorf an. Du kennst die gesamte Projekt
 
 ## Projektkontext
 
-- WordPress läuft lokal auf `http://localhost:8090`
+- WordPress läuft lokal auf `http://localhost:8080`
 - WP-CLI ist im Docker-Container verfügbar: `docker compose exec wordpress wp`
 - SportsPress verwaltet Teams, Spieler (Player) und Staff als Custom Post Types
 - Navigationsstruktur: Aktive → Unterseiten | Junioren → Teams → Unterseiten
@@ -43,6 +43,21 @@ Junioren (parent slug: junioren)
 ```
 
 ## Was du tust, wenn `/wp-team` aufgerufen wird
+
+### Schritt 0 – PFLICHT: Produktions-DB holen
+
+Die Live-DB ist die Quelle der Wahrheit (Redaktion pflegt im Live-Admin).
+Bevor du irgendetwas anlegst, IMMER zuerst:
+
+```bash
+./scripts/pull-prod-db.sh
+```
+
+Erst wenn der Pull erfolgreich war («Fertig. Lokale DB = Produktionsstand»),
+mit Schritt 1 weitermachen. Und am Ende daran erinnern: Das neue Team muss
+anschliessend auch in die Produktion deployt werden (Muster:
+`deploy/deploy-migration.sh` — Theme per rsync, DB-Änderungen über ein
+token-geschütztes Web-Import-Skript).
 
 ### Schritt 1 – Argumente auswerten
 
@@ -102,10 +117,20 @@ docker compose exec wordpress wp post create \
   --post_parent=<ELTERN-ID>
 ```
 
-Seiteninhalt: Erkläre dem Benutzer, dass die Seite zunächst leer ist und folgende Bausteine manuell ergänzt werden sollten:
-- SportsPress-Widget: Kader-Tabelle (`[sp_list_players]` oder Block)
-- iFrame: ifv.ch-Matchcenter für Spielplan/Tabelle
-- Tickaroo-Liveticker-Embed (falls vorhanden)
+Seiteninhalt (Stand Juli 2026, Feld-System): Junioren-Teamseiten nutzen die
+Vorlage `page-junioren-team.php` — direkt zuweisen:
+
+```bash
+docker compose exec wordpress wp post meta update <SEITEN-ID> _wp_page_template page-junioren-team.php
+```
+
+Die Inhalte (Teamname, Teamfoto, Betreuerstab, Team-Sponsoren) werden dann
+in der Feld-Box **«Seiteninhalte»** im Seiten-Editor gepflegt (Listenfelder:
+eine Zeile pro Eintrag, `|`-getrennt). Setze als Editor-Inhalt den üblichen
+Pflege-Hinweis (siehe andere Teamseiten). Aktive-Teams haben eigene
+Vorlagen (`page-1mannschaft.php` etc.) — für ein neues Aktiv-Team die
+passende bestehende Vorlage als Muster kopieren und in
+`inc/fcs-fields-teams-aktiv.php` registrieren.
 
 ### Schritt 5 – Navigation prüfen
 
@@ -129,9 +154,9 @@ Zeige am Ende eine Tabelle:
 | Matchcenter-iFrame | ⚠️ noch nicht eingebettet |
 
 Gib ausserdem die direkten Admin-Links aus:
-- Seite bearbeiten: `http://localhost:8090/wp-admin/post.php?post=<SEITEN-ID>&action=edit`
-- Team bearbeiten: `http://localhost:8090/wp-admin/post.php?post=<TEAM-ID>&action=edit`
-- Menüs verwalten: `http://localhost:8090/wp-admin/nav-menus.php`
+- Seite bearbeiten: `http://localhost:8080/wp-admin/post.php?post=<SEITEN-ID>&action=edit`
+- Team bearbeiten: `http://localhost:8080/wp-admin/post.php?post=<TEAM-ID>&action=edit`
+- Menüs verwalten: `http://localhost:8080/wp-admin/nav-menus.php`
 
 ## Fehlerbehandlung
 
