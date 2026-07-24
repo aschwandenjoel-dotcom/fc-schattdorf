@@ -38,10 +38,15 @@ nicht (Hinweis im Skript-Kopf).
 
 ## Deployment
 
-- Theme-Code: rsync (siehe `deploy/deploy-migration.sh` als Muster).
-- DB-Änderungen Richtung live: token-geschütztes Import-Skript im
-  Webroot (Muster: `deploy/fcs-migration-import.php.tpl`); niemals
-  lokale DB blind über die Live-DB stülpen.
+- Theme-Code: `rsync -avz wp-content/themes/fcschattdorf-child/
+  aziwivac@sl1819.web.hostpoint.ch:www/fcschattdorf/wp-content/themes/fcschattdorf-child/`
+  (Cache-Busting via filemtime automatisch). SSH ist für Claude
+  gesperrt — Deploy-Skript vorbereiten, der Nutzer führt es aus.
+- DB-Änderungen Richtung live: token-geschütztes PHP-Skript in den
+  Webroot legen, per HTTPS auslösen, danach löschen (MySQL ist auf
+  Hostpoint nur aus Web-Prozessen erreichbar). Lebendes Beispiel für
+  den Mechanismus: `deploy/fcs-db-export.php.tpl` (Export-Richtung).
+  Niemals die lokale DB blind über die Live-DB stülpen.
 - Nach Live-Import: Verifikations-Checks ~1 Minute warten
   (Hostpoint-Seitencache liefert sonst Fehlalarme).
 
