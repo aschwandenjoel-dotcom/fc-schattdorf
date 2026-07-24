@@ -7,8 +7,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-/* ── Chronik-Inhaltstyp (Vereinsgeschichte) ───────────────────────── */
-require_once __DIR__ . '/inc/fcs-chronik.php';
+/* ── Module: Inhaltstypen & pflegbare Seitenfelder (inc/fcs-*.php) ──
+   Jede Datei ist ein in sich geschlossenes Modul (z. B. Chronik-CPT,
+   Seiten-Feldboxen); neue Module werden automatisch geladen. */
+foreach ( glob( __DIR__ . '/inc/fcs-*.php' ) as $fcsh_module ) {
+	require_once $fcsh_module;
+}
+unset( $fcsh_module );
 
 /* ── Helfer: URL einer Seite per Pfad ─────────────────────────────── */
 if ( ! function_exists( 'fcsh_page_url' ) ) {

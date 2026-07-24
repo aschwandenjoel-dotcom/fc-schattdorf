@@ -2,6 +2,9 @@
 /**
  * Template Name: Vorfall melden
  * Template Post Type: page
+ *
+ * Texte/Kontakte werden über die Feld-Box «Seiteninhalte» gepflegt
+ * (inc/fcs-page-fields.php); das Layout kommt aus der Vorlage.
  */
 defined( 'ABSPATH' ) || exit;
 
@@ -14,6 +17,26 @@ add_action( 'wp_enqueue_scripts', function () {
 add_filter( 'body_class', function ( $c ) { $c[] = 'fcx-wine-page'; return $c; } );
 
 get_header();
+
+$intro      = fcs_pf( 'vf_intro', 'Der FC Schattdorf nimmt den Schutz aller Vereinsmitglieder — insbesondere der Kinder und Jugendlichen — sehr ernst. Wer Zeuge eines Vorfalls wird oder einen Verdacht hat, kann diesen vertraulich und wenn gewünscht anonym melden.' );
+$ssi_text   = fcs_pf( 'vf_ssi_text', 'Swiss Sport Integrity ist die unabhängige Anlaufstelle für Ethikvorfälle im Schweizer Sport. Alle Meldungen werden vertraulich behandelt — eine Meldung ist auch vollständig anonym möglich.' );
+$ssi_url    = fcs_pf( 'vf_ssi_url', 'https://swisssportintegrity.integrityline.io' );
+$hotline    = fcs_pf( 'vf_hotline', '+41 31 550 21 31' );
+$hot_zeiten = fcs_pf( 'vf_hotline_zeiten', 'Mo–Fr, 8:30–11:30 und 13:30–16:30 Uhr' );
+$meldebar   = fcs_pf_lines( 'vf_meldebar', array(
+	'Unfaires oder grenzüberschreitendes Verhalten',
+	'Verdacht auf Gewalt oder Missbrauch',
+	'Diskriminierung oder Mobbing',
+	'Verstösse gegen den Verhaltenskodex des FC Schattdorf',
+	'Ethikverstösse und Missstände in der Vereinsstruktur',
+	'Verdacht auf Doping',
+) );
+$lead       = fcs_pf( 'vf_kontakte_lead', 'Für eine erste Auskunft oder wenn jemand innerhalb des Vereins lieber direkt Kontakt aufnehmen möchte, stehen folgende Personen zur Verfügung:' );
+$kontakte   = fcs_pf_lines( 'vf_kontakte', array(
+	'Präsident | Ralph Bomatter | praesident@fcschattdorf.ch | 079 390 42 01',
+	'Administration | Monja Deplazes | admin@fcschattdorf.ch | 078 658 44 34',
+) );
+$notice     = fcs_pf( 'vf_notice', 'Alle Meldungen — intern wie extern — werden absolut vertraulich behandelt. Es besteht keine Pflicht, sich zu identifizieren.' );
 ?>
 
 <div class="fcvf-page">
@@ -27,27 +50,23 @@ get_header();
   <div class="fcvf-content">
 
     <!-- ── Einleitung ── -->
-    <p class="fcvf-intro">
-      Der FC Schattdorf nimmt den Schutz aller Vereinsmitglieder — insbesondere der Kinder und Jugendlichen — sehr ernst. Wer Zeuge eines Vorfalls wird oder einen Verdacht hat, kann diesen vertraulich und wenn gewünscht anonym melden.
-    </p>
+    <p class="fcvf-intro"><?php echo esc_html( $intro ); ?></p>
 
     <!-- ── Swiss Sport Integrity (primärer Kanal) ── -->
     <section class="fcvf-ssi">
       <div class="fcvf-ssi__inner">
         <div class="fcvf-ssi__label">Offizielle Meldestelle</div>
         <h2 class="fcvf-ssi__title">Swiss Sport Integrity</h2>
-        <p class="fcvf-ssi__text">
-          Swiss Sport Integrity ist die unabhängige Anlaufstelle für Ethikvorfälle im Schweizer Sport. Alle Meldungen werden vertraulich behandelt — eine Meldung ist auch vollständig anonym möglich.
-        </p>
+        <p class="fcvf-ssi__text"><?php echo esc_html( $ssi_text ); ?></p>
         <div class="fcvf-ssi__channels">
-          <a class="fcvf-ssi__btn" href="https://swisssportintegrity.integrityline.io" target="_blank" rel="noopener noreferrer">
+          <a class="fcvf-ssi__btn" href="<?php echo esc_url( $ssi_url ); ?>" target="_blank" rel="noopener noreferrer">
             Online melden
             <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg>
           </a>
           <div class="fcvf-ssi__hotline">
             <span class="fcvf-ssi__hotline-label">Hotline</span>
-            <a href="tel:+41315502131" class="fcvf-ssi__hotline-num">+41 31 550 21 31</a>
-            <span class="fcvf-ssi__hotline-hours">Mo–Fr, 8:30–11:30 und 13:30–16:30 Uhr</span>
+            <a href="<?php echo esc_attr( fcsh_tel_href( $hotline ) ); ?>" class="fcvf-ssi__hotline-num"><?php echo esc_html( $hotline ); ?></a>
+            <span class="fcvf-ssi__hotline-hours"><?php echo esc_html( $hot_zeiten ); ?></span>
           </div>
         </div>
         <p class="fcvf-ssi__link-note">
@@ -61,41 +80,40 @@ get_header();
     <section class="fcvf-section">
       <h2 class="fcvf-section__title">Was kann gemeldet werden?</h2>
       <ul class="fcvf-list">
-        <li>Unfaires oder grenzüberschreitendes Verhalten</li>
-        <li>Verdacht auf Gewalt oder Missbrauch</li>
-        <li>Diskriminierung oder Mobbing</li>
-        <li>Verstösse gegen den Verhaltenskodex des FC Schattdorf</li>
-        <li>Ethikverstösse und Missstände in der Vereinsstruktur</li>
-        <li>Verdacht auf Doping</li>
+        <?php foreach ( $meldebar as $item ) : ?>
+          <li><?php echo esc_html( $item ); ?></li>
+        <?php endforeach; ?>
       </ul>
     </section>
 
     <!-- ── Interne Ansprechpersonen ── -->
     <section class="fcvf-section">
       <h2 class="fcvf-section__title">Interne Ansprechpersonen</h2>
-      <p class="fcvf-section__lead">
-        Für eine erste Auskunft oder wenn jemand innerhalb des Vereins lieber direkt Kontakt aufnehmen möchte, stehen folgende Personen zur Verfügung:
-      </p>
+      <p class="fcvf-section__lead"><?php echo esc_html( $lead ); ?></p>
       <div class="fcvf-contacts">
-        <div class="fcvf-contact">
-          <div class="fcvf-contact__role">Präsident</div>
-          <div class="fcvf-contact__name">Ralph Bomatter</div>
-          <a href="mailto:praesident@fcschattdorf.ch" class="fcvf-contact__link">praesident@fcschattdorf.ch</a>
-          <a href="tel:+41793904201" class="fcvf-contact__link">079 390 42 01</a>
-        </div>
-        <div class="fcvf-contact">
-          <div class="fcvf-contact__role">Administration</div>
-          <div class="fcvf-contact__name">Monja Deplazes</div>
-          <a href="mailto:admin@fcschattdorf.ch" class="fcvf-contact__link">admin@fcschattdorf.ch</a>
-          <a href="tel:+41786584434" class="fcvf-contact__link">078 658 44 34</a>
-        </div>
+        <?php foreach ( $kontakte as $line ) :
+            $teile = array_map( 'trim', explode( '|', $line ) );
+            if ( count( $teile ) < 2 ) { continue; }
+            list( $rolle, $name ) = $teile;
+            $mail = $teile[2] ?? '';
+            $tel  = $teile[3] ?? '';
+            ?>
+            <div class="fcvf-contact">
+              <div class="fcvf-contact__role"><?php echo esc_html( $rolle ); ?></div>
+              <div class="fcvf-contact__name"><?php echo esc_html( $name ); ?></div>
+              <?php if ( $mail ) : ?>
+                <a href="mailto:<?php echo esc_attr( $mail ); ?>" class="fcvf-contact__link"><?php echo esc_html( $mail ); ?></a>
+              <?php endif; ?>
+              <?php if ( $tel ) : ?>
+                <a href="<?php echo esc_attr( fcsh_tel_href( $tel ) ); ?>" class="fcvf-contact__link"><?php echo esc_html( $tel ); ?></a>
+              <?php endif; ?>
+            </div>
+        <?php endforeach; ?>
       </div>
     </section>
 
     <!-- ── Vertraulichkeit ── -->
-    <div class="fcvf-notice">
-      Alle Meldungen — intern wie extern — werden absolut vertraulich behandelt. Es besteht keine Pflicht, sich zu identifizieren.
-    </div>
+    <div class="fcvf-notice"><?php echo esc_html( $notice ); ?></div>
 
   </div>
 
