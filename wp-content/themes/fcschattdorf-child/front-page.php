@@ -439,7 +439,8 @@ foreach ( $sponsor_groups as $g ) {
 			</div>
 			<div class="fcx-foot__col">
 				<h3>Newsletter</h3>
-				<a href="<?php echo esc_url( fcsh_page_url( 'kontakt' ) ); ?>">Jetzt anmelden</a>
+				<?php /* Mailchimp-Anmeldung (Original-URL von fcschattdorf.ch) – gleiche URL wie footer.php */ ?>
+				<a href="https://us16.list-manage.com/subscribe?u=e95f0901b53137263a8b4fdd3&amp;id=ed86c0b0f5" target="_blank" rel="noopener noreferrer">Jetzt anmelden</a>
 			</div>
 		</div>
 	</div>
