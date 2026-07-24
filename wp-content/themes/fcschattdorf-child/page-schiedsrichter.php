@@ -11,42 +11,12 @@ add_action( 'wp_enqueue_scripts', function () {
     wp_enqueue_style( 'fcs-schiedsrichter', $uri . '/assets/fcs-schiedsrichter.css', [], filemtime( $dir . '/assets/fcs-schiedsrichter.css' ) );
 }, 5 );
 
-$uploads = wp_upload_dir()['baseurl'] . '/2026/06/';
+/* Schiedsrichter aus der Datenbank (WP-Admin -> Personen, Bereich «Schiedsrichter»).
+   Registrierung des Inhaltstyps und Abfrage: inc/fcs-personen.php */
+$referees = fcs_get_personen( 'schiedsrichter' );
 
-$referees = [
-  [
-    'name'  => 'Stephan Gisler',
-    'role'  => 'SR-INSP – Inspizient',
-    'image' => $uploads . 'Gisler_Stephan.jpg',
-    'ifv'   => 'http://www.ifv.ch/Innerschweizerischer-Fussballverband/Vereine-IFV/Verein-IFV.aspx/v-329/a-sr/',
-  ],
-  [
-    'name'  => 'Ayman Labib Badr',
-    'role'  => 'SR – Anfänger',
-    'image' => null,
-    'ifv'   => 'http://www.ifv.ch/Innerschweizerischer-Fussballverband/Vereine-IFV/Verein-IFV.aspx/v-329/a-sr/',
-  ],
-  [
-    'name'  => 'René Hüglin',
-    'role'  => 'SR – Junioren B / SR – 5. Liga',
-    'image' => $uploads . 'ReneHueglin.jpg',
-    'ifv'   => 'http://www.football.ch/ifv/de/verein.aspx?v=329&sr=425693',
-  ],
-  [
-    'name'  => 'Ukaj Alex',
-    'role'  => 'SR – Junioren',
-    'image' => null,
-    'ifv'   => 'http://www.ifv.ch/Innerschweizerischer-Fussballverband/Vereine-IFV/Verein-IFV.aspx/v-329/a-sr/',
-  ],
-  [
-    'name'  => 'Giuseppe Accardi',
-    'role'  => 'SR – Anfänger',
-    'image' => null,
-    'ifv'   => 'http://www.ifv.ch/Innerschweizerischer-Fussballverband/Vereine-IFV/Verein-IFV.aspx/v-329/a-sr/',
-  ],
-];
-
-$spielleiter = [
+/* Spielleiter: pflegbar in der Feld-Box «Seiteninhalte» (inc/fcs-page-fields.php) */
+$spielleiter = fcs_pf_lines( 'sr_spielleiter', [
   'Baumann Damian',
   'Bissig Ivo',
   'Küttel Thomas',
@@ -58,7 +28,7 @@ $spielleiter = [
   'Zamuner Sandro',
   'Zgraggen André',
   'Zwyssig Sandro',
-];
+] );
 
 get_header();
 ?>
@@ -83,8 +53,9 @@ get_header();
         <?php foreach ( $referees as $ref ) : ?>
           <div class="fcsr-referee">
             <div class="fcsr-referee__photo">
-              <?php if ( $ref['image'] ) : ?>
-                <img src="<?php echo esc_url( $ref['image'] ); ?>"
+              <?php $bild_url = fcs_person_bild_url( $ref['bild'] ); ?>
+              <?php if ( $bild_url ) : ?>
+                <img src="<?php echo esc_url( $bild_url ); ?>"
                      alt="<?php echo esc_attr( $ref['name'] ); ?>">
               <?php else : ?>
                 <div class="fcsr-referee__placeholder">
@@ -97,8 +68,8 @@ get_header();
             </div>
             <div class="fcsr-referee__info">
               <div class="fcsr-referee__name"><?php echo esc_html( $ref['name'] ); ?></div>
-              <div class="fcsr-referee__role"><?php echo esc_html( $ref['role'] ); ?></div>
-              <a class="fcsr-ifv-btn" href="<?php echo esc_url( $ref['ifv'] ); ?>" target="_blank" rel="noopener">
+              <div class="fcsr-referee__role"><?php echo esc_html( $ref['rolle'] ); ?></div>
+              <a class="fcsr-ifv-btn" href="<?php echo esc_url( $ref['link'] ); ?>" target="_blank" rel="noopener">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
                 IFV Daten
               </a>

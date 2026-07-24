@@ -32,6 +32,9 @@ function fcs_page_fields_config() {
 			'he_pdf'         => array( 'label' => 'Anleitung: PDF-Link (URL aus der Mediathek)', 'type' => 'url' ),
 			'he_pdf_label'   => array( 'label' => 'Anleitung: Beschriftung', 'type' => 'text' ),
 		),
+		'page-schiedsrichter.php' => array(
+			'sr_spielleiter' => array( 'label' => 'Spielleiter (ein Name pro Zeile)', 'type' => 'textarea' ),
+		),
 		'page-vorfall-melden.php' => array(
 			'vf_intro'         => array( 'label' => 'Einleitung', 'type' => 'textarea' ),
 			'vf_ssi_text'      => array( 'label' => 'Text Swiss Sport Integrity', 'type' => 'textarea' ),
