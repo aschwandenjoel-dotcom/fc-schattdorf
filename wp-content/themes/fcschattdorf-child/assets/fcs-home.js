@@ -21,11 +21,21 @@
       btn.addEventListener("click", function () { btn.closest(".fcsh-mitem").classList.toggle("is-open"); });
     });
 
-    /* ── Kopfzeile: schrumpft beim Runterscrollen ──── */
+    /* ── Kopfzeile: schrumpft beim Runterscrollen ────
+       Zwei getrennte Schwellen (Hysterese): das Schrumpfen ändert die
+       Header-Höhe um ~24px und damit die Scrollposition – mit nur einer
+       Schwelle kippt der Zustand an genau dieser Stelle endlos hin und
+       her (Flimmern). Der Abstand der Schwellen muss grösser sein als
+       die Höhendifferenz. */
     var hdrEl = document.querySelector("[data-fcx-hdr]");
     if (hdrEl) {
       var setScrolled = function () {
-        hdrEl.classList.toggle("is-scrolled", window.scrollY > 40);
+        var y = window.scrollY;
+        if (y > 80) {
+          hdrEl.classList.add("is-scrolled");
+        } else if (y < 30) {
+          hdrEl.classList.remove("is-scrolled");
+        }
       };
       setScrolled();
       window.addEventListener("scroll", setScrolled, { passive: true });
@@ -59,6 +69,10 @@
         t.addEventListener("click", function () {
           if (t.getAttribute("aria-expanded") === "true") { closeAll(); } else { open(key); }
         });
+        /* Safari fokussiert Buttons nach Mausklick und zeichnet einen
+           Fokusring – bei Zeigereingabe wieder entfokussieren.
+           Tastaturbedienung (Tab/Enter) löst kein pointerup aus. */
+        t.addEventListener("pointerup", function () { t.blur(); });
       });
 
       // Nur schliessen, wenn die Maus die ganze Kopfzeile verlässt
