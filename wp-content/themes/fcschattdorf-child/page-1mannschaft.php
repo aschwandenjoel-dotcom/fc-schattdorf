@@ -13,158 +13,51 @@ add_action( 'wp_enqueue_scripts', function () {
 
 $up = wp_upload_dir()['baseurl'] . '/2026/06/';
 
-// portrait = background portrait photo, badge = small sponsor overlay in corner
-$staff = [
-    ['role' => 'Trainer',        'name' => 'Thomas Zberg',      'portrait' => 'ZbergThomas.jpg',       'badge' => ''],
-    ['role' => 'Co-Trainer',     'name' => 'Reto Infanger',     'portrait' => 'Reto_Infanger.jpg',     'badge' => 'infanger_reto.jpg'],
-    ['role' => 'Torwarttrainer', 'name' => 'Thomas Aschwanden', 'portrait' => 'AschwandenThomas.jpg',  'badge' => 'aschw_tom_orig.jpg'],
-    ['role' => 'Masseur',        'name' => 'Simon Arnold',      'portrait' => 'arnold_simon2122.jpg',  'badge' => ''],
-];
+/* Pflegbare Inhalte aus der Feld-Box «Seiteninhalte» (Definitionen und
+   Helfer in inc/fcs-fields-teams-aktiv.php); Fallback = bisheriger Stand.
+   Bilddateien liegen im Upload-Ordner 2026/06. */
 
-// portrait = player portrait photo, badge = small sponsor logo overlay
-$squad = [
-    'Torhüter' => [
-        ['nr'=>'1',  'name'=>'Gian Gisler',    'portrait'=>'GianGisler.jpg',    'badge'=>'herger_sport.png',         'sponsor'=>'Herger Sport'],
-        ['nr'=>'1',  'name'=>'Yannick Arnold',  'portrait'=>'BoeriArnold.jpg',   'badge'=>'Boeri_I.png',              'sponsor'=>'Zahnarzt-Uri'],
-    ],
-    'Verteidigung' => [
-        ['nr'=>'2',  'name'=>'Elias Muoser',    'portrait'=>'EliasMuoser.jpg',   'badge'=>'Muoser_Elias.jpg',         'sponsor'=>'Kebab Häsli'],
-        ['nr'=>'3',  'name'=>'Tim Gisler',       'portrait'=>'TimGisler.jpg',     'badge'=>'Gisler_Tim.jpg',           'sponsor'=>'Musch'],
-        ['nr'=>'4',  'name'=>'Samuel Wirth',     'portrait'=>'SamuelWirth.jpg',   'badge'=>'saemi.jpg',                'sponsor'=>'KMS AG'],
-        ['nr'=>'5',  'name'=>'Sandro Stampfli',  'portrait'=>'StampfliSandro.jpg','badge'=>'Schelbert_AG.png',         'sponsor'=>'Schelbert AG'],
-        ['nr'=>'18', 'name'=>'Franco Heinzer',   'portrait'=>'HeinzerFranco.jpg', 'badge'=>'franco_heinzer_sp.jpg',   'sponsor'=>'Heidi Nails'],
-    ],
-    'Mittelfeld' => [
-        ['nr'=>'6',  'name'=>'Joachim Gisler',  'portrait'=>'GislerJoachim.jpg', 'badge'=>'Noah_Noel_Joecha.jpg',    'sponsor'=>'Synaxis Altdorf'],
-        ['nr'=>'7',  'name'=>'Noel Gisler',      'portrait'=>'Noel_Gisler.jpg',   'badge'=>'Noah_Noel_Joecha.jpg',    'sponsor'=>'Synaxis Altdorf'],
-        ['nr'=>'8',  'name'=>'Simon Wipfli',     'portrait'=>'SimonWipfli.jpg',   'badge'=>'Wipfli.png',              'sponsor'=>'Dätwyler'],
-        ['nr'=>'9',  'name'=>'Robin Mahrow',     'portrait'=>'MahrowRobin.jpg',   'badge'=>'Mahrow_Robin_Livio.jpg',  'sponsor'=>'Apéro & Pasta Association'],
-        ['nr'=>'10', 'name'=>'Cédric Gisler',    'portrait'=>'CediGisler.jpg',    'badge'=>'Adidach.jpg',             'sponsor'=>'Adidach'],
-        ['nr'=>'11', 'name'=>'Andri Baumann',    'portrait'=>'BaumannAndri.jpg',  'badge'=>'andri_baumann_sp.jpg',    'sponsor'=>'Brand Automobile'],
-        ['nr'=>'13', 'name'=>'Skander Agrebi',   'portrait'=>'AgrebiSkander.jpg', 'badge'=>'skander_II.jpg',          'sponsor'=>'BMBG'],
-        ['nr'=>'15', 'name'=>'Linus Arnold',     'portrait'=>'Linus_Arnold.jpg',  'badge'=>'gotthard_holzbau.png',    'sponsor'=>'Gotthard Holzbau'],
-        ['nr'=>'19', 'name'=>'Nico Zgraggen',    'portrait'=>'Nico_Zgraggen.jpg', 'badge'=>'Muoser_Elias.jpg',        'sponsor'=>'Kebab Häsli'],
-        ['nr'=>'20', 'name'=>'Nico Bissig',      'portrait'=>'NicoBissig.jpg',    'badge'=>'raiffeisen_logo.png',     'sponsor'=>'Raiffeisen'],
-    ],
-    'Sturm' => [
-        ['nr'=>'12', 'name'=>'Livio Gisler',    'portrait'=>'LivioGisler.jpg',   'badge'=>'livio_gisler_sp.jpg',     'sponsor'=>'Energie Uri'],
-        ['nr'=>'14', 'name'=>'Mattia Schorno',  'portrait'=>'MattiaSchorno.jpg', 'badge'=>'zurich_vers.png',         'sponsor'=>'Zurich Insurance'],
-        ['nr'=>'16', 'name'=>'Patrik Stampfli', 'portrait'=>'StampfliPatrik.jpg','badge'=>'Staempf_Paedi.jpg',       'sponsor'=>'Gasthaus Brückli'],
-    ],
-];
+// Betreuerstab: Rolle | Name | Porträtbild | Sponsorlogo (kleines Overlay in der Ecke)
+$staff = fcsh_team_staff( [
+    'Trainer | Thomas Zberg | ZbergThomas.jpg',
+    'Co-Trainer | Reto Infanger | Reto_Infanger.jpg | infanger_reto.jpg',
+    'Torwarttrainer | Thomas Aschwanden | AschwandenThomas.jpg | aschw_tom_orig.jpg',
+    'Masseur | Simon Arnold | arnold_simon2122.jpg',
+] );
 
-$results = [
-    [
-        'date'     => '13.06.2026',
-        'home'     => 'FC Rothenburg',
-        'home_logo'=> 'fc-rothenburg.jpg',
-        'away'     => 'FC Schattdorf',
-        'away_logo'=> 'fc-schattdorf.jpg',
-        'score'    => '2:3',
-        'platz'    => '',
-        'link'     => 'https://www.fcschattdorf.ch/spielberichte/29-meisterschaft/berichte-meisterschaft-23-24/1535-fc-rothenburg-fc-schattdorf-2',
-    ],
-    [
-        'date'     => '19.05.2026',
-        'home'     => 'FC Willisau',
-        'home_logo'=> 'fc-willisau.png',
-        'away'     => 'FC Schattdorf',
-        'away_logo'=> 'fc-schattdorf.jpg',
-        'score'    => '1:2',
-        'platz'    => '',
-        'link'     => 'https://www.fcschattdorf.ch/spielberichte/29-meisterschaft/berichte-meisterschaft-23-24/1525-fc-willisau-fc-schattdorf-4',
-    ],
-    [
-        'date'     => '11.05.2026',
-        'home'     => 'FC Schattdorf',
-        'home_logo'=> 'fc-schattdorf.jpg',
-        'away'     => 'SC Obergeissenstein',
-        'away_logo'=> 'sc-obergeissenstein.jpg',
-        'score'    => '3:3',
-        'platz'    => 'Grüner Wald',
-        'link'     => 'https://www.fcschattdorf.ch/spielberichte/29-meisterschaft/berichte-meisterschaft-23-24/1516-fc-schattdorf-sc-obergeissenstein-5',
-    ],
-    [
-        'date'     => '12.04.2026',
-        'home'     => 'FC Schattdorf',
-        'home_logo'=> 'fc-schattdorf.jpg',
-        'away'     => 'FC Perlen-Buchrain',
-        'away_logo'=> 'fc-perlen-buchrain.png',
-        'score'    => '1:1',
-        'platz'    => 'Grüner Wald',
-        'link'     => 'https://www.fcschattdorf.ch/spielberichte/29-meisterschaft/berichte-meisterschaft-23-24/1484-fc-schattdorf-fc-perlen-buchrain-3',
-    ],
-    [
-        'date'     => '07.04.2026',
-        'home'     => 'FC Gunzwil',
-        'home_logo'=> 'fc-gunzwil.jpg',
-        'away'     => 'FC Schattdorf',
-        'away_logo'=> 'fc-schattdorf.jpg',
-        'score'    => '2:0',
-        'platz'    => '',
-        'link'     => 'https://www.fcschattdorf.ch/spielberichte/29-meisterschaft/berichte-meisterschaft-23-24/1483-fc-gunzwil-fc-schattdorf-4',
-    ],
-    [
-        'date'     => '30.03.2026',
-        'home'     => 'FC Schattdorf',
-        'home_logo'=> 'fc-schattdorf.jpg',
-        'away'     => 'FC Sempach',
-        'away_logo'=> 'fc-sempach.jpg',
-        'score'    => '0:1',
-        'platz'    => '',
-        'link'     => 'https://www.fcschattdorf.ch/spielberichte/29-meisterschaft/berichte-meisterschaft-23-24/1477-fc-schattdorf-fc-sempach-5',
-    ],
-    [
-        'date'     => '30.03.2026',
-        'home'     => 'FC Schattdorf',
-        'home_logo'=> 'fc-schattdorf.jpg',
-        'away'     => 'SC Goldau',
-        'away_logo'=> 'sc-goldau.jpg',
-        'score'    => '1:2',
-        'platz'    => '',
-        'link'     => 'https://www.fcschattdorf.ch/spielberichte/29-meisterschaft/berichte-meisterschaft-23-24/1476-fc-schattdorf-sc-goldau-3',
-    ],
-    [
-        'date'     => '22.03.2026',
-        'home'     => 'FC Eschenbach',
-        'home_logo'=> 'fc-eschenbach.jpg',
-        'away'     => 'FC Schattdorf',
-        'away_logo'=> 'fc-schattdorf.jpg',
-        'score'    => '2:1',
-        'platz'    => '',
-        'link'     => 'https://www.fcschattdorf.ch/spielberichte/29-meisterschaft/berichte-meisterschaft-23-24/1466-fc-eschenbach-fc-schattdorf-4',
-    ],
-    [
-        'date'     => '02.11.2025',
-        'home'     => 'FC Hochdorf',
-        'home_logo'=> 'fc-hochdorf.jpg',
-        'away'     => 'FC Schattdorf',
-        'away_logo'=> 'fc-schattdorf.jpg',
-        'score'    => '2:3',
-        'platz'    => '',
-        'link'     => 'https://www.fcschattdorf.ch/spielberichte/29-meisterschaft/berichte-meisterschaft-23-24/1448-fc-hochdorf-fc-schattdorf',
-    ],
-    [
-        'date'     => '28.10.2025',
-        'home'     => 'FC Schattdorf',
-        'home_logo'=> 'fc-schattdorf.jpg',
-        'away'     => 'FC Rothenburg',
-        'away_logo'=> 'fc-rothenburg.jpg',
-        'score'    => '3:0',
-        'platz'    => 'Grüner Wald',
-        'link'     => 'https://www.fcschattdorf.ch/spielberichte/29-meisterschaft/berichte-meisterschaft-23-24/1442-fc-schattdorf-fc-rothenburg-2',
-    ],
-];
+// Kader: Position | Nr | Name | Porträtbild | Sponsorlogo | Sponsorname (gruppiert nach Position)
+$squad = fcsh_team_kader( [
+    'Torhüter | 1 | Gian Gisler | GianGisler.jpg | herger_sport.png | Herger Sport',
+    'Torhüter | 1 | Yannick Arnold | BoeriArnold.jpg | Boeri_I.png | Zahnarzt-Uri',
+    'Verteidigung | 2 | Elias Muoser | EliasMuoser.jpg | Muoser_Elias.jpg | Kebab Häsli',
+    'Verteidigung | 3 | Tim Gisler | TimGisler.jpg | Gisler_Tim.jpg | Musch',
+    'Verteidigung | 4 | Samuel Wirth | SamuelWirth.jpg | saemi.jpg | KMS AG',
+    'Verteidigung | 5 | Sandro Stampfli | StampfliSandro.jpg | Schelbert_AG.png | Schelbert AG',
+    'Verteidigung | 18 | Franco Heinzer | HeinzerFranco.jpg | franco_heinzer_sp.jpg | Heidi Nails',
+    'Mittelfeld | 6 | Joachim Gisler | GislerJoachim.jpg | Noah_Noel_Joecha.jpg | Synaxis Altdorf',
+    'Mittelfeld | 7 | Noel Gisler | Noel_Gisler.jpg | Noah_Noel_Joecha.jpg | Synaxis Altdorf',
+    'Mittelfeld | 8 | Simon Wipfli | SimonWipfli.jpg | Wipfli.png | Dätwyler',
+    'Mittelfeld | 9 | Robin Mahrow | MahrowRobin.jpg | Mahrow_Robin_Livio.jpg | Apéro & Pasta Association',
+    'Mittelfeld | 10 | Cédric Gisler | CediGisler.jpg | Adidach.jpg | Adidach',
+    'Mittelfeld | 11 | Andri Baumann | BaumannAndri.jpg | andri_baumann_sp.jpg | Brand Automobile',
+    'Mittelfeld | 13 | Skander Agrebi | AgrebiSkander.jpg | skander_II.jpg | BMBG',
+    'Mittelfeld | 15 | Linus Arnold | Linus_Arnold.jpg | gotthard_holzbau.png | Gotthard Holzbau',
+    'Mittelfeld | 19 | Nico Zgraggen | Nico_Zgraggen.jpg | Muoser_Elias.jpg | Kebab Häsli',
+    'Mittelfeld | 20 | Nico Bissig | NicoBissig.jpg | raiffeisen_logo.png | Raiffeisen',
+    'Sturm | 12 | Livio Gisler | LivioGisler.jpg | livio_gisler_sp.jpg | Energie Uri',
+    'Sturm | 14 | Mattia Schorno | MattiaSchorno.jpg | zurich_vers.png | Zurich Insurance',
+    'Sturm | 16 | Patrik Stampfli | StampfliPatrik.jpg | Staempf_Paedi.jpg | Gasthaus Brückli',
+] );
 
-// Team sponsors with names and URLs
-$sponsors = [
-    ['img'=>'muoser-color.png',           'name'=>'Muoser',           'url'=>'https://www.muoser.ch/'],
-    ['img'=>'imholz-sport-color.jpg',     'name'=>'Imholz Sport',     'url'=>'http://imholzsport.ch/'],
-    ['img'=>'axanova.jpg',                'name'=>'Axanova',          'url'=>'http://www.axanova.ch/'],
-    ['img'=>'kebab-huesli.jpg',           'name'=>'Kebab Häsli',      'url'=>''],
-    ['img'=>'gasthaus-brueckli-color.jpg','name'=>'Gasthaus Brückli', 'url'=>'https://www.brueckli.ch/'],
-    ['img'=>'Schelbert_AG.png',           'name'=>'Schelbert AG',     'url'=>'https://www.schelbert-ag.ch/'],
-];
+// Team-Sponsoren: Name | Logo-Bilddatei | Website (Resultate/Matchcenter zeigt die Seite nicht; IFV-Links oben bleiben fest)
+$sponsors = fcsh_team_sponsoren( [
+    'Muoser | muoser-color.png | https://www.muoser.ch/',
+    'Imholz Sport | imholz-sport-color.jpg | http://imholzsport.ch/',
+    'Axanova | axanova.jpg | http://www.axanova.ch/',
+    'Kebab Häsli | kebab-huesli.jpg',
+    'Gasthaus Brückli | gasthaus-brueckli-color.jpg | https://www.brueckli.ch/',
+    'Schelbert AG | Schelbert_AG.png | https://www.schelbert-ag.ch/',
+] );
 
 get_header();
 ?>
@@ -182,6 +75,9 @@ get_header();
       </div>
     </div>
   </div>
+
+  <!-- ── Team-Sponsoren direkt unter dem Titelbild ── -->
+  <?php fcsh_render_team_sponsor_strip( $sponsors, $up ); ?>
 
   <!-- ── Tabelle & Spielplan beim IFV ── -->
   <section class="fc1m-ifv">

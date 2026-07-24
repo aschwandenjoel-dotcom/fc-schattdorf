@@ -18,15 +18,19 @@ add_filter( 'body_class', function( $classes ) {
 
 $up = wp_upload_dir()['baseurl'] . '/2026/06/';
 
-$staff = [
-    ['role' => 'Betreuer', 'name' => 'Yannic Jäger', 'portrait' => 'Silhouette_Male_v2.jpg', 'badge' => ''],
-];
+/* Pflegbare Inhalte aus der Feld-Box «Seiteninhalte» (Definitionen und
+   Helfer in inc/fcs-fields-teams-aktiv.php); Fallback = bisheriger Stand.
+   Bilddateien liegen im Upload-Ordner 2026/06. */
 
-$results = [];
+// Betreuerstab: Rolle | Name | Porträtbild | Sponsorlogo (kleines Overlay in der Ecke)
+$staff = fcsh_team_staff( [
+    'Betreuer | Yannic Jäger | Silhouette_Male_v2.jpg',
+] );
 
-$sponsors = [
-    ['img'=>'sp-binary-one.jpg', 'name'=>'Binary One', 'url'=>'https://www.binaryone.ch/'],
-];
+// Team-Sponsoren: Name | Logo-Bilddatei | Website
+$sponsors = fcsh_team_sponsoren( [
+    'Binary One | sp-binary-one.jpg | https://www.binaryone.ch/',
+] );
 
 $tabelle_url  = 'https://matchcenter.ifv.ch/default.aspx?v=329&oid=7&lng=1&t=58522&a=trr';
 $spielplan_url= 'https://matchcenter.ifv.ch/default.aspx?oid=7&lng=1&v=329&t=58522&ls=24463&sg=67647&a=pt';
@@ -48,6 +52,9 @@ get_header();
       </div>
     </div>
   </div>
+
+  <!-- ── Team-Sponsoren direkt unter dem Titelbild ── -->
+  <?php fcsh_render_team_sponsor_strip( $sponsors, $up ); ?>
 
   <!-- ── Tabelle & Spielplan beim IFV ── -->
   <section class="fc1m-ifv">

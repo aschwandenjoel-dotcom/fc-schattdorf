@@ -2,6 +2,10 @@
 /**
  * Template Name: Trainingslager
  * Template Post Type: page
+ *
+ * Datum, Ort, Kennzahlen, Texte und Kontakte werden über die Feld-Box
+ * «Seiteninhalte» gepflegt (inc/fcs-fields-design1.php); das Layout
+ * kommt aus der Vorlage.
  */
 defined( 'ABSPATH' ) || exit;
 
@@ -14,6 +18,56 @@ add_action( 'wp_enqueue_scripts', function () {
 $up = wp_upload_dir()['baseurl'] . '/2026/06/';
 
 get_header();
+
+$daten        = fcs_pf( 'tl_daten', '20 – 24 Juli 2026' );
+$ort          = fcs_pf( 'tl_ort', 'Zuchwil' );
+$anmelde_url  = fcs_pf( 'tl_anmeldung_url', 'https://www.fcschattdorf.ch/anmeldung-juniorentrainingslager' );
+$facts        = fcs_pf_lines( 'tl_facts', array(
+	'5 | Tage Trainingslager',
+	'2× | Training täglich',
+	'3× | Verpflegung pro Tag',
+	'20–24 | Juli 2026 · Zuchwil',
+) );
+$impressionen = fcs_pf_lines( 'tl_impressionen', array(
+	'Start ins Abenteuer | Top Trainingsbedingungen, bestes Sommerwetter und jede Menge Teamspirit. Das Juniorentrainingslager in Zuchwil startet mit vollem Programm.',
+	'Zweimal täglich auf dem Platz | Morgens und nachmittags wird trainiert – Technik, Taktik und Spielfreude stehen im Mittelpunkt. Unsere Coaches begleiten euch durch jede Einheit.',
+	'Abkühlung nach dem Training | Nach dem Sport gehört die Zeit euch – das Freibad auf dem Campus mit Wasserrutsche sorgt für die perfekte Erholung und unvergessliche Momente.',
+	'Teamgeist & Freundschaft | Fussballtennis, Minigolf und gemeinsame Abende – das Abendprogramm schweisst zusammen. Stimmung garantiert: 10/10!',
+) );
+$campus       = fcs_pf_lines( 'tl_campus', array(
+	'Fussballplätze | Topgepflegte Rasenplätze für zwei tägliche Trainingseinheiten – genügend Platz für alle Juniorenteams gleichzeitig.',
+	'Freibad mit Rutsche | Das Freibad direkt auf dem Gelände bietet nach dem Training die perfekte Abkühlung – mit Wasserrutschbahn für alle.',
+	'Unterkunft | Komfortable Schlafsäle direkt auf dem Gelände – alle Spieler wohnen zusammen und erleben echtes Lagerfeeling.',
+	'Professionelle Küche | Ausgebildete Köche bereiten täglich drei frische Mahlzeiten zu – ausgewogen, abwechslungsreich und auf junge Sportler abgestimmt.',
+	'Freizeitanlagen | Tischtennis, Fussballtennis, Minigolf und mehr. Das Abendprogramm sorgt für Teamgeist und Spass abseits des Platzes.',
+	'Lage Zuchwil | Im Kanton Solothurn, gut erreichbar mit Auto und öffentlichem Verkehr. Anreise-Details werden nach der Anmeldung kommuniziert.',
+) );
+$programm     = fcs_pf_lines( 'tl_programm', array(
+	'Morgen · täglich | Morgentraining | Jeden Morgen steht die erste Trainingseinheit auf dem Programm – mit Fokus auf Technik, Koordination und taktische Grundlagen. Unsere Coaches begleiten euch durch gezielte Übungen und Spielformen.',
+	'3× täglich | Frühstück, Mittag & Abendessen | Täglich dreimal frisch und ausgewogen bekocht von professionellen Köchen – Frühstück als Energiestart, Mittagessen zur Erholung nach dem Training, Abendessen für die Regeneration. Wechselnde Menüs, kein Tag wie der andere.',
+	'Nachmittag · täglich | Nachmittagstraining | Die zweite Trainingseinheit am Nachmittag steht im Zeichen des Spiels – Wettkämpfe, Spielformen und jede Menge Ball. Hier zeigt sich, was am Morgen gelernt wurde.',
+	'Freizeit | Spass mit Freunden | Nach dem Training gehört die Zeit euch. Pool mit Wasserrutsche, Tischtennis, Fussballtennis, Minigolf – das Freizeitprogramm sorgt für neue Freundschaften und unvergessliche Momente abseits des Platzes.',
+	'Letzter Tag · Highlight | Abschlussturnier | Der krönende Abschluss der Woche: Alle Teams treten gegeneinander an – volles Programm, voller Einsatz, grosses Finale. Das Abschlussturnier ist der Höhepunkt jedes Trainingslagers.',
+) );
+$flyer_bild   = fcs_pf( 'tl_flyer_bild', $up . 'IMG_8904.jpg' );
+$flyer_text   = fcs_pf( 'tl_flyer_text', 'Im Flyer findest du alle wichtigen Informationen zum Juniorentrainingslager 2026 – Programm, Kosten, Unterkunft und Anmeldedetails kompakt zusammengefasst.' );
+$cta_lead     = fcs_pf( 'tl_cta_lead', 'Melde dich jetzt an und sichere dir deinen Platz am Juniorentrainingslager des FC Schattdorf. Plätze sind begrenzt!' );
+$kontakte     = fcs_pf_lines( 'tl_kontakte', array(
+	'Sandro Zamuner | Organisator TL Zuchwil | 079 280 77 20',
+	'René Gnos | Organisator TL Zuchwil | 079 420 61 20',
+) );
+
+/* Fotos und Icons bleiben Teil des Designs (Zuordnung nach Reihenfolge) */
+$story_fotos = array(
+	array( 'tl_ig_1.jpg', 'Trainingslager FC Schattdorf' ),
+	array( 'tl_ig_2.jpg', 'Junioren Training FC Schattdorf' ),
+	array( 'tl_ig_3.jpg', 'Abkühlung im Pool' ),
+	array( 'tl_ig_4.jpg', 'FC Schattdorf Junioren Teamgeist' ),
+);
+$campus_icons    = array( '⚽', '🏊', '🛏️', '👨‍🍳', '🏓', '📍' );
+$campus_delays   = array( '', ' tl-reveal-delay-1', ' tl-reveal-delay-2', ' tl-reveal-delay-1', ' tl-reveal-delay-2', ' tl-reveal-delay-3' );
+$programm_icons  = array( '🌅', '🍳', '⚽', '🤝', '🏆' );
+$programm_delays = array( '', ' tl-reveal-delay-1', ' tl-reveal-delay-2', ' tl-reveal-delay-1', ' tl-reveal-delay-2' );
 ?>
 
 <div class="tl-page">
@@ -37,9 +91,9 @@ get_header();
         Junioren<em>Trainingslager</em>
       </h1>
       <div class="tl-hero__dates">
-        <strong>20 – 24 Juli 2026</strong> &nbsp;·&nbsp; Zuchwil
+        <strong><?php echo esc_html( $daten ); ?></strong> &nbsp;·&nbsp; <?php echo esc_html( $ort ); ?>
       </div>
-      <a href="https://www.fcschattdorf.ch/anmeldung-juniorentrainingslager"
+      <a href="<?php echo esc_url( $anmelde_url ); ?>"
          class="tl-hero__cta" target="_blank" rel="noopener">
         Jetzt anmelden
         <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
@@ -58,22 +112,13 @@ get_header();
        FACTS STRIP
   ══════════════════════════════════════════ -->
   <div class="tl-facts">
+    <?php foreach ( $facts as $zeile ) :
+        $teile = array_map( 'trim', explode( '|', $zeile ) ); ?>
     <div class="tl-fact">
-      <div class="tl-fact__num">5</div>
-      <div class="tl-fact__label">Tage Trainingslager</div>
+      <div class="tl-fact__num"><?php echo esc_html( $teile[0] ); ?></div>
+      <div class="tl-fact__label"><?php echo esc_html( $teile[1] ?? '' ); ?></div>
     </div>
-    <div class="tl-fact">
-      <div class="tl-fact__num">2×</div>
-      <div class="tl-fact__label">Training täglich</div>
-    </div>
-    <div class="tl-fact">
-      <div class="tl-fact__num">3×</div>
-      <div class="tl-fact__label">Verpflegung pro Tag</div>
-    </div>
-    <div class="tl-fact">
-      <div class="tl-fact__num">20–24</div>
-      <div class="tl-fact__label">Juli 2026 · Zuchwil</div>
-    </div>
+    <?php endforeach; ?>
   </div>
 
   <!-- ══════════════════════════════════════════
@@ -86,45 +131,20 @@ get_header();
 
       <div class="tl-story-grid">
 
-        <div class="tl-story-item tl-reveal">
+        <?php foreach ( $impressionen as $i => $zeile ) :
+            $teile = array_map( 'trim', explode( '|', $zeile ) );
+            $foto  = $story_fotos[ $i % count( $story_fotos ) ];
+            $delay = ( $i % 4 ) ? ' tl-reveal-delay-' . ( $i % 4 ) : ''; ?>
+        <div class="tl-story-item tl-reveal<?php echo $delay; ?>">
           <div class="tl-story-photo">
-            <img src="<?php echo esc_url( $up . 'tl_ig_1.jpg' ); ?>" alt="Trainingslager FC Schattdorf">
+            <img src="<?php echo esc_url( $up . $foto[0] ); ?>" alt="<?php echo esc_attr( $foto[1] ); ?>">
           </div>
           <div class="tl-story-caption">
-            <div class="tl-story-caption__title">Start ins Abenteuer</div>
-            <div class="tl-story-caption__text">Top Trainingsbedingungen, bestes Sommerwetter und jede Menge Teamspirit. Das Juniorentrainingslager in Zuchwil startet mit vollem Programm.</div>
+            <div class="tl-story-caption__title"><?php echo esc_html( $teile[0] ); ?></div>
+            <div class="tl-story-caption__text"><?php echo esc_html( $teile[1] ?? '' ); ?></div>
           </div>
         </div>
-
-        <div class="tl-story-item tl-reveal tl-reveal-delay-1">
-          <div class="tl-story-photo">
-            <img src="<?php echo esc_url( $up . 'tl_ig_2.jpg' ); ?>" alt="Junioren Training FC Schattdorf">
-          </div>
-          <div class="tl-story-caption">
-            <div class="tl-story-caption__title">Zweimal täglich auf dem Platz</div>
-            <div class="tl-story-caption__text">Morgens und nachmittags wird trainiert – Technik, Taktik und Spielfreude stehen im Mittelpunkt. Unsere Coaches begleiten euch durch jede Einheit.</div>
-          </div>
-        </div>
-
-        <div class="tl-story-item tl-reveal tl-reveal-delay-2">
-          <div class="tl-story-photo">
-            <img src="<?php echo esc_url( $up . 'tl_ig_3.jpg' ); ?>" alt="Abkühlung im Pool">
-          </div>
-          <div class="tl-story-caption">
-            <div class="tl-story-caption__title">Abkühlung nach dem Training</div>
-            <div class="tl-story-caption__text">Nach dem Sport gehört die Zeit euch – das Freibad auf dem Campus mit Wasserrutsche sorgt für die perfekte Erholung und unvergessliche Momente.</div>
-          </div>
-        </div>
-
-        <div class="tl-story-item tl-reveal tl-reveal-delay-3">
-          <div class="tl-story-photo">
-            <img src="<?php echo esc_url( $up . 'tl_ig_4.jpg' ); ?>" alt="FC Schattdorf Junioren Teamgeist">
-          </div>
-          <div class="tl-story-caption">
-            <div class="tl-story-caption__title">Teamgeist & Freundschaft</div>
-            <div class="tl-story-caption__text">Fussballtennis, Minigolf und gemeinsame Abende – das Abendprogramm schweisst zusammen. Stimmung garantiert: 10/10!</div>
-          </div>
-        </div>
+        <?php endforeach; ?>
 
       </div>
     </div>
@@ -136,45 +156,19 @@ get_header();
   <section class="tl-section tl-section--dark">
     <div class="tl-inner">
       <div class="tl-tag tl-reveal">Trainingsstandort</div>
-      <h2 class="tl-heading tl-reveal tl-reveal-delay-1">Campus <em>Zuchwil</em></h2>
+      <h2 class="tl-heading tl-reveal tl-reveal-delay-1">Campus <em><?php echo esc_html( $ort ); ?></em></h2>
 
       <div class="tl-campus-grid">
 
-        <div class="tl-campus-card tl-reveal">
-          <span class="tl-campus-card__icon">⚽</span>
-          <div class="tl-campus-card__title">Fussballplätze</div>
-          <div class="tl-campus-card__text">Topgepflegte Rasenplätze für zwei tägliche Trainingseinheiten – genügend Platz für alle Juniorenteams gleichzeitig.</div>
+        <?php foreach ( $campus as $i => $zeile ) :
+            $teile = array_map( 'trim', explode( '|', $zeile ) );
+            $n     = $i % count( $campus_icons ); ?>
+        <div class="tl-campus-card tl-reveal<?php echo $campus_delays[ $n ]; ?>">
+          <span class="tl-campus-card__icon"><?php echo $campus_icons[ $n ]; ?></span>
+          <div class="tl-campus-card__title"><?php echo esc_html( $teile[0] ); ?></div>
+          <div class="tl-campus-card__text"><?php echo esc_html( $teile[1] ?? '' ); ?></div>
         </div>
-
-        <div class="tl-campus-card tl-reveal tl-reveal-delay-1">
-          <span class="tl-campus-card__icon">🏊</span>
-          <div class="tl-campus-card__title">Freibad mit Rutsche</div>
-          <div class="tl-campus-card__text">Das Freibad direkt auf dem Gelände bietet nach dem Training die perfekte Abkühlung – mit Wasserrutschbahn für alle.</div>
-        </div>
-
-        <div class="tl-campus-card tl-reveal tl-reveal-delay-2">
-          <span class="tl-campus-card__icon">🛏️</span>
-          <div class="tl-campus-card__title">Unterkunft</div>
-          <div class="tl-campus-card__text">Komfortable Schlafsäle direkt auf dem Gelände – alle Spieler wohnen zusammen und erleben echtes Lagerfeeling.</div>
-        </div>
-
-        <div class="tl-campus-card tl-reveal tl-reveal-delay-1">
-          <span class="tl-campus-card__icon">👨‍🍳</span>
-          <div class="tl-campus-card__title">Professionelle Küche</div>
-          <div class="tl-campus-card__text">Ausgebildete Köche bereiten täglich drei frische Mahlzeiten zu – ausgewogen, abwechslungsreich und auf junge Sportler abgestimmt.</div>
-        </div>
-
-        <div class="tl-campus-card tl-reveal tl-reveal-delay-2">
-          <span class="tl-campus-card__icon">🏓</span>
-          <div class="tl-campus-card__title">Freizeitanlagen</div>
-          <div class="tl-campus-card__text">Tischtennis, Fussballtennis, Minigolf und mehr. Das Abendprogramm sorgt für Teamgeist und Spass abseits des Platzes.</div>
-        </div>
-
-        <div class="tl-campus-card tl-reveal tl-reveal-delay-3">
-          <span class="tl-campus-card__icon">📍</span>
-          <div class="tl-campus-card__title">Lage Zuchwil</div>
-          <div class="tl-campus-card__text">Im Kanton Solothurn, gut erreichbar mit Auto und öffentlichem Verkehr. Anreise-Details werden nach der Anmeldung kommuniziert.</div>
-        </div>
+        <?php endforeach; ?>
 
       </div>
     </div>
@@ -190,50 +184,19 @@ get_header();
 
       <div class="tl-program">
 
-        <div class="tl-program-item tl-reveal">
-          <div class="tl-program-item__icon">🌅</div>
+        <?php foreach ( $programm as $i => $zeile ) :
+            $teile = array_map( 'trim', explode( '|', $zeile ) );
+            $n     = $i % count( $programm_icons );
+            $rot   = ( count( $programm ) - 1 === $i ) ? ' tl-program-item--red' : ''; ?>
+        <div class="tl-program-item<?php echo $rot; ?> tl-reveal<?php echo $programm_delays[ $n ]; ?>">
+          <div class="tl-program-item__icon"><?php echo $programm_icons[ $n ]; ?></div>
           <div class="tl-program-item__body">
-            <div class="tl-program-item__label">Morgen · täglich</div>
-            <div class="tl-program-item__title">Morgentraining</div>
-            <div class="tl-program-item__desc">Jeden Morgen steht die erste Trainingseinheit auf dem Programm – mit Fokus auf Technik, Koordination und taktische Grundlagen. Unsere Coaches begleiten euch durch gezielte Übungen und Spielformen.</div>
+            <div class="tl-program-item__label"><?php echo esc_html( $teile[0] ); ?></div>
+            <div class="tl-program-item__title"><?php echo esc_html( $teile[1] ?? '' ); ?></div>
+            <div class="tl-program-item__desc"><?php echo esc_html( $teile[2] ?? '' ); ?></div>
           </div>
         </div>
-
-        <div class="tl-program-item tl-reveal tl-reveal-delay-1">
-          <div class="tl-program-item__icon">🍳</div>
-          <div class="tl-program-item__body">
-            <div class="tl-program-item__label">3× täglich</div>
-            <div class="tl-program-item__title">Frühstück, Mittag & Abendessen</div>
-            <div class="tl-program-item__desc">Täglich dreimal frisch und ausgewogen bekocht von professionellen Köchen – Frühstück als Energiestart, Mittagessen zur Erholung nach dem Training, Abendessen für die Regeneration. Wechselnde Menüs, kein Tag wie der andere.</div>
-          </div>
-        </div>
-
-        <div class="tl-program-item tl-reveal tl-reveal-delay-2">
-          <div class="tl-program-item__icon">⚽</div>
-          <div class="tl-program-item__body">
-            <div class="tl-program-item__label">Nachmittag · täglich</div>
-            <div class="tl-program-item__title">Nachmittagstraining</div>
-            <div class="tl-program-item__desc">Die zweite Trainingseinheit am Nachmittag steht im Zeichen des Spiels – Wettkämpfe, Spielformen und jede Menge Ball. Hier zeigt sich, was am Morgen gelernt wurde.</div>
-          </div>
-        </div>
-
-        <div class="tl-program-item tl-reveal tl-reveal-delay-1">
-          <div class="tl-program-item__icon">🤝</div>
-          <div class="tl-program-item__body">
-            <div class="tl-program-item__label">Freizeit</div>
-            <div class="tl-program-item__title">Spass mit Freunden</div>
-            <div class="tl-program-item__desc">Nach dem Training gehört die Zeit euch. Pool mit Wasserrutsche, Tischtennis, Fussballtennis, Minigolf – das Freizeitprogramm sorgt für neue Freundschaften und unvergessliche Momente abseits des Platzes.</div>
-          </div>
-        </div>
-
-        <div class="tl-program-item tl-program-item--red tl-reveal tl-reveal-delay-2">
-          <div class="tl-program-item__icon">🏆</div>
-          <div class="tl-program-item__body">
-            <div class="tl-program-item__label">Letzter Tag · Highlight</div>
-            <div class="tl-program-item__title">Abschlussturnier</div>
-            <div class="tl-program-item__desc">Der krönende Abschluss der Woche: Alle Teams treten gegeneinander an – volles Programm, voller Einsatz, grosses Finale. Das Abschlussturnier ist der Höhepunkt jedes Trainingslagers.</div>
-          </div>
-        </div>
+        <?php endforeach; ?>
 
       </div>
     </div>
@@ -247,15 +210,15 @@ get_header();
       <div class="tl-flyer-row">
         <div class="tl-flyer-img-wrap tl-reveal">
           <div class="tl-flyer-corner"></div>
-          <img src="<?php echo esc_url( $up . 'IMG_8904.jpg' ); ?>" alt="Trainingslager Flyer FC Schattdorf">
+          <img src="<?php echo esc_url( $flyer_bild ); ?>" alt="Trainingslager Flyer FC Schattdorf">
         </div>
         <div class="tl-reveal tl-reveal-delay-2">
           <div class="tl-tag">Flyer & Infos</div>
           <h2 class="tl-heading">Alles auf<br><em>einen Blick</em></h2>
           <p style="font-size:1.0625rem;color:#6b7280;line-height:1.75;margin:0 0 2rem">
-            Im Flyer findest du alle wichtigen Informationen zum Juniorentrainingslager 2026 – Programm, Kosten, Unterkunft und Anmeldedetails kompakt zusammengefasst.
+            <?php echo esc_html( $flyer_text ); ?>
           </p>
-          <a href="https://www.fcschattdorf.ch/anmeldung-juniorentrainingslager"
+          <a href="<?php echo esc_url( $anmelde_url ); ?>"
              class="tl-cta-btn" target="_blank" rel="noopener">
             Jetzt anmelden
             <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
@@ -275,8 +238,8 @@ get_header();
       <div class="tl-cta-section tl-reveal">
         <div class="tl-tag" style="display:block;text-align:center;border:none;padding-left:0;margin-bottom:1rem">Mitmachen</div>
         <h2 class="tl-heading">Bist du <em>dabei?</em></h2>
-        <p class="tl-cta-lead">Melde dich jetzt an und sichere dir deinen Platz am Juniorentrainingslager des FC Schattdorf. Plätze sind begrenzt!</p>
-        <a href="https://www.fcschattdorf.ch/anmeldung-juniorentrainingslager"
+        <p class="tl-cta-lead"><?php echo esc_html( $cta_lead ); ?></p>
+        <a href="<?php echo esc_url( $anmelde_url ); ?>"
            class="tl-cta-btn" target="_blank" rel="noopener">
           Jetzt anmelden
           <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
@@ -285,20 +248,17 @@ get_header();
         </a>
 
         <div class="tl-contacts">
+          <?php foreach ( $kontakte as $zeile ) :
+              $teile = array_map( 'trim', explode( '|', $zeile ) );
+              $tel   = $teile[2] ?? ''; ?>
           <div class="tl-contact-person">
-            <div class="tl-contact-person__name">Sandro Zamuner</div>
+            <div class="tl-contact-person__name"><?php echo esc_html( $teile[0] ); ?></div>
             <div class="tl-contact-person__detail">
-              Organisator TL Zuchwil<br>
-              <a href="tel:+41792807720">079 280 77 20</a>
+              <?php echo esc_html( $teile[1] ?? '' ); ?><br>
+              <?php if ( $tel ) : ?><a href="<?php echo esc_attr( fcsh_tel_href( $tel ) ); ?>"><?php echo esc_html( $tel ); ?></a><?php endif; ?>
             </div>
           </div>
-          <div class="tl-contact-person">
-            <div class="tl-contact-person__name">René Gnos</div>
-            <div class="tl-contact-person__detail">
-              Organisator TL Zuchwil<br>
-              <a href="tel:+41794206120">079 420 61 20</a>
-            </div>
-          </div>
+          <?php endforeach; ?>
         </div>
       </div>
     </div>

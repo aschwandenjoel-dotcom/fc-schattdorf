@@ -18,15 +18,15 @@ add_filter( 'body_class', function( $classes ) {
 
 $up = wp_upload_dir()['baseurl'] . '/2026/06/';
 
-$staff = [
-    ['role' => 'Betreuerin', 'name' => 'Dominique Scheiber', 'portrait' => 'Domi_Scheiber.jpg', 'badge' => ''],
-];
+/* Betreuerstab & Sponsoren kommen aus der Feld-Box «Seiteninhalte»
+   (inc/fcs-fields-teams-fs.php); leere Felder zeigen die Fallback-Daten. */
+$staff = fcsh_team_staff_from_lines( fcs_pf_lines( 'team_staff', array(
+    'Betreuerin | Dominique Scheiber | Domi_Scheiber.jpg',
+) ) );
 
-$results = [];
-
-$sponsors = [
-    ['img'=>'sp-raiffeisen.png', 'name'=>'Raiffeisen', 'url'=>'https://www.raiffeisen.ch'],
-];
+$sponsors = fcsh_team_sponsors_from_lines( fcs_pf_lines( 'team_sponsoren', array(
+    'Raiffeisen | sp-raiffeisen.png | https://www.raiffeisen.ch',
+) ) );
 
 $tabelle_url  = 'https://matchcenter.ifv.ch/default.aspx?v=326&oid=7&lng=1&t=57596&a=trr';
 $spielplan_url= 'https://matchcenter.ifv.ch/default.aspx?oid=7&lng=1&v=326&t=57596&ls=24614&sg=68064&a=pt';
@@ -48,6 +48,9 @@ get_header();
       </div>
     </div>
   </div>
+
+  <!-- ── Team-Sponsoren direkt unter dem Titelbild ── -->
+  <?php fcsh_render_team_sponsor_strip( $sponsors, $up ); ?>
 
   <!-- ── Tabelle & Spielplan beim IFV ── -->
   <section class="fc1m-ifv">

@@ -2,6 +2,9 @@
 /**
  * Template Name: Goalietraining
  * Template Post Type: page
+ *
+ * Trainingszeiten und Trainer werden über die Feld-Box «Seiteninhalte»
+ * gepflegt (inc/fcs-fields-design2.php); das Layout kommt aus der Vorlage.
  */
 defined( 'ABSPATH' ) || exit;
 
@@ -14,6 +17,16 @@ add_action( 'wp_enqueue_scripts', function () {
 $up = wp_upload_dir()['baseurl'] . '/2026/06/';
 
 get_header();
+
+$zeiten = fcs_pf_lines( 'gt_zeiten', array(
+	'Junioren D & E | Montag · 17:45 – 19:00 Uhr | Hauptplatz Grüner Wald (bei Schönwetter)',
+	'Junioren A, B & C | Montag · 19:00 – 20:00 Uhr | Hauptplatz Grüner Wald (bei Schönwetter)',
+) );
+$trainer = fcs_pf_lines( 'gt_trainer', array(
+	'Luca Aschwanden | Betreuer Goalietraining Kifu | Silhouette_Male_v2.jpg',
+	'Gian Gisler | Betreuer Goalietraining Kifu | GianGisler.jpg',
+	'Raphael Imhof | Torhütertrainer 11er Fussball | Raphael_Imhof.jpg',
+) );
 ?>
 
 <div class="fcji-page">
@@ -32,16 +45,18 @@ get_header();
         <h2>Trainingszeiten & Ort</h2>
       </div>
       <div class="fcji-info-grid">
+        <?php foreach ( $zeiten as $zeile ) :
+            $teile = array_map( 'trim', explode( '|', $zeile ) );
+            if ( count( $teile ) < 2 ) { continue; }
+            ?>
         <div class="fcji-info-card">
-          <div class="fcji-info-card__label">Junioren D &amp; E</div>
-          <div class="fcji-info-card__title">Montag · 17:45 – 19:00 Uhr</div>
-          <div class="fcji-info-card__detail">Hauptplatz Grüner Wald (bei Schönwetter)</div>
+          <div class="fcji-info-card__label"><?php echo esc_html( $teile[0] ); ?></div>
+          <div class="fcji-info-card__title"><?php echo esc_html( $teile[1] ); ?></div>
+          <?php if ( '' !== ( $teile[2] ?? '' ) ) : ?>
+          <div class="fcji-info-card__detail"><?php echo esc_html( $teile[2] ); ?></div>
+          <?php endif; ?>
         </div>
-        <div class="fcji-info-card">
-          <div class="fcji-info-card__label">Junioren A, B &amp; C</div>
-          <div class="fcji-info-card__title">Montag · 19:00 – 20:00 Uhr</div>
-          <div class="fcji-info-card__detail">Hauptplatz Grüner Wald (bei Schönwetter)</div>
-        </div>
+        <?php endforeach; ?>
       </div>
     </div>
   </section>
@@ -53,33 +68,22 @@ get_header();
         <h2>Goalietrainer</h2>
       </div>
       <div class="fcji-person-grid">
+        <?php foreach ( $trainer as $zeile ) :
+            $teile = array_map( 'trim', explode( '|', $zeile ) );
+            if ( count( $teile ) < 2 ) { continue; }
+            list( $name, $rolle ) = $teile;
+            $bild = fcsh_bild_url( $teile[2] ?? '', $up );
+            ?>
         <div class="fcji-card">
           <div class="fcji-card__photo">
-            <img src="<?php echo esc_url( $up . 'Silhouette_Male_v2.jpg' ); ?>" alt="Luca Aschwanden">
+            <img src="<?php echo esc_url( $bild ); ?>" alt="<?php echo esc_attr( $name ); ?>">
           </div>
           <div class="fcji-card__info">
-            <div class="fcji-card__name">Luca Aschwanden</div>
-            <div class="fcji-card__role">Betreuer Goalietraining Kifu</div>
+            <div class="fcji-card__name"><?php echo esc_html( $name ); ?></div>
+            <div class="fcji-card__role"><?php echo esc_html( $rolle ); ?></div>
           </div>
         </div>
-        <div class="fcji-card">
-          <div class="fcji-card__photo">
-            <img src="<?php echo esc_url( $up . 'GianGisler.jpg' ); ?>" alt="Gian Gisler">
-          </div>
-          <div class="fcji-card__info">
-            <div class="fcji-card__name">Gian Gisler</div>
-            <div class="fcji-card__role">Betreuer Goalietraining Kifu</div>
-          </div>
-        </div>
-        <div class="fcji-card">
-          <div class="fcji-card__photo">
-            <img src="<?php echo esc_url( $up . 'Raphael_Imhof.jpg' ); ?>" alt="Raphael Imhof">
-          </div>
-          <div class="fcji-card__info">
-            <div class="fcji-card__name">Raphael Imhof</div>
-            <div class="fcji-card__role">Torhütertrainer 11er Fussball</div>
-          </div>
-        </div>
+        <?php endforeach; ?>
       </div>
     </div>
   </section>

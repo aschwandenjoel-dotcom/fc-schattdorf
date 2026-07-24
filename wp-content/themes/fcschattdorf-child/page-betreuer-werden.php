@@ -2,6 +2,10 @@
 /**
  * Template Name: Betreuer werden
  * Template Post Type: page
+ *
+ * Flyer-Aufruf, Ausbildungsweg und Kontakt werden über die Feld-Box
+ * «Seiteninhalte» gepflegt (inc/fcs-fields-design2.php);
+ * das Layout kommt aus der Vorlage.
  */
 defined( 'ABSPATH' ) || exit;
 
@@ -14,6 +18,22 @@ add_action( 'wp_enqueue_scripts', function () {
 $up = wp_upload_dir()['baseurl'] . '/2026/06/';
 
 get_header();
+
+$flyer_badge = fcs_pf( 'bw_flyer_badge', 'Trainer gesucht!' );
+$flyer_text  = fcs_pf( 'bw_flyer_text', 'Du bist engagiert, liebst Fussball und willst etwas zurückgeben? Der FC Schattdorf sucht laufend motivierte Betreuerinnen und Betreuer für unsere Juniorenteams. Wir unterstützen dich vollumfänglich auf dem Weg zur Trainer-Lizenz.' );
+$flyer_bild  = fcsh_bild_url( fcs_pf( 'bw_flyer_bild', 'Flyer_Trainersuche.jpg' ), $up );
+$schritte    = fcs_pf_lines( 'bw_schritte', array(
+	'Einsteigerkurs | Ab 16 Jahre, 4 Stunden, Kosten übernimmt FC Schattdorf | Obligatorisch für die Teilnahme am C-Basic Diplom. Kein Praxisteil – reine Theorie. Anmeldung erfolgt durch den J+S Coach des Vereins.',
+	'C-Basic Diplom / J+S Leiterkurs Jugendsport | Ab 18 Jahre, 6-tägiger Blockkurs, EO-Entschädigung, Kosten übernimmt FC Schattdorf | Berechtigt zum Trainieren von Junioren A/B/C/D und 3.–5. Liga Aktive, sowie 1./2. Liga Frauen. Schriftliche Theorieprüfung. Alle 2 Jahre Weiterbildungspflicht.',
+	'D-Diplom / J+S Leiterkurs Kindersport | Ab 18 Jahre, 6 Tage / mehrere Module, EO-Entschädigung, Kosten übernimmt FC Schattdorf | Für Trainer von E-, F- und G-Junioren (Kinderfussball). Theorie- und Methodik-Prüfung. Alle 2 Jahre ein Fortbildungsmodul.',
+	'UEFA C-Diplom / J+S Weiterbildung 1 | Voraussetzung: C-Basic Diplom, 2 × 3 Tage, EO-Entschädigung | Weiterführende Lizenz für ambitionierte Trainer. Berechtigt zum Leiten höherer Spielkategorien.',
+	'UEFA B-Diplom / J+S Weiterbildung 2 | Voraussetzung: UEFA C-Diplom, Mehrere Module | Höchste Lizenzstufe im Amateurfussball. Für die Leitung von 1./2. Liga-Mannschaften und höheren Juniorenkategorien.',
+) );
+$k_rolle = fcs_pf( 'bw_kontakt_rolle', 'Ansprechperson & J+S Coach' );
+$k_name  = fcs_pf( 'bw_kontakt_name', 'Karl Arnold' );
+$k_tel   = fcs_pf( 'bw_kontakt_tel', '079 159 82 38' );
+$k_mail  = fcs_pf( 'bw_kontakt_mail', 'tschuedi.kari@gmail.com' );
+$k_note  = fcs_pf( 'bw_kontakt_note', 'Anmeldung für alle Kurse erfolgt durch den J+S Coach. Kurskosten werden vollumfänglich vom FC Schattdorf übernommen.' );
 ?>
 
 <div class="fcji-page">
@@ -27,11 +47,11 @@ get_header();
     <div class="fcji-inner">
       <div class="fcji-flyer-row">
         <div class="fcji-flyer-img">
-          <img src="<?php echo esc_url( $up . 'Flyer_Trainersuche.jpg' ); ?>" alt="Trainer gesucht – FC Schattdorf">
+          <img src="<?php echo esc_url( $flyer_bild ); ?>" alt="Trainer gesucht – FC Schattdorf">
         </div>
         <div class="fcji-flyer-text">
-          <div class="fcji-flyer-badge">Trainer gesucht!</div>
-          <p>Du bist engagiert, liebst Fussball und willst etwas zurückgeben? Der FC Schattdorf sucht laufend motivierte Betreuerinnen und Betreuer für unsere Juniorenteams. Wir unterstützen dich vollumfänglich auf dem Weg zur Trainer-Lizenz.</p>
+          <div class="fcji-flyer-badge"><?php echo esc_html( $flyer_badge ); ?></div>
+          <p><?php echo esc_html( $flyer_text ); ?></p>
         </div>
       </div>
     </div>
@@ -47,71 +67,28 @@ get_header();
 
       <div class="fcji-path">
 
+        <?php foreach ( $schritte as $i => $zeile ) :
+            $teile = array_map( 'trim', explode( '|', $zeile ) );
+            if ( count( $teile ) < 2 ) { continue; }
+            $titel = $teile[0];
+            $tags  = array_values( array_filter( array_map( 'trim', explode( ',', $teile[1] ) ) ) );
+            $desc  = $teile[2] ?? '';
+            ?>
         <div class="fcji-step">
-          <div class="fcji-step__num">1</div>
+          <div class="fcji-step__num"><?php echo (int) $i + 1; ?></div>
           <div class="fcji-step__body">
-            <div class="fcji-step__title">Einsteigerkurs</div>
+            <div class="fcji-step__title"><?php echo esc_html( $titel ); ?></div>
             <div class="fcji-step__meta">
-              <span class="fcji-step__tag">Ab 16 Jahre</span>
-              <span class="fcji-step__tag">4 Stunden</span>
-              <span class="fcji-step__tag">Kosten übernimmt FC Schattdorf</span>
+              <?php foreach ( $tags as $tag ) : ?>
+              <span class="fcji-step__tag"><?php echo esc_html( $tag ); ?></span>
+              <?php endforeach; ?>
             </div>
-            <div class="fcji-step__desc">Obligatorisch für die Teilnahme am C-Basic Diplom. Kein Praxisteil – reine Theorie. Anmeldung erfolgt durch den J+S Coach des Vereins.</div>
+            <?php if ( '' !== $desc ) : ?>
+            <div class="fcji-step__desc"><?php echo esc_html( $desc ); ?></div>
+            <?php endif; ?>
           </div>
         </div>
-
-        <div class="fcji-step">
-          <div class="fcji-step__num">2</div>
-          <div class="fcji-step__body">
-            <div class="fcji-step__title">C-Basic Diplom / J+S Leiterkurs Jugendsport</div>
-            <div class="fcji-step__meta">
-              <span class="fcji-step__tag">Ab 18 Jahre</span>
-              <span class="fcji-step__tag">6-tägiger Blockkurs</span>
-              <span class="fcji-step__tag">EO-Entschädigung</span>
-              <span class="fcji-step__tag">Kosten übernimmt FC Schattdorf</span>
-            </div>
-            <div class="fcji-step__desc">Berechtigt zum Trainieren von Junioren A/B/C/D und 3.–5. Liga Aktive, sowie 1./2. Liga Frauen. Schriftliche Theorieprüfung. Alle 2 Jahre Weiterbildungspflicht.</div>
-          </div>
-        </div>
-
-        <div class="fcji-step">
-          <div class="fcji-step__num">3</div>
-          <div class="fcji-step__body">
-            <div class="fcji-step__title">D-Diplom / J+S Leiterkurs Kindersport</div>
-            <div class="fcji-step__meta">
-              <span class="fcji-step__tag">Ab 18 Jahre</span>
-              <span class="fcji-step__tag">6 Tage / mehrere Module</span>
-              <span class="fcji-step__tag">EO-Entschädigung</span>
-              <span class="fcji-step__tag">Kosten übernimmt FC Schattdorf</span>
-            </div>
-            <div class="fcji-step__desc">Für Trainer von E-, F- und G-Junioren (Kinderfussball). Theorie- und Methodik-Prüfung. Alle 2 Jahre ein Fortbildungsmodul.</div>
-          </div>
-        </div>
-
-        <div class="fcji-step">
-          <div class="fcji-step__num">4</div>
-          <div class="fcji-step__body">
-            <div class="fcji-step__title">UEFA C-Diplom / J+S Weiterbildung 1</div>
-            <div class="fcji-step__meta">
-              <span class="fcji-step__tag">Voraussetzung: C-Basic Diplom</span>
-              <span class="fcji-step__tag">2 × 3 Tage</span>
-              <span class="fcji-step__tag">EO-Entschädigung</span>
-            </div>
-            <div class="fcji-step__desc">Weiterführende Lizenz für ambitionierte Trainer. Berechtigt zum Leiten höherer Spielkategorien.</div>
-          </div>
-        </div>
-
-        <div class="fcji-step">
-          <div class="fcji-step__num">5</div>
-          <div class="fcji-step__body">
-            <div class="fcji-step__title">UEFA B-Diplom / J+S Weiterbildung 2</div>
-            <div class="fcji-step__meta">
-              <span class="fcji-step__tag">Voraussetzung: UEFA C-Diplom</span>
-              <span class="fcji-step__tag">Mehrere Module</span>
-            </div>
-            <div class="fcji-step__desc">Höchste Lizenzstufe im Amateurfussball. Für die Leitung von 1./2. Liga-Mannschaften und höheren Juniorenkategorien.</div>
-          </div>
-        </div>
+        <?php endforeach; ?>
 
       </div>
 
@@ -124,19 +101,19 @@ get_header();
       <div class="fcji-contact-clean">
         <div class="fcji-contact-clean__divider"></div>
         <div class="fcji-contact-clean__inner">
-          <div class="fcji-contact-clean__label">Ansprechperson &amp; J+S Coach</div>
-          <div class="fcji-contact-clean__name">Karl Arnold</div>
+          <div class="fcji-contact-clean__label"><?php echo esc_html( $k_rolle ); ?></div>
+          <div class="fcji-contact-clean__name"><?php echo esc_html( $k_name ); ?></div>
           <div class="fcji-contact-clean__links">
-            <a href="tel:+41791598238" class="fcji-contact-clean__link">
+            <a href="<?php echo esc_attr( fcsh_tel_href( $k_tel ) ); ?>" class="fcji-contact-clean__link">
               <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16.92z"/></svg>
-              079 159 82 38
+              <?php echo esc_html( $k_tel ); ?>
             </a>
-            <a href="mailto:tschuedi.kari@gmail.com" class="fcji-contact-clean__link">
+            <a href="mailto:<?php echo esc_attr( $k_mail ); ?>" class="fcji-contact-clean__link">
               <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-              tschuedi.kari@gmail.com
+              <?php echo esc_html( $k_mail ); ?>
             </a>
           </div>
-          <p class="fcji-contact-clean__note">Anmeldung für alle Kurse erfolgt durch den J+S Coach. Kurskosten werden vollumfänglich vom FC Schattdorf übernommen.</p>
+          <p class="fcji-contact-clean__note"><?php echo esc_html( $k_note ); ?></p>
         </div>
       </div>
     </div>

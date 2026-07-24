@@ -18,16 +18,16 @@ add_filter( 'body_class', function( $classes ) {
 
 $up = wp_upload_dir()['baseurl'] . '/2026/06/';
 
-$staff = [
-    ['role' => 'Betreuerin', 'name' => 'Joelle Schibli', 'portrait' => 'Joelle_Schibli.jpg', 'badge' => ''],
-    ['role' => 'Betreuer',   'name' => 'Daniel Schibli', 'portrait' => 'Daniel_Schibli.jpg', 'badge' => ''],
-];
+/* Betreuerstab & Sponsoren kommen aus der Feld-Box «Seiteninhalte»
+   (inc/fcs-fields-teams-fs.php); leere Felder zeigen die Fallback-Daten. */
+$staff = fcsh_team_staff_from_lines( fcs_pf_lines( 'team_staff', array(
+    'Betreuerin | Joelle Schibli | Joelle_Schibli.jpg',
+    'Betreuer | Daniel Schibli | Daniel_Schibli.jpg',
+) ) );
 
-$results = [];
-
-$sponsors = [
-    ['img'=>'sp-teko.png', 'name'=>'TEKO Oberflächentechnik', 'url'=>'https://www.teko-ag.ch/home/'],
-];
+$sponsors = fcsh_team_sponsors_from_lines( fcs_pf_lines( 'team_sponsoren', array(
+    'TEKO Oberflächentechnik | sp-teko.png | https://www.teko-ag.ch/home/',
+) ) );
 
 $tabelle_url  = 'https://matchcenter.ifv.ch/default.aspx?v=329&oid=7&lng=1&t=52691&a=trr';
 $spielplan_url= 'https://matchcenter.ifv.ch/default.aspx?oid=7&lng=1&v=329&t=52691&ls=24616&sg=68066&a=pt';
@@ -49,6 +49,9 @@ get_header();
       </div>
     </div>
   </div>
+
+  <!-- ── Team-Sponsoren direkt unter dem Titelbild ── -->
+  <?php fcsh_render_team_sponsor_strip( $sponsors, $up ); ?>
 
   <!-- ── Tabelle & Spielplan beim IFV ── -->
   <section class="fc1m-ifv">

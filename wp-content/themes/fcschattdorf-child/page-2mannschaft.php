@@ -18,20 +18,24 @@ add_filter( 'body_class', function( $classes ) {
 
 $up = wp_upload_dir()['baseurl'] . '/2026/06/';
 
-$staff = [
-    ['role' => 'Betreuer', 'name' => 'Mathias Lussmann', 'portrait' => 'Mathias_Lussmann_p.jpg', 'badge' => ''],
-    ['role' => 'Betreuer', 'name' => 'Roger Zurfluh',    'portrait' => 'Silhouette_Male_v2.jpg', 'badge' => ''],
-];
+/* Pflegbare Inhalte aus der Feld-Box «Seiteninhalte» (Definitionen und
+   Helfer in inc/fcs-fields-teams-aktiv.php); Fallback = bisheriger Stand.
+   Bilddateien liegen im Upload-Ordner 2026/06. */
 
-$results = [];
+// Betreuerstab: Rolle | Name | Porträtbild | Sponsorlogo (kleines Overlay in der Ecke)
+$staff = fcsh_team_staff( [
+    'Betreuer | Mathias Lussmann | Mathias_Lussmann_p.jpg',
+    'Betreuer | Roger Zurfluh | Silhouette_Male_v2.jpg',
+] );
 
-$sponsors = [
-    ['img'=>'sp-porr.jpg',              'name'=>'PORR',               'url'=>'https://porr.ch/'],
-    ['img'=>'sp-zurich.jpg',            'name'=>'Zurich',             'url'=>'https://www.zurich.ch/'],
-    ['img'=>'sp-albert-burch.jpg',      'name'=>'Albert Burch',       'url'=>'https://www.albertburch.ch/'],
-    ['img'=>'sp-christen-automobile.jpg','name'=>'Christen Automobile','url'=>'https://www.christen-automobile.ch/de'],
-    ['img'=>'sp-arnold-coag.png',       'name'=>'Arnold Co AG',       'url'=>'https://www.arnold-coag.ch/'],
-];
+// Team-Sponsoren: Name | Logo-Bilddatei | Website
+$sponsors = fcsh_team_sponsoren( [
+    'PORR | sp-porr.jpg | https://porr.ch/',
+    'Zurich | sp-zurich.jpg | https://www.zurich.ch/',
+    'Albert Burch | sp-albert-burch.jpg | https://www.albertburch.ch/',
+    'Christen Automobile | sp-christen-automobile.jpg | https://www.christen-automobile.ch/de',
+    'Arnold Co AG | sp-arnold-coag.png | https://www.arnold-coag.ch/',
+] );
 
 $tabelle_url  = 'https://matchcenter.ifv.ch/default.aspx?v=329&oid=7&lng=1&t=30615&a=trr';
 $spielplan_url= 'https://matchcenter.ifv.ch/default.aspx?oid=7&lng=1&v=329&t=30615&ls=24457&sg=67622&a=pt';
@@ -53,6 +57,9 @@ get_header();
       </div>
     </div>
   </div>
+
+  <!-- ── Team-Sponsoren direkt unter dem Titelbild ── -->
+  <?php fcsh_render_team_sponsor_strip( $sponsors, $up ); ?>
 
   <!-- ── Tabelle & Spielplan beim IFV ── -->
   <section class="fc1m-ifv">

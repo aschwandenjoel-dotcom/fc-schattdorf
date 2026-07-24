@@ -14,7 +14,9 @@
 defined( 'ABSPATH' ) || exit;
 
 function fcs_page_fields_config() {
-	return array(
+	/* Weitere Vorlagen können ihre Felder über den Filter
+	   'fcs_page_fields_config' beisteuern (eigene inc/fcs-fields-*.php). */
+	return apply_filters( 'fcs_page_fields_config', array(
 		'page-kontakt.php' => array(
 			'kontakt_adresse' => array( 'label' => 'Adresse (Zeilen per Umbruch)', 'type' => 'textarea' ),
 			'kontakt_tel'     => array( 'label' => 'Telefon (Anzeige, z. B. 041 870 75 65)', 'type' => 'text' ),
@@ -46,7 +48,7 @@ function fcs_page_fields_config() {
 			'vf_kontakte'      => array( 'label' => "Ansprechpersonen (eine pro Zeile: Rolle | Name | E-Mail | Telefon)", 'type' => 'textarea' ),
 			'vf_notice'        => array( 'label' => 'Vertraulichkeits-Hinweis', 'type' => 'textarea' ),
 		),
-	);
+	) );
 }
 
 /* Anzeige-Nummer -> tel:-Link (041 870 75 65 -> tel:+41418707565) */

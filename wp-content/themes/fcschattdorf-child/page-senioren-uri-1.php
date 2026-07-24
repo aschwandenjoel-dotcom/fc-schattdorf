@@ -18,19 +18,19 @@ add_filter( 'body_class', function( $classes ) {
 
 $up = wp_upload_dir()['baseurl'] . '/2026/06/';
 
-$staff = [
-    ['role' => 'Betreuer', 'name' => 'André Schelbert',  'portrait' => 'Silhouette_Male_v2.jpg', 'badge' => ''],
-    ['role' => 'Betreuer', 'name' => 'Marino Britschgi', 'portrait' => 'Silhouette_Male_v2.jpg', 'badge' => ''],
-];
+/* Betreuerstab & Sponsoren kommen aus der Feld-Box «Seiteninhalte»
+   (inc/fcs-fields-teams-fs.php); leere Felder zeigen die Fallback-Daten. */
+$staff = fcsh_team_staff_from_lines( fcs_pf_lines( 'team_staff', array(
+    'Betreuer | André Schelbert | Silhouette_Male_v2.jpg',
+    'Betreuer | Marino Britschgi | Silhouette_Male_v2.jpg',
+) ) );
 
-$results = [];
-
-$sponsors = [
-    ['img'=>'sp-herger-kuechen.jpg',  'name'=>'Herger Küchen',       'url'=>'https://herger-kuechen.ch/'],
-    ['img'=>'sp-movenpick.png',        'name'=>'Mövenpick',           'url'=>'https://www.movenpick.com'],
-    ['img'=>'sp-lindenapotheke.png',  'name'=>'Lindenapotheke',      'url'=>'https://lindenapo.ch/'],
-    ['img'=>'sp-maler-nideroest.jpg', 'name'=>'Maler Nideroest AG',  'url'=>'https://www.maler-nideroest-ag.ch/'],
-];
+$sponsors = fcsh_team_sponsors_from_lines( fcs_pf_lines( 'team_sponsoren', array(
+    'Herger Küchen | sp-herger-kuechen.jpg | https://herger-kuechen.ch/',
+    'Mövenpick | sp-movenpick.png | https://www.movenpick.com',
+    'Lindenapotheke | sp-lindenapotheke.png | https://lindenapo.ch/',
+    'Maler Nideroest AG | sp-maler-nideroest.jpg | https://www.maler-nideroest-ag.ch/',
+) ) );
 
 $tabelle_url  = 'https://matchcenter.ifv.ch/default.aspx?v=329&oid=7&lng=1&t=30616&a=trr';
 $spielplan_url= 'https://matchcenter.ifv.ch/default.aspx?oid=7&lng=1&v=329&t=30616&ls=19998&sg=57728&a=pt';
@@ -52,6 +52,9 @@ get_header();
       </div>
     </div>
   </div>
+
+  <!-- ── Team-Sponsoren direkt unter dem Titelbild ── -->
+  <?php fcsh_render_team_sponsor_strip( $sponsors, $up ); ?>
 
   <!-- ── Tabelle & Spielplan beim IFV ── -->
   <section class="fc1m-ifv">
