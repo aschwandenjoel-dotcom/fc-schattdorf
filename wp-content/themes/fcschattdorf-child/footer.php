@@ -40,7 +40,8 @@ $datenschutz_url = home_url( '/datenschutzerklaerung/' );
 $kontakt_url     = fcsh_page_url( 'kontakt', home_url( '/kontakt/' ) );
 $vorstand_url    = fcsh_page_url( 'vorstand', home_url( '/vorstand/' ) );
 $lageplan_url    = fcsh_page_url( 'anfahrt', home_url( '/anfahrt/' ) );
-$newsletter_url  = 'https://fcschattdorf.us21.list-manage.com/subscribe/post?u=newsletter';
+/* Mailchimp-Anmeldung (Original-URL von fcschattdorf.ch, validiert 24.07.2026) */
+$newsletter_url  = 'https://us16.list-manage.com/subscribe?u=e95f0901b53137263a8b4fdd3&id=ed86c0b0f5';
 ?>
 
 <?php astra_content_bottom(); ?>

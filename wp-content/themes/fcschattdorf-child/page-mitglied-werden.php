@@ -25,7 +25,7 @@ $tracks = fcs_pf_lines( 'mw_tracks', array(
 ) );
 $nl_titel = fcs_pf( 'mw_nl_titel', 'Immer auf dem Laufenden' );
 $nl_text  = fcs_pf( 'mw_nl_text', 'Spielberichte, Veranstaltungen, Neuigkeiten aus dem Verein — direkt in deinem Postfach.' );
-$nl_url   = fcs_pf( 'mw_nl_url', 'http://eepurl.com/fcschattdorf' );
+$nl_url   = fcs_pf( 'mw_nl_url', 'https://us16.list-manage.com/subscribe?u=e95f0901b53137263a8b4fdd3&id=ed86c0b0f5' );
 
 /* Icons je Einstiegsweg (Design, bleibt in der Vorlage) */
 $mw_icons = array(
