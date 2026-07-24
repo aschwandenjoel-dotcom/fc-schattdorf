@@ -426,7 +426,7 @@ body.page-id-41 .entry-header  { padding: 0 !important; margin: 0 !important; }
   line-height: 1.25 !important;
 }
 
-/* Body text */
+/* Body text (div-Container; Absätze kommen aus dem WP-Editor) */
 .fcvg-entry__text {
   font-size: .875rem;
   font-weight: 400;
@@ -434,6 +434,8 @@ body.page-id-41 .entry-header  { padding: 0 !important; margin: 0 !important; }
   color: var(--muted);
   margin: 0;
 }
+.fcvg-entry__text p { margin: 0 0 .6em; font-size: inherit; line-height: inherit; color: inherit; }
+.fcvg-entry__text p:last-child { margin-bottom: 0; }
 
 .fcvg-entry--milestone .fcvg-entry__text {
   color: #4b5563;

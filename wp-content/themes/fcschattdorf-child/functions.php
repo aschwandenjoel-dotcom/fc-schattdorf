@@ -7,6 +7,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/* ── Chronik-Inhaltstyp (Vereinsgeschichte) ───────────────────────── */
+require_once __DIR__ . '/inc/fcs-chronik.php';
+
 /* ── Helfer: URL einer Seite per Pfad ─────────────────────────────── */
 if ( ! function_exists( 'fcsh_page_url' ) ) {
 	function fcsh_page_url( $path, $fallback = '' ) {
