@@ -266,6 +266,32 @@ function fcsh_render_site_header() {
 	<?php
 }
 
+/* ── Team-Sponsorenleiste unter dem Titelbild ─────────────────────
+   Gleiche Optik wie der Sponsorenbalken der Startseite (.fcx-spbar,
+   Styles in fcs-front.css) – nur mit den Sponsoren des Teams. */
+function fcsh_render_team_sponsor_strip( $sponsors, $up ) {
+	if ( empty( $sponsors ) ) {
+		return;
+	}
+	?>
+	<aside class="fcx-spbar" aria-label="Team-Sponsoren">
+		<div class="fcx-spbar__track">
+			<?php foreach ( $sponsors as $sp ) : ?>
+				<?php if ( ! empty( $sp['url'] ) ) : ?>
+					<a class="fcx-spbar__item" href="<?php echo esc_url( $sp['url'] ); ?>" target="_blank" rel="noopener noreferrer">
+						<img src="<?php echo esc_url( $up . $sp['img'] ); ?>" alt="<?php echo esc_attr( $sp['name'] ); ?>" loading="lazy">
+					</a>
+				<?php else : ?>
+					<span class="fcx-spbar__item">
+						<img src="<?php echo esc_url( $up . $sp['img'] ); ?>" alt="<?php echo esc_attr( $sp['name'] ); ?>" loading="lazy">
+					</span>
+				<?php endif; ?>
+			<?php endforeach; ?>
+		</div>
+	</aside>
+	<?php
+}
+
 /* ── Styles & Scripts ─────────────────────────────────────────────── */
 function fcs_enqueue_styles() {
 	$dir = get_stylesheet_directory();
