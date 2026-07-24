@@ -39,7 +39,7 @@ body.page-id-349 .entry-header { padding: 0 !important; margin: 0 !important; }
   left: 0;
   width: 3rem;
   height: 3px;
-  background: var(--fcx-red, #e63124);
+  background: var(--fcx-cream, #f6efe1);
 }
 .fctc-header__sub {
   font-size: 1.0625rem; color: rgba(255,255,255,.72);
@@ -51,8 +51,8 @@ body.page-id-349 .entry-header { padding: 0 !important; margin: 0 !important; }
 
 /* ── Info section ── */
 .fctc-info {
-  background: #fff;
-  border: 1px solid #e5e7eb;
+  background: var(--fcx-cream, #f6efe1);
+  border: 1px solid var(--fcx-cream-line, #e3d8c2);
   border-radius: var(--fcx-radius, 8px);
   padding: 2rem 2.5rem;
   margin-bottom: 2.5rem;
@@ -75,7 +75,7 @@ body.page-id-349 .entry-header { padding: 0 !important; margin: 0 !important; }
   background: var(--fcx-red, #e63124);
 }
 .fctc-info p {
-  color: #374151; line-height: 1.7; margin: 0 0 1rem;
+  color: #443d30; line-height: 1.7; margin: 0 0 1rem;
 }
 .fctc-info p:last-child { margin-bottom: 0; }
 
@@ -87,7 +87,7 @@ body.page-id-349 .entry-header { padding: 0 !important; margin: 0 !important; }
 }
 .fctc-benefits li {
   display: flex; gap: .75rem; align-items: flex-start;
-  background: #f5f1f0; border-radius: var(--fcx-radius, 8px); padding: .875rem 1rem;
+  background: var(--fcx-cream-2, #eee4d0); border-radius: var(--fcx-radius, 8px); padding: .875rem 1rem;
 }
 .fctc-benefits li::before {
   content: ''; display: block; flex-shrink: 0;
@@ -95,7 +95,7 @@ body.page-id-349 .entry-header { padding: 0 !important; margin: 0 !important; }
   background: var(--fcx-red-solid, #d9261c); margin-top: .45rem;
 }
 .fctc-benefits li strong { color: #111; }
-.fctc-benefits li span { color: #6b7280; font-size: .875rem; line-height: 1.5; }
+.fctc-benefits li span { color: var(--fcx-cream-muted, #5f584a); font-size: .875rem; line-height: 1.5; }
 
 /* ── Section title (sitzt direkt auf dem Weinrot-Hintergrund, daher weiss) ── */
 .fctc-section-title {
@@ -114,7 +114,7 @@ body.page-id-349 .entry-header { padding: 0 !important; margin: 0 !important; }
   left: 0;
   width: 3rem;
   height: 3px;
-  background: var(--fcx-red, #e63124);
+  background: var(--fcx-cream, #f6efe1);
 }
 
 /* ── Vorstand grid: 3 columns ── */
@@ -127,8 +127,8 @@ body.page-id-349 .entry-header { padding: 0 !important; margin: 0 !important; }
 
 /* ── Person card ── */
 .fctc-card {
-  background: #fff;
-  border: 1px solid #e5e7eb;
+  background: var(--fcx-cream, #f6efe1);
+  border: 1px solid var(--fcx-cream-line, #e3d8c2);
   border-radius: var(--fcx-radius, 8px);
   overflow: hidden;
   display: flex; flex-direction: column;
@@ -176,24 +176,24 @@ body.page-id-349 .entry-header { padding: 0 !important; margin: 0 !important; }
   color: #111; letter-spacing: .02em; line-height: 1.2;
 }
 .fctc-card__divider {
-  width: 32px; height: 2px; background: #e5e7eb;
+  width: 32px; height: 2px; background: var(--fcx-cream-line, #e3d8c2);
   border-radius: 2px; margin: .25rem 0;
 }
 .fctc-card__email,
 .fctc-card__phone {
   display: flex; align-items: center; gap: .5rem;
-  font-size: .8125rem; color: #6b7280; text-decoration: none;
+  font-size: .8125rem; color: var(--fcx-cream-muted, #5f584a); text-decoration: none;
   line-height: 1.4;
 }
 .fctc-card__email:hover { color: var(--fcx-red-solid, #d9261c); }
 .fctc-card__email svg,
-.fctc-card__phone svg { flex-shrink: 0; color: #9ca3af; }
+.fctc-card__phone svg { flex-shrink: 0; color: #9a8f79; }
 
 /* ── CTA ── */
 .fctc-cta {
-  background: #fff;
-  border: 1px solid #e5e7eb;
-  border-top: 3px solid var(--fcx-red, #e63124);
+  background: var(--fcx-cream, #f6efe1);
+  border: 1px solid var(--fcx-cream-line, #e3d8c2);
+  border-top: 3px solid var(--fcx-red-solid, #d9261c);
   border-radius: var(--fcx-radius, 8px);
   padding: 2rem 2.5rem;
   display: flex; align-items: center; gap: 2rem;
@@ -209,7 +209,7 @@ body.page-id-349 .entry-header { padding: 0 !important; margin: 0 !important; }
   font-size: 1.25rem; font-weight: 800;
   color: #111; margin-bottom: .375rem;
 }
-.fctc-cta__sub { font-size: .9rem; color: #6b7280; line-height: 1.6; }
+.fctc-cta__sub { font-size: .9rem; color: var(--fcx-cream-muted, #5f584a); line-height: 1.6; }
 .fctc-cta__sub a { color: var(--fcx-red-solid, #d9261c); text-decoration: none; }
 .fctc-cta__sub a:hover { text-decoration: underline; }
 

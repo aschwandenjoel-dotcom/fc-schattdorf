@@ -5,10 +5,15 @@
 :root {
   --red:   var(--fcx-red-solid, #d9261c);
   --black: #ffffff;
-  --muted: rgba(255,255,255,.72);
-  --rule:  rgba(255,255,255,.16);
+  --muted: rgba(246,239,225,.75);
+  --rule:  rgba(246,239,225,.22);
   --bg:    var(--fcx-wine, #711712);
-  --surf:  var(--fcx-wine-card, #8d1d16);
+  /* Karten liegen als Creme auf dem Weinrot (Winzer-Muster: Burgund + Papier)
+     und tragen dunklen Text – die Flächen direkt auf Wein bleiben hell. */
+  --surf:       var(--fcx-cream, #f6efe1);
+  --card-ink:   #111111;
+  --card-muted: var(--fcx-cream-muted, #5f584a);
+  --card-rule:  var(--fcx-cream-line, #e3d8c2);
   --f-display: 'Inter', 'Helvetica Neue', Arial, sans-serif;
   --f-body:    'Inter', 'Helvetica Neue', Arial, sans-serif;
 }
@@ -55,7 +60,7 @@ body.page-id-42 .entry-header  { padding: 0 !important; margin: 0 !important; }
   left: 0;
   width: 3rem;
   height: 3px;
-  background: var(--fcx-red, #e63124);
+  background: var(--fcx-cream, #f6efe1);
 }
 
 .fcan-header__sub {
@@ -96,7 +101,7 @@ body.page-id-42 .entry-header  { padding: 0 !important; margin: 0 !important; }
 
 .fcan-location {
   background: var(--surf);
-  border: 1px solid var(--rule);
+  border: 1px solid var(--card-rule);
   border-radius: var(--fcx-radius, 8px);
   padding: 1.75rem 2rem 2rem;
   transition: border-color 220ms var(--fcx-ease, cubic-bezier(.22,1,.36,1)),
@@ -105,7 +110,7 @@ body.page-id-42 .entry-header  { padding: 0 !important; margin: 0 !important; }
 }
 .fcan-location:hover {
   border-color: var(--red);
-  box-shadow: 0 10px 28px rgba(16,18,20,.08);
+  box-shadow: 0 10px 28px rgba(45,15,8,.3);
   transform: translateY(-2px);
 }
 
@@ -118,7 +123,7 @@ body.page-id-42 .entry-header  { padding: 0 !important; margin: 0 !important; }
   font-weight: 600;
   letter-spacing: .22em;
   text-transform: uppercase;
-  color: var(--red);
+  color: var(--fcx-red-press, #c8201a);
   margin-bottom: .5rem;
 }
 
@@ -128,7 +133,7 @@ body.page-id-42 .entry-header  { padding: 0 !important; margin: 0 !important; }
   font-weight: 800 !important;
   letter-spacing: -.01em;
   text-transform: uppercase;
-  color: var(--black) !important;
+  color: var(--card-ink) !important;
   margin: 0 0 1rem !important;
   line-height: 1.1 !important;
 }
@@ -137,9 +142,9 @@ body.page-id-42 .entry-header  { padding: 0 !important; margin: 0 !important; }
   font-style: normal;
   font-size: .875rem;
   line-height: 1.6;
-  color: var(--muted);
+  color: var(--card-muted);
   margin-bottom: 1.5rem;
-  border-bottom: 1px solid var(--rule);
+  border-bottom: 1px solid var(--card-rule);
   padding-bottom: 1.25rem;
 }
 
@@ -161,13 +166,13 @@ body.page-id-42 .entry-header  { padding: 0 !important; margin: 0 !important; }
 }
 
 .fcan-specs li > span:first-child {
-  color: var(--muted);
+  color: var(--card-muted);
   white-space: nowrap;
   flex-shrink: 0;
 }
 
 .fcan-specs li > span:last-child {
-  color: var(--black);
+  color: var(--card-ink);
   font-weight: 500;
   text-align: right;
 }
@@ -232,9 +237,9 @@ body.page-id-42 .entry-header  { padding: 0 !important; margin: 0 !important; }
 /* ── Hinweis ────────────────────────────────────────────────── */
 .fcan-notice {
   font-size: .8125rem;
-  color: var(--muted);
+  color: var(--card-muted);
   line-height: 1.6;
-  border: 1px solid var(--rule);
+  border: 1px solid var(--card-rule);
   padding: .75rem 1rem;
   background: var(--surf);
   border-radius: var(--fcx-radius, 8px);

@@ -26,6 +26,14 @@
   --fcx-wine:#711712;
   --fcx-wine-card:#8d1d16;
   --fcx-wine-card-hi:#a7221b;
+  /* Creme-Familie für Boxen auf Weinrot-Flächen: warmes, gelbstichiges Beige
+     (Winzer-Muster: Burgund als Anker, Creme als Papier) statt Kühlgrau/Weiss.
+     Kontraste geprüft: Ink auf cream 16.5:1, cream-muted 6.2:1, cream auf wine 10:1. */
+  --fcx-cream:#f6efe1;        /* Karten-Grund */
+  --fcx-cream-hi:#fdf9f0;     /* hellste Stufe: Reihen/Felder auf der Karte */
+  --fcx-cream-2:#eee4d0;      /* tiefere Stufe: Icon-Chips, Tint-Zonen */
+  --fcx-cream-line:#e3d8c2;   /* Haarlinien auf Creme */
+  --fcx-cream-muted:#5f584a;  /* gedämpfter Text auf Creme (warm statt Blaugrau) */
 
   --fcx-pad:clamp(1.25rem, 5vw, 5rem);
   --fcx-gap:clamp(1rem, 2vw, 1.75rem);

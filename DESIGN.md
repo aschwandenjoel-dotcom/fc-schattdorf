@@ -99,6 +99,18 @@ Anthrazit-/Grau-/Weisstöne für Struktur und Lesbarkeit.
 - **Vereinsweiss** (`#ffffff`): Textfarbe auf dunklen Flächen, Kartenhintergrund.
 - **Trainingsplatz-Hellgrau** (`#f5f5f5`): Helle Sektionshintergründe.
 
+### Wein + Creme (Weinrot-Seiten)
+Auf den Weinrot-Seiten (`fcx-wine-page`, Hintergrund `--fcx-wine` `#711712`) liegen
+Boxen/Karten in **warmem Creme** statt Kühlgrau oder Weiss — das klassische
+Winzer-Muster (Burgund als Anker, Creme als Papier). Token-Familie in `fcs-front.css`:
+`--fcx-cream` `#f6efe1` (Karten), `--fcx-cream-hi` `#fdf9f0` (Reihen/Felder auf der Karte),
+`--fcx-cream-2` `#eee4d0` (Icon-Chips/Tint-Zonen), `--fcx-cream-line` `#e3d8c2` (Haarlinien),
+`--fcx-cream-muted` `#5f584a` (gedämpfter Text, warm statt Blaugrau).
+**Auf der Weinfläche selbst trägt Creme die Auszeichnung** (Akzentlinien, Eyebrows,
+Trennlinien als Creme-Transparenzen): Rot auf Wein fällt unter 3:1 und ist unsichtbar.
+Rot bleibt der Akzent *innerhalb* der Creme-Boxen (Top-Border, Icons, Labels in
+`--fcx-red-press` für ≥4.5:1).
+
 ### Named Rules
 **The One-Red Rule.** Es gibt genau eine Akzentfarbe: `#e63124`. Keine zweite "sichere"
 Ersatzfarbe, keine Verwässerung. Wo aktuell drei verschiedene Rottöne im CSS existieren

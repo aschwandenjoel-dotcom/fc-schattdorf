@@ -7,13 +7,13 @@
 :root {
   --red:    var(--fcx-red-solid, #d9261c);
   --black:  #111111;
-  --muted:  #6b7280;
-  --rule:   var(--fcx-line, #e7e0de);
+  --muted:  var(--fcx-cream-muted, #5f584a);
+  --rule:   var(--fcx-cream-line, #e3d8c2);
   --bg:     var(--fcx-wine, #711712);
-  --surf:   var(--fcx-mist, #f5f1f0);
+  --surf:   var(--fcx-cream, #f6efe1);
   /* Nur für Elemente, die direkt auf der Weinrot-Fläche liegen (kein eigenes
-     Kartenweiss) – Karten nutzen weiterhin --rule/--black/--muted/--surf. */
-  --rule-onbg: rgba(255,255,255,.18);
+     Kartencreme) – Karten nutzen weiterhin --rule/--black/--muted/--surf. */
+  --rule-onbg: rgba(246,239,225,.22);
   --f-display: 'Inter', 'Helvetica Neue', Arial, sans-serif;
   --f-body:    'Inter', 'Helvetica Neue', Arial, sans-serif;
 }
@@ -58,7 +58,7 @@ body.page-id-43 .entry-header  { padding: 0 !important; margin: 0 !important; }
   left: 0;
   width: 3rem;
   height: 3px;
-  background: var(--fcx-red, #e63124);
+  background: var(--fcx-cream, #f6efe1);
 }
 
 .fcvf-header__sub {
@@ -105,7 +105,7 @@ body.page-id-43 .entry-header  { padding: 0 !important; margin: 0 !important; }
   font-weight: 600;
   letter-spacing: .22em;
   text-transform: uppercase;
-  color: var(--red);
+  color: var(--fcx-red-press, #c8201a);
   margin-bottom: .5rem;
 }
 
@@ -266,7 +266,7 @@ body.page-id-43 .entry-header  { padding: 0 !important; margin: 0 !important; }
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: var(--red);
+  background: var(--fcx-cream, #f6efe1);
 }
 
 /* ── Interne Kontakte ───────────────────────────────────────── */

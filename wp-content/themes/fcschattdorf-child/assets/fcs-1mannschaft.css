@@ -141,11 +141,29 @@ body.page-id-46 .entry-header, body.fcs-team-page .entry-header  { padding: 0 !i
 /* ════════════════════════════════════════════════════════════════
    TABELLE & SPIELPLAN – rotes Band direkt unter dem Titelbild
    ════════════════════════════════════════════════════════════════ */
-/* Dasselbe Rot wie das Termin-Band der Startseite. */
+/* Dasselbe Rot samt Streifenmuster wie das Termin-Band der Startseite. */
 .fc1m-ifv {
-  background: var(--fcx-red-solid, #d9261c);
+  background: var(--fcx-red-deep, #d9261c);
   padding: clamp(1.5rem, 3.5vw, 2.5rem) 0;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
 }
+.fc1m-ifv::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    178deg,
+    rgba(0,0,0,.34) 0px,
+    rgba(0,0,0,.34) 2px,
+    rgba(0,0,0,0) 2px,
+    rgba(0,0,0,0) 9px
+  );
+}
+.fc1m-ifv .fc1m-wrap { position: relative; z-index: 1; }
 .fc1m-ifv__grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
