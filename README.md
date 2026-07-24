@@ -49,8 +49,19 @@ Nach ~1–2 Minuten (beim ersten Mal etwas länger wegen Image-Download):
 docker compose up -d        # starten
 docker compose down         # stoppen (Daten bleiben erhalten)
 ./scripts/wp.sh plugin list # beliebige WP-CLI-Befehle absetzen
-./scripts/reset.sh          # ALLES zurücksetzen (löscht Daten)
+./scripts/backup.sh         # DB + Uploads nach backups/ sichern
+./scripts/reset.sh          # ALLES zurücksetzen (macht vorher automatisch ein Backup)
 ```
+
+**Wichtig:** Datenbank und Uploads liegen nur im Docker-Volume, nicht im Git.
+`./scripts/backup.sh` sichert beides nach `backups/` (letzte 7 werden behalten),
+spiegelt die Sicherung zusätzlich nach OneDrive
+(`~/OneDrive/Urinet/projekte/fc-schattdorf/backup`, anpassbar via
+`BACKUP_REMOTE_DIR` in `.env`) und aktualisiert den versionierten
+Transfer-Dump `fc-schattdorf-db.sql`.
+`reset.sh` erstellt vor dem Löschen automatisch ein Backup. Vor einem
+Rechnerwechsel: einmal `./scripts/backup.sh` ausführen und den ganzen Ordner
+inklusive `backups/` kopieren.
 
 ## Anpassen
 
