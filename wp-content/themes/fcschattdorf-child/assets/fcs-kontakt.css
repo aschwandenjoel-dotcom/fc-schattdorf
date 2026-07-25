@@ -47,6 +47,10 @@ body.page-id-74 .entry-header  { padding: 0 !important; margin: 0 !important; }
   /* Warm-Schwarz statt Weinrot: schliesst nahtlos an die schwarze Navigation an
      und hebt die Titelfläche klar vom weinroten Seitenkörper ab. */
   background: #141010;
+  /* Rote Trennlinie am unteren Rand der Navigation: Nav und Titelfläche sind
+     beide (fast) schwarz und verschmelzen sonst – analog zum roten Balken am
+     oberen Rand des Footers (.fcx-foot border-top). */
+  border-top: 4px solid var(--red);
   padding: clamp(3rem, 7vw, 5.5rem) clamp(1.25rem, 5vw, 5rem) clamp(2rem, 4vw, 3rem);
   /* Trennlinie in Creme: Rot hätte auf dem weinroten Körper darunter zu wenig
      Kontrast und die Grenze verschwämme – Creme setzt sich von Schwarz und Wein ab. */
