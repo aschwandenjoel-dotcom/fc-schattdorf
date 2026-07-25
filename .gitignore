@@ -19,6 +19,10 @@ backups/
 deploy/*
 # Ausnahme: Export-Vorlage ohne Geheimnisse — wird von scripts/pull-prod-db.sh gebraucht
 !deploy/fcs-db-export.php.tpl
+# Ausnahme: Import-Vorlage + Deploy-Skript des Grümpelturnier-News-Beitrags
+# (Token wird erst beim Deploy eingesetzt, enthält selbst keine Geheimnisse)
+!deploy/fcs-import-gruempi.php.tpl
+!deploy/deploy-gruempi.sh
 
 # OS
 .DS_Store
