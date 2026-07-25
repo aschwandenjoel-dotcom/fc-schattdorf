@@ -48,7 +48,9 @@ body.page-id-74 .entry-header  { padding: 0 !important; margin: 0 !important; }
      und hebt die Titelfläche klar vom weinroten Seitenkörper ab. */
   background: #141010;
   padding: clamp(3rem, 7vw, 5.5rem) clamp(1.25rem, 5vw, 5rem) clamp(2rem, 4vw, 3rem);
-  border-bottom: 3px solid var(--red);
+  /* Trennlinie in Creme: Rot hätte auf dem weinroten Körper darunter zu wenig
+     Kontrast und die Grenze verschwämme – Creme setzt sich von Schwarz und Wein ab. */
+  border-bottom: 3px solid var(--surf);
 }
 .fck-header__sub {
   font-size: .8125rem;
