@@ -64,7 +64,8 @@ $sp_weitere  = fcs_pf_lines( 'gt_sponsor_weitere', array(
 	'TCS Uri | ' . $up . 'Sponsor_TCS.jpg | https://www.tcs.ch/de/der-tcs/sektionen/uri/',
 ) );
 $schluss     = fcs_pf( 'gt_anmeldeschluss', '7. Juni 2026' );
-$anmelde_url = fcs_pf( 'gt_anmeldung_url', home_url( '/anmeldung-gruempelturnier' ) );
+/* Fallback Kontakt-Seite: eine Seite /anmeldung-gruempelturnier existiert nicht */
+$anmelde_url = fcs_pf( 'gt_anmeldung_url', fcsh_page_url( 'kontakt', home_url( '/kontakt/' ) ) );
 $cta_titel   = fcs_pf_lines( 'gt_cta_titel', array( 'Dabei sein beim', 'Grümpelturnier 2026' ) );
 
 /* Icons des Rahmenprogramms bleiben Teil des Designs (Zuordnung nach Reihenfolge) */

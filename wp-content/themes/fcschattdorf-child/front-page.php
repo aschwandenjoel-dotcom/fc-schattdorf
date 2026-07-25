@@ -449,7 +449,7 @@ foreach ( $sponsor_groups as $g ) {
 		<p>© <?php echo esc_html( date( 'Y' ) ); ?> FC Schattdorf</p>
 		<div>
 			<a href="<?php echo esc_url( fcsh_page_url( 'impressum', '#' ) ); ?>">Impressum</a>
-			<a href="<?php echo esc_url( fcsh_page_url( 'datenschutz', '#' ) ); ?>">Datenschutz</a>
+			<a href="<?php echo esc_url( fcsh_page_url( 'datenschutzerklaerung', home_url( '/datenschutzerklaerung/' ) ) ); ?>">Datenschutz</a>
 		</div>
 	</div>
 </footer>

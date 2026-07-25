@@ -14,7 +14,7 @@ $patronat = [
 $co = [
     ['img' => 'herger-kuechen-gray.png',    'name' => 'Herger Küchen AG',  'url' => 'https://herger-kuechen.ch/'],
     ['img' => 'brand-automobile-gray.png',  'name' => 'Brand Automobile',  'url' => 'https://www.brand-automobile.ch/'],
-    ['img' => 'imholz-sport-gray.png',      'name' => 'Sport Imholz',      'url' => 'http://imholzsport.ch/'],
+    ['img' => 'imholz-sport-gray.png',      'name' => 'Sport Imholz',      'url' => 'https://www.imholzsport.ch/'],
     ['img' => 'Cash.png',                   'name' => 'cash.',              'url' => 'https://cashsport.ch/'],
 ];
 $club = [

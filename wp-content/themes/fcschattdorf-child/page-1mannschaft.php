@@ -133,7 +133,11 @@ get_header();
         <div class="fc1m-player">
           <div class="fc1m-player__photo" style="background-image: url('<?php echo esc_url( $up . $p['portrait'] ); ?>');">
             <?php if ( $p['badge'] ) : ?>
+              <?php if ( $p['sponsor'] ) : /* Sponsor-Badge trägt den Sponsornamen als Alt */ ?>
+            <img src="<?php echo esc_url( $up . $p['badge'] ); ?>" alt="Sponsor: <?php echo esc_attr( $p['sponsor'] ); ?>" class="fc1m-player__badge">
+              <?php else : ?>
             <img src="<?php echo esc_url( $up . $p['badge'] ); ?>" alt="" class="fc1m-player__badge" aria-hidden="true">
+              <?php endif; ?>
             <?php endif; ?>
             <span class="fc1m-player__nr"><?php echo esc_html( $p['nr'] ); ?></span>
           </div>
