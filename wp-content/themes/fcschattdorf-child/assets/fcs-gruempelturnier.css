@@ -249,7 +249,6 @@ body.page-id-72 #primary, body.page-id-72 .entry-content, body.page-id-72 .entry
   box-shadow: 0 2px 12px rgba(0,0,0,.06);
   border-top: 3px solid var(--fcx-red, #e63124);
 }
-.fgt-highlight__icon { font-size: 1.75rem; margin-bottom: .875rem; display: block; }
 .fgt-highlight__title {
   font-size: 1rem; font-weight: 800;
   color: #111; text-transform: uppercase;
