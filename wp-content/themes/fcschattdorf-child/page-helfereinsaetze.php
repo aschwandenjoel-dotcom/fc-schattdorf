@@ -42,16 +42,18 @@ if ( false !== strpos( $portal_html, 'Helferportal' ) ) {
 
 <div class="fche-page">
 
-  <!-- ── Hero ── -->
-  <div class="fche-hero">
-    <img class="fche-hero__img" src="<?php echo esc_url( $up . 'Helferportal1.jpg' ); ?>" alt="Helfereinsätze">
-    <div class="fche-hero__scrim"></div>
-    <div class="fche-hero__text">
-      <h1 class="fche-hero__heading fche-in"><?php the_title(); ?></h1>
-    </div>
-  </div>
+  <!-- ── Titel ── -->
+  <header class="fche-header">
+    <p class="fche-header__sub">Mithelfen</p>
+    <h1 class="fche-header__title fche-in"><?php the_title(); ?></h1>
+  </header>
 
   <div class="fche-content">
+
+    <!-- ── Bild ── -->
+    <div class="fche-hero fche-in">
+      <img class="fche-hero__img" src="<?php echo esc_url( $up . 'Helferportal1.jpg' ); ?>" alt="Helfereinsätze">
+    </div>
 
     <!-- ── Portal-Hinweis ── -->
     <div class="fche-portal fche-in">
