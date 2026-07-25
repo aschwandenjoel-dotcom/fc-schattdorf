@@ -124,7 +124,6 @@ $nav = array(
 		array( 'Senioren Uri I', fcsh_page_url( 'aktive/senioren-uri-1', fcsh_page_url( 'senioren-uri-1' ) ) ),
 	) ),
 	array( 'label' => 'Junioren', 'children' => array(
-		array( 'Übersicht', fcsh_page_url( 'junioren' ) ),
 		array( 'Juniorengeschichte', fcsh_page_url( 'junioren/juniorengeschichte', fcsh_page_url( 'juniorengeschichte' ) ) ),
 		array( 'Organisation', fcsh_page_url( 'junioren/junioren-organisation', fcsh_page_url( 'junioren-organisation' ) ) ),
 		array( 'Teams', fcsh_page_url( 'junioren/teams', fcsh_page_url( 'teams' ) ) ),
