@@ -679,7 +679,15 @@ body.fcx-wine-page #content{background:var(--fcx-wine);}
 .fcsh-parallax__txt h2{font-size:clamp(1.75rem,4vw,3.25rem);letter-spacing:-.025em;}
 
 /* ── FOOTER ────────────────────────────────────────────────── */
-.fcx-foot{background:var(--fcx-ink);color:#fff;border-top:4px solid var(--fcx-red);}
+/* Schrift explizit: auf Unterseiten fehlt die .fcsh-Body-Klasse,
+   der Footer würde sonst die Astra-Systemschrift erben. */
+.fcx-foot{
+  background:var(--fcx-ink);color:#fff;border-top:4px solid var(--fcx-red);
+  font-family:'Inter','Helvetica Neue',Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+.fcx-foot *{box-sizing:border-box;}
+.fcx-foot a{text-decoration:none;}
 .fcx-foot__main{
   display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);
   gap:clamp(2.5rem,5vw,5rem);

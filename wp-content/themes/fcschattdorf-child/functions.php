@@ -300,7 +300,6 @@ function fcs_enqueue_styles() {
 	wp_enqueue_style( 'astra-parent-style', get_template_directory_uri() . '/style.css', array(), wp_get_theme( 'astra' )->get( 'Version' ) );
 	wp_enqueue_style( 'fcs-child-style',    get_stylesheet_uri(), array( 'astra-parent-style' ), wp_get_theme()->get( 'Version' ) );
 	wp_enqueue_style( 'fcs-custom',         $uri . '/assets/custom.css', array( 'fcs-child-style' ), wp_get_theme()->get( 'Version' ) );
-	wp_enqueue_style( 'fcs-footer',         $uri . '/assets/fcs-footer.css', array( 'fcs-child-style' ), filemtime( $dir . '/assets/fcs-footer.css' ) );
 	wp_enqueue_style( 'aos',               'https://unpkg.com/aos@2.3.4/dist/aos.css', array(), '2.3.4' );
 	wp_enqueue_script( 'aos',              'https://unpkg.com/aos@2.3.4/dist/aos.js', array(), '2.3.4', true );
 	wp_add_inline_script( 'aos', 'document.addEventListener("DOMContentLoaded",function(){AOS.init({duration:700,once:false,easing:"ease-out"});});' );
