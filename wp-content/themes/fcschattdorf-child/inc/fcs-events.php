@@ -12,18 +12,21 @@ defined( 'ABSPATH' ) || exit;
 /* ── Inhaltstyp registrieren ──────────────────────────────────── */
 add_action( 'init', function () {
 	register_post_type( 'fcs_event', array(
+		/* Admin-Label «Veranstaltungen», damit es sich von SportsPress
+		   («Events» = Spielbetrieb) unterscheidet. Der CPT-Slug bleibt
+		   fcs_event – Inhalte, URLs und die /events/-Seite unverändert. */
 		'labels' => array(
-			'name'               => 'Events',
-			'singular_name'      => 'Event',
-			'menu_name'          => 'Events',
-			'add_new'            => 'Event hinzufügen',
-			'add_new_item'       => 'Event hinzufügen',
-			'edit_item'          => 'Event bearbeiten',
-			'new_item'           => 'Neues Event',
-			'all_items'          => 'Alle Events',
-			'search_items'       => 'Events durchsuchen',
-			'not_found'          => 'Keine Events gefunden',
-			'not_found_in_trash' => 'Keine Events im Papierkorb',
+			'name'               => 'Veranstaltungen',
+			'singular_name'      => 'Veranstaltung',
+			'menu_name'          => 'Veranstaltungen',
+			'add_new'            => 'Veranstaltung hinzufügen',
+			'add_new_item'       => 'Veranstaltung hinzufügen',
+			'edit_item'          => 'Veranstaltung bearbeiten',
+			'new_item'           => 'Neue Veranstaltung',
+			'all_items'          => 'Alle Veranstaltungen',
+			'search_items'       => 'Veranstaltungen durchsuchen',
+			'not_found'          => 'Keine Veranstaltungen gefunden',
+			'not_found_in_trash' => 'Keine Veranstaltungen im Papierkorb',
 		),
 		/* Keine eigenen Front-URLs – die Ausgabe macht die Seitenvorlage */
 		'public'        => false,
