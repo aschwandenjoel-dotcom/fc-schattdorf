@@ -79,6 +79,7 @@ function fcs_event_datum_teile( $datum ) {
 		'tag'      => date( 'j', $ts ),                                        // 21
 		'mon_kurz' => $kurz[ $m ],                                             // Aug
 		'jahr'     => date( 'Y', $ts ),                                        // 2026
+		'dmy'      => date( 'd.m.Y', $ts ),                                    // 21.08.2026
 		'lang'     => $wochentage[ (int) date( 'w', $ts ) ] . ', '
 		            . date( 'j', $ts ) . '. ' . $monate[ $m ] . ' ' . date( 'Y', $ts ), // Freitag, 21. August 2026
 	);
@@ -198,16 +199,30 @@ add_action( 'pre_get_posts', function ( $q ) {
 	}
 } );
 
-/* ── Abfrage für die Seitenvorlage ────────────────────────────── */
-function fcs_get_events() {
-	$posts = get_posts( array(
+/* ── Abfrage für Seitenvorlage und Startseite ─────────────────────
+   $only_upcoming = true blendet vergangene Events aus (für die Termin-
+   kachel der Startseite); $limit begrenzt die Anzahl (-1 = alle).
+   Die /events/-Seite ruft die Funktion ohne Argumente auf -> alle. */
+function fcs_get_events( $only_upcoming = false, $limit = -1 ) {
+	$args = array(
 		'post_type'      => 'fcs_event',
 		'post_status'    => 'publish',
-		'posts_per_page' => -1,
+		'posts_per_page' => $limit,
 		'meta_key'       => 'fcs_ev_datum',
 		'orderby'        => 'meta_value',
 		'order'          => 'ASC',
-	) );
+	);
+	if ( $only_upcoming ) {
+		$args['meta_query'] = array(
+			array(
+				'key'     => 'fcs_ev_datum',
+				'value'   => date( 'Y-m-d' ),
+				'compare' => '>=',
+				'type'    => 'DATE',
+			),
+		);
+	}
+	$posts = get_posts( $args );
 	$events = array();
 	foreach ( $posts as $p ) {
 		$meta = function ( $key ) use ( $p ) {

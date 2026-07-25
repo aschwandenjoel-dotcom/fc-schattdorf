@@ -563,6 +563,7 @@ body.fcx-wine-page #content{background:var(--fcx-wine);}
 }
 .fcx-event__loc{font-size:.8125rem;color:var(--fcx-muted);margin:0;}
 .fcx-event__full{font-size:.75rem;color:var(--fcx-muted);margin:.15rem 0 0;letter-spacing:.06em;}
+.fcx-event__empty{font-size:.9375rem;color:var(--fcx-muted);margin:0;padding:.5rem 0;}
 
 /* Spielbetrieb: Kacheln statt Linkliste, damit sie auffallen */
 .fcx-spielbetrieb__lbl{
