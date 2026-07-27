@@ -78,10 +78,9 @@ $programm_delays = array( '', ' tl-reveal-delay-1', ' tl-reveal-delay-2', ' tl-r
   <section class="tl-hero">
     <div class="tl-hero__bg">
       <img class="tl-hero__img"
-           src="<?php echo esc_url( $up . 'turnier_kids.jpeg' ); ?>"
+           src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/img/tl-hero.jpg' ); ?>"
            alt="Juniorentrainingslager FC Schattdorf">
     </div>
-    <div class="tl-hero__slash"></div>
 
     <div class="tl-hero__content">
       <div class="tl-hero__eyebrow">
@@ -100,11 +99,6 @@ $programm_delays = array( '', ' tl-reveal-delay-1', ' tl-reveal-delay-2', ' tl-r
           <path d="M5 12h14M12 5l7 7-7 7"/>
         </svg>
       </a>
-    </div>
-
-    <div class="tl-scroll-hint">
-      <span>Scroll</span>
-      <div class="tl-scroll-hint__line"></div>
     </div>
   </section>
 
