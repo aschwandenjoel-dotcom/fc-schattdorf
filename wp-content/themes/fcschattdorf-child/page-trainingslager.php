@@ -53,6 +53,14 @@ $programm     = fcs_pf_lines( 'tl_programm', array(
 	'Letzter Tag · Highlight | Abschlussturnier | Der krönende Abschluss der Woche: Alle Teams treten gegeneinander an – volles Programm, voller Einsatz, grosses Finale. Das Abschlussturnier ist der Höhepunkt jedes Trainingslagers.',
 ) );
 $flyer_bild   = fcs_pf( 'tl_flyer_bild', $tl . 'tl26-flyer.jpg' );
+/* Zeigt das Feld auf ein Upload-Bild, das gar nicht existiert (Uploads werden
+   nicht synchronisiert), das mitgelieferte Theme-Bild verwenden. Uebernommen
+   aus Fabians Fassung, angepasst auf den Theme-Pfad dieser Vorlage. */
+$_ud = wp_upload_dir();
+if ( 0 === strpos( $flyer_bild, $_ud['baseurl'] ) &&
+     ! file_exists( str_replace( $_ud['baseurl'], $_ud['basedir'], $flyer_bild ) ) ) {
+	$flyer_bild = $tl . 'tl26-flyer.jpg';
+}
 $flyer_text   = fcs_pf( 'tl_flyer_text', 'Im Flyer findest du alle wichtigen Informationen zum Juniorentrainingslager 2026 – Programm, Kosten, Unterkunft und Anmeldedetails kompakt zusammengefasst.' );
 $cta_lead     = fcs_pf( 'tl_cta_lead', 'Melde dich jetzt an und sichere dir deinen Platz am Juniorentrainingslager des FC Schattdorf. Plätze sind begrenzt!' );
 $kontakte     = fcs_pf_lines( 'tl_kontakte', array(
