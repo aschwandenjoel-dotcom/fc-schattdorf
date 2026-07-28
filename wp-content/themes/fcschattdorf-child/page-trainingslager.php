@@ -15,8 +15,10 @@ add_action( 'wp_enqueue_scripts', function () {
     wp_enqueue_style( 'fcs-trainingslager', $uri . '/assets/fcs-trainingslager.css', [], filemtime( $dir . '/assets/fcs-trainingslager.css' ) );
 }, 5 );
 
-/* Fotos vom Trainingslager Zuchwil 2026 */
-$tl = wp_upload_dir()['baseurl'] . '/2026/07/';
+/* Fotos vom Trainingslager Zuchwil 2026.
+   Liegen im Theme (nicht in uploads/), damit sie mit dem Repo versioniert und
+   per rsync mitdeployt werden – uploads/ liegt nur im Docker-Volume. */
+$tl = get_stylesheet_directory_uri() . '/assets/img/tl/';
 
 get_header();
 
