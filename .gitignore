@@ -23,6 +23,8 @@ deploy/*
 # (Token wird erst beim Deploy eingesetzt, enthält selbst keine Geheimnisse)
 !deploy/fcs-import-gruempi.php.tpl
 !deploy/deploy-gruempi.sh
+# Ausnahme: Theme-Deploy der Trainingslager-Seite (enthaelt keine Geheimnisse)
+!deploy/deploy-trainingslager.sh
 
 # OS
 .DS_Store
