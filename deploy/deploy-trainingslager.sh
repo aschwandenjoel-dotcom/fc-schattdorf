@@ -69,12 +69,18 @@ fi
 
 cat <<'EOF'
 
-  Noch von Hand, falls nötig:
-  Zeigt der Flyer-Abschnitt live weiterhin das alte Mannschaftsfoto,
-  dann steht auf der Seite das Feld «Flyer: Bild» noch gefüllt. Ein
-  gesetztes Feld schlägt den Standard aus der Vorlage.
+  NOCH EIN SCHRITT VON HAND — ohne ihn bleibt der alte Flyer stehen:
+
+  Auf der Live-Seite ist das Seitenfeld «Flyer: Bild» gefüllt (geprüft:
+  zeigt IMG_8904.jpg, das Mannschaftsfoto). Ein gesetztes Feld schlägt
+  den Standard aus der Vorlage — der Save-the-Date-Flyer erscheint erst,
+  wenn das Feld leer ist:
+
     wp-admin -> Seiten -> Trainingslager -> Box «Seiteninhalte»
-    -> Feld «Flyer: Bild (URL aus der Mediathek)» leeren -> aktualisieren
-  Danach greift der neue Save-the-Date-Flyer aus dem Theme.
+    -> Feld «Flyer: Bild (URL aus der Mediathek)» leeren -> Aktualisieren
+
+  Gegenprobe danach (nach ~60 s wegen Seitencache):
+    curl -s https://fcschattdorf.dynalias.net/junioren/trainingslager/ \
+      | grep -o 'tl26-flyer.jpg\|IMG_8904.jpg' | sort -u
 
 EOF
