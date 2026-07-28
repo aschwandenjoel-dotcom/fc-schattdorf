@@ -218,6 +218,46 @@ body.page-id-59 .entry-header { padding: 0 !important; margin: 0 !important; }
 }
 @keyframes tlPulse { 0%,100%{opacity:.4} 50%{opacity:1} }
 
+/* ── Facts strip ──
+   Gleicher Hintergrund wie «Termine & Spielbetrieb» auf der Startseite
+   (.fcx-agenda): Rot + diagonales Streifenmuster. */
+.tl-facts {
+  background: var(--tl-red);
+  display: flex;
+  overflow: hidden;
+  position: relative;
+  isolation: isolate;
+}
+.tl-facts::before {
+  content: "";
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background-image: repeating-linear-gradient(
+    178deg,
+    rgba(0,0,0,.34) 0px,
+    rgba(0,0,0,.34) 2px,
+    rgba(0,0,0,0) 2px,
+    rgba(0,0,0,0) 9px
+  );
+}
+.tl-fact {
+  position: relative; z-index: 1;
+  flex: 1;
+  padding: 1.75rem 2rem;
+  border-right: 1px solid rgba(255,255,255,.15);
+  display: flex; flex-direction: column; gap: .25rem;
+}
+.tl-fact:last-child { border-right: none; }
+.tl-fact__num {
+  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 2.25rem; font-weight: 900;
+  line-height: 1; color: #fff;
+}
+.tl-fact__label {
+  font-size: .75rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: .1em;
+  color: rgba(255,255,255,.75);
+}
+
 /* ── Section wrapper ── */
 .tl-section { padding: 5rem 0; }
 .tl-section--dark  { background: #f5f6f8; color: var(--tl-black); }
@@ -625,6 +665,8 @@ body.tl-lightbox-open { overflow: hidden; }
   .tl-lightbox__nav--next { right: .5rem; }
 
   .tl-hero { max-height: 700px; }
+  .tl-facts { flex-wrap: wrap; }
+  .tl-fact { flex: 1 1 50%; border-right: 0; border-bottom: 1px solid rgba(255,255,255,.15); }
   .tl-story-grid { grid-template-columns: 1fr; gap: 2rem; }
   .tl-campus-grid { grid-template-columns: 1fr 1fr; }
   .tl-details-grid { grid-template-columns: 1fr; }
@@ -637,6 +679,7 @@ body.tl-lightbox-open { overflow: hidden; }
 
 @media (max-width: 560px) {
   .tl-campus-grid { grid-template-columns: 1fr; }
+  .tl-fact { flex: 1 1 100%; }
   .tl-gallery { grid-template-columns: repeat(2, 1fr); }
 
   /* «Trainingslager» ist das längste Wort und bestimmt die Titelgrösse */

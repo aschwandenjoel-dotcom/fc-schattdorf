@@ -9,10 +9,12 @@
   --red-hi:   var(--fcx-red, #e63124);
   --red-press:var(--fcx-red-press, #c8201a);
   --black:    #111111;
-  --muted:    #6b7280;
-  --rule:     var(--fcx-line, #e7e0de);
-  --bg:       #ffffff;
-  --surf:     var(--fcx-mist, #f5f1f0);
+  --muted:    var(--fcx-cream-muted, #5f584a);
+  --rule:     var(--fcx-cream-line, #e3d8c2);
+  --bg:       var(--fcx-wine, #711712);
+  --surf:     var(--fcx-cream, #f6efe1);
+  --surf-hi:  var(--fcx-cream-hi, #fdf9f0);
+  --surf-deep:var(--fcx-cream-2, #eee4d0);
   --radius:   var(--fcx-radius, 8px);
   --ease:     var(--fcx-ease, cubic-bezier(.22,1,.36,1));
   --f-display: 'Inter', 'Helvetica Neue', Arial, sans-serif;
@@ -43,50 +45,37 @@ body.page-id-44 .entry-header  { padding: 0 !important; margin: 0 !important; }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ── Hero ──────────────────────────────────────────────────────── */
-.fche-hero {
-  position: relative;
-  display: grid;
-  min-height: clamp(280px, 46vw, 480px);
+/* ── Titel ─────────────────────────────────────────────────────── */
+.fche-header {
+  /* Warm-Schwarz statt Weinrot: schliesst nahtlos an die schwarze Navigation an
+     und hebt die Titelfläche klar vom weinroten Seitenkörper ab (wie Kontakt). */
+  background: #141010;
+  border-top: 4px solid var(--red);
+  padding: clamp(3rem, 7vw, 5.5rem) clamp(1.25rem, 5vw, 5rem) clamp(2rem, 4vw, 3rem);
+  /* Trennlinie in Creme: setzt sich von Schwarz und Wein ab. */
+  border-bottom: 3px solid var(--surf);
 }
-/* Helfereinsätze: Hero füllt exakt den Viewport (wie Startseite),
-   abzüglich der Kopfzeile (.fcx-hdr, 100px), die oben mitscrollt */
-body.page-id-44 .fche-hero {
-  height: calc(100vh - 100px);
-  min-height: 500px;
-  overflow: hidden;
-}
-.fche-hero__img,
-.fche-hero__scrim,
-.fche-hero__text {
-  grid-area: 1 / 1;
-}
-.fche-hero__img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-.fche-hero__scrim {
-  background: linear-gradient(to top, rgba(0,0,0,.72) 0%, rgba(0,0,0,.15) 55%, transparent 100%);
-}
-.fche-hero__text {
-  align-self: end;
-  padding: 2.5rem clamp(1.25rem, 5vw, 5rem) 2rem;
-}
-.fche-hero__heading {
-  font-family: var(--f-display) !important;
-  color: #fff !important;
-  font-size: clamp(1.4rem, 3vw, 2.4rem) !important;
-  font-weight: 900 !important;
+.fche-header__sub {
+  font-size: .8125rem;
+  font-weight: 600;
+  letter-spacing: .18em;
   text-transform: uppercase;
-  letter-spacing: .05em;
-  line-height: 1.1 !important;
+  color: var(--surf-deep);
+  margin: 0 0 .75rem;
+}
+.fche-header__title {
+  font-family: var(--f-display) !important;
+  font-size: clamp(2rem, 4.5vw, 3.25rem) !important;
+  font-weight: 900 !important;
+  letter-spacing: -.02em;
+  text-transform: uppercase;
+  color: #fff !important;
   margin: 0 !important;
+  line-height: 1.05 !important;
   position: relative;
   padding-top: 1.4rem;
 }
-.fche-hero__heading::before {
+.fche-header__title::before {
   content: '';
   position: absolute;
   top: 0;
@@ -94,6 +83,21 @@ body.page-id-44 .fche-hero {
   width: 3rem;
   height: 3px;
   background: var(--red-hi);
+}
+
+/* ── Bild (kompakt, nicht mehr über die ganze Breite) ──────────── */
+.fche-hero {
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  margin-bottom: clamp(2rem, 5vw, 2.75rem);
+  box-shadow: 0 16px 40px -28px rgba(0,0,0,.55);
+}
+.fche-hero__img {
+  width: 100%;
+  height: clamp(190px, 32vw, 320px);
+  object-fit: cover;
+  display: block;
 }
 @media (prefers-reduced-motion: no-preference) {
   .fche-hero__img { animation: fche-hero-zoom 900ms var(--ease) both; }
@@ -166,8 +170,21 @@ body.page-id-44 .fche-hero {
   font-weight: 800 !important;
   letter-spacing: -.005em;
   text-transform: uppercase;
-  color: var(--black) !important;
+  /* Auf weinrotem Körper: helle Schrift statt Schwarz. */
+  color: #fff !important;
   margin: 0 0 1.125rem !important;
+  position: relative;
+  padding-left: .9rem;
+}
+.fche-section__title::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: .15em;
+  bottom: .15em;
+  width: 3px;
+  border-radius: 2px;
+  background: var(--red-hi);
 }
 
 /* ── Zielgruppen-Chips ────────────────────────────────────────── */
@@ -183,7 +200,7 @@ body.page-id-44 .fche-hero {
   display: flex;
   align-items: center;
   gap: .625rem;
-  background: #fff;
+  background: var(--surf-hi);
   border: 1px solid var(--rule);
   border-radius: var(--radius);
   padding: .85rem 1rem;
@@ -208,7 +225,7 @@ body.page-id-44 .fche-hero {
   display: flex;
   align-items: center;
   gap: 1rem;
-  background: #fff;
+  background: var(--surf-hi);
   border: 1px solid var(--rule);
   border-radius: var(--radius);
   padding: 1.125rem 1.375rem;
@@ -225,7 +242,7 @@ body.page-id-44 .fche-hero {
   width: 40px;
   height: 40px;
   border-radius: var(--radius);
-  background: var(--surf);
+  background: var(--surf-deep);
   display: grid;
   place-items: center;
   color: var(--red);
@@ -263,7 +280,7 @@ body.page-id-44 .fche-hero {
 
 /* ── Responsive ───────────────────────────────────────────────── */
 @media (max-width: 640px) {
-  .fche-hero__text { padding: 1.75rem 1.25rem 1.5rem; }
+  .fche-header { padding: 3rem 1.25rem 2.25rem; }
   .fche-content { padding: 2.25rem 1.25rem 3.5rem; }
   .fche-eligibility { grid-template-columns: 1fr; }
 }

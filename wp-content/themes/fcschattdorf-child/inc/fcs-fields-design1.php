@@ -30,6 +30,7 @@ add_filter( 'fcs_page_fields_config', function ( $config ) {
 		'tl_daten'         => array( 'label' => 'Datum (Anzeige, z. B. 20 – 24 Juli 2026)', 'type' => 'text' ),
 		'tl_ort'           => array( 'label' => 'Ort (z. B. Zuchwil)', 'type' => 'text' ),
 		'tl_anmeldung_url' => array( 'label' => 'Link zur Anmeldung', 'type' => 'url' ),
+		'tl_facts'         => array( 'label' => 'Kennzahlen-Leiste (eine pro Zeile: Zahl | Beschriftung)', 'type' => 'textarea' ),
 		'tl_impressionen'  => array( 'label' => 'Impressionen (eine pro Zeile: Titel | Text; Reihenfolge entspricht den 4 Fotos)', 'type' => 'textarea' ),
 		'tl_campus'        => array( 'label' => 'Campus-Karten (eine pro Zeile: Titel | Text)', 'type' => 'textarea' ),
 		'tl_programm'      => array( 'label' => 'Programm (eine pro Zeile: Zeitangabe | Titel | Beschreibung; die letzte Zeile wird rot hervorgehoben)', 'type' => 'textarea' ),

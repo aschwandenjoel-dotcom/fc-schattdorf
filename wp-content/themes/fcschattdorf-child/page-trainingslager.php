@@ -25,6 +25,12 @@ get_header();
 $daten        = fcs_pf( 'tl_daten', '20 – 24 Juli 2026' );
 $ort          = fcs_pf( 'tl_ort', 'Zuchwil' );
 $anmelde_url  = fcs_pf( 'tl_anmeldung_url', 'https://www.fcschattdorf.ch/anmeldung-juniorentrainingslager' );
+$facts        = fcs_pf_lines( 'tl_facts', array(
+	'5 | Tage Trainingslager',
+	'2× | Training täglich',
+	'3× | Verpflegung pro Tag',
+	'20–24 | Juli 2026 · Zuchwil',
+) );
 $impressionen = fcs_pf_lines( 'tl_impressionen', array(
 	'Start ins Abenteuer | Top Trainingsbedingungen, bestes Sommerwetter und jede Menge Teamspirit. Das Juniorentrainingslager in Zuchwil startet mit vollem Programm.',
 	'Zweimal täglich auf dem Platz | Morgens und nachmittags wird trainiert – Technik, Taktik und Spielfreude stehen im Mittelpunkt. Unsere Coaches begleiten euch durch jede Einheit.',
@@ -142,6 +148,19 @@ $programm_delays = array( '', ' tl-reveal-delay-1', ' tl-reveal-delay-2', ' tl-r
       <div class="tl-scroll-hint__line"></div>
     </div>
   </section>
+
+  <!-- ══════════════════════════════════════════
+       FACTS STRIP
+  ══════════════════════════════════════════ -->
+  <div class="tl-facts">
+    <?php foreach ( $facts as $zeile ) :
+        $teile = array_map( 'trim', explode( '|', $zeile ) ); ?>
+    <div class="tl-fact">
+      <div class="tl-fact__num"><?php echo esc_html( $teile[0] ); ?></div>
+      <div class="tl-fact__label"><?php echo esc_html( $teile[1] ?? '' ); ?></div>
+    </div>
+    <?php endforeach; ?>
+  </div>
 
   <!-- ══════════════════════════════════════════
        IMPRESSIONEN

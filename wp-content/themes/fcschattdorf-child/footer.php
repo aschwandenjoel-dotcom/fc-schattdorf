@@ -1,47 +1,11 @@
 <?php
+/**
+ * Footer – identisch zum Footer der Startseite (front-page.php, .fcx-foot).
+ * Styles liegen in assets/fcs-front.css (wird auf allen Seiten geladen).
+ */
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-$up      = wp_upload_dir()['baseurl'] . '/2026/06/';
-$uri     = get_stylesheet_directory_uri();
-$logo    = $uri . '/assets/img/fcs-logo-footer.svg';
-
-$haupt = [
-    ['img' => 'muoser-gray.png',            'name' => 'Muoser',           'url' => 'https://www.muoser.ch/'],
-];
-$patronat = [
-    ['img' => 'GAMMA_4in1_CMYK.png',        'name' => 'GAMMA',             'url' => 'https://www.gamma-holding.ch/'],
-];
-$co = [
-    ['img' => 'herger-kuechen-gray.png',    'name' => 'Herger Küchen AG',  'url' => 'https://herger-kuechen.ch/'],
-    ['img' => 'brand-automobile-gray.png',  'name' => 'Brand Automobile',  'url' => 'https://www.brand-automobile.ch/'],
-    ['img' => 'imholz-sport-gray.png',      'name' => 'Sport Imholz',      'url' => 'https://www.imholzsport.ch/'],
-    ['img' => 'Cash.png',                   'name' => 'cash.',              'url' => 'https://cashsport.ch/'],
-];
-$club = [
-    ['img' => 'gasthausbrueckli-gray.png',  'name' => 'Gasthaus Brückli',  'url' => 'https://www.brueckli.ch/'],
-];
-$nachwuchs = [
-    ['img' => 'ewa-gray.png',               'name' => 'EWA energieUri',    'url' => 'https://www.energieuri.ch/'],
-    ['img' => 'logo_ukb-gray.png',          'name' => 'Urner Kantonalbank','url' => 'https://www.ukb.ch'],
-    ['img' => 'arnold-color.svg',           'name' => 'Arnold AG',         'url' => 'https://www.arnoldag.ch/'],
-    ['img' => 'zahnarztpraxisuri-gray.png', 'name' => 'Zahnarzt-URI.ch',   'url' => 'https://zahnarzt-uri.ch/'],
-];
-
-$sp_sections = [
-    ['label' => 'Hauptsponsor',        'items' => $haupt],
-    ['label' => 'Nachwuchs-Patronat',  'items' => $patronat],
-    ['label' => 'Co-Sponsoren',        'items' => $co],
-    ['label' => 'Club-Sponsoren',      'items' => $club],
-    ['label' => 'Nachwuchs-Sponsoren', 'items' => $nachwuchs],
-];
-
-$impressum_url   = home_url( '/impressum/' );
-$datenschutz_url = home_url( '/datenschutzerklaerung/' );
-$kontakt_url     = fcsh_page_url( 'kontakt', home_url( '/kontakt/' ) );
-$vorstand_url    = fcsh_page_url( 'vorstand', home_url( '/vorstand/' ) );
-$lageplan_url    = fcsh_page_url( 'anfahrt', home_url( '/anfahrt/' ) );
-/* Mailchimp-Anmeldung (Original-URL von fcschattdorf.ch, validiert 24.07.2026) */
-$newsletter_url  = 'https://us16.list-manage.com/subscribe?u=e95f0901b53137263a8b4fdd3&id=ed86c0b0f5';
+$logo_svg = get_stylesheet_directory_uri() . '/assets/img/fcs-logo.svg';
 ?>
 
 <?php astra_content_bottom(); ?>
@@ -49,68 +13,56 @@ $newsletter_url  = 'https://us16.list-manage.com/subscribe?u=e95f0901b53137263a8
     </div><!-- #content -->
 <?php astra_content_after(); astra_footer_before(); ?>
 
-<footer class="fcsh-footer">
-  <div class="fcsh-footer__main">
+<footer class="fcx-foot">
+	<div class="fcx-foot__main">
+		<div>
+			<div class="fcx-foot__logo">
+				<a href="<?php echo esc_url( home_url( '/' ) ); ?>"><img src="<?php echo esc_url( $logo_svg ); ?>" alt="FC Schattdorf"></a>
+			</div>
+			<p class="fcx-foot__claim">Seit 1933 für unsere Zukunft am Ball.</p>
+			<div class="fcx-foot__social">
+				<a href="https://www.facebook.com/fcschattdorf.ch/" target="_blank" rel="noopener" aria-label="Facebook"><svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+				<a href="https://www.instagram.com/fcschattdorf1933/" target="_blank" rel="noopener" aria-label="Instagram"><svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+			</div>
+		</div>
 
-    <!-- Left -->
-    <div class="fcsh-footer__left" data-aos="fade-up">
+		<div class="fcx-foot__nav">
+			<div class="fcx-foot__col">
+				<h3>Verein</h3>
+				<a href="<?php echo esc_url( fcsh_page_url( 'verein/vorstand', fcsh_page_url( 'vorstand' ) ) ); ?>">Vorstand</a>
+				<a href="<?php echo esc_url( fcsh_page_url( 'verein/mitglied-werden', fcsh_page_url( 'mitglied-werden' ) ) ); ?>">Mitglied werden</a>
+				<a href="<?php echo esc_url( fcsh_page_url( 'verein/fanshop', fcsh_page_url( 'fanshop' ) ) ); ?>">Fanshop</a>
+				<a href="<?php echo esc_url( fcsh_page_url( 'verein/anfahrt', fcsh_page_url( 'anfahrt' ) ) ); ?>">So finden Sie uns</a>
+			</div>
+			<div class="fcx-foot__col">
+				<h3>Sport</h3>
+				<a href="<?php echo esc_url( fcsh_page_url( 'news' ) ); ?>">News</a>
+				<a href="<?php echo esc_url( fcsh_page_url( 'aktive' ) ); ?>">Aktive</a>
+				<a href="<?php echo esc_url( fcsh_page_url( 'junioren' ) ); ?>">Junioren</a>
+				<a href="<?php echo esc_url( fcsh_page_url( 'events' ) ); ?>">Events</a>
+			</div>
+			<div class="fcx-foot__col">
+				<h3>Mitmachen</h3>
+				<a href="<?php echo esc_url( fcsh_page_url( 'helfereinsaetze' ) ); ?>">Helfereinsätze</a>
+				<a href="<?php echo esc_url( fcsh_page_url( 'sponsoren' ) ); ?>">Sponsoren</a>
+				<a href="<?php echo esc_url( fcsh_page_url( 'kontakt' ) ); ?>">Kontakt</a>
+				<a href="<?php echo esc_url( wp_login_url() ); ?>">Login</a>
+			</div>
+			<div class="fcx-foot__col">
+				<h3>Newsletter</h3>
+				<?php /* Mailchimp-Anmeldung (Original-URL von fcschattdorf.ch) – gleiche URL wie front-page.php */ ?>
+				<a href="https://us16.list-manage.com/subscribe?u=e95f0901b53137263a8b4fdd3&amp;id=ed86c0b0f5" target="_blank" rel="noopener noreferrer">Jetzt anmelden</a>
+			</div>
+		</div>
+	</div>
 
-      <div>
-        <div class="fcsh-footer__nl-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
-        </div>
-        <div class="fcsh-footer__nl-title">Newsletter</div>
-      </div>
-
-      <a href="<?php echo esc_url( $newsletter_url ); ?>" class="fcsh-footer__nl-link" target="_blank" rel="noopener">
-        Jetzt anmelden
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
-
-      <div class="fcsh-footer__logo">
-        <a href="<?php echo esc_url( home_url( '/' ) ); ?>">
-          <img src="<?php echo esc_url( $logo ); ?>" alt="FC Schattdorf">
-        </a>
-      </div>
-
-      <div class="fcsh-footer__quicklinks">
-        <a href="<?php echo esc_url( $kontakt_url ); ?>">Kontakt</a>
-        <a href="<?php echo esc_url( $vorstand_url ); ?>">Vorstand</a>
-        <a href="<?php echo esc_url( $lageplan_url ); ?>">Lageplan</a>
-        <a href="<?php echo esc_url( admin_url() ); ?>" class="fcsh-footer__login">Login</a>
-      </div>
-
-    </div>
-
-    <!-- Right: Sponsors -->
-    <div class="fcsh-footer__right" data-aos="fade-up" data-aos-delay="100">
-      <?php foreach ( $sp_sections as $sec ) : ?>
-      <div class="fcsh-footer__sp-row">
-        <div class="fcsh-footer__sp-label"><?php echo esc_html( $sec['label'] ); ?></div>
-        <div class="fcsh-footer__sp-items">
-          <?php foreach ( $sec['items'] as $sp ) : ?>
-          <a href="<?php echo esc_url( $sp['url'] ); ?>" class="fcsh-footer__sp-item" target="_blank" rel="noopener noreferrer">
-            <div class="fcsh-footer__sp-logo">
-              <img src="<?php echo esc_url( $up . $sp['img'] ); ?>" alt="<?php echo esc_attr( $sp['name'] ); ?>">
-            </div>
-            <span class="fcsh-footer__sp-name"><?php echo esc_html( $sp['name'] ); ?></span>
-          </a>
-          <?php endforeach; ?>
-        </div>
-      </div>
-      <?php endforeach; ?>
-    </div>
-
-  </div>
-
-  <!-- Bottom bar -->
-  <div class="fcsh-footer__bar">
-    <span class="fcsh-footer__copy">&copy; <?php echo esc_html( date( 'Y' ) ); ?> FC Schattdorf &middot; Design &amp; Konzept: ubiqdesign (Original-Vorlage)</span>
-    <div class="fcsh-footer__legal">
-      <a href="<?php echo esc_url( $impressum_url ); ?>">Impressum</a>
-      <a href="<?php echo esc_url( $datenschutz_url ); ?>">Datenschutz</a>
-    </div>
-  </div>
+	<div class="fcx-foot__bar">
+		<p>© <?php echo esc_html( date( 'Y' ) ); ?> FC Schattdorf</p>
+		<div>
+			<a href="<?php echo esc_url( fcsh_page_url( 'impressum', '#' ) ); ?>">Impressum</a>
+			<a href="<?php echo esc_url( fcsh_page_url( 'datenschutzerklaerung', home_url( '/datenschutzerklaerung/' ) ) ); ?>">Datenschutz</a>
+		</div>
+	</div>
 </footer>
 
 <?php astra_footer_after(); ?>

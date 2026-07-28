@@ -74,29 +74,25 @@ foreach ( $slides as $s ) {
 	$hero_json[] = array( 'tag' => $s['tag'], 'date' => $s['date'], 'title' => $s['title'], 'url' => $s['url'] );
 }
 
-/* ── Events laden (The Events Calendar, mit Fallback) ────────────── */
+/* ── Events laden (eigener fcs_event-CPT – gepflegt im Admin unter
+   «Events», dieselbe Quelle wie die /events/-Seite). Nur kommende
+   Termine, max. 4. Keine hartkodierten Inhalte mehr. ─────────────── */
 $events = array();
-if ( function_exists( 'tribe_get_events' ) ) {
-	$ev = tribe_get_events( array(
-		'posts_per_page' => 5,
-		'start_date'     => date( 'Y-m-d' ),
-		'eventDisplay'   => 'list',
-	) );
-	foreach ( (array) $ev as $e ) {
-		$ts = function_exists( 'tribe_get_start_date' ) ? tribe_get_start_date( $e, false, 'U' ) : strtotime( get_post_meta( $e->ID, '_EventStartDate', true ) );
+if ( function_exists( 'fcs_get_events' ) ) {
+	$upper = function_exists( 'mb_strtoupper' ) ? 'mb_strtoupper' : 'strtoupper';
+	foreach ( fcs_get_events( true, 4 ) as $ev ) {
+		if ( empty( $ev['datum'] ) ) {
+			continue;
+		}
 		$events[] = array(
-			'day'   => date_i18n( 'j', $ts ),
-			'mon'   => strtoupper( date_i18n( 'M', $ts ) ),
-			'full'  => date_i18n( 'd.m.Y', $ts ),
-			'title' => get_the_title( $e ),
-			'loc'   => function_exists( 'tribe_get_venue' ) ? tribe_get_venue( $e->ID ) : '',
-			'url'   => get_permalink( $e->ID ),
+			'day'   => $ev['datum']['tag'],
+			'mon'   => $upper( $ev['datum']['mon_kurz'] ),
+			'full'  => $ev['datum']['dmy'],
+			'title' => $ev['titel'],
+			'loc'   => $ev['ort_kurz'],
+			'url'   => fcsh_page_url( 'events' ) . '#ev-' . $ev['id'],
 		);
 	}
-}
-if ( empty( $events ) ) {
-	$ts = strtotime( '2026-08-21' );
-	$events[] = array( 'day' => '21', 'mon' => 'AUG', 'full' => '21.08.2026', 'title' => '93. Generalversammlung', 'loc' => 'Schattdorf', 'url' => fcsh_page_url( 'events' ) );
 }
 
 /* ── Navigation (auf echte WP-Seiten gemappt) ────────────────────── */
@@ -124,7 +120,6 @@ $nav = array(
 		array( 'Senioren Uri I', fcsh_page_url( 'aktive/senioren-uri-1', fcsh_page_url( 'senioren-uri-1' ) ) ),
 	) ),
 	array( 'label' => 'Junioren', 'children' => array(
-		array( 'Übersicht', fcsh_page_url( 'junioren' ) ),
 		array( 'Juniorengeschichte', fcsh_page_url( 'junioren/juniorengeschichte', fcsh_page_url( 'juniorengeschichte' ) ) ),
 		array( 'Organisation', fcsh_page_url( 'junioren/junioren-organisation', fcsh_page_url( 'junioren-organisation' ) ) ),
 		array( 'Teams', fcsh_page_url( 'junioren/teams', fcsh_page_url( 'teams' ) ) ),
@@ -312,6 +307,9 @@ foreach ( $sponsor_groups as $g ) {
 
 	<div class="fcx-band">
 		<div class="fcx-termine">
+			<?php if ( empty( $events ) ) : ?>
+				<p class="fcx-event__empty">Zurzeit sind keine Termine erfasst.</p>
+			<?php else : ?>
 			<?php foreach ( $events as $e ) : ?>
 				<a class="fcx-event" href="<?php echo esc_url( $e['url'] ); ?>">
 					<span class="fcx-event__date">
@@ -325,6 +323,7 @@ foreach ( $sponsor_groups as $g ) {
 					</span>
 				</a>
 			<?php endforeach; ?>
+			<?php endif; ?>
 		</div>
 
 		<div class="fcx-spielbetrieb">

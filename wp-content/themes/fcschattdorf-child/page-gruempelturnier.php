@@ -67,9 +67,6 @@ $schluss     = fcs_pf( 'gt_anmeldeschluss', '7. Juni 2026' );
 /* Fallback Kontakt-Seite: eine Seite /anmeldung-gruempelturnier existiert nicht */
 $anmelde_url = fcs_pf( 'gt_anmeldung_url', fcsh_page_url( 'kontakt', home_url( '/kontakt/' ) ) );
 $cta_titel   = fcs_pf_lines( 'gt_cta_titel', array( 'Dabei sein beim', 'Grümpelturnier 2026' ) );
-
-/* Icons des Rahmenprogramms bleiben Teil des Designs (Zuordnung nach Reihenfolge) */
-$rahmen_icons = array( '📺', '🍖', '🎧', '⛺' );
 ?>
 
 <div class="fgt-page">
@@ -179,10 +176,9 @@ $rahmen_icons = array( '📺', '🍖', '🎧', '⛺' );
 
       <div class="fgt-highlights">
 
-        <?php foreach ( $rahmen as $i => $zeile ) :
+        <?php foreach ( $rahmen as $zeile ) :
             $teile = array_map( 'trim', explode( '|', $zeile ) ); ?>
         <div class="fgt-highlight">
-          <span class="fgt-highlight__icon"><?php echo $rahmen_icons[ $i % count( $rahmen_icons ) ]; ?></span>
           <div class="fgt-highlight__title"><?php echo esc_html( $teile[0] ); ?></div>
           <div class="fgt-highlight__text"><?php echo esc_html( $teile[1] ?? '' ); ?></div>
         </div>
