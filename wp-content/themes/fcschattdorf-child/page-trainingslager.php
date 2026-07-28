@@ -15,7 +15,7 @@ add_action( 'wp_enqueue_scripts', function () {
     wp_enqueue_style( 'fcs-trainingslager', $uri . '/assets/fcs-trainingslager.css', [], filemtime( $dir . '/assets/fcs-trainingslager.css' ) );
 }, 5 );
 
-$up = wp_upload_dir()['baseurl'] . '/2026/06/';
+$img = get_stylesheet_directory_uri() . '/assets/img/';
 
 get_header();
 
@@ -49,7 +49,15 @@ $programm     = fcs_pf_lines( 'tl_programm', array(
 	'Freizeit | Spass mit Freunden | Nach dem Training gehört die Zeit euch. Pool mit Wasserrutsche, Tischtennis, Fussballtennis, Minigolf – das Freizeitprogramm sorgt für neue Freundschaften und unvergessliche Momente abseits des Platzes.',
 	'Letzter Tag · Highlight | Abschlussturnier | Der krönende Abschluss der Woche: Alle Teams treten gegeneinander an – volles Programm, voller Einsatz, grosses Finale. Das Abschlussturnier ist der Höhepunkt jedes Trainingslagers.',
 ) );
-$flyer_bild   = fcs_pf( 'tl_flyer_bild', $up . 'IMG_8904.jpg' );
+$flyer_bild   = fcs_pf( 'tl_flyer_bild', $img . 'tl-flyer.jpg' );
+/* Zeigt das Feld auf ein Upload-Bild, das lokal fehlt (Uploads werden nicht
+   synchronisiert), das mitgelieferte Theme-Bild verwenden. Live bleibt das
+   von der Redaktion gepflegte Bild aktiv. */
+$_ud = wp_upload_dir();
+if ( 0 === strpos( $flyer_bild, $_ud['baseurl'] ) &&
+     ! file_exists( str_replace( $_ud['baseurl'], $_ud['basedir'], $flyer_bild ) ) ) {
+	$flyer_bild = $img . 'tl-flyer.jpg';
+}
 $flyer_text   = fcs_pf( 'tl_flyer_text', 'Im Flyer findest du alle wichtigen Informationen zum Juniorentrainingslager 2026 – Programm, Kosten, Unterkunft und Anmeldedetails kompakt zusammengefasst.' );
 $cta_lead     = fcs_pf( 'tl_cta_lead', 'Melde dich jetzt an und sichere dir deinen Platz am Juniorentrainingslager des FC Schattdorf. Plätze sind begrenzt!' );
 $kontakte     = fcs_pf_lines( 'tl_kontakte', array(
@@ -59,10 +67,10 @@ $kontakte     = fcs_pf_lines( 'tl_kontakte', array(
 
 /* Fotos und Icons bleiben Teil des Designs (Zuordnung nach Reihenfolge) */
 $story_fotos = array(
-	array( 'tl_ig_1.jpg', 'Trainingslager FC Schattdorf' ),
-	array( 'tl_ig_2.jpg', 'Junioren Training FC Schattdorf' ),
-	array( 'tl_ig_3.jpg', 'Abkühlung im Pool' ),
-	array( 'tl_ig_4.jpg', 'FC Schattdorf Junioren Teamgeist' ),
+	array( 'tl-story-1.jpg', 'Trainingslager FC Schattdorf' ),
+	array( 'tl-story-2.jpg', 'Junioren Training FC Schattdorf' ),
+	array( 'tl-story-3.jpg', 'Abkühlung im Pool' ),
+	array( 'tl-story-4.jpg', 'FC Schattdorf Junioren Teamgeist' ),
 );
 $campus_icons    = array( '⚽', '🏊', '🛏️', '👨‍🍳', '🏓', '📍' );
 $campus_delays   = array( '', ' tl-reveal-delay-1', ' tl-reveal-delay-2', ' tl-reveal-delay-1', ' tl-reveal-delay-2', ' tl-reveal-delay-3' );
@@ -131,7 +139,7 @@ $programm_delays = array( '', ' tl-reveal-delay-1', ' tl-reveal-delay-2', ' tl-r
             $delay = ( $i % 4 ) ? ' tl-reveal-delay-' . ( $i % 4 ) : ''; ?>
         <div class="tl-story-item tl-reveal<?php echo $delay; ?>">
           <div class="tl-story-photo">
-            <img src="<?php echo esc_url( $up . $foto[0] ); ?>" alt="<?php echo esc_attr( $foto[1] ); ?>">
+            <img src="<?php echo esc_url( $img . $foto[0] ); ?>" alt="<?php echo esc_attr( $foto[1] ); ?>">
           </div>
           <div class="tl-story-caption">
             <div class="tl-story-caption__title"><?php echo esc_html( $teile[0] ); ?></div>
