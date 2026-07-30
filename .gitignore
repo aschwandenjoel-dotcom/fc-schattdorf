@@ -23,6 +23,9 @@ deploy/*
 # (Token wird erst beim Deploy eingesetzt, enthält selbst keine Geheimnisse)
 !deploy/fcs-import-gruempi.php.tpl
 !deploy/deploy-gruempi.sh
+# Ausnahme: Beitragsbild-Umstellung des Grümpelturnier-Beitrags
+!deploy/fcs-set-gruempi-thumb.php.tpl
+!deploy/deploy-gruempi-thumb.sh
 
 # OS
 .DS_Store
