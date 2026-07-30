@@ -31,6 +31,8 @@ deploy/*
 # Ausnahme: Beitragsbild-Umstellung des Grümpelturnier-Beitrags
 !deploy/fcs-set-gruempi-thumb.php.tpl
 !deploy/deploy-gruempi-thumb.sh
+# Ausnahme: Theme-Deploy der Trainingslager-Seite (enthaelt keine Geheimnisse)
+!deploy/deploy-trainingslager.sh
 
 # OS
 .DS_Store
@@ -40,3 +42,6 @@ wp-content-backup/
 
 # Next.js Dev-Cache (Build-Artefakt, kein Projektcode)
 .next/
+
+# Recovery-Artefakte (gerettete DB + Uploads, 478 MB, nicht Teil der Historie)
+/backup/
