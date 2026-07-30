@@ -12,7 +12,12 @@ wp-content/themes/*/
 # niemals öffentlich machen!
 
 # Lokale Backups (DB + Uploads, siehe scripts/backup.sh)
-backups/
+# backups/* statt backups/, damit die Ausnahme darunter greifen kann
+backups/*
+# Ausnahme: abgelegte Code-Schnipsel entfernter Abschnitte (kein Geheimnis,
+# soll später wieder eingebaut werden können)
+!backups/snippets/
+!backups/snippets/**
 
 # Deploy-Paket für Hostpoint (enthält DB-Dump und Salts – nie einchecken)
 # deploy/* statt deploy/, damit die Ausnahme darunter greifen kann

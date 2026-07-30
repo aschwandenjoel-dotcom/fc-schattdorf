@@ -66,7 +66,6 @@ foreach ( $news as $i => $p ) {
 }
 /* Wunsch: die Startseite führt immer nur die neuste Story im Hero. */
 $slides = array_slice( $items, 0, 1 );
-$latest = isset( $items[0] ) ? $items[0] : null;
 
 /* Hero-Daten für JS */
 $hero_json = array();
@@ -138,11 +137,10 @@ $nav = array(
 
 /* ── IFV-Links ───────────────────────────────────────────────────── */
 $ifv = array(
-	array( 'label' => 'Tabelle',          'url' => 'https://matchcenter.ifv.ch/default.aspx?v=329&oid=7&lng=1&t=30614&a=trr' ),
-	array( 'label' => 'Spielplan',        'url' => 'https://matchcenter.ifv.ch/default.aspx?oid=7&lng=1&v=329&t=30614&ls=24454&sg=67609&a=pt' ),
-	array( 'label' => 'Spielbetrieb FCS', 'url' => 'https://www.ifv.ch/Innerschweizerischer-Fussballverband/Vereine-IFV/Verein-IFV.aspx/v-329/a-as/' ),
-	array( 'label' => 'Matchcenter',      'url' => 'https://matchcenter.ifv.ch' ),
-	array( 'label' => 'Liveticker',       'url' => 'https://cdn.tickaroo.com/embed/v4/fullpage/6375c4e2a76a60b2e34cff9b/fploTWVBarsiJF_29Yb6AUcSQeq7pY.html' ),
+	array( 'label' => 'Tabelle',          'sub' => '1. Mannschaft', 'url' => 'https://matchcenter.ifv.ch/default.aspx?v=329&oid=7&lng=1&t=30614&a=trr' ),
+	array( 'label' => 'Spielplan',        'sub' => '1. Mannschaft', 'url' => 'https://matchcenter.ifv.ch/default.aspx?oid=7&lng=1&v=329&t=30614&ls=24454&sg=67609&a=pt' ),
+	array( 'label' => 'Spielbetrieb FCS', 'sub' => 'alle Teams',    'url' => 'https://www.ifv.ch/Innerschweizerischer-Fussballverband/Vereine-IFV/Verein-IFV.aspx/v-329/a-as/' ),
+	array( 'label' => 'Liveticker',       'sub' => '1. Mannschaft', 'url' => 'https://cdn.tickaroo.com/embed/v4/fullpage/6375c4e2a76a60b2e34cff9b/fploTWVBarsiJF_29Yb6AUcSQeq7pY.html' ),
 );
 
 /* ── Sponsoren-Gruppen ───────────────────────────────────────────── */
@@ -331,7 +329,10 @@ foreach ( $sponsor_groups as $g ) {
 			<div class="fcx-tiles">
 				<?php foreach ( $ifv as $ifv_item ) : ?>
 					<a class="fcx-tile" href="<?php echo esc_url( $ifv_item['url'] ); ?>" target="_blank" rel="noopener">
-						<span><?php echo esc_html( $ifv_item['label'] ); ?></span>
+						<span class="fcx-tile__txt">
+							<span class="fcx-tile__lbl"><?php echo esc_html( $ifv_item['label'] ); ?></span>
+							<?php if ( ! empty( $ifv_item['sub'] ) ) : ?><span class="fcx-tile__sub"><?php echo esc_html( $ifv_item['sub'] ); ?></span><?php endif; ?>
+						</span>
 						<svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
 					</a>
 				<?php endforeach; ?>
@@ -339,20 +340,6 @@ foreach ( $sponsor_groups as $g ) {
 		</div>
 	</div>
 </section>
-
-<!-- ══ AKTUELLSTE NEWS: Bild links, Text rechts ══ -->
-<?php if ( $latest ) : ?>
-<section class="fcx-sec fcx-latest">
-	<a class="fcx-latestbox" href="<?php echo esc_url( $latest['url'] ); ?>">
-		<div class="fcx-latestbox__img">
-			<img src="<?php echo esc_url( $latest['img'] ); ?>" alt="<?php echo esc_attr( $latest['title'] ); ?>" loading="lazy">
-		</div>
-		<div class="fcx-latestbox__body">
-			<p class="fcx-latestbox__title"><?php echo esc_html( $latest['title'] ); ?></p>
-		</div>
-	</a>
-</section>
-<?php endif; ?>
 
 <!-- ══ SPONSOREN ══ -->
 <section class="fcx-sec fcx-sec--mist fcx-sponsors">

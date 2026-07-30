@@ -570,59 +570,38 @@ body.fcx-wine-page #content{background:var(--fcx-wine);}
   margin:0 0 1rem;color:#fff;
   font-size:.6875rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;
 }
+/* Vier Kacheln in einer Reihe; erst auf schmalen Viewports umbrechen */
 .fcx-tiles{
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,11rem),1fr));
-  gap:.75rem;
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:.6rem;
 }
+@media(max-width:75rem){.fcx-tiles{grid-template-columns:repeat(2,minmax(0,1fr));}}
+@media(max-width:26rem){.fcx-tiles{grid-template-columns:1fr;}}
 .fcx-tile{
-  display:flex;align-items:center;justify-content:space-between;gap:.75rem;
+  display:flex;align-items:flex-start;justify-content:space-between;gap:.5rem;
   background:var(--fcx-paper);color:var(--fcx-ink);
-  padding:1rem 1.15rem;
-  font-size:.8125rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+  padding:.875rem 1rem;
   transition:background var(--fcx-fast) var(--fcx-ease),
              color var(--fcx-fast) var(--fcx-ease),
              transform var(--fcx-fast) var(--fcx-ease);
 }
-.fcx-tile svg{width:14px;height:14px;stroke:currentColor;fill:none;flex:0 0 auto;opacity:.5;}
+.fcx-tile__txt{display:flex;flex-direction:column;gap:.2rem;min-width:0;}
+.fcx-tile__lbl{
+  font-size:.75rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+  line-height:1.2;
+}
+.fcx-tile__sub{
+  font-size:.6875rem;font-weight:600;line-height:1.2;
+  color:var(--fcx-muted);
+}
+@media(hover:hover) and (pointer:fine){
+  .fcx-tile:hover .fcx-tile__sub{color:rgba(255,255,255,.7);}
+}
+.fcx-tile svg{width:14px;height:14px;stroke:currentColor;fill:none;flex:0 0 auto;opacity:.5;margin-top:1px;}
 @media(hover:hover) and (pointer:fine){
   .fcx-tile:hover{background:var(--fcx-ink);color:#fff;}
 }
 .fcx-tile:active{transform:scale(.98);}
-
-/* ── AKTUELLSTE NEWS: Bild-Text-Box unterhalb Termine ──────────
-   Weisse Seitenfläche, die Box selbst hebt sich in Mist-Grau ab.
-   Bild links (breiter Anteil), Titel rechts vertikal zentriert. */
-.fcx-latestbox{
-  display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);
-  align-items:stretch;background:var(--fcx-mist);
-  border-radius:1.5rem;overflow:hidden;
-  transition:transform var(--fcx-fast) var(--fcx-ease);
-}
-@media(hover:hover) and (pointer:fine){
-  .fcx-latestbox:hover .fcx-latestbox__title{color:var(--fcx-red);}
-  .fcx-latestbox:hover .fcx-latestbox__img img{transform:scale(1.03);}
-}
-.fcx-latestbox__img{
-  position:relative;overflow:hidden;background:var(--fcx-line);
-  min-height:16rem;aspect-ratio:16/9;
-}
-.fcx-latestbox__img img{
-  width:100%;height:100%;object-fit:cover;display:block;
-  transition:transform 500ms var(--fcx-ease);
-}
-.fcx-latestbox__body{
-  display:flex;align-items:center;
-  padding:clamp(1.5rem,3vw,3rem);
-}
-.fcx-latestbox__title{
-  margin:0;font-size:clamp(1.15rem,2vw,1.6rem);font-weight:800;line-height:1.3;
-  color:var(--fcx-ink);letter-spacing:-.01em;text-wrap:balance;
-  transition:color var(--fcx-fast) var(--fcx-ease);
-}
-@media(max-width:48rem){
-  .fcx-latestbox{grid-template-columns:1fr;border-radius:1.25rem;}
-  .fcx-latestbox__img{aspect-ratio:16/10;min-height:0;}
-}
 
 /* Hero-Aktionen */
 .fcx-hero__cta{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.75rem;}
