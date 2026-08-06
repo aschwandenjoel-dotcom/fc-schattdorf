@@ -33,6 +33,11 @@ deploy/*
 !deploy/deploy-gruempi-thumb.sh
 # Ausnahme: Theme-Deploy der Trainingslager-Seite (enthaelt keine Geheimnisse)
 !deploy/deploy-trainingslager.sh
+# Ausnahme: Deploy des Design-Stands (Top-Club-88-Stil) mit seinen beiden
+# DB-Vorlagen — Token wird erst beim Deploy eingesetzt, keine Geheimnisse
+!deploy/deploy-designstand.sh
+!deploy/fcs-junioren-teams.php.tpl
+!deploy/fcs-junioren-seiten.php.tpl
 
 # OS
 .DS_Store
