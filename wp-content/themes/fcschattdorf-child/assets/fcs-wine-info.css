@@ -1,0 +1,389 @@
+/* ====================================================================
+   FC Schattdorf – Weinrot-Infoseite (Design «Top-Club 88»)
+   --------------------------------------------------------------------
+   Gemeinsames Layout für Textseiten auf Weinrot: Creme-Kopf mit rotem
+   Akzentbalken, Creme-Infokarten, Aufzählungsraster, Personenkarten und
+   Abschluss-CTA. Verwendet von:
+     · page-top-club-88.php
+     · page-juniorenkonzept.php
+     · page-fussball-tauschboerse.php
+     · page-junioren-teams.php
+   Die Vorlagen setzen dazu die Body-Klassen «fcx-wine-page fcx-info-page».
+   ==================================================================== */
+
+body.fcx-info-page #content,
+body.fcx-info-page .ast-container { max-width: 100% !important; padding: 0 !important; }
+body.fcx-info-page #primary,
+body.fcx-info-page .entry-content,
+body.fcx-info-page .entry-header { padding: 0 !important; margin: 0 !important; }
+
+.fctc-page {
+  width: 100%; flex: 1 1 100%; min-width: 0;
+  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background: var(--fcx-wine, #711712);
+}
+
+/* ── Header ── */
+/* Kopfbereich als Creme-Fläche (Winzer-Muster, identisch zu «So finden Sie
+   uns»): dunkle Schrift auf Creme, Akzentbalken in Rot. */
+.fctc-header {
+  background: var(--fcx-cream, #f6efe1);
+  /* Die rote Linie zur Navigation hin sitzt global auf .fcx-hdr__bar
+     (fcs-front.css) – hier bewusst keine eigene. */
+  border-bottom: 1px solid var(--fcx-cream-line, #e3d8c2);
+  padding: clamp(1.75rem, 3.2vw, 2.5rem) clamp(1.25rem, 5vw, 5rem) clamp(1.125rem, 2vw, 1.625rem);
+}
+/* Linksbündig wie auf «So finden Sie uns» – nicht zentriert wie der Inhalt. */
+.fctc-header__inner { max-width: 1100px; margin: 0; }
+.fctc-header h1 {
+  font-size: clamp(1.75rem, 3.4vw, 2.5rem);
+  font-weight: 900; color: #111111;
+  text-transform: uppercase;
+  margin: 0 0 .3rem; letter-spacing: -.022em; line-height: 1.02;
+  position: relative;
+  padding-top: .95rem;
+}
+.fctc-header h1::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2.25rem;
+  height: 3px;
+  background: var(--fcx-red-solid, #d9261c);
+}
+.fctc-header__label {
+  font-size: .75rem;
+  font-weight: 500;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--fcx-cream-muted, #5f584a);
+  margin: 0;
+}
+/* ── Main content area ── */
+.fctc-main { max-width: 1100px; margin: 0 auto; padding: 3rem 2.5rem 4rem; }
+
+/* ── Info section ── */
+.fctc-info {
+  background: var(--fcx-cream, #f6efe1);
+  border: 1px solid var(--fcx-cream-line, #e3d8c2);
+  border-radius: var(--fcx-radius, 8px);
+  padding: 2rem 2.5rem;
+  margin-bottom: 2.5rem;
+}
+.fctc-info h2 {
+  font-size: 1.25rem; font-weight: 800;
+  color: #111; margin: 0 0 1rem;
+  text-transform: uppercase; letter-spacing: .05em;
+
+  position: relative;
+  padding-top: 1.4rem;
+}
+.fctc-info h2::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3rem;
+  height: 3px;
+  background: var(--fcx-red, #e63124);
+}
+.fctc-info p {
+  color: #443d30; line-height: 1.7; margin: 0 0 1rem;
+}
+.fctc-info p:last-child { margin-bottom: 0; }
+
+/* ── Benefits list ── */
+.fctc-benefits {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; gap: .75rem;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+.fctc-benefits li {
+  display: flex; gap: .75rem; align-items: flex-start;
+  background: var(--fcx-cream-2, #eee4d0); border-radius: var(--fcx-radius, 8px); padding: .875rem 1rem;
+}
+.fctc-benefits li::before {
+  content: ''; display: block; flex-shrink: 0;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--fcx-red-solid, #d9261c); margin-top: .45rem;
+}
+.fctc-benefits li strong { color: #111; }
+.fctc-benefits li span { color: var(--fcx-cream-muted, #5f584a); font-size: .875rem; line-height: 1.5; }
+
+/* ── Section title (sitzt direkt auf dem Weinrot-Hintergrund, daher weiss) ── */
+.fctc-section-title {
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  font-weight: 900; color: #fff;
+  text-transform: uppercase; letter-spacing: .05em;
+  margin: 0 0 1.75rem;
+
+  position: relative;
+  padding-top: 1.4rem;
+}
+.fctc-section-title::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3rem;
+  height: 3px;
+  background: var(--fcx-cream, #f6efe1);
+}
+
+/* ── Vorstand grid: 3 columns ── */
+.fctc-vorstand-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+/* ── Person card ── */
+.fctc-card {
+  background: var(--fcx-cream, #f6efe1);
+  border: 1px solid var(--fcx-cream-line, #e3d8c2);
+  border-radius: var(--fcx-radius, 8px);
+  overflow: hidden;
+  display: flex; flex-direction: column;
+  transition: box-shadow .2s ease-out, transform .2s ease-out, border-color .2s ease-out;
+}
+.fctc-card:hover {
+  border-color: var(--fcx-red-solid, #d9261c);
+  box-shadow: 0 8px 28px rgba(0,0,0,.13);
+  transform: translateY(-3px);
+}
+.fctc-card:active {
+  transform: translateY(-3px) scale(0.98);
+}
+
+.fctc-card__photo {
+  width: 100%;
+  aspect-ratio: 1/1;
+  overflow: hidden;
+  background: linear-gradient(135deg, #f1e8e6 0%, #ddccc7 100%);
+  flex-shrink: 0;
+}
+.fctc-card__photo img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center top;
+  display: block;
+}
+.fctc-card__photo--placeholder {
+  display: flex; align-items: center; justify-content: center;
+}
+.fctc-card__photo--placeholder svg {
+  width: 72px; height: 72px; stroke: rgba(0,0,0,.15);
+}
+
+.fctc-card__info {
+  padding: 1.125rem 1.25rem 1.375rem;
+  display: flex; flex-direction: column; gap: .375rem; flex: 1;
+}
+.fctc-card__role {
+  font-size: .6875rem; font-weight: 800;
+  text-transform: uppercase; letter-spacing: .12em;
+  color: var(--fcx-red-solid, #d9261c);
+}
+.fctc-card__name {
+  font-size: 1rem; font-weight: 800;
+  color: #111; letter-spacing: .02em; line-height: 1.2;
+}
+.fctc-card__divider {
+  width: 32px; height: 2px; background: var(--fcx-cream-line, #e3d8c2);
+  border-radius: 2px; margin: .25rem 0;
+}
+.fctc-card__email,
+.fctc-card__phone {
+  display: flex; align-items: center; gap: .5rem;
+  font-size: .8125rem; color: var(--fcx-cream-muted, #5f584a); text-decoration: none;
+  line-height: 1.4;
+}
+.fctc-card__email:hover { color: var(--fcx-red-solid, #d9261c); }
+.fctc-card__email svg,
+.fctc-card__phone svg { flex-shrink: 0; color: #9a8f79; }
+
+/* ── Teamkacheln (Junioren-Teamübersicht) ── */
+/* Gleiche Karten-Sprache wie .fctc-card, aber als ganzflächiger Link mit
+   Teamfoto im Querformat. */
+.fctc-teamgrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+.fctc-team {
+  background: var(--fcx-cream, #f6efe1);
+  border: 1px solid var(--fcx-cream-line, #e3d8c2);
+  border-radius: var(--fcx-radius, 8px);
+  overflow: hidden;
+  display: flex; flex-direction: column;
+  text-decoration: none;
+  transition: box-shadow .2s ease-out, transform .2s ease-out, border-color .2s ease-out;
+}
+.fctc-team:hover {
+  border-color: var(--fcx-red-solid, #d9261c);
+  box-shadow: 0 8px 28px rgba(0,0,0,.13);
+  transform: translateY(-3px);
+}
+.fctc-team:active { transform: translateY(-3px) scale(.98); }
+.fctc-team:focus { outline: none; }
+.fctc-team:focus-visible { outline: 3px solid var(--fcx-red-solid, #d9261c); outline-offset: 3px; }
+
+.fctc-team__photo {
+  width: 100%;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  background: linear-gradient(135deg, #f1e8e6 0%, #ddccc7 100%);
+  flex-shrink: 0;
+}
+.fctc-team__photo img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+  display: block;
+  transition: transform .3s ease-out;
+}
+.fctc-team:hover .fctc-team__photo img { transform: scale(1.04); }
+.fctc-team__photo--placeholder { display: flex; align-items: center; justify-content: center; }
+.fctc-team__photo--placeholder svg { width: 56px; height: 56px; stroke: rgba(0,0,0,.15); }
+
+.fctc-team__info {
+  padding: 1rem 1.125rem 1.125rem;
+  display: flex; flex-direction: column; gap: .3rem; flex: 1;
+}
+.fctc-team__cat {
+  font-size: .6875rem; font-weight: 800;
+  text-transform: uppercase; letter-spacing: .12em;
+  color: var(--fcx-red-solid, #d9261c);
+}
+.fctc-team__name {
+  font-size: 1.0625rem; font-weight: 800;
+  color: #111; letter-spacing: .02em; line-height: 1.2;
+}
+.fctc-team__more {
+  margin-top: auto; padding-top: .625rem;
+  display: flex; align-items: center; gap: .375rem;
+  font-size: .8125rem; font-weight: 700;
+  color: var(--fcx-cream-muted, #5f584a);
+  transition: color .2s ease-out;
+}
+.fctc-team__more svg { flex-shrink: 0; transition: transform .2s ease-out; }
+.fctc-team:hover .fctc-team__more { color: var(--fcx-red-solid, #d9261c); }
+.fctc-team:hover .fctc-team__more svg { transform: translateX(3px); }
+
+/* ── CTA ── */
+.fctc-cta {
+  background: var(--fcx-cream, #f6efe1);
+  border: 1px solid var(--fcx-cream-line, #e3d8c2);
+  border-top: 3px solid var(--fcx-red-solid, #d9261c);
+  border-radius: var(--fcx-radius, 8px);
+  padding: 2rem 2.5rem;
+  display: flex; align-items: center; gap: 2rem;
+  flex-wrap: wrap;
+}
+.fctc-cta__text { flex: 1; min-width: 200px; }
+.fctc-cta__label {
+  font-size: .6875rem; font-weight: 800;
+  text-transform: uppercase; letter-spacing: .15em;
+  color: var(--fcx-red-solid, #d9261c); margin-bottom: .5rem;
+}
+.fctc-cta__title {
+  font-size: 1.25rem; font-weight: 800;
+  color: #111; margin-bottom: .375rem;
+}
+.fctc-cta__sub { font-size: .9rem; color: var(--fcx-cream-muted, #5f584a); line-height: 1.6; }
+.fctc-cta__sub a { color: var(--fcx-red-solid, #d9261c); text-decoration: none; }
+.fctc-cta__sub a:hover { text-decoration: underline; }
+
+/* Aktionsbereich der CTA (Button rechts neben dem Text) */
+.fctc-cta__action { flex-shrink: 0; }
+
+/* ── Aktions-Button (PDF-Download, externe Gruppe …) ── */
+.fctc-btn {
+  display: inline-flex; align-items: center; gap: .625rem;
+  background: var(--fcx-red-solid, #d9261c); color: #fff;
+  font-size: .875rem; font-weight: 800;
+  text-transform: uppercase; letter-spacing: .06em;
+  text-decoration: none;
+  padding: .875rem 1.5rem;
+  border-radius: var(--fcx-radius, 8px);
+  transition: background .2s ease-out, transform .2s ease-out, box-shadow .2s ease-out;
+}
+.fctc-btn:hover {
+  background: #b81f16; color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(0,0,0,.22);
+}
+.fctc-btn:active { transform: translateY(-2px) scale(.98); }
+/* Zurueck aus dem externen Tab: der Button behaelt den Fokus und wuerde blau
+   eingefaerbt. Wie .fcx-tile auf der Startseite: Farbe bleibt, nur der
+   Tastaturfokus zeigt einen roten Rahmen. */
+.fctc-btn:focus { outline: none; color: #fff; }
+.fctc-btn:focus-visible { outline: 3px solid var(--fcx-red-solid, #d9261c); outline-offset: 3px; }
+.fctc-btn svg { flex-shrink: 0; }
+
+/* ── Nummerierte Schritte («So funktioniert's») ── */
+.fctc-steps {
+  list-style: none; margin: 0; padding: 0;
+  counter-reset: fctc-step;
+  display: grid; gap: .75rem;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+.fctc-steps li {
+  counter-increment: fctc-step;
+  display: flex; gap: .875rem; align-items: flex-start;
+  background: var(--fcx-cream-2, #eee4d0);
+  border-radius: var(--fcx-radius, 8px);
+  padding: .875rem 1rem;
+}
+.fctc-steps li::before {
+  content: counter(fctc-step);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  width: 1.5rem; height: 1.5rem; border-radius: 50%;
+  background: var(--fcx-red-solid, #d9261c); color: #fff;
+  font-size: .75rem; font-weight: 800;
+}
+.fctc-steps li strong { color: #111; display: block; }
+.fctc-steps li span { color: var(--fcx-cream-muted, #5f584a); font-size: .875rem; line-height: 1.5; }
+
+/* ── Einfache Aufzählung ohne Untertitel ── */
+.fctc-list {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; gap: .5rem;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+}
+.fctc-list li {
+  display: flex; gap: .75rem; align-items: flex-start;
+  color: #443d30; font-size: .9375rem; line-height: 1.5;
+}
+.fctc-list li::before {
+  content: ''; display: block; flex-shrink: 0;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--fcx-red-solid, #d9261c); margin-top: .5rem;
+}
+
+/* ── Kleiner Hinweis am Fuss einer Infokarte ── */
+.fctc-note {
+  margin: 1.25rem 0 0; padding-top: 1rem;
+  border-top: 1px solid var(--fcx-cream-line, #e3d8c2);
+  font-size: .8125rem; color: var(--fcx-cream-muted, #5f584a); line-height: 1.6;
+}
+
+@media (max-width: 860px) {
+  .fctc-vorstand-grid { grid-template-columns: 1fr 1fr; }
+  .fctc-main { padding: 2rem 1.5rem 3rem; }
+  .fctc-info { padding: 1.5rem; }
+  .fctc-teamgrid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1.125rem; }
+}
+@media (max-width: 560px) {
+  .fctc-vorstand-grid { grid-template-columns: 1fr; }
+  /* Zwei Kacheln pro Zeile bleiben auf dem Handy gut lesbar. */
+  .fctc-teamgrid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 1rem; }
+  .fctc-team__info { padding: .75rem .875rem .875rem; }
+  .fctc-team__name { font-size: .9375rem; }
+  .fctc-header { padding: 1.75rem 1.25rem 1.25rem; }
+  .fctc-info { padding: 1.25rem; }
+  .fctc-cta { padding: 1.5rem; }
+}

@@ -3,7 +3,7 @@
  * Template Name: Mitglied werden
  * Template Post Type: page
  *
- * Einstiegswege (Kontaktpersonen) und Newsletter-Angaben werden über die
+ * Einstiegswege (Kontaktpersonen) werden über die
  * Feld-Box «Seiteninhalte» gepflegt (inc/fcs-fields-design2.php);
  * das Layout kommt aus der Vorlage.
  */
@@ -23,9 +23,6 @@ $tracks = fcs_pf_lines( 'mw_tracks', array(
 	'Junioren A–C | Juniorenbereich | Für Anmeldungen im Juniorenbereich (A- bis C-Junioren) wende dich direkt an unseren Juniorenobmann und Vizepräsidenten. | Iwan Herger | Vizepräsident · Juniorenobmann | juniorenabteilung@fcschattdorf.ch | 078 698 91 95',
 	'Kinder F–D | Kinderfussball | Die Jüngsten (F- bis D-Junioren) sind bei unserer KIFU-Leiterin in besten Händen. Einfach melden — Fussball macht Spass! | Jacqueline Kempf | Leiterin KIFU · F–D Junioren | jacqueline.kempf-imholz@gmx.ch | 078 795 29 67',
 ) );
-$nl_titel = fcs_pf( 'mw_nl_titel', 'Immer auf dem Laufenden' );
-$nl_text  = fcs_pf( 'mw_nl_text', 'Spielberichte, Veranstaltungen, Neuigkeiten aus dem Verein — direkt in deinem Postfach.' );
-$nl_url   = fcs_pf( 'mw_nl_url', 'https://us16.list-manage.com/subscribe?u=e95f0901b53137263a8b4fdd3&id=ed86c0b0f5' );
 
 /* Icons je Einstiegsweg (Design, bleibt in der Vorlage) */
 $mw_icons = array(
@@ -89,21 +86,6 @@ $mw_icons = array(
       </div>
       <?php endforeach; ?>
 
-    </div>
-  </div>
-
-  <!-- ── Newsletter ── -->
-  <div class="fcmb-newsletter">
-    <div class="fcmb-newsletter__inner">
-      <div class="fcmb-newsletter__text">
-        <div class="fcmb-newsletter__label">Newsletter</div>
-        <h2 class="fcmb-newsletter__title"><?php echo esc_html( $nl_titel ); ?></h2>
-        <p class="fcmb-newsletter__sub"><?php echo esc_html( $nl_text ); ?></p>
-      </div>
-      <a href="<?php echo esc_url( $nl_url ); ?>" target="_blank" rel="noopener noreferrer" class="fcmb-newsletter__btn">
-        Newsletter abonnieren
-        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg>
-      </a>
     </div>
   </div>
 

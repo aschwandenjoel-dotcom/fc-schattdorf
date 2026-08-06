@@ -33,40 +33,45 @@ body.page-id-43 .entry-header  { padding: 0 !important; margin: 0 !important; }
 }
 
 /* ── Titel ─────────────────────────────────────────────────── */
+/* Kopfbereich als Creme-Fläche (Winzer-Muster, identisch zu «So finden Sie
+   uns»): dunkle Schrift auf Creme, Akzentbalken in Rot. */
 .fcvf-header {
-  padding: clamp(3rem, 7vw, 5.5rem) clamp(1.25rem, 5vw, 5rem) clamp(2rem, 4vw, 3rem);
-  border-bottom: 1px solid var(--rule-onbg);
+  padding: clamp(1.75rem, 3.2vw, 2.5rem) clamp(1.25rem, 5vw, 5rem) clamp(1.125rem, 2vw, 1.625rem);
+  background: var(--surf);
+  /* Die rote Linie zur Navigation hin sitzt global auf .fcx-hdr__bar
+     (fcs-front.css) – hier bewusst keine eigene. */
+  border-bottom: 1px solid var(--rule);
   position: relative;
 }
 
 .fcvf-header__title {
   font-family: var(--f-display) !important;
-  font-size: clamp(2rem, 4.5vw, 3.25rem) !important;
+  font-size: clamp(1.75rem, 3.4vw, 2.5rem) !important;
   font-weight: 900 !important;
-  letter-spacing: -.02em;
+  letter-spacing: -.022em;
   text-transform: uppercase;
-  color: #fff !important;
-  margin: 0 0 .5rem !important;
-  line-height: 1.05 !important;
+  color: var(--black) !important;
+  margin: 0 0 .3rem !important;
+  line-height: 1.02 !important;
   position: relative;
-  padding-top: 1.4rem;
+  padding-top: .95rem;
 }
 .fcvf-header__title::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
-  width: 3rem;
+  width: 2.25rem;
   height: 3px;
-  background: var(--fcx-cream, #f6efe1);
+  background: var(--red);
 }
 
 .fcvf-header__sub {
-  font-size: .8125rem;
+  font-size: .75rem;
   font-weight: 500;
   letter-spacing: .18em;
   text-transform: uppercase;
-  color: rgba(255,255,255,.72);
+  color: var(--muted);
   margin: 0;
 }
 
@@ -159,6 +164,11 @@ body.page-id-43 .entry-header  { padding: 0 !important; margin: 0 !important; }
 .fcvf-ssi__btn:active {
   transform: translateY(-1px) scale(.97);
 }
+/* Zurueck aus dem externen Tab: der Button behaelt den Fokus und wuerde blau
+   eingefaerbt. Wie .fcx-tile auf der Startseite: Farbe bleibt, nur der
+   Tastaturfokus zeigt einen roten Rahmen. */
+.fcvf-ssi__btn:focus { outline: none; color: #fff; }
+.fcvf-ssi__btn:focus-visible { outline: 3px solid var(--red); outline-offset: 3px; }
 
 .fcvf-ssi__btn svg {
   width: 16px;
@@ -330,7 +340,7 @@ body.page-id-43 .entry-header  { padding: 0 !important; margin: 0 !important; }
   }
 
   .fcvf-header {
-    padding: 3rem 1.25rem 2.25rem;
+    padding: 1.75rem 1.25rem 1.25rem;
   }
 
   .fcvf-ssi__inner {

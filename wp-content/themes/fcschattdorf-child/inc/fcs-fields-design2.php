@@ -56,14 +56,10 @@ add_filter( 'fcs_page_fields_config', function ( $config ) {
 	$config['page-mitglied-werden.php'] = array(
 		'mw_sub'      => array( 'label' => 'Untertitel im Seitenkopf', 'type' => 'text' ),
 		'mw_tracks'   => array( 'label' => 'Einstiegswege (einer pro Zeile: Badge | Titel | Text | Name | Rolle | E-Mail | Telefon — die erste Zeile wird hervorgehoben)', 'type' => 'textarea' ),
-		'mw_nl_titel' => array( 'label' => 'Newsletter: Titel', 'type' => 'text' ),
-		'mw_nl_text'  => array( 'label' => 'Newsletter: Beschreibungstext', 'type' => 'text' ),
-		'mw_nl_url'   => array( 'label' => 'Newsletter: Anmelde-Link', 'type' => 'url' ),
 	);
 
 	/* ── Top-Club 88 (Sponsoren) ── */
 	$config['page-top-club-88.php'] = array(
-		'tc_sub'      => array( 'label' => 'Untertitel im Seitenkopf', 'type' => 'textarea' ),
 		'tc_was_text' => array( 'label' => 'Text «Was ist der Top-Club 88?»', 'type' => 'textarea' ),
 		'tc_vorteile' => array( 'label' => 'Mitglieder-Vorteile (einer pro Zeile: Titel | Beschreibung)', 'type' => 'textarea' ),
 		'tc_vorstand' => array( 'label' => 'Vorstand (einer pro Zeile: Rolle | Name | E-Mail | Telefon | Bilddatei optional)', 'type' => 'textarea' ),

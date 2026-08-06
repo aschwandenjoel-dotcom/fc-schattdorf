@@ -76,9 +76,6 @@ get_header();
     </div>
   </div>
 
-  <!-- ── Team-Sponsoren direkt unter dem Titelbild ── -->
-  <?php fcsh_render_team_sponsor_strip( $sponsors, $up ); ?>
-
   <!-- ── Tabelle & Spielplan beim IFV ── -->
   <section class="fc1m-ifv">
     <div class="fc1m-wrap">

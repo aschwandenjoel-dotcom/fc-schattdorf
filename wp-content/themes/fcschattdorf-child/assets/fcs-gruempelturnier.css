@@ -231,6 +231,11 @@ body.page-id-72 #primary, body.page-id-72 .entry-content, body.page-id-72 .entry
   transition: color .15s;
 }
 .fgt-cat-card__pdf:hover { color: #b8000e; }
+/* Zurueck aus dem externen Tab: der geklickte Link behaelt den Fokus und
+   wuerde blau eingefaerbt. Wie .fcx-tile auf der Startseite: eigene Farbe
+   bleibt, nur der Tastaturfokus zeigt einen roten Rahmen. */
+.fgt-cat-card__pdf:focus { outline: none; color: var(--fcx-red-solid, #d9261c); }
+.fgt-cat-card__pdf:focus-visible { outline: 3px solid var(--fcx-red-solid, #d9261c); outline-offset: 3px; }
 .fgt-cat-card__pdf svg { flex-shrink: 0; }
 .fgt-cat-card__no-pdf {
   font-size: .8125rem; color: #9ca3af;
@@ -306,41 +311,8 @@ body.page-id-72 #primary, body.page-id-72 .entry-content, body.page-id-72 .entry
 }
 a.fgt-sponsor-box__name { color: var(--fcx-red-solid, #d9261c); }
 a.fgt-sponsor-box__name:hover { text-decoration: underline; }
-
-/* ── Registration CTA ── */
-.fgt-cta {
-  text-align: center;
-  padding: 5rem 2rem;
-  background: #fff;
-  border-top: 1px solid #f0f1f3;
-}
-.fgt-cta__label {
-  font-size: .6875rem; font-weight: 800;
-  text-transform: uppercase; letter-spacing: .18em;
-  color: var(--fcx-red-solid, #d9261c); margin-bottom: .75rem;
-}
-.fgt-cta h2 {
-  font-size: clamp(1.75rem, 4vw, 3rem) !important;
-  font-weight: 900 !important;
-  text-transform: uppercase;
-  letter-spacing: -.01em;
-  color: #111 !important; margin: 0 0 .75rem !important;
-}
-.fgt-cta__deadline {
-  font-size: 1rem; color: #6b7280; margin-bottom: 2rem;
-}
-.fgt-cta__deadline strong { color: var(--fcx-red-solid, #d9261c); }
-.fgt-cta__btn {
-  display: inline-flex; align-items: center; gap: .75rem;
-  background: var(--fcx-red-solid, #d9261c); color: #fff;
-  text-decoration: none;
-  font-size: 1.0625rem; font-weight: 800;
-  text-transform: uppercase; letter-spacing: .1em;
-  padding: 1.125rem 2.75rem;
-  border-radius: 8px;
-  transition: background .15s, transform .15s;
-}
-.fgt-cta__btn:hover { background: #b8000e; transform: translateY(-2px); color: #fff; }
+a.fgt-sponsor-box__name:focus { outline: none; color: var(--fcx-red-solid, #d9261c); }
+a.fgt-sponsor-box__name:focus-visible { outline: 3px solid var(--fcx-red-solid, #d9261c); outline-offset: 3px; }
 
 /* ── Responsive ── */
 @media (max-width: 768px) {

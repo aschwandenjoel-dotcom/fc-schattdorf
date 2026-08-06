@@ -34,33 +34,46 @@ body.page-id-40 .entry-header { padding: 0 !important; margin: 0 !important; }
 /* ═══════════════════════════════
    HERO
 ═══════════════════════════════ */
+/* Kopfbereich als Creme-Fläche (Winzer-Muster, identisch zu «So finden Sie
+   uns»): dunkle Schrift auf Creme, Akzentbalken in Rot. */
 .fcem-hero {
-  background: var(--white);
-  padding: clamp(3rem, 7vw, 5.5rem) clamp(1.25rem, 5vw, 5rem) clamp(2rem, 4vw, 3rem);
+  background: var(--fcx-cream, #f6efe1);
+  /* Die rote Linie zur Navigation hin sitzt global auf .fcx-hdr__bar
+     (fcs-front.css) – hier bewusst keine eigene. */
+  border-bottom: 1px solid var(--fcx-cream-line, #e3d8c2);
+  padding: clamp(1.75rem, 3.2vw, 2.5rem) clamp(1.25rem, 5vw, 5rem) clamp(1.125rem, 2vw, 1.625rem);
+  position: relative;
 }
-.fcem-hero__eyebrow { display: none; }
 .fcem-hero__title {
-  margin: 0 !important;
+  margin: 0 0 .3rem !important;
   font-family: var(--f-display);
-  font-size: clamp(2rem, 5vw, 3.75rem);
-  letter-spacing: -0.02em;
+  font-size: clamp(1.75rem, 3.4vw, 2.5rem);
+  letter-spacing: -0.022em;
   font-weight: 900 !important;
   text-transform: uppercase;
   line-height: 1.02 !important;
   position: relative;
-  padding-top: 1.4rem;
+  padding-top: .95rem;
 }
 .fcem-hero__title::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
-  width: 3rem;
+  width: 2.25rem;
   height: 3px;
-  background: var(--fcx-cream, #f6efe1);
+  background: var(--red);
 }
-.fcem-hero__line1 { color: var(--black); display: inline; }
-.fcem-hero__line2 { color: var(--black); display: inline; }
+.fcem-hero__line1 { color: #111111; display: inline; }
+.fcem-hero__line2 { color: #111111; display: inline; }
+.fcem-hero__eyebrow {
+  font-size: .75rem;
+  font-weight: 500;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--fcx-cream-muted, #5f584a);
+  margin: 0;
+}
 .fcem-hero__redline { display: none; }
 
 /* ═══════════════════════════════
@@ -76,13 +89,16 @@ body.page-id-40 .entry-header { padding: 0 !important; margin: 0 !important; }
 ═══════════════════════════════ */
 .fcem-block {
   margin: 0 3rem;
-  border-bottom: 1px solid var(--rule);
+  /* Kein eigener Trennstrich mehr – die Tabelle hat jetzt einen geschlossenen Rahmen. */
+}
+/* Abstand zur Creme-Titelfläche (die Stats-Reihe dazwischen ist ausgeblendet). */
+.fcem-stats + .fcem-block {
+  margin-top: 2.5rem;
 }
 .fcem-block + .fcem-block {
   margin-top: 2.5rem;
 }
 .fcem-block:last-of-type {
-  border-bottom: none;
   margin-bottom: 3rem;
 }
 .fcem-block__header {
@@ -99,9 +115,11 @@ body.page-id-40 .entry-header { padding: 0 !important; margin: 0 !important; }
 }
 
 /* ── Table ── */
+/* Geschlossenes Raster: Aussenrahmen rundum, dazu Spalten- und Zeilenlinien. */
 .fcem-table {
   width: 100%;
   border-collapse: collapse;
+  border: 1px solid var(--rule);
   font-size: 0.9375rem;
   font-family: var(--f-body);
   table-layout: fixed;
@@ -119,7 +137,6 @@ body.page-id-40 .entry-header { padding: 0 !important; margin: 0 !important; }
 
 .fcem-table thead tr {
   background: var(--gray);
-  border-bottom: 1px solid rgba(255,255,255,.2);
 }
 .fcem-table thead th {
   font-size: 0.75rem;
@@ -129,17 +146,15 @@ body.page-id-40 .entry-header { padding: 0 !important; margin: 0 !important; }
   color: var(--black);
   padding: 0.7rem 1rem;
   text-align: left;
-  border: none;
+  border: 1px solid var(--rule);
   overflow: hidden;
 }
-.fcem-table thead th:first-child { padding-left: 0; }
-.fcem-table tbody tr { border-bottom: 1px solid var(--rule); transition: background-color 150ms ease; }
+.fcem-table tbody tr { transition: background-color 150ms ease; }
 .fcem-table tbody tr:hover { background-color: var(--gray); }
-.fcem-table tbody tr:last-child { border-bottom: none; }
 .fcem-table tbody td {
   padding: 0.6rem 1rem;
   vertical-align: middle;
-  border: none;
+  border: 1px solid var(--rule);
   color: var(--black);
   font-weight: 400;
   overflow: hidden;
@@ -147,7 +162,6 @@ body.page-id-40 .entry-header { padding: 0 !important; margin: 0 !important; }
   white-space: nowrap;
 }
 .fcem-table tbody td:first-child {
-  padding-left: 0;
   font-weight: 600;
   white-space: normal;
 }
@@ -178,7 +192,5 @@ body.page-id-40 .entry-header { padding: 0 !important; margin: 0 !important; }
 @media (max-width: 600px) {
   .fcem-table { font-size: 0.8125rem; }
   .fcem-table tbody td,
-  .fcem-table thead th { padding: 0.5rem 0.75rem; }
-  .fcem-table tbody td:first-child,
-  .fcem-table thead th:first-child { padding-left: 0; }
+  .fcem-table thead th { padding: 0.5rem 0.6rem; }
 }

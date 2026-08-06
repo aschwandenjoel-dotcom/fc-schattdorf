@@ -64,8 +64,10 @@ foreach ( $news as $i => $p ) {
 		'teaser'=> wp_trim_words( wp_strip_all_tags( $p->post_content ), 32 ),
 	);
 }
-/* Wunsch: die Startseite führt immer nur die neuste Story im Hero. */
-$slides = array_slice( $items, 0, 1 );
+/* Der Hero führt die neusten Storys – mit den Pfeilen unter dem Titel
+   blättert man zur vorherigen/nächsten. Bei nur einem Beitrag blendet
+   die Vorlage die Pfeile aus. */
+$slides = array_slice( $items, 0, 5 );
 
 /* Hero-Daten für JS */
 $hero_json = array();
@@ -269,29 +271,6 @@ $sponsor_lead = array_shift( $sponsor_groups );
 </section>
 <script type="application/json" id="fcsh-hero-data"><?php echo wp_json_encode( $hero_json ); ?></script>
 
-<!-- ══ SPONSORENBALKEN direkt unter dem Titelbild ══ -->
-<?php
-/* Alle Sponsoren in einer Reihe – der Hauptsponsor zuerst. */
-$sponsor_strip = array();
-if ( $sponsor_lead ) {
-	foreach ( $sponsor_lead['items'] as $sp ) { $sponsor_strip[] = $sp; }
-}
-foreach ( $sponsor_groups as $g ) {
-	foreach ( $g['items'] as $sp ) { $sponsor_strip[] = $sp; }
-}
-?>
-<?php if ( ! empty( $sponsor_strip ) ) : ?>
-<aside class="fcx-spbar" aria-label="Sponsoren des FC Schattdorf">
-	<div class="fcx-spbar__track">
-		<?php foreach ( $sponsor_strip as $sp ) : ?>
-			<a class="fcx-spbar__item" href="<?php echo esc_url( $sp['url'] ); ?>" target="_blank" rel="noopener noreferrer">
-				<img src="<?php echo esc_url( $sp['img'] ); ?>" alt="<?php echo esc_attr( $sp['name'] ); ?>" loading="lazy">
-			</a>
-		<?php endforeach; ?>
-	</div>
-</aside>
-<?php endif; ?>
-
 <!-- ══ TERMINE + SPIELBETRIEB: direkt unter dem Hero ══ -->
 <section id="inhalt" class="fcx-sec fcx-agenda">
 	<div class="fcx-sechead">
@@ -422,11 +401,6 @@ foreach ( $sponsor_groups as $g ) {
 				<a href="<?php echo esc_url( fcsh_page_url( 'sponsoren' ) ); ?>">Sponsoren</a>
 				<a href="<?php echo esc_url( fcsh_page_url( 'kontakt' ) ); ?>">Kontakt</a>
 				<a href="<?php echo esc_url( wp_login_url() ); ?>">Login</a>
-			</div>
-			<div class="fcx-foot__col">
-				<h3>Newsletter</h3>
-				<?php /* Mailchimp-Anmeldung (Original-URL von fcschattdorf.ch) – gleiche URL wie footer.php */ ?>
-				<a href="https://us16.list-manage.com/subscribe?u=e95f0901b53137263a8b4fdd3&amp;id=ed86c0b0f5" target="_blank" rel="noopener noreferrer">Jetzt anmelden</a>
 			</div>
 		</div>
 	</div>

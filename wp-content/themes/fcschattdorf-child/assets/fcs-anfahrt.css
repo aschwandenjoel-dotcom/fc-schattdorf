@@ -38,38 +38,40 @@ body.page-id-42 .entry-header  { padding: 0 !important; margin: 0 !important; }
 /* Kopfbereich als Creme-Fläche (Winzer-Muster): dunkle Schrift auf
    Creme statt Weiss auf Wein, Akzentbalken in Rot. */
 .fcan-header {
-  padding: clamp(3rem, 7vw, 5.5rem) clamp(1.25rem, 5vw, 5rem) clamp(2rem, 4vw, 3rem);
+  padding: clamp(1.75rem, 3.2vw, 2.5rem) clamp(1.25rem, 5vw, 5rem) clamp(1.125rem, 2vw, 1.625rem);
   background: var(--fcx-cream, #f6efe1);
+  /* Die rote Linie zur Navigation hin sitzt global auf .fcx-hdr__bar
+     (fcs-front.css) – hier bewusst keine eigene. */
   border-bottom: 1px solid var(--card-rule);
   position: relative;
 }
 
 .fcan-header__title {
   font-family: var(--f-display) !important;
-  font-size: clamp(2.25rem, 5vw, 3.5rem) !important;
+  font-size: clamp(1.75rem, 3.4vw, 2.5rem) !important;
   font-weight: 900 !important;
-  letter-spacing: -.02em;
+  letter-spacing: -.022em;
   text-transform: uppercase;
   color: var(--card-ink) !important;
-  margin: 0 0 .5rem !important;
-  line-height: 1.05 !important;
+  margin: 0 0 .3rem !important;
+  line-height: 1.02 !important;
   position: relative;
-  padding-top: 1.4rem;
+  padding-top: .95rem;
 }
 .fcan-header__title::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
-  width: 3rem;
+  width: 2.25rem;
   height: 3px;
   background: var(--red);
 }
 
 .fcan-header__sub {
-  font-size: .8125rem;
+  font-size: .75rem;
   font-weight: 500;
-  letter-spacing: .2em;
+  letter-spacing: .18em;
   text-transform: uppercase;
   color: var(--card-muted);
   margin: 0;
@@ -230,22 +232,23 @@ body.page-id-42 .entry-header  { padding: 0 !important; margin: 0 !important; }
   color: var(--muted);
 }
 
+/* Parkhinweis: hervorgehobener Kasten */
 .fcan-parking__note {
-  font-size: .8125rem;
-  color: var(--muted);
-  line-height: 1.6;
-  margin: 0;
-}
-
-/* ── Hinweis ────────────────────────────────────────────────── */
-.fcan-notice {
   font-size: .8125rem;
   color: var(--card-muted);
   line-height: 1.6;
+  margin: 0;
   border: 1px solid var(--card-rule);
   padding: .75rem 1rem;
   background: var(--surf);
   border-radius: var(--fcx-radius, 8px);
+}
+
+/* ── Hinweis Stollenschuhe: schlichter Text ─────────────────── */
+.fcan-notice {
+  font-size: .8125rem;
+  color: var(--muted);
+  line-height: 1.6;
 }
 
 /* ── Responsive ─────────────────────────────────────────────── */
@@ -259,7 +262,7 @@ body.page-id-42 .entry-header  { padding: 0 !important; margin: 0 !important; }
   }
 
   .fcan-header {
-    padding: 3rem 1.25rem 2.25rem;
+    padding: 1.75rem 1.25rem 1.25rem;
   }
 
   .fcan-parking__list li {

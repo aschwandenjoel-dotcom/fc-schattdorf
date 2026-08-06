@@ -78,6 +78,10 @@
 .fcsh-overlay__foot{padding:1.5rem 2.5rem;border-top:1px solid rgba(255,255,255,.1);display:flex;flex-wrap:wrap;gap:1.5rem;align-items:center;}
 .fcsh-overlay__foot a{color:#9ca3af;font-size:.875rem;transition:color .15s;}
 .fcsh-overlay__foot a:hover{color:#fff;}
+/* Wie .fcx-tile auf der Startseite: nach der Rueckkehr aus dem externen Tab
+   bleibt die eigene Farbe, nur der Tastaturfokus zeigt einen Rahmen. */
+.fcsh-overlay__foot a:focus{outline:none;color:#9ca3af;}
+.fcsh-overlay__foot a:focus-visible{outline:2px solid var(--fcsh-red);outline-offset:3px;}
 .fcsh-overlay__foot span{color:#6b7280;font-size:.875rem;}
 
 /* ── HERO-SLIDER ───────────────────────────────────────────── */
