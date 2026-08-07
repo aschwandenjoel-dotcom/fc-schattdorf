@@ -149,6 +149,9 @@ body.page-id-74 .entry-header  { padding: 0 !important; margin: 0 !important; }
   display: flex;
   flex-direction: column;
   gap: .1rem;
+  /* Die Textspalte darf schrumpfen und umbrechen – sonst schiebt sich eine
+     lange E-Mail-Adresse unter den Pfeil rechts. */
+  flex: 1 1 auto;
   min-width: 0;
 }
 .fck-row__label {
@@ -162,6 +165,7 @@ body.page-id-74 .entry-header  { padding: 0 !important; margin: 0 !important; }
   font-size: .9375rem;
   font-weight: 600;
   color: var(--black);
+  overflow-wrap: break-word;
 }
 
 .fck-row__arrow {
@@ -184,7 +188,31 @@ body.page-id-74 .entry-header  { padding: 0 !important; margin: 0 !important; }
 /* ── Responsive ────────────────────────────────────────────── */
 @media (max-width: 640px) {
   .fck-header { padding: 1.75rem 1.25rem 1.25rem; }
-  /* Auch auf dem Handy Luft zum Titel – dort faellt das Gedraengte am
-     staerksten auf, weil der Rest des Bildschirms leer bleibt. */
-  .fck-content { padding: 3.5rem 1.25rem 4.5rem; }
+  /* Auf dem Handy stand die Karte oben und darunter blieb eine grosse leere
+     Weinrot-Flaeche. Statt fester Abstaende bekommt die Seite hier die volle
+     Resthoehe (wie #content in fcs-front.css) und verteilt sie um die Karte
+     herum – die Karte sitzt damit in der Mitte des roten Bereichs, mit
+     leichtem Zug nach unten (mehr Polster oben als unten). */
+  .fck-page {
+    min-height: calc(100vh - var(--fcx-hdr-h, 5.5rem));
+    display: flex;
+    flex-direction: column;
+  }
+  .fck-content {
+    flex: 1 1 auto;
+    /* width nötig: die auto-Seitenränder verhindern im Spalten-Flex sonst
+       das Strecken, die Karte wuerde auf Textbreite schrumpfen. */
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5rem 1.25rem 2.5rem;
+  }
+  .fck-card { padding: 1.75rem 1.375rem; }
+
+  /* Enger schachteln, damit fuer die E-Mail-Adresse links vom Pfeil
+     genug Platz bleibt. */
+  .fck-row { gap: .75rem; padding: .9375rem .875rem; }
+  .fck-row__icon { width: 34px; height: 34px; }
+  .fck-row__value { font-size: .875rem; }
 }

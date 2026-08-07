@@ -43,7 +43,9 @@ $mail    = fcs_pf( 'kontakt_mail', 'kommunikation@fcschattdorf.ch' );
           </span>
           <span class="fck-row__body">
             <span class="fck-row__label">E-Mail</span>
-            <span class="fck-row__value"><?php echo esc_html( $mail ); ?></span>
+            <?php /* <wbr> nach dem @: auf schmalen Handys bricht die Adresse
+                     sauber an der sinnvollen Stelle um statt in den Pfeil zu laufen. */ ?>
+            <span class="fck-row__value"><?php echo str_replace( '@', '@<wbr>', esc_html( $mail ) ); ?></span>
           </span>
           <svg class="fck-row__arrow" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg>
         </a>

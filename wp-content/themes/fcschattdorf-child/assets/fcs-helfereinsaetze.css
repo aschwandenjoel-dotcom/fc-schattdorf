@@ -114,6 +114,11 @@ body.page-id-44 .entry-header  { padding: 0 !important; margin: 0 !important; }
   margin: 0 auto;
   padding: clamp(2.5rem, 5vw, 3.5rem) clamp(1.25rem, 5vw, 2rem) clamp(3.5rem, 7vw, 5.5rem);
 }
+/* Der Inhalt liegt in zwei Bloecken (erster Bildschirm / Rest). Die
+   Naht zwischen ihnen bleibt ohne eigene Polster, den Abstand macht
+   weiterhin der Aussenabstand der Portal-Karte. */
+.fche-content--intro { padding-bottom: 0; }
+.fche-content--tail  { padding-top: 0; }
 
 /* ── Portal-Karte (Intro + primärer Link) ────────────────────────
    The Solid-Red Rule: Fläche mit weisser Beschriftung trägt --red
@@ -234,5 +239,30 @@ body.page-id-44 .entry-header  { padding: 0 !important; margin: 0 !important; }
 /* ── Responsive ───────────────────────────────────────────────── */
 @media (max-width: 640px) {
   .fche-header { padding: 1.75rem 1.25rem 1.25rem; }
-  .fche-content { padding: 2.25rem 1.25rem 3.5rem; }
+  .fche-content { padding: 2rem 1.25rem 3.5rem; }
+
+  /* Auf dem Handy lugte «Anleitung herunterladen» schon im ersten
+     Bildschirm hervor. Titel + Bild + Portal-Karte fuellen deshalb genau
+     die Bildschirmhoehe (gleiche Rechnung wie #content in fcs-front.css);
+     der Download-Block beginnt erst darunter. */
+  .fche-screen {
+    min-height: calc(100vh - var(--fcx-hdr-h, 5.5rem));
+    display: flex;
+    flex-direction: column;
+  }
+  .fche-content--intro {
+    flex: 1 1 auto;
+    /* width nötig: die auto-Seitenraender verhindern im Spalten-Flex
+       sonst das Strecken. */
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-bottom: 2.25rem;
+  }
+  /* Damit die Resthoehe nicht als leeres Weinrot dasteht, waechst das
+     Bild auf hohen Displays mit. */
+  .fche-hero__img { height: clamp(190px, 34vh, 340px); }
+  .fche-portal { margin-bottom: 0; }
+  .fche-content--tail { padding-top: 2.25rem; }
 }

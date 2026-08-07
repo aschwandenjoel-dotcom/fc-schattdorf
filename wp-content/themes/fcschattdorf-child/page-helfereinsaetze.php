@@ -36,24 +36,35 @@ if ( false !== strpos( $portal_html, 'Helferportal' ) ) {
 
 <div class="fche-page">
 
-  <!-- ── Titel ── -->
-  <header class="fche-header">
-    <h1 class="fche-header__title fche-in"><?php the_title(); ?></h1>
-    <p class="fche-header__sub">FC Schattdorf · Mithelfen</p>
-  </header>
+  <!-- ── Erster Bildschirm: Titel, Bild, Portal-Hinweis ──
+       Eigener Kasten, damit er auf dem Handy genau die Bildschirmhoehe
+       fuellt und der Download-Block erst nach dem Scrollen auftaucht. -->
+  <div class="fche-screen">
 
-  <div class="fche-content">
+    <!-- ── Titel ── -->
+    <header class="fche-header">
+      <h1 class="fche-header__title fche-in"><?php the_title(); ?></h1>
+      <p class="fche-header__sub">FC Schattdorf · Mithelfen</p>
+    </header>
 
-    <!-- ── Bild ── -->
-    <div class="fche-hero fche-in">
-      <img class="fche-hero__img" src="<?php echo esc_url( $up . 'Helferportal1.jpg' ); ?>" alt="Helfereinsätze">
+    <div class="fche-content fche-content--intro">
+
+      <!-- ── Bild ── -->
+      <div class="fche-hero fche-in">
+        <img class="fche-hero__img" src="<?php echo esc_url( $up . 'Helferportal1.jpg' ); ?>" alt="Helfereinsätze">
+      </div>
+
+      <!-- ── Portal-Hinweis ── -->
+      <div class="fche-portal fche-in">
+        <div class="fche-portal__label">Registrierung</div>
+        <p class="fche-portal__text"><?php echo $portal_html; ?></p>
+      </div>
+
     </div>
 
-    <!-- ── Portal-Hinweis ── -->
-    <div class="fche-portal fche-in">
-      <div class="fche-portal__label">Registrierung</div>
-      <p class="fche-portal__text"><?php echo $portal_html; ?></p>
-    </div>
+  </div>
+
+  <div class="fche-content fche-content--tail">
 
     <!-- ── Anleitung herunterladen ── -->
     <section class="fche-section fche-in">
