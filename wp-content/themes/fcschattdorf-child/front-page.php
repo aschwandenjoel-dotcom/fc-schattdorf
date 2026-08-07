@@ -215,7 +215,7 @@ $sponsor_lead = array_shift( $sponsor_groups );
 						</button>
 						<div class="fcsh-mitem__sub">
 							<?php foreach ( $item['children'] as $c ) : ?>
-								<a href="<?php echo esc_url( $c[1] ); ?>">→ <?php echo esc_html( $c[0] ); ?></a>
+								<a href="<?php echo esc_url( $c[1] ); ?>"><?php echo esc_html( $c[0] ); ?></a>
 							<?php endforeach; ?>
 						</div>
 					</div>

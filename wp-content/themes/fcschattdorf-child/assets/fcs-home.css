@@ -69,10 +69,18 @@
   background:none;border-color:transparent;
 }
 .fcsh-mitem--active>a{color:var(--fcsh-red);}
-.fcsh-mitem__sub{margin-top:0;padding:0 0 .75rem 0;display:none;}
+/* Unterseiten: kein Pfeil-Zeichen davor, sondern eine ruhige Linie links,
+   die die Ebene zeigt. Beim Antippen rueckt der Eintrag leicht nach rechts. */
+.fcsh-mitem__sub{
+  display:none;margin:0 0 .85rem;padding-left:1rem;
+  border-left:2px solid rgba(255,255,255,.18);
+}
 .fcsh-mitem.is-open .fcsh-mitem__sub{display:block;}
-.fcsh-mitem__sub a{display:block;color:#9ca3af;font-size:.875rem;padding:.25rem 0;transition:color .15s;}
-.fcsh-mitem__sub a:hover{color:#fff;}
+.fcsh-mitem__sub a{
+  display:block;color:#9ca3af;font-size:.9375rem;padding:.35rem 0;
+  transition:color .15s,transform .15s;
+}
+.fcsh-mitem__sub a:hover,.fcsh-mitem__sub a:focus-visible{color:#fff;transform:translateX(3px);}
 .fcsh-mitem__chev{width:20px;height:20px;stroke:currentColor;fill:none;transition:transform .2s;flex-shrink:0;}
 .fcsh-mitem.is-open .fcsh-mitem__chev{transform:rotate(180deg);}
 .fcsh-overlay__foot{padding:1.5rem 2.5rem;border-top:1px solid rgba(255,255,255,.1);display:flex;flex-wrap:wrap;gap:1.5rem;align-items:center;}

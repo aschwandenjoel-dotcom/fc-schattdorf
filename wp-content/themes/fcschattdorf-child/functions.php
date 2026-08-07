@@ -360,7 +360,7 @@ add_action( 'wp_body_open', function () {
 						</button>
 						<div class="fcsh-mitem__sub">
 							<?php foreach ( $item['children'] as $c ) : ?>
-								<a href="<?php echo esc_url( $c[1] ); ?>">→ <?php echo esc_html( $c[0] ); ?></a>
+								<a href="<?php echo esc_url( $c[1] ); ?>"><?php echo esc_html( $c[0] ); ?></a>
 							<?php endforeach; ?>
 						</div>
 					</div>
