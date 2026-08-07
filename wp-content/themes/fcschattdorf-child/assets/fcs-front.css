@@ -9,6 +9,9 @@
   --fcx-red-deep:#d9261c;
   --fcx-ink:#101214;
   --fcx-ink-2:#1c1f23;
+  /* Tiefste Stufe: Fusszeilen-Balken und der Grund hinter dem Dokument
+     (siehe «Seitengeruest» weiter unten). */
+  --fcx-ink-deep:#0a0b0c;
   --fcx-paper:#ffffff;
   /* Vereinsgrau: minimaler Rotstich statt Technik-Kühlgrau (siehe DESIGN.md 3.a "Wärme") */
   --fcx-mist:#f5f1f0;
@@ -56,6 +59,36 @@
 }
 .fcx-sec--ink :where(a,button):focus-visible,
 .fcx-hdr :where(a,button):focus-visible{outline-color:#fff;}
+
+/* ── SEITENGERÜST ───────────────────────────────────────────────────
+   Zwei Dinge, die nur auf dem Handy auffallen.
+
+   1. Überscroll hinter dem Footer. Zieht man unten über das Dokument
+      hinaus (elastisches Scrollen auf iOS/Android), wird der Grund
+      hinter dem Dokument sichtbar. Der lag bisher bei der Seitenfarbe,
+      weil <html> durchsichtig war und der Hintergrund des <body> auf
+      die Zeichenfläche durchschlug – unter dem schwarzen Footer blitzte
+      also Weiss bzw. Weinrot auf. Sobald <html> selbst eine Farbe hat,
+      bleibt der Hintergrund des <body> auf dessen Box und die Fläche
+      dahinter trägt das Schwarz des Fusszeilen-Balkens. Oben passt es
+      ebenso: die Kopfzeile ist mit --fcx-ink praktisch derselbe Ton.
+      Der Überscroll selbst bleibt erhalten – ihn zu unterbinden würde
+      auch Ziehen-zum-Aktualisieren kosten. */
+html{background-color:var(--fcx-ink-deep);}
+
+/* 2. Kurze Seiten (z. B. Kontakt) endeten schon vor der Bildschirm-
+      unterkante, der Footer stand dadurch ohne Scrollen im Bild. Der
+      Inhaltsbereich bekommt darum mindestens die Bildschirmhöhe abzüglich
+      der Kopfzeile – der Footer beginnt damit genau darunter. 100vh ist
+      hier bewusst gewählt: mobile Browser rechnen damit die Höhe MIT
+      eingeklappter Adressleiste, der Footer bleibt also auch dann
+      draussen. Die Kopfzeile schrumpft beim Scrollen (.is-scrolled),
+      massgebend ist der ungescrollte Zustand. Die rote Abschlusslinie
+      steckt dank border-box schon in der Höhe von .fcx-hdr__bar und darf
+      nicht zusätzlich abgezogen werden. */
+:root{--fcx-hdr-h:6.25rem;}                       /* Höhe .fcx-hdr__bar */
+@media(max-width:64rem){:root{--fcx-hdr-h:5.5rem;}}
+#content{min-height:calc(100vh - var(--fcx-hdr-h));}
 
 /* ── Volle Breite auf Seiten mit eigenem Layout ────────────── */
 body.fcx-wide #content,
@@ -734,7 +767,7 @@ body.fcx-wine-page #content{background:var(--fcx-wine);}
 }
 .fcx-foot__col a:hover{color:#fff;}
 .fcx-foot__bar{
-  background:#0a0b0c;padding:1.1rem var(--fcx-pad);
+  background:var(--fcx-ink-deep);padding:1.1rem var(--fcx-pad);
   display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem;
 }
 .fcx-foot__bar p{margin:0;font-size:.75rem;color:rgba(255,255,255,.4);}
