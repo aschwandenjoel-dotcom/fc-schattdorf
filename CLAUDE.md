@@ -50,6 +50,32 @@ nicht (Hinweis im Skript-Kopf).
 - Nach Live-Import: Verifikations-Checks ~1 Minute warten
   (Hostpoint-Seitencache liefert sonst Fehlalarme).
 
+## Domain / DNS (häufigste Ausfallursache)
+
+`fcschattdorf.dynalias.net` ist ein **dynamischer DNS-Eintrag**
+(dynalias.net, Nameserver bei Oracle, TTL 60 s) und muss per A-Record
+auf den Hostpoint-Server `sl1819.web.hostpoint.ch` zeigen. Zeigt er
+woanders hin, ist die Seite offline, obwohl Server, WordPress und Theme
+einwandfrei laufen — **erst prüfen, nicht am Code suchen:**
+
+```
+./scripts/check-live.sh
+```
+
+Trennt DNS-Problem von Server-Problem und nennt die Soll-IP. Am
+05.08.2026 zeigte der Record auf eine Vercel-IP (216.198.79.1), Vercel
+antwortete `DEPLOYMENT_NOT_FOUND` und hatte kein Zertifikat für den
+Namen. Die Korrektur des Records ist nur im dynalias.net-Konto möglich.
+
+Deploy- und Pull-Skripte sind dagegen abgesichert: sie binden
+`scripts/lib-live.sh` ein und rufen die Live-Seite über `lcurl` auf,
+das bei falschem DNS per `--resolve` direkt auf die Hostpoint-IP geht
+(korrektes SNI, Zertifikatsprüfung bleibt aktiv). Neue Skripte, die
+gegen live sprechen, ebenso aufbauen — kein `curl` direkt.
+
+Achtung: Das Let's-Encrypt-Zertifikat wird über den Hostnamen
+validiert. Bleibt das DNS falsch, scheitert auch die Erneuerung.
+
 ## Backups
 
 `./scripts/backup.sh` — DB + Uploads nach `backups/` und OneDrive.

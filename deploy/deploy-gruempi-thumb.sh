@@ -20,7 +20,8 @@ cd "$(dirname "$0")/.."
 
 HOST="aziwivac@sl1819.web.hostpoint.ch"
 WEBROOT="www/fcschattdorf"
-LIVE="https://fcschattdorf.dynalias.net"
+# Setzt $LIVE und lcurl(); lcurl geht bei falschem DNS direkt auf Hostpoint
+. scripts/lib-live.sh
 UPLOAD_SUB="wp-content/uploads/2026/07"
 FILE="gruempelturnier-hero.jpg"
 SLUG="33-dorf-und-66-gruempelturnier-des-fc-schattdorf"
@@ -41,7 +42,7 @@ scp -q deploy/fcs-set-gruempi-thumb.php "$HOST:$WEBROOT/fcs-set-gruempi-thumb.ph
 rm -f deploy/fcs-set-gruempi-thumb.php
 
 echo "    Antwort des Skripts:"
-RESP="$(curl -sS --max-time 600 "$LIVE/fcs-set-gruempi-thumb.php?token=${TOKEN}")"
+RESP="$(lcurl -sS --max-time 600 "$LIVE/fcs-set-gruempi-thumb.php?token=${TOKEN}")"
 echo "$RESP" | sed 's/^/      /'
 
 # ── 3. Aufräumen (falls Selbst-Löschung nicht griff) ────────────────
@@ -56,12 +57,12 @@ fail=0
 check() { if [ "$2" -eq 0 ]; then echo "    OK   $1"; else echo "    FEHLER  $1"; fail=1; fi }
 
 # Neues Bild ausgeliefert?
-code="$(curl -s -o /dev/null -w '%{http_code}' "$LIVE/$UPLOAD_SUB/$FILE")"
+code="$(lcurl -s -o /dev/null -w '%{http_code}' "$LIVE/$UPLOAD_SUB/$FILE")"
 [ "$code" = "200" ]; check "Header-Bild $FILE erreichbar (HTTP $code)" $?
 
 # Beitragsbild in der News-Übersicht (Card-<img>) = neues Bild?
 # page-news.php gibt get_the_post_thumbnail_url(..., 'full') als <img src> aus.
-curl -s "$LIVE/news/" | grep -q "$FILE"
+lcurl -s "$LIVE/news/" | grep -q "$FILE"
 check "News-Übersicht /news/ zeigt Card-Bild $FILE" $?
 
 echo

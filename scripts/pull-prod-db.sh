@@ -29,8 +29,10 @@ if [ -f .env ]; then set -a; . ./.env; set +a; else echo "FEHLER: .env fehlt." >
 
 HOST="aziwivac@sl1819.web.hostpoint.ch"
 WEBROOT="www/fcschattdorf"
-LIVE="https://fcschattdorf.dynalias.net"
 STAMP="$(date +%Y%m%d-%H%M%S)"
+
+# Setzt $LIVE und lcurl(); lcurl geht bei falschem DNS direkt auf Hostpoint
+. scripts/lib-live.sh
 
 wpc() { docker compose run --rm -T wpcli wp "$@"; }
 log() { printf "\n\033[1;32m==> %s\033[0m\n" "$1"; }
@@ -52,7 +54,7 @@ sed "s/__TOKEN__/${TOKEN}/" deploy/fcs-db-export.php.tpl > deploy/fcs-db-export.
 scp -q deploy/fcs-db-export.php "$HOST:$WEBROOT/fcs-db-export.php"
 rm deploy/fcs-db-export.php
 DUMP="backups/prod-db-${STAMP}.sql"
-curl -sS --max-time 600 "$LIVE/fcs-db-export.php?token=${TOKEN}" -o "$DUMP"
+lcurl -sS --max-time 600 "$LIVE/fcs-db-export.php?token=${TOKEN}" -o "$DUMP"
 ssh "$HOST" "rm -f $WEBROOT/fcs-db-export.php"
 
 log "3/4  Dump prüfen und importieren…"

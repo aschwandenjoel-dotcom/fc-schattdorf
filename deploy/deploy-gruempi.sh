@@ -19,7 +19,8 @@ cd "$(dirname "$0")/.."
 
 HOST="aziwivac@sl1819.web.hostpoint.ch"
 WEBROOT="www/fcschattdorf"
-LIVE="https://fcschattdorf.dynalias.net"
+# Setzt $LIVE und lcurl(); lcurl geht bei falschem DNS direkt auf Hostpoint
+. scripts/lib-live.sh
 UPLOAD_SUB="wp-content/uploads/2026/07"
 SLUG="33-dorf-und-66-gruempelturnier-des-fc-schattdorf"
 
@@ -39,7 +40,7 @@ scp -q deploy/fcs-import-gruempi.php "$HOST:$WEBROOT/fcs-import-gruempi.php"
 rm -f deploy/fcs-import-gruempi.php
 
 echo "    Antwort des Import-Skripts:"
-RESP="$(curl -sS --max-time 600 "$LIVE/fcs-import-gruempi.php?token=${TOKEN}")"
+RESP="$(lcurl -sS --max-time 600 "$LIVE/fcs-import-gruempi.php?token=${TOKEN}")"
 echo "$RESP" | sed 's/^/      /'
 
 # ── 3. Aufräumen (falls Selbst-Löschung nicht griff) ────────────────
@@ -54,16 +55,16 @@ fail=0
 check() { if [ "$2" -eq 0 ]; then echo "    OK   $1"; else echo "    FEHLER  $1"; fail=1; fi }
 
 # Einzelbeitrag erreichbar + Titel vorhanden?
-html="$(curl -s "$LIVE/$SLUG/")"
+html="$(lcurl -s "$LIVE/$SLUG/")"
 echo "$html" | grep -q "Grümpelturnier des FC Schattdorf"
 check "Einzelbeitrag /$SLUG/ zeigt den Titel" $?
 
 # Beitragsbild (Leadbild) ausgeliefert?
-code="$(curl -s -o /dev/null -w '%{http_code}' "$LIVE/$UPLOAD_SUB/thumbnail.jpg")"
+code="$(lcurl -s -o /dev/null -w '%{http_code}' "$LIVE/$UPLOAD_SUB/thumbnail.jpg")"
 [ "$code" = "200" ]; check "Leadbild thumbnail.jpg erreichbar (HTTP $code)" $?
 
 # In der News-Übersicht gelistet?
-curl -s "$LIVE/news/" | grep -q "Dorf- und 66. Grümpelturnier"
+lcurl -s "$LIVE/news/" | grep -q "Dorf- und 66. Grümpelturnier"
 check "In der News-Übersicht /news/ gelistet" $?
 
 echo

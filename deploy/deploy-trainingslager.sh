@@ -17,7 +17,8 @@ cd "$(dirname "$0")/.."
 
 HOST="aziwivac@sl1819.web.hostpoint.ch"
 WEBROOT="www/fcschattdorf"
-LIVE="https://fcschattdorf.dynalias.net"
+# Setzt $LIVE und lcurl(); lcurl geht bei falschem DNS direkt auf Hostpoint
+. scripts/lib-live.sh
 THEME="wp-content/themes/fcschattdorf-child"
 
 log() { printf "\n\033[1;32m==> %s\033[0m\n" "$1"; }
@@ -44,8 +45,8 @@ log "3/4  Warte 60 s (Hostpoint-Seitencache), dann prüfen…"
 sleep 60
 
 URL="$LIVE/junioren/trainingslager/"
-BODY="$(curl -sS --max-time 60 "$URL")"
-CODE="$(curl -sS -o /dev/null -w '%{http_code}' --max-time 60 "$URL")"
+BODY="$(lcurl -sS --max-time 60 "$URL")"
+CODE="$(lcurl -sS -o /dev/null -w '%{http_code}' --max-time 60 "$URL")"
 
 echo "    Seite:            HTTP $CODE"
 echo "    Galerie-Bilder:   $(printf '%s' "$BODY" | grep -c 'class="tl-gal-item"')  (erwartet 24)"
@@ -56,7 +57,7 @@ echo "    PHP-Warnungen:    $(printf '%s' "$BODY" | grep -c 'Warning:\|Fatal err
 log "4/4  Stichprobe: liefern die Bilder aus?"
 fail=0
 for f in tl26-hero.jpg tl26-flyer.jpg tl26-campus-unterkunft.jpg tl26-gal-01.jpg tl26-gal-24-lg.jpg; do
-  c="$(curl -sS -o /dev/null -w '%{http_code}' --max-time 60 \
+  c="$(lcurl -sS -o /dev/null -w '%{http_code}' --max-time 60 \
        "$LIVE/$THEME/assets/img/tl/$f")"
   if [ "$c" = "200" ]; then echo "    OK   $f"; else echo "    FEHLER $f -> HTTP $c"; fail=1; fi
 done
