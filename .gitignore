@@ -33,6 +33,8 @@ deploy/*
 !deploy/deploy-gruempi-thumb.sh
 # Ausnahme: Theme-Deploy der Trainingslager-Seite (enthaelt keine Geheimnisse)
 !deploy/deploy-trainingslager.sh
+# Ausnahme: Theme-Deploy der Titelbilder auf den Teamseiten (keine Geheimnisse)
+!deploy/deploy-team-titelbilder.sh
 
 # OS
 .DS_Store
