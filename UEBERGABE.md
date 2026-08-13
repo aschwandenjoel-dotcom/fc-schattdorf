@@ -57,12 +57,16 @@ wiederholbar).
 und der freigegebenen Deploy-Skripte:
 
 ```bash
-git clone git@github.com:aschwandenjoel-dotcom/fc-schattdorf.git
+git clone https://github.com/aschwandenjoel-dotcom/fc-schattdorf.git
 cd fc-schattdorf
 cp .env.example .env          # enthält nur lokale Ports/Passwörter
 chmod +x scripts/*.sh deploy/*.sh
 ./scripts/setup.sh            # Docker-Umgebung aufbauen
 ```
+
+Der Klon dauert: das Repo ist rund 0.5 GB, weil `import/` die
+Original-Assets der alten Website enthält. Das Repo ist **privat** und
+muss es bleiben (Urheberrecht an diesen Assets).
 
 **Nicht im Repo** und deshalb separat nötig:
 
