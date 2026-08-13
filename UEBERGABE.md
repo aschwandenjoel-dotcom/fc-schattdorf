@@ -14,10 +14,13 @@ Projektregeln stehen in `CLAUDE.md`, das Setup der lokalen Umgebung in
   (`fcs-kontakt.css`, `fcs-helfereinsaetze.css`, `fcs-front.css`,
   `fcs-schiedsrichter.css` identisch) sowie über die Marker `fche-screen`
   und `<wbr>` im ausgelieferten HTML.
-- Die Datenbank ist **noch nicht** aktualisiert: die Schiedsrichter-Seite
-  zeigt 5 statt 7 Schiedsrichter, die Spielleiter-Liste steht auf dem
-  alten Stand (noch mit Küttel Thomas / Zamuner Sandro, ohne Tresch Fabio /
-  Zamuner Alessandro).
+- Der Schiedsrichter-Stand ist ausgerollt (13.08.2026). Geprüft: 7
+  Schiedsrichter inkl. Lucas Martins Ferreira und Leon Ziegler («SR –
+  Anfänger»), Spielleiter-Liste mit Tresch Fabio und Zamuner Alessandro,
+  ohne Küttel Thomas und Zamuner Sandro; das Deploy-Skript hat sich vom
+  Server geräumt (HTTP 404).
+- Beide Neuzugänge haben noch kein Foto (Platzhalter-Symbol). Bilder bei
+  Bedarf im Live-Admin unter Personen → Bild nachtragen.
 
 **Repo**
 
@@ -26,30 +29,32 @@ Projektregeln stehen in `CLAUDE.md`, das Setup der lokalen Umgebung in
   (Transfer-Dump, wird von `scripts/backup.sh` erzeugt — gehört nicht zu
   den Code-Änderungen und ist absichtlich nicht mitcommittet).
 
-## 2. Offener Schritt: Schiedsrichter-Stand nach live
+## 2. Offene Schritte
 
-In dieser Reihenfolge ausführen:
+Keine. Beide Deploys sind gelaufen und live geprüft:
+`deploy/deploy-responsiv-kontakt-helfer.sh` (Theme) und
+`deploy/deploy-schiedsrichter.sh` (DB). Beide sind idempotent und
+könnten gefahrlos erneut laufen, es besteht aber kein Grund dazu.
+
+Nächster sinnvoller Schritt auf einem frischen Rechner ist deshalb nur
+noch `./scripts/pull-prod-db.sh`, damit die lokale DB dem Live-Stand
+entspricht.
+
+**Muster für künftige DB-Änderungen** (auf Hostpoint ist MySQL nur aus
+Web-Prozessen erreichbar, siehe `CLAUDE.md`):
 
 ```bash
 ./scripts/pull-prod-db.sh          # 1. Live-Dump nach backups/ = Sicherung
-./deploy/deploy-schiedsrichter.sh  # 2. Live-DB ändern (Probelauf -> Rückfrage)
+./deploy/<dein-db-skript>.sh       # 2. Live-DB ändern (Probelauf -> Rückfrage)
 ./scripts/pull-prod-db.sh          # 3. lokal wieder = live
 ```
 
-Zu Schritt 1: `scripts/backup.sh` sichert nur die **lokale** Umgebung und
-taugt hier nicht als Rückweg. Der Rückweg ist der Live-Dump aus
+`scripts/backup.sh` sichert nur die **lokale** Umgebung und taugt nicht
+als Rückweg für eine Live-Änderung. Der Rückweg ist der Live-Dump aus
 `pull-prod-db.sh` (`backups/prod-db-<Zeitstempel>.sql.gz`).
-
-Zu Schritt 2: Das Skript legt zwei Personen an (Lucas Martins Ferreira,
-Leon Ziegler — beide «SR – Anfänger») und setzt das Seitenfeld
-`fcs_sr_spielleiter`. Es ist idempotent; Erledigtes meldet «SKIP». Meldet
-Teil B **ABBRUCH**, wurde die Spielleiter-Liste zwischenzeitlich im
-Live-Admin gepflegt — dann nicht blind `&force=1` nachschieben, sondern
-erst abgleichen.
-
-Der Theme-Deploy `./deploy/deploy-responsiv-kontakt-helfer.sh` ist bereits
-gelaufen und muss **nicht** wiederholt werden (er wäre aber gefahrlos
-wiederholbar).
+`deploy/fcs-schiedsrichter-update.php.tpl` taugt als Vorlage: Token-Schutz,
+Probelauf via `&dry=1`, Abbruch statt Überschreiben, wenn der Live-Wert
+nicht dem erwarteten alten Stand entspricht.
 
 ## 3. Neuer Rechner: was gebraucht wird
 
