@@ -1,6 +1,6 @@
 # Übergabe / Rechnerwechsel
 
-Stand: **13.08.2026**. Diese Datei beschreibt, was gerade offen ist und was
+Stand: **29.08.2026**. Diese Datei beschreibt, was gerade offen ist und was
 auf einem neuen Rechner eingerichtet werden muss. Die dauerhaften
 Projektregeln stehen in `CLAUDE.md`, das Setup der lokalen Umgebung in
 `README.md`.
@@ -9,11 +9,14 @@ Projektregeln stehen in `CLAUDE.md`, das Setup der lokalen Umgebung in
 
 **Live (https://fcschattdorf.dynalias.net)**
 
-- Theme-Code ist auf dem Stand von `main`. Geprüft am 13.08.2026 durch
-  Byte-Vergleich der ausgelieferten Stylesheets mit den lokalen Dateien
-  (`fcs-kontakt.css`, `fcs-helfereinsaetze.css`, `fcs-front.css`,
-  `fcs-schiedsrichter.css` identisch) sowie über die Marker `fche-screen`
-  und `<wbr>` im ausgelieferten HTML.
+- Theme-Code ist auf dem Stand von `main`. Erneut geprüft am 29.08.2026
+  durch Byte-Vergleich der ausgelieferten Stylesheets mit den Repo-Blobs
+  (`fcs-kontakt.css`, `fcs-front.css`, `fcs-wine-info.css`,
+  `fcs-schiedsrichter.css`, `fcs-trainingslager.css` identisch).
+  `fcs-top-club-88.css` liefert live 404 — richtig so, die Datei ist im
+  Repo gelöscht und durch `fcs-wine-info.css` ersetzt.
+- DNS, Besuchersicht, Serversicht und Zertifikat am 29.08.2026 grün
+  (`./scripts/check-live.sh`); Zertifikat läuft bis 21.10.2026.
 - Der Schiedsrichter-Stand ist ausgerollt (13.08.2026). Geprüft: 7
   Schiedsrichter inkl. Lucas Martins Ferreira und Leon Ziegler («SR –
   Anfänger»), Spielleiter-Liste mit Tresch Fabio und Zamuner Alessandro,
@@ -25,20 +28,32 @@ Projektregeln stehen in `CLAUDE.md`, das Setup der lokalen Umgebung in
 **Repo**
 
 - `main` == `origin/main`, alles gepusht.
+- Am 29.08.2026 zusammengeführt (Merge `a89355b`): Joels
+  DNS-Absicherung vom 12.08.2026
+  (`scripts/check-live.sh`, `scripts/lib-live.sh`,
+  `scripts/pull-theme-live.sh`) war nie gepusht und fehlte in diesem
+  Stand. Einziger Konflikt war `.gitignore`, wo beide Seiten
+  Deploy-Ausnahmen ergänzt hatten — beide Blöcke behalten.
 - Einzige offene Änderung im Arbeitsverzeichnis: `fc-schattdorf-db.sql`
   (Transfer-Dump, wird von `scripts/backup.sh` erzeugt — gehört nicht zu
   den Code-Änderungen und ist absichtlich nicht mitcommittet).
 
 ## 2. Offene Schritte
 
-Keine. Beide Deploys sind gelaufen und live geprüft:
+Kein Deploy. Beide sind gelaufen und live geprüft:
 `deploy/deploy-responsiv-kontakt-helfer.sh` (Theme) und
 `deploy/deploy-schiedsrichter.sh` (DB). Beide sind idempotent und
 könnten gefahrlos erneut laufen, es besteht aber kein Grund dazu.
 
-Nächster sinnvoller Schritt auf einem frischen Rechner ist deshalb nur
-noch `./scripts/pull-prod-db.sh`, damit die lokale DB dem Live-Stand
-entspricht.
+**Offen: `./scripts/pull-prod-db.sh`** — die lokale DB ist seit dem
+13.08.2026 nicht mehr gezogen worden. Vor jeder Arbeit an Inhalten oder
+Vorlagen nachholen, sonst arbeitet man auf altem Redaktionsstand.
+
+Erledigt am 29.08.2026: `deploy-designstand.sh`,
+`deploy-responsiv-kontakt-helfer.sh` und `deploy-schiedsrichter.sh`
+riefen live noch mit nacktem `curl` auf und binden jetzt
+`scripts/lib-live.sh` ein. Damit gilt die Regel aus `CLAUDE.md`
+(kein direktes `curl` gegen live) für alle Skripte.
 
 **Muster für künftige DB-Änderungen** (auf Hostpoint ist MySQL nur aus
 Web-Prozessen erreichbar, siehe `CLAUDE.md`):
