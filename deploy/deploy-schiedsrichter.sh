@@ -22,7 +22,8 @@ cd "$(dirname "$0")/.."
 
 HOST="aziwivac@sl1819.web.hostpoint.ch"
 WEBROOT="www/fcschattdorf"
-LIVE="https://fcschattdorf.dynalias.net"
+# Setzt $LIVE und lcurl(); lcurl geht bei falschem DNS direkt auf Hostpoint
+. scripts/lib-live.sh
 PHPNAME="fcs-schiedsrichter-update.php"
 SEITE="/verein/schiedsrichter/"
 
@@ -35,7 +36,7 @@ sed "s/__TOKEN__/${TOKEN}/" "deploy/${PHPNAME}.tpl" > "deploy/${PHPNAME}"
 scp -q "deploy/${PHPNAME}" "$HOST:$WEBROOT/${PHPNAME}"
 rm -f "deploy/${PHPNAME}"
 
-curl -sS --max-time 120 "$LIVE/${PHPNAME}?token=${TOKEN}&dry=1" | sed 's/^/      /'
+lcurl -sS --max-time 120 "$LIVE/${PHPNAME}?token=${TOKEN}&dry=1" | sed 's/^/      /'
 
 printf "\n\033[1;33mProbelauf oben plausibel? Jetzt wirklich in die Live-DB schreiben? [j/N] \033[0m"
 read -r answer
@@ -47,12 +48,12 @@ fi
 
 # ── 2. Scharf auslösen ──────────────────────────────────────────────
 log "2/5  DB-Änderung ausführen…"
-curl -sS --max-time 120 "$LIVE/${PHPNAME}?token=${TOKEN}" | sed 's/^/      /'
+lcurl -sS --max-time 120 "$LIVE/${PHPNAME}?token=${TOKEN}" | sed 's/^/      /'
 
 # ── 3. Reste entfernen (falls Selbst-Löschung nicht griff) ──────────
 log "3/5  Reste auf dem Server entfernen…"
 ssh "$HOST" "rm -f $WEBROOT/${PHPNAME}"
-code="$(curl -s -o /dev/null -w '%{http_code}' "$LIVE/${PHPNAME}")"
+code="$(lcurl -s -o /dev/null -w '%{http_code}' "$LIVE/${PHPNAME}")"
 echo "    ${PHPNAME} liefert HTTP $code (erwartet 404)"
 
 # ── 4. Warten (Hostpoint-Seitencache) ───────────────────────────────
@@ -61,8 +62,8 @@ sleep 60
 
 # ── 5. Verifikation ─────────────────────────────────────────────────
 log "5/5  Seite prüfen…"
-body="$(curl -sSL --max-time 60 "$LIVE$SEITE")"
-code="$(curl -sSL -o /dev/null -w '%{http_code}' --max-time 60 "$LIVE$SEITE")"
+body="$(lcurl -sSL --max-time 60 "$LIVE$SEITE")"
+code="$(lcurl -sSL -o /dev/null -w '%{http_code}' --max-time 60 "$LIVE$SEITE")"
 
 zaehl() { printf '%s' "$body" | grep -c "$1" || true; }
 

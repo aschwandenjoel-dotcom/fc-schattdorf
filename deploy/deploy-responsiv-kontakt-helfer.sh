@@ -25,7 +25,8 @@ cd "$(dirname "$0")/.."
 
 HOST="aziwivac@sl1819.web.hostpoint.ch"
 WEBROOT="www/fcschattdorf"
-LIVE="https://fcschattdorf.dynalias.net"
+# Setzt $LIVE und lcurl(); lcurl geht bei falschem DNS direkt auf Hostpoint
+. scripts/lib-live.sh
 THEME="wp-content/themes/fcschattdorf-child"
 
 log() { printf "\n\033[1;32m==> %s\033[0m\n" "$1"; }
@@ -59,8 +60,8 @@ ok=1
 
 pruefe() { # $1 Pfad, $2 Suchmuster, $3 Beschreibung
   local body code treffer
-  body="$(curl -sSL --max-time 60 "$LIVE$1")"
-  code="$(curl -sSL -o /dev/null -w '%{http_code}' --max-time 60 "$LIVE$1")"
+  body="$(lcurl -sSL --max-time 60 "$LIVE$1")"
+  code="$(lcurl -sSL -o /dev/null -w '%{http_code}' --max-time 60 "$LIVE$1")"
   treffer="$(printf '%s' "$body" | grep -c "$2" || true)"
   echo "    $1  HTTP $code | $3: $treffer (erwartet >0)"
   [ "$code" = "200" ] && [ "$treffer" != "0" ] || ok=0
@@ -71,7 +72,7 @@ pruefe "/helfereinsaetze/"  'fche-screen'    "Erster-Bildschirm-Kasten"
 
 # Stylesheets: kommen sie mit frischem Zeitstempel (Cache-Busting)?
 for css in fcs-kontakt fcs-helfereinsaetze; do
-  ver="$(curl -sSL --max-time 60 "$LIVE/kontakt/" "$LIVE/helfereinsaetze/" \
+  ver="$(lcurl -sSL --max-time 60 "$LIVE/kontakt/" "$LIVE/helfereinsaetze/" \
         | grep -o "${css}\.css?ver=[0-9]*" | head -1)"
   echo "    Stylesheet: ${ver:-NICHT GEFUNDEN}"
   [ -n "$ver" ] || ok=0

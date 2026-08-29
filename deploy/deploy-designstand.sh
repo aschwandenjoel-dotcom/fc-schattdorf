@@ -40,7 +40,8 @@ cd "$(dirname "$0")/.."
 
 HOST="aziwivac@sl1819.web.hostpoint.ch"
 WEBROOT="www/fcschattdorf"
-LIVE="https://fcschattdorf.dynalias.net"
+# Setzt $LIVE und lcurl(); lcurl geht bei falschem DNS direkt auf Hostpoint
+. scripts/lib-live.sh
 THEME="wp-content/themes/fcschattdorf-child"
 
 log() { printf "\n\033[1;32m==> %s\033[0m\n" "$1"; }
@@ -70,7 +71,7 @@ db_schritt() {
   scp -q "deploy/${phpname}" "$HOST:$WEBROOT/${phpname}"
   rm -f "deploy/${phpname}"
 
-  curl -sS --max-time 120 "$LIVE/${phpname}?token=${token}&dry=1" | sed 's/^/      /'
+  lcurl -sS --max-time 120 "$LIVE/${phpname}?token=${token}&dry=1" | sed 's/^/      /'
 
   printf "\n\033[1;33mProbelauf oben plausibel? Jetzt wirklich schreiben? [j/N] \033[0m"
   read -r antwort
@@ -81,11 +82,11 @@ db_schritt() {
   fi
 
   echo "    Schreibe…"
-  curl -sS --max-time 120 "$LIVE/${phpname}?token=${token}" | sed 's/^/      /'
+  lcurl -sS --max-time 120 "$LIVE/${phpname}?token=${token}" | sed 's/^/      /'
 
   # Reste entfernen, falls die Selbst-Löschung nicht griff.
   ssh "$HOST" "rm -f $WEBROOT/${phpname}"
-  echo "    ${phpname} liefert HTTP $(curl -s -o /dev/null -w '%{http_code}' "$LIVE/${phpname}") (erwartet 404)"
+  echo "    ${phpname} liefert HTTP $(lcurl -s -o /dev/null -w '%{http_code}' "$LIVE/${phpname}") (erwartet 404)"
 }
 
 log "3/7  DB: Seite «Teams» auf die neue Vorlage"
@@ -115,8 +116,8 @@ fehler=0
 # $1=Pfad  $2=Marke, die vorkommen MUSS  $3=(optional) Marke, die FEHLEN muss
 pruefe() {
   local pfad="$1" marke="$2" verboten="${3:-}" body code treffer weg
-  body="$(curl -sS --max-time 60 "$LIVE$pfad")"
-  code="$(curl -sS -o /dev/null -w '%{http_code}' --max-time 60 "$LIVE$pfad")"
+  body="$(lcurl -sS --max-time 60 "$LIVE$pfad")"
+  code="$(lcurl -sS -o /dev/null -w '%{http_code}' --max-time 60 "$LIVE$pfad")"
   treffer="$(printf '%s' "$body" | grep -c "$marke" || true)"
   printf "    %-34s HTTP %s | «%s»: %s (erwartet >0)" "$pfad" "$code" "$marke" "$treffer"
   { [ "$code" = "200" ] && [ "$treffer" != "0" ]; } || fehler=1
@@ -144,20 +145,20 @@ pruefe "/"                          "fcx-megas"        "fcx-spbar"
 pruefe "/aktive/1-mannschaft/"      "fc1m-ifv"         "fcx-spbar"
 
 # Kachelanzahl der Teamübersicht (eine pro Unterseite)
-kacheln="$(curl -sS --max-time 60 "$LIVE/junioren/teams/" | grep -c 'fctc-team__name' || true)"
+kacheln="$(lcurl -sS --max-time 60 "$LIVE/junioren/teams/" | grep -c 'fctc-team__name' || true)"
 echo "    Teamkacheln: $kacheln (lokal sind es 18 – Abweichung nur okay, wenn live andere Teamseiten bestehen)"
 [ "$kacheln" != "0" ] || fehler=1
 
 # Navigation: beide neuen Einträge im Junioren-Menü
-nav="$(curl -sS --max-time 60 "$LIVE/")"
+nav="$(lcurl -sS --max-time 60 "$LIVE/")"
 n1="$(printf '%s' "$nav" | grep -c 'junioren/juniorenkonzept' || true)"
 n2="$(printf '%s' "$nav" | grep -c 'junioren/tauschboerse' || true)"
 echo "    Navigation -> Juniorenkonzept: $n1 | Tauschbörse: $n2 (beide erwartet >0)"
 { [ "$n1" != "0" ] && [ "$n2" != "0" ]; } || fehler=1
 
 # Alte CSS-Datei muss durch --delete verschwunden sein
-alt="$(curl -s -o /dev/null -w '%{http_code}' "$LIVE/$THEME/assets/fcs-top-club-88.css")"
-neu="$(curl -s -o /dev/null -w '%{http_code}' "$LIVE/$THEME/assets/fcs-wine-info.css")"
+alt="$(lcurl -s -o /dev/null -w '%{http_code}' "$LIVE/$THEME/assets/fcs-top-club-88.css")"
+neu="$(lcurl -s -o /dev/null -w '%{http_code}' "$LIVE/$THEME/assets/fcs-wine-info.css")"
 echo "    fcs-top-club-88.css: HTTP $alt (erwartet 404) | fcs-wine-info.css: HTTP $neu (erwartet 200)"
 { [ "$alt" = "404" ] && [ "$neu" = "200" ]; } || fehler=1
 
