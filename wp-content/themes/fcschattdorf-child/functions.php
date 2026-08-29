@@ -167,6 +167,8 @@ function fcsh_get_overlay_nav() {
 			array( 'Fussballschule', fcsh_page_url( 'junioren/fussballschule', fcsh_page_url( 'fussballschule' ) ) ),
 			array( 'Trainingslager', fcsh_page_url( 'junioren/trainingslager', fcsh_page_url( 'trainingslager' ) ) ),
 			array( 'Betreuer werden',fcsh_page_url( 'junioren/betreuer-werden',fcsh_page_url( 'betreuer-werden' ) ) ),
+			array( 'Juniorenkonzept',fcsh_page_url( 'junioren/juniorenkonzept',fcsh_page_url( 'juniorenkonzept' ) ) ),
+			array( 'Tauschbörse',    fcsh_page_url( 'junioren/tauschboerse',   fcsh_page_url( 'tauschboerse' ) ) ),
 		) ),
 		array( 'label' => 'Events',        'children' => array(
 			array( 'Alle Events',            fcsh_page_url( 'events' ) ),
@@ -244,6 +246,10 @@ function fcsh_render_site_header() {
 		</button>
 	</div>
 
+	<?php /* Gemeinsame Hülle: sie trägt Hintergrund und Höhe, damit beim
+	         Wechsel zwischen zwei Kategorien nur der Inhalt überblendet und
+	         die Box sanft auf die neue Höhe wächst statt zu springen. */ ?>
+	<div class="fcx-megas" data-fcx-megas>
 	<?php foreach ( $nav as $item ) :
 		if ( empty( $item['children'] ) ) {
 			continue;
@@ -261,33 +267,8 @@ function fcsh_render_site_header() {
 			</div>
 		</div>
 	<?php endforeach; ?>
+	</div>
 </header>
-	<?php
-}
-
-/* ── Team-Sponsorenleiste unter dem Titelbild ─────────────────────
-   Gleiche Optik wie der Sponsorenbalken der Startseite (.fcx-spbar,
-   Styles in fcs-front.css) – nur mit den Sponsoren des Teams. */
-function fcsh_render_team_sponsor_strip( $sponsors, $up ) {
-	if ( empty( $sponsors ) ) {
-		return;
-	}
-	?>
-	<aside class="fcx-spbar" aria-label="Team-Sponsoren">
-		<div class="fcx-spbar__track">
-			<?php foreach ( $sponsors as $sp ) : ?>
-				<?php if ( ! empty( $sp['url'] ) ) : ?>
-					<a class="fcx-spbar__item" href="<?php echo esc_url( $sp['url'] ); ?>" target="_blank" rel="noopener noreferrer">
-						<img src="<?php echo esc_url( $up . $sp['img'] ); ?>" alt="<?php echo esc_attr( $sp['name'] ); ?>" loading="lazy">
-					</a>
-				<?php else : ?>
-					<span class="fcx-spbar__item">
-						<img src="<?php echo esc_url( $up . $sp['img'] ); ?>" alt="<?php echo esc_attr( $sp['name'] ); ?>" loading="lazy">
-					</span>
-				<?php endif; ?>
-			<?php endforeach; ?>
-		</div>
-	</aside>
 	<?php
 }
 
@@ -379,7 +360,7 @@ add_action( 'wp_body_open', function () {
 						</button>
 						<div class="fcsh-mitem__sub">
 							<?php foreach ( $item['children'] as $c ) : ?>
-								<a href="<?php echo esc_url( $c[1] ); ?>">→ <?php echo esc_html( $c[0] ); ?></a>
+								<a href="<?php echo esc_url( $c[1] ); ?>"><?php echo esc_html( $c[0] ); ?></a>
 							<?php endforeach; ?>
 						</div>
 					</div>

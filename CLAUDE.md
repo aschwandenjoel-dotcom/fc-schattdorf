@@ -3,6 +3,10 @@
 WordPress-Site des FC Schattdorf. Lokal via Docker (`docker compose up -d`,
 Colima muss laufen), live auf Hostpoint (https://fcschattdorf.dynalias.net).
 
+**Offener Stand und Rechnerwechsel: `UEBERGABE.md`** — dort steht, was
+gerade live ist, welcher Deploy noch aussteht und was auf einem neuen
+Rechner eingerichtet werden muss. Nach erledigten Schritten nachführen.
+
 ## WICHTIG: Vor jeder lokalen Arbeit zuerst die Produktions-DB holen
 
 Die **Live-Datenbank ist die Quelle der Wahrheit** — die Redaktion pflegt

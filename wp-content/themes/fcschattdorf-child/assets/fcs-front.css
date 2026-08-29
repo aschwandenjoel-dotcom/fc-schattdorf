@@ -9,6 +9,9 @@
   --fcx-red-deep:#d9261c;
   --fcx-ink:#101214;
   --fcx-ink-2:#1c1f23;
+  /* Tiefste Stufe: Fusszeilen-Balken und der Grund hinter dem Dokument
+     (siehe «Seitengeruest» weiter unten). */
+  --fcx-ink-deep:#0a0b0c;
   --fcx-paper:#ffffff;
   /* Vereinsgrau: minimaler Rotstich statt Technik-Kühlgrau (siehe DESIGN.md 3.a "Wärme") */
   --fcx-mist:#f5f1f0;
@@ -46,12 +49,46 @@
 
 .fcsh{background:var(--fcx-paper);color:var(--fcx-ink);}
 
+/* Kein blaues Aufleuchten beim Antippen/Zurückkehren (iOS/Android
+   Tap-Highlight); Links behalten ihre eigene Farbe. */
+:where(a,button){-webkit-tap-highlight-color:transparent;}
+
 /* Tastaturfokus überall sichtbar – auch auf dunklen Flächen */
 :where(a,button,input,select,textarea,summary):focus-visible{
   outline:3px solid var(--fcx-red);outline-offset:3px;border-radius:2px;
 }
 .fcx-sec--ink :where(a,button):focus-visible,
 .fcx-hdr :where(a,button):focus-visible{outline-color:#fff;}
+
+/* ── SEITENGERÜST ───────────────────────────────────────────────────
+   Zwei Dinge, die nur auf dem Handy auffallen.
+
+   1. Überscroll hinter dem Footer. Zieht man unten über das Dokument
+      hinaus (elastisches Scrollen auf iOS/Android), wird der Grund
+      hinter dem Dokument sichtbar. Der lag bisher bei der Seitenfarbe,
+      weil <html> durchsichtig war und der Hintergrund des <body> auf
+      die Zeichenfläche durchschlug – unter dem schwarzen Footer blitzte
+      also Weiss bzw. Weinrot auf. Sobald <html> selbst eine Farbe hat,
+      bleibt der Hintergrund des <body> auf dessen Box und die Fläche
+      dahinter trägt das Schwarz des Fusszeilen-Balkens. Oben passt es
+      ebenso: die Kopfzeile ist mit --fcx-ink praktisch derselbe Ton.
+      Der Überscroll selbst bleibt erhalten – ihn zu unterbinden würde
+      auch Ziehen-zum-Aktualisieren kosten. */
+html{background-color:var(--fcx-ink-deep);}
+
+/* 2. Kurze Seiten (z. B. Kontakt) endeten schon vor der Bildschirm-
+      unterkante, der Footer stand dadurch ohne Scrollen im Bild. Der
+      Inhaltsbereich bekommt darum mindestens die Bildschirmhöhe abzüglich
+      der Kopfzeile – der Footer beginnt damit genau darunter. 100vh ist
+      hier bewusst gewählt: mobile Browser rechnen damit die Höhe MIT
+      eingeklappter Adressleiste, der Footer bleibt also auch dann
+      draussen. Die Kopfzeile schrumpft beim Scrollen (.is-scrolled),
+      massgebend ist der ungescrollte Zustand. Die rote Abschlusslinie
+      steckt dank border-box schon in der Höhe von .fcx-hdr__bar und darf
+      nicht zusätzlich abgezogen werden. */
+:root{--fcx-hdr-h:6.25rem;}                       /* Höhe .fcx-hdr__bar */
+@media(max-width:64rem){:root{--fcx-hdr-h:5.5rem;}}
+#content{min-height:calc(100vh - var(--fcx-hdr-h));}
 
 /* ── Volle Breite auf Seiten mit eigenem Layout ────────────── */
 body.fcx-wide #content,
@@ -73,13 +110,33 @@ body.fcx-wide #content > .ast-container{display:block !important;}
 body.fcx-wide #content > .ast-container > *{width:100% !important;}
 
 /* ── KOPFZEILE: Logo mittig, Navigation drumherum ──────────── */
+/* Auf Unterseiten bleibt die Kopfzeile deckend wie bisher. */
 .fcx-hdr{
   position:sticky;top:0;z-index:200;background:var(--fcx-ink);
   font-family:'Inter','Helvetica Neue',Arial,sans-serif;
 }
+/* Nur auf der Startseite durchsichtig: die Klasse fcsh-has-inner-header
+   setzt functions.php auf allen Nicht-Front-Seiten, ihr Fehlen kennzeichnet
+   also die Startseite. --fcx-hdr-alpha runter = durchsichtiger; der Blur
+   hält die Navigation über dem Hero lesbar, ohne ihn (ältere Browser)
+   greift der deckendere Fallback darunter. */
+body:not(.fcsh-has-inner-header) .fcx-hdr{
+  --fcx-hdr-alpha:.95;
+  background:rgba(16,18,20,var(--fcx-hdr-alpha));
+  -webkit-backdrop-filter:blur(14px) saturate(140%);
+  backdrop-filter:blur(14px) saturate(140%);
+}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  body:not(.fcsh-has-inner-header) .fcx-hdr{--fcx-hdr-alpha:.98;}
+}
 .fcx-hdr__bar{
   display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
   gap:clamp(2.5rem,7vw,7rem);padding:0 clamp(.75rem,2vw,1.5rem);height:6.25rem;
+  /* Roter Abschluss der Kopfzeile – Gegenstück zum roten Balken am oberen
+     Rand des Footers (.fcx-foot border-top). Sitzt auf dem Balken, nicht auf
+     .fcx-hdr: das Unterkategorien-Panel (.fcx-megas, top:100%) klappt so
+     unterhalb der Linie auf statt sie zu verdecken. */
+  border-bottom:4px solid var(--fcx-red);
   transition:height var(--fcx-mid) var(--fcx-ease);
 }
 .fcx-hdr.is-scrolled .fcx-hdr__bar{height:4.75rem;}
@@ -126,18 +183,38 @@ body.fcx-wide #content > .ast-container > *{width:100% !important;}
 /* Unterkategorien-Panel */
 /* Panel legt sich über den Inhalt statt ihn zu verschieben - kein Layout-Sprung.
    Transition statt Keyframes, damit schnelles Hovern sauber umschaltet. */
-.fcx-mega{
+/* Die Hülle trägt Hintergrund und Höhe: beim Wechsel von einer Kategorie zur
+   nächsten bleibt sie stehen und wächst weich auf die neue Höhe (Höhe kommt
+   per --fcx-megas-h aus fcs-home.js), während innen überblendet wird. */
+.fcx-megas{
   position:absolute;top:100%;left:0;right:0;
+  height:0;overflow:hidden;
   background:var(--fcx-ink-2);border-top:1px solid rgba(255,255,255,.08);
   box-shadow:0 18px 40px rgba(0,0,0,.35);
   opacity:0;visibility:hidden;transform:translateY(-.5rem);
-  transition:opacity var(--fcx-mid) var(--fcx-ease),
+  transition:height var(--fcx-mid) var(--fcx-ease),
+             opacity var(--fcx-mid) var(--fcx-ease),
              transform var(--fcx-mid) var(--fcx-ease),
              visibility 0s linear var(--fcx-mid);
 }
-.fcx-mega.is-open{
+.fcx-megas.is-open{
+  height:var(--fcx-megas-h,auto);
   opacity:1;visibility:visible;transform:none;
   transition-delay:0s;
+}
+/* Panels liegen deckungsgleich übereinander und werden überblendet.
+   Das ausgehende geht sofort weg, das neue kommt leicht versetzt nach –
+   so überlagern sich nie zwei Beschriftungen. */
+.fcx-mega{
+  position:absolute;top:0;left:0;right:0;
+  opacity:0;visibility:hidden;
+  transition:opacity var(--fcx-fast) var(--fcx-ease),
+             visibility 0s linear var(--fcx-fast);
+}
+.fcx-mega.is-open{
+  opacity:1;visibility:visible;
+  transition:opacity var(--fcx-mid) var(--fcx-ease) 90ms,
+             visibility 0s linear 0s;
 }
 .fcx-mega__inner{
   display:grid;grid-template-columns:minmax(0,14rem) minmax(0,1fr);
@@ -170,7 +247,7 @@ body.fcx-wide #content > .ast-container > *{width:100% !important;}
   .fcx-hdr__logo{justify-self:start;}
   .fcx-hdr__logo img{height:3.75rem;}
   .fcx-hdr__burger{display:flex;}
-  .fcx-mega{display:none !important;}
+  .fcx-megas{display:none !important;}
   .fcx-hdr.is-scrolled .fcx-hdr__bar{min-height:4.5rem;height:4.5rem;}
   .fcx-hdr.is-scrolled .fcx-hdr__logo img{height:3rem;}
 }
@@ -303,7 +380,22 @@ body.fcx-wine-page #content{background:var(--fcx-wine);}
   width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,.35);
   font-size:1.1rem;transition:background .15s ease,border-color .15s ease,transform .15s ease;
 }
-.fcsh-arrow:hover{background:var(--fcx-red);border-color:var(--fcx-red);transform:scale(1.06);}
+/* Astra färbt per Inline-CSS alle button:hover/:focus blau ein
+   (background-color:var(--ast-global-color-1), #045cb4) – nach einem
+   Mausklick blieb der Pfeil deshalb blau stehen. Gleiche Neutralisierung
+   wie bei .fcx-hdr__item; der rote Hover steht bewusst danach und
+   gewinnt bei gleicher Spezifität. */
+.fcsh-arrow:focus,.fcsh-arrow:active{
+  background:transparent;border-color:rgba(255,255,255,.35);color:#fff;
+}
+/* Kein Browser-Fokusring nach Mausklick – Tastaturfokus bleibt sichtbar
+   (globale :focus-visible-Regel weiter oben). */
+.fcsh-arrow:focus{outline:none;}
+/* Rot nur dort, wo wirklich gehovert wird: auf Touch bliebe der Zustand
+   sonst nach dem Antippen kleben. */
+@media(hover:hover) and (pointer:fine){
+  .fcsh-arrow:hover{background:var(--fcx-red);border-color:var(--fcx-red);transform:scale(1.06);}
+}
 .fcsh-arrow svg{width:16px;height:16px;stroke:currentColor;fill:none;flex:0 0 auto;}
 .fcsh-hero__sponsor{bottom:clamp(1.25rem,3vw,2rem);right:var(--fcx-pad);}
 /* Sponsorenzeile war auf dem Foto kaum lesbar */
@@ -476,39 +568,6 @@ body.fcx-wine-page #content{background:var(--fcx-wine);}
   letter-spacing:.12em;text-transform:uppercase;margin-bottom:.4rem;
 }
 
-/* ── SPONSORENBALKEN unter dem Titelbild ───────────────────
-   Schmale Leiste, alle Partner auf einen Blick. Auf schmalen
-   Schirmen scrollt sie seitwärts statt umzubrechen. */
-.fcx-spbar{
-  background:#eceef0;
-  border-bottom:1px solid var(--fcx-line);
-  padding:.9rem var(--fcx-pad);
-}
-.fcx-spbar__track{
-  display:flex;align-items:center;justify-content:center;flex-wrap:wrap;
-  gap:.85rem clamp(1.25rem,3vw,2.5rem);
-}
-.fcx-spbar__track::-webkit-scrollbar{display:none;}
-.fcx-spbar__item{flex:0 0 auto;display:block;}
-.fcx-spbar__item img{
-  height:2.5rem;width:auto;max-width:9rem;object-fit:contain;display:block;
-  opacity:.9;
-  transition:opacity var(--fcx-fast) var(--fcx-ease),transform var(--fcx-fast) var(--fcx-ease);
-}
-.fcx-spbar__item img[src*="arnold-color"]{filter:grayscale(1);}
-@media(hover:hover) and (pointer:fine){
-  .fcx-spbar__item:hover img{opacity:1;transform:translateY(-2px);}
-}
-@media(max-width:48rem){
-  /* Auf dem Handy eine wischbare Reihe statt vieler Umbrüche */
-  .fcx-spbar__track{
-    flex-wrap:nowrap;justify-content:flex-start;
-    overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;
-  }
-  .fcx-spbar__track::-webkit-scrollbar{display:none;}
-  .fcx-spbar__item img{height:2rem;}
-}
-
 /* ── AGENDA: Termine + Spielbetrieb, rotes Band unter dem Hero ──
    Rot trägt die ganze Fläche; alle Kleintexte sitzen auf weissen
    Karten, damit der Kontrast trotz Signalfarbe stimmt. */
@@ -594,12 +653,20 @@ body.fcx-wine-page #content{background:var(--fcx-wine);}
   font-size:.6875rem;font-weight:600;line-height:1.2;
   color:var(--fcx-muted);
 }
-@media(hover:hover) and (pointer:fine){
-  .fcx-tile:hover .fcx-tile__sub{color:rgba(255,255,255,.7);}
-}
 .fcx-tile svg{width:14px;height:14px;stroke:currentColor;fill:none;flex:0 0 auto;opacity:.5;margin-top:1px;}
+
+/* Zurück aus dem externen Tab: die zuletzt geklickte Kachel bleibt rot
+   (statt Browser-Blau), aber nur solange sie den Fokus hat – kein
+   dauerhafter «besucht»-Zustand. Tastaturfokus behält den roten Rahmen. */
+.fcx-tile:focus{outline:none;color:var(--fcx-red);}
+.fcx-tile:focus-visible{outline:3px solid var(--fcx-red);outline-offset:3px;}
+
 @media(hover:hover) and (pointer:fine){
   .fcx-tile:hover{background:var(--fcx-ink);color:#fff;}
+  .fcx-tile:hover .fcx-tile__lbl,
+  .fcx-tile:hover .fcx-tile__sub,
+  .fcx-tile:hover svg{color:#fff;}
+  .fcx-tile:hover .fcx-tile__sub{color:rgba(255,255,255,.7);}
 }
 .fcx-tile:active{transform:scale(.98);}
 
@@ -634,6 +701,9 @@ body.fcx-wine-page #content{background:var(--fcx-wine);}
   opacity:.85;transition:opacity .2s ease,transform .2s ease;
 }
 .fcx-spgroup__item:hover img{opacity:1;transform:translateY(-3px);}
+/* Wie .fcx-tile: nach der Rueckkehr aus dem Sponsoren-Tab kein Browser-Blau. */
+.fcx-spgroup__item:focus{outline:none;}
+.fcx-spgroup__item:focus-visible{outline:3px solid var(--fcx-red);outline-offset:3px;}
 .fcx-spgroup--lead .fcx-spgroup__item img{height:clamp(4.5rem,9vw,7.5rem);max-width:22rem;opacity:1;}
 .fcx-sponsors__cta{margin-top:clamp(2.5rem,5vw,4rem);}
 
@@ -683,6 +753,9 @@ body.fcx-wine-page #content{background:var(--fcx-wine);}
   transition:background .15s ease,border-color .15s ease;
 }
 .fcx-foot__social a:hover{background:var(--fcx-red);border-color:var(--fcx-red);}
+/* Wie .fcx-tile: nach der Rueckkehr aus dem Social-Tab kein Browser-Blau. */
+.fcx-foot__social a:focus{outline:none;color:#fff;}
+.fcx-foot__social a:focus-visible{outline:3px solid var(--fcx-red);outline-offset:3px;}
 .fcx-foot__nav{display:grid;grid-template-columns:repeat(auto-fit,minmax(10rem,1fr));gap:2.75rem;}
 .fcx-foot__col h3{
   font-size:.8125rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;
@@ -694,7 +767,7 @@ body.fcx-wine-page #content{background:var(--fcx-wine);}
 }
 .fcx-foot__col a:hover{color:#fff;}
 .fcx-foot__bar{
-  background:#0a0b0c;padding:1.1rem var(--fcx-pad);
+  background:var(--fcx-ink-deep);padding:1.1rem var(--fcx-pad);
   display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem;
 }
 .fcx-foot__bar p{margin:0;font-size:.75rem;color:rgba(255,255,255,.4);}

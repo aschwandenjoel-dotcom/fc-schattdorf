@@ -39,11 +39,11 @@ get_header();
 
   <!-- ── Hero ── -->
   <div class="fcem-hero">
-    <div class="fcem-hero__eyebrow">FC Schattdorf &mdash; seit 1926</div>
     <h1 class="fcem-hero__title">
       <span class="fcem-hero__line1">Ehren- &amp;</span>
       <span class="fcem-hero__line2">Freimitglieder</span>
     </h1>
+    <p class="fcem-hero__eyebrow">FC Schattdorf &middot; seit 1926</p>
     <div class="fcem-hero__redline"></div>
   </div>
 

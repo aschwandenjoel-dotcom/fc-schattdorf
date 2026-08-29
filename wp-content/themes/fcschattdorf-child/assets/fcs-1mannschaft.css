@@ -209,6 +209,11 @@ body.page-id-46 .entry-header, body.fcs-team-page .entry-header  { padding: 0 !i
   }
 }
 .fc1m-ifv__tile:active { transform: scale(.99); }
+/* Zurueck aus dem externen Tab: die geklickte Kachel behaelt den Fokus und
+   wuerde blau eingefaerbt. Wie .fcx-tile auf der Startseite: eigene Farbe
+   bleibt, nur der Tastaturfokus zeigt einen roten Rahmen. */
+.fc1m-ifv__tile:focus { outline: none; color: var(--black); }
+.fc1m-ifv__tile:focus-visible { outline: 3px solid var(--red); outline-offset: 3px; }
 
 /* ════════════════════════════════════════════════════════════════
    TEAM-SPONSOREN
@@ -263,6 +268,9 @@ a.fc1m-sponsor-box__name:focus-visible {
   text-decoration: underline;
   text-underline-offset: 3px;
 }
+/* Zurueck aus dem externen Sponsoren-Tab: Name bleibt in Ink statt Blau. */
+a.fc1m-sponsor-box__name:focus { outline: none; color: var(--black); }
+a.fc1m-sponsor-box__name:focus-visible { outline: 3px solid var(--red); outline-offset: 3px; }
 
 /* ════════════════════════════════════════════════════════════════
    BETREUERSTAB

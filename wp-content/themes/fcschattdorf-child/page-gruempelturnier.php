@@ -3,9 +3,9 @@
  * Template Name: Grümpelturnier
  * Template Post Type: page
  *
- * Daten, Programm, Kategorien, Sponsoren und Anmeldung werden über die
- * Feld-Box «Seiteninhalte» gepflegt (inc/fcs-fields-design1.php); das
- * Layout kommt aus der Vorlage.
+ * Daten, Programm, Kategorien und Sponsoren werden über die Feld-Box
+ * «Seiteninhalte» gepflegt (inc/fcs-fields-design1.php); das Layout
+ * kommt aus der Vorlage.
  */
 defined( 'ABSPATH' ) || exit;
 
@@ -63,10 +63,6 @@ $sp_weitere  = fcs_pf_lines( 'gt_sponsor_weitere', array(
 	'Schuler Weine | ' . $up . 'Sponsor_Schuler.png | https://www.schuler.ch/',
 	'TCS Uri | ' . $up . 'Sponsor_TCS.jpg | https://www.tcs.ch/de/der-tcs/sektionen/uri/',
 ) );
-$schluss     = fcs_pf( 'gt_anmeldeschluss', '7. Juni 2026' );
-/* Fallback Kontakt-Seite: eine Seite /anmeldung-gruempelturnier existiert nicht */
-$anmelde_url = fcs_pf( 'gt_anmeldung_url', fcsh_page_url( 'kontakt', home_url( '/kontakt/' ) ) );
-$cta_titel   = fcs_pf_lines( 'gt_cta_titel', array( 'Dabei sein beim', 'Grümpelturnier 2026' ) );
 ?>
 
 <div class="fgt-page">
@@ -224,20 +220,6 @@ $cta_titel   = fcs_pf_lines( 'gt_cta_titel', array( 'Dabei sein beim', 'Grümpel
 
     </div>
   </section>
-
-  <!-- ══════════════════════════════════════════
-       ANMELDUNG CTA
-  ══════════════════════════════════════════ -->
-  <div class="fgt-cta">
-    <div class="fgt-cta__label">Anmeldung</div>
-    <h2><?php echo implode( '<br>', array_map( 'esc_html', $cta_titel ) ); ?></h2>
-    <p class="fgt-cta__deadline">Anmeldeschluss: <strong><?php echo esc_html( $schluss ); ?></strong></p>
-    <a href="<?php echo esc_url( $anmelde_url ); ?>"
-       class="fgt-cta__btn">
-      Jetzt anmelden
-      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-    </a>
-  </div>
 
 </div>
 

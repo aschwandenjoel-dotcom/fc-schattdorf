@@ -209,6 +209,11 @@ body.page-id-57 .fcji-hero img {
   margin-top: 1.5rem;
 }
 .fcji-pdf-btn:hover { background: #b8000e; transform: translateY(-2px); color: #fff; }
+/* Zurueck aus dem externen PDF-Tab: der Button behaelt den Fokus und wuerde
+   blau eingefaerbt. Wie .fcx-tile auf der Startseite: Farbe bleibt, nur der
+   Tastaturfokus zeigt einen roten Rahmen. */
+.fcji-pdf-btn:focus { outline: none; color: #fff; }
+.fcji-pdf-btn:focus-visible { outline: 3px solid var(--fcx-red-solid, #d9261c); outline-offset: 3px; }
 .fcji-pdf-btn svg { flex-shrink: 0; }
 
 /* ── Flyer row (Betreuer werden) ── */

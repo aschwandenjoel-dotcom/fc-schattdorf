@@ -52,6 +52,13 @@ $programm     = fcs_pf_lines( 'tl_programm', array(
 	'Freizeit | Spass mit Freunden | Nach dem Training gehört die Zeit euch. Pool mit Wasserrutsche, Tischtennis, Fussballtennis, Minigolf – das Freizeitprogramm sorgt für neue Freundschaften und unvergessliche Momente abseits des Platzes.',
 	'Letzter Tag · Highlight | Abschlussturnier | Der krönende Abschluss der Woche: Alle Teams treten gegeneinander an – volles Programm, voller Einsatz, grosses Finale. Das Abschlussturnier ist der Höhepunkt jedes Trainingslagers.',
 ) );
+/* Ausblick-Block: sagt den Familien, WANN die Infos zum naechsten Lager
+   kommen – nicht «Save the Date», weil das Datum selbst noch offen ist.
+   Leerer Titel UND leerer Text blenden den Block aus. */
+$infos_tag    = fcs_pf( 'tl_infos_tag', 'Ausblick' );
+$infos_titel  = fcs_pf( 'tl_infos_titel', 'Infos | folgen' );
+$infos_zeit   = fcs_pf( 'tl_infos_zeitpunkt', 'Frühling 2027' );
+$infos_text   = fcs_pf( 'tl_infos_text', 'Die Daten für das nächste Juniorentrainingslager stehen noch nicht fest. Wir informieren euch jedoch schon jetzt darüber, wann ihr mit allen Informationen rechnen könnt.' );
 $flyer_bild   = fcs_pf( 'tl_flyer_bild', $tl . 'tl26-flyer.jpg' );
 /* Zeigt das Feld auf ein Upload-Bild, das gar nicht existiert (Uploads werden
    nicht synchronisiert), das mitgelieferte Theme-Bild verwenden. Uebernommen
@@ -61,7 +68,7 @@ if ( 0 === strpos( $flyer_bild, $_ud['baseurl'] ) &&
      ! file_exists( str_replace( $_ud['baseurl'], $_ud['basedir'], $flyer_bild ) ) ) {
 	$flyer_bild = $tl . 'tl26-flyer.jpg';
 }
-$flyer_text   = fcs_pf( 'tl_flyer_text', 'Im Flyer findest du alle wichtigen Informationen zum Juniorentrainingslager 2026 – Programm, Kosten, Unterkunft und Anmeldedetails kompakt zusammengefasst.' );
+$flyer_text   = fcs_pf( 'tl_flyer_text', '' );
 $cta_lead     = fcs_pf( 'tl_cta_lead', 'Melde dich jetzt an und sichere dir deinen Platz am Juniorentrainingslager des FC Schattdorf. Plätze sind begrenzt!' );
 $kontakte     = fcs_pf_lines( 'tl_kontakte', array(
 	'Sandro Zamuner | Organisator TL Zuchwil | 079 280 77 20',
@@ -150,11 +157,6 @@ $programm_delays = array( '', ' tl-reveal-delay-1', ' tl-reveal-delay-2', ' tl-r
         </svg>
       </a>
     </div>
-
-    <div class="tl-scroll-hint">
-      <span>Scroll</span>
-      <div class="tl-scroll-hint__line"></div>
-    </div>
   </section>
 
   <!-- ══════════════════════════════════════════
@@ -169,6 +171,41 @@ $programm_delays = array( '', ' tl-reveal-delay-1', ' tl-reveal-delay-2', ' tl-r
     </div>
     <?php endforeach; ?>
   </div>
+
+  <!-- ══════════════════════════════════════════
+       AUSBLICK – wann kommen die naechsten Infos?
+  ══════════════════════════════════════════ -->
+  <?php if ( $infos_titel || $infos_text ) :
+      /* «Titel | Wortteil» – der Teil nach dem Strich wird rot gesetzt,
+         gleiche Schreibweise wie in den uebrigen Feldern der Vorlage. */
+      $titel_teile = array_map( 'trim', explode( '|', $infos_titel ) ); ?>
+  <section class="tl-section tl-section--dark">
+    <div class="tl-inner">
+      <div class="tl-notice tl-reveal">
+        <div class="tl-notice__body">
+          <?php if ( $infos_tag ) : ?>
+          <div class="tl-tag"><?php echo esc_html( $infos_tag ); ?></div>
+          <?php endif; ?>
+          <h2 class="tl-notice__title">
+            <?php echo esc_html( $titel_teile[0] ); ?>
+            <?php if ( isset( $titel_teile[1] ) && '' !== $titel_teile[1] ) : ?>
+            <em><?php echo esc_html( $titel_teile[1] ); ?></em>
+            <?php endif; ?>
+          </h2>
+          <?php if ( $infos_text ) : ?>
+          <p class="tl-notice__text"><?php echo esc_html( $infos_text ); ?></p>
+          <?php endif; ?>
+        </div>
+        <?php if ( $infos_zeit ) : ?>
+        <div class="tl-notice__when">
+          <span class="tl-notice__when-label">Informationen ab</span>
+          <span class="tl-notice__when-date"><?php echo esc_html( $infos_zeit ); ?></span>
+        </div>
+        <?php endif; ?>
+      </div>
+    </div>
+  </section>
+  <?php endif; ?>
 
   <!-- ══════════════════════════════════════════
        IMPRESSIONEN
@@ -270,9 +307,11 @@ $programm_delays = array( '', ' tl-reveal-delay-1', ' tl-reveal-delay-2', ' tl-r
         <div class="tl-reveal tl-reveal-delay-2">
           <div class="tl-tag">Flyer & Infos</div>
           <h2 class="tl-heading">Alles auf<br><em>einen Blick</em></h2>
+          <?php if ( '' !== trim( $flyer_text ) ) : ?>
           <p style="font-size:1.0625rem;color:#6b7280;line-height:1.75;margin:0">
             <?php echo esc_html( $flyer_text ); ?>
           </p>
+          <?php endif; ?>
         </div>
       </div>
     </div>

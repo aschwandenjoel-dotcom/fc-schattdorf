@@ -54,9 +54,6 @@ get_header();
     </div>
   </div>
 
-  <!-- ── Team-Sponsoren direkt unter dem Titelbild ── -->
-  <?php fcsh_render_team_sponsor_strip( $sponsors, $up ); ?>
-
   <!-- ── Tabelle & Spielplan beim IFV ── -->
   <?php
   /* Solange kein teamspezifischer Matchcenter-Link hinterlegt ist

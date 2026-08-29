@@ -31,6 +31,10 @@ add_filter( 'fcs_page_fields_config', function ( $config ) {
 		'tl_ort'           => array( 'label' => 'Ort (z. B. Zuchwil)', 'type' => 'text' ),
 		'tl_anmeldung_url' => array( 'label' => 'Link zur Anmeldung', 'type' => 'url' ),
 		'tl_facts'         => array( 'label' => 'Kennzahlen-Leiste (eine pro Zeile: Zahl | Beschriftung)', 'type' => 'textarea' ),
+		'tl_infos_tag'      => array( 'label' => 'Ausblick-Block: Kopfzeile (z. B. Ausblick; leer = keine Kopfzeile)', 'type' => 'text' ),
+		'tl_infos_titel'    => array( 'label' => 'Ausblick-Block: Titel (Teil nach dem Strich wird rot, z. B. Infos | folgen)', 'type' => 'text' ),
+		'tl_infos_zeitpunkt' => array( 'label' => 'Ausblick-Block: Zeitpunkt der Information (z. B. Frühling 2027)', 'type' => 'text' ),
+		'tl_infos_text'     => array( 'label' => 'Ausblick-Block: Text (wann die Familien welche Infos erhalten; Titel und Text leer = Block ausgeblendet)', 'type' => 'textarea' ),
 		'tl_impressionen'  => array( 'label' => 'Impressionen (eine pro Zeile: Titel | Text; Reihenfolge entspricht den 4 Fotos)', 'type' => 'textarea' ),
 		'tl_campus'        => array( 'label' => 'Campus-Karten (eine pro Zeile: Titel | Text)', 'type' => 'textarea' ),
 		'tl_programm'      => array( 'label' => 'Programm (eine pro Zeile: Zeitangabe | Titel | Beschreibung; die letzte Zeile wird rot hervorgehoben)', 'type' => 'textarea' ),
@@ -56,9 +60,6 @@ add_filter( 'fcs_page_fields_config', function ( $config ) {
 		'gt_sponsor_haupt'    => array( 'label' => 'Hauptsponsor (einer pro Zeile: Name | Logo-URL | Website)', 'type' => 'textarea' ),
 		'gt_sponsor_event'    => array( 'label' => 'Eventsponsoren (einer pro Zeile: Name | Logo-URL | Website)', 'type' => 'textarea' ),
 		'gt_sponsor_weitere'  => array( 'label' => 'Weitere Sponsoren (einer pro Zeile: Name | Logo-URL | Website)', 'type' => 'textarea' ),
-		'gt_anmeldeschluss'   => array( 'label' => 'Anmeldeschluss (z. B. 7. Juni 2026)', 'type' => 'text' ),
-		'gt_anmeldung_url'    => array( 'label' => 'Link zur Anmeldung (leer = Standardseite /anmeldung-gruempelturnier)', 'type' => 'url' ),
-		'gt_cta_titel'        => array( 'label' => 'Anmeldebox: Titel (Zeilen ergeben Umbrüche)', 'type' => 'textarea' ),
 	);
 
 	return $config;

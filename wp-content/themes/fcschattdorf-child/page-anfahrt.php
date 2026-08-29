@@ -38,7 +38,7 @@ $neben_specs   = fcs_pf_lines( 'an_neben_specs', array(
 	'Garderoben | Turnhalle Grundmatte',
 ) );
 $parkplaetze   = fcs_pf_lines( 'an_parkplaetze', array(
-	'Feuerwehrlokal | kostenlos',
+	'Feuerwehrlokal | 4 Stunden gratis, Parkscheibe erforderlich',
 	'Grundmatte | 4 Stunden gratis, Parkscheibe erforderlich',
 	'Dorfstrasse | Nähe alte Post, gebührenpflichtig',
 ) );

@@ -35,6 +35,17 @@ deploy/*
 !deploy/deploy-trainingslager.sh
 # Ausnahme: Theme-Deploy der Titelbilder auf den Teamseiten (keine Geheimnisse)
 !deploy/deploy-team-titelbilder.sh
+# Ausnahme: Deploy des Design-Stands (Top-Club-88-Stil) mit seinen beiden
+# DB-Vorlagen — Token wird erst beim Deploy eingesetzt, keine Geheimnisse
+!deploy/deploy-designstand.sh
+!deploy/fcs-junioren-teams.php.tpl
+!deploy/fcs-junioren-seiten.php.tpl
+# Ausnahme: Theme-Deploy der Responsiv-Anpassungen Kontakt/Helfereinsaetze
+!deploy/deploy-responsiv-kontakt-helfer.sh
+# Ausnahme: Schiedsrichter-Stand (zwei neue SR + Spielleiter-Liste);
+# Token wird erst beim Deploy eingesetzt, enthaelt selbst keine Geheimnisse
+!deploy/deploy-schiedsrichter.sh
+!deploy/fcs-schiedsrichter-update.php.tpl
 
 # OS
 .DS_Store

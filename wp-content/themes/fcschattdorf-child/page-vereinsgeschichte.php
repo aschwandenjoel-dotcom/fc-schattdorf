@@ -18,6 +18,11 @@ add_filter( 'body_class', function ( $c ) { $c[] = 'fcx-wine-page'; return $c; }
    Registrierung des Inhaltstyps und Abfrage: inc/fcs-chronik.php */
 $events = fcs_get_chronik_events();
 
+/* Gründungsjahr und Alter aus dem ersten Chronik-Eintrag ableiten, damit die
+   Zahlen im Hero nicht von Hand nachgeführt werden müssen. */
+$fcs_founded = $events ? (int) $events[0]['year'] : 1933;
+$fcs_years   = max( 0, (int) current_time( 'Y' ) - $fcs_founded );
+
 get_header();
 ?>
 
@@ -28,24 +33,8 @@ get_header();
   <!-- ══════════════════ HERO ══════════════════ -->
   <section class="fcvg-hero">
     <div class="fcvg-hero__content">
-      <p class="fcvg-hero__eyebrow">FC Schattdorf &middot; Kanton Uri &middot; Gegründet 1916</p>
-      <h1 class="fcvg-hero__title">VEREINS<br>GESCHICHTE</h1>
-      <p class="fcvg-hero__sub"><em>Über 100 Jahre Leidenschaft, Zusammenhalt und Fussball</em></p>
-    </div>
-
-    <div class="fcvg-hero__stats">
-      <div class="fcvg-stat">
-        <span class="fcvg-stat__num" data-count="108">108</span>
-        <span class="fcvg-stat__label">Jahre Geschichte</span>
-      </div>
-      <div class="fcvg-stat fcvg-stat--accent">
-        <span class="fcvg-stat__num" data-count="3">3</span><span class="fcvg-stat__x">×</span>
-        <span class="fcvg-stat__label">IFV-Cup Champion</span>
-      </div>
-      <div class="fcvg-stat">
-        <span class="fcvg-stat__num" data-count="<?php echo count( $events ); ?>"><?php echo count( $events ); ?></span>
-        <span class="fcvg-stat__label">Kapitel unserer Story</span>
-      </div>
+      <h1 class="fcvg-hero__title">Vereinsgeschichte</h1>
+      <p class="fcvg-hero__eyebrow">FC Schattdorf &middot; Kanton Uri &middot; Gegründet <?php echo $fcs_founded; ?></p>
     </div>
   </section>
 
@@ -60,6 +49,24 @@ get_header();
       ?>
     </div>
   </nav>
+
+  <!-- ══════════════════ STATS ══════════════════ -->
+  <section class="fcvg-statsbar">
+    <div class="fcvg-hero__stats">
+      <div class="fcvg-stat">
+        <span class="fcvg-stat__num" data-count="<?php echo $fcs_years; ?>"><?php echo $fcs_years; ?></span>
+        <span class="fcvg-stat__label">Jahre Geschichte</span>
+      </div>
+      <div class="fcvg-stat fcvg-stat--accent">
+        <span class="fcvg-stat__num" data-count="3">3</span><span class="fcvg-stat__x">×</span>
+        <span class="fcvg-stat__label">IFV-Cup Champion</span>
+      </div>
+      <div class="fcvg-stat">
+        <span class="fcvg-stat__num" data-count="<?php echo count( $events ); ?>"><?php echo count( $events ); ?></span>
+        <span class="fcvg-stat__label">Kapitel unserer Story</span>
+      </div>
+    </div>
+  </section>
 
   <!-- ══════════════════ TIMELINE ══════════════════ -->
   <div class="fcvg-timeline" id="fcvgTimeline">

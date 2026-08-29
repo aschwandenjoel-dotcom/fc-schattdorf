@@ -11,16 +11,15 @@ defined( 'ABSPATH' ) || exit;
 add_action( 'wp_enqueue_scripts', function () {
     $dir = get_stylesheet_directory();
     $uri = get_stylesheet_directory_uri();
-    wp_enqueue_style( 'fcs-top-club-88', $uri . '/assets/fcs-top-club-88.css', [], filemtime( $dir . '/assets/fcs-top-club-88.css' ) );
+    wp_enqueue_style( 'fcs-wine-info', $uri . '/assets/fcs-wine-info.css', [], filemtime( $dir . '/assets/fcs-wine-info.css' ) );
 }, 5 );
 
-add_filter( 'body_class', function ( $c ) { $c[] = 'fcx-wine-page'; return $c; } );
+add_filter( 'body_class', function ( $c ) { $c[] = 'fcx-wine-page'; $c[] = 'fcx-info-page'; return $c; } );
 
 $up = wp_upload_dir()['baseurl'] . '/2026/06/';
 
 get_header();
 
-$sub      = fcs_pf( 'tc_sub', 'Der Sponsorenclub des FC Schattdorf. Seit Jahren eine wichtige Stütze für unsere erste Mannschaft und unsere Juniorenabteilung.' );
 $was_text = fcs_pf( 'tc_was_text', 'Der Top-Club 88 ist der Sponsorenclub des FC Schattdorf. Sein Ziel ist die finanzielle und moralische Unterstützung des Vereins, insbesondere der ersten Mannschaft und der Juniorenabteilung. Die Mitglieder sind keine anonymen Geldgeber, sondern Menschen, die hinter dem FC Schattdorf stehen und den Verein aktiv begleiten.' );
 $vorteile = fcs_pf_lines( 'tc_vorteile', array(
 	'Jahresbeitrag 250 Franken | Die Hälfte davon geht direkt an die 1. Mannschaft',
@@ -41,9 +40,8 @@ $cta_mail = fcs_pf( 'tc_cta_mail', 'topclubfcs@gmail.com' );
   <!-- Header -->
   <div class="fctc-header">
     <div class="fctc-header__inner">
-      <div class="fctc-header__label">FC Schattdorf</div>
       <h1>Top-Club 88</h1>
-      <p class="fctc-header__sub"><?php echo esc_html( $sub ); ?></p>
+      <p class="fctc-header__label">FC Schattdorf · Kanton Uri</p>
     </div>
   </div>
 

@@ -46,20 +46,47 @@
     if (hdr) {
       var toggles = Array.prototype.slice.call(hdr.querySelectorAll("[data-fcx-toggle]"));
       var panels  = Array.prototype.slice.call(hdr.querySelectorAll("[data-fcx-mega]"));
+      var megas = hdr.querySelector("[data-fcx-megas]");
       var closeTimer = null;
+      var resetTimer = null;
+      var openKey = null;
+      var canHover = window.matchMedia("(hover:hover) and (pointer:fine)").matches;
 
       function closeAll() {
+        openKey = null;
         panels.forEach(function (p) { p.classList.remove("is-open"); });
         toggles.forEach(function (t) { t.setAttribute("aria-expanded", "false"); });
+        if (megas) {
+          megas.classList.remove("is-open");
+          /* Höhe erst nach dem Ausblenden zurücksetzen – sonst würde der
+             noch sichtbare Inhalt beim Schliessen abgeschnitten. */
+          clearTimeout(resetTimer);
+          resetTimer = setTimeout(function () {
+            megas.style.removeProperty("--fcx-megas-h");
+          }, 300);
+        }
       }
       function open(key) {
         clearTimeout(closeTimer);
+        if (key === openKey) return;
+        openKey = key;
         panels.forEach(function (p) {
           p.classList.toggle("is-open", p.getAttribute("data-fcx-mega") === key);
         });
         toggles.forEach(function (t) {
           t.setAttribute("aria-expanded", t.getAttribute("data-fcx-toggle") === key ? "true" : "false");
         });
+        /* Die Hülle auf die Höhe der neuen Kategorie fahren, damit der
+           Wechsel weich ist statt zu springen. */
+        if (megas) {
+          clearTimeout(resetTimer);
+          var active = null;
+          panels.forEach(function (p) {
+            if (p.getAttribute("data-fcx-mega") === key) active = p;
+          });
+          if (active) megas.style.setProperty("--fcx-megas-h", active.offsetHeight + "px");
+          megas.classList.add("is-open");
+        }
       }
 
       toggles.forEach(function (t) {
@@ -67,6 +94,11 @@
         t.addEventListener("mouseenter", function () { open(key); });
         t.addEventListener("focus", function () { open(key); });
         t.addEventListener("click", function () {
+          /* Mit Maus ist das Panel durch mouseenter schon offen – ein Klick
+             darf es nicht wieder zuklappen (es blitzte sonst nur kurz auf).
+             Geschlossen wird per Klick daneben, Escape oder Maus raus.
+             Ohne Hover (Touch/Stift) bleibt das Umschalten nötig. */
+          if (canHover) { open(key); return; }
           if (t.getAttribute("aria-expanded") === "true") { closeAll(); } else { open(key); }
         });
         /* Safari fokussiert Buttons nach Mausklick und zeichnet einen
@@ -80,6 +112,15 @@
         closeTimer = setTimeout(closeAll, 120);
       });
       hdr.addEventListener("mouseenter", function () { clearTimeout(closeTimer); });
+      /* Beim Umbrechen ändert sich die Panel-Höhe – gemerkten Wert auffrischen */
+      window.addEventListener("resize", function () {
+        if (!megas || !openKey) return;
+        panels.forEach(function (p) {
+          if (p.getAttribute("data-fcx-mega") === openKey) {
+            megas.style.setProperty("--fcx-megas-h", p.offsetHeight + "px");
+          }
+        });
+      });
       document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeAll(); });
       document.addEventListener("click", function (e) { if (!hdr.contains(e.target)) closeAll(); });
     }
