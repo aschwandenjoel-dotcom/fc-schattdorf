@@ -57,13 +57,21 @@ fail=0
 check() { if [ "$2" -eq 0 ]; then echo "    OK   $1"; else echo "    FEHLER  $1"; fail=1; fi }
 
 # Neues Bild ausgeliefert?
+# Durchgehend if/else und enthaelt() statt «cmd; check … $?» — siehe
+# scripts/lib-live.sh: unter set -e brach ein nicht findendes grep das
+# Skript ab, und «… | grep -q» wertete wegen SIGPIPE + pipefail einen
+# Treffer als Fehlschlag.
 code="$(lcurl -s -o /dev/null -w '%{http_code}' "$LIVE/$UPLOAD_SUB/$FILE")"
-[ "$code" = "200" ]; check "Header-Bild $FILE erreichbar (HTTP $code)" $?
+if [ "$code" = "200" ]
+  then check "Header-Bild $FILE erreichbar (HTTP $code)" 0
+  else check "Header-Bild $FILE erreichbar (HTTP $code)" 1; fi
 
 # Beitragsbild in der News-Übersicht (Card-<img>) = neues Bild?
 # page-news.php gibt get_the_post_thumbnail_url(..., 'full') als <img src> aus.
-lcurl -s "$LIVE/news/" | grep -q "$FILE"
-check "News-Übersicht /news/ zeigt Card-Bild $FILE" $?
+news="$(lcurl -s "$LIVE/news/")"
+if enthaelt "$news" "$FILE"
+  then check "News-Übersicht /news/ zeigt Card-Bild $FILE" 0
+  else check "News-Übersicht /news/ zeigt Card-Bild $FILE" 1; fi
 
 echo
 if [ "$fail" -eq 0 ]; then

@@ -45,9 +45,12 @@ for _ in $(seq 1 60); do
   # ist (DB aber erreichbar) als auch wenn die DB nicht erreichbar ist –
   # daher an der Fehlermeldung unterscheiden statt am Exit-Code.
   out=$(wpc core is-installed 2>&1) || true
-  if ! echo "$out" | grep -q "Error establishing a database connection"; then
-    ready=1; break
-  fi
+  # Mustersuche ohne Pipe: «echo … | grep -q» wertet mit pipefail einen
+  # Treffer als Fehlschlag, sobald grep -q vor dem Schreiber endet.
+  case "$out" in
+    *"Error establishing a database connection"*) ;;   # DB noch nicht bereit
+    *) ready=1; break ;;
+  esac
   printf "."; sleep 3
 done
 [ "$ready" = "1" ] || { echo; echo "FEHLER: Datenbank wurde nicht rechtzeitig bereit." >&2; exit 1; }

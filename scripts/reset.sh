@@ -12,7 +12,9 @@ esac
 
 # Sicherheitsnetz: erst sichern, dann löschen. Uploads und DB liegen NUR im
 # Docker-Volume — ohne Backup wären sie unwiederbringlich weg.
-if docker compose ps --status running --format '{{.Service}}' | grep -q '^db$'; then
+# Direkt im Container nachfragen statt «ps --status running --format …»
+# zu parsen — flag-unabhaengig und ohne Pipe (siehe scripts/backup.sh).
+if docker compose exec -T db true >/dev/null 2>&1; then
   echo "==> Automatisches Backup vor dem Reset…"
   ./scripts/backup.sh || { echo "FEHLER: Backup fehlgeschlagen — Reset abgebrochen." >&2; exit 1; }
 else

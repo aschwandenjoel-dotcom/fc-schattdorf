@@ -47,12 +47,7 @@ check() { if [ "$2" -eq 0 ]; then printf "    \033[1;32mOK\033[0m      %s\n" "$1
 
 css_block() { awk '/^\.fc1m-photo img[[:space:]]*\{/,/\}/'; }
 
-# Textsuche ohne Pipe. Bewusst NICHT «printf … | grep -q»: grep -q endet
-# beim ersten Treffer, der Schreiber davor bekommt SIGPIPE, und pipefail
-# macht aus dem Treffer einen Fehlschlag — je nachdem, wie frueh die
-# Fundstelle im Dokument steht. Genau daran meldete die Verifikation am
-# 30.08.2026 einen funktionierenden Fix als fehlend.
-enthaelt() { case "$1" in *"$2"*) return 0 ;; *) return 1 ;; esac; }
+# enthaelt() kommt aus scripts/lib-live.sh
 
 # ── 0. Sind die drei Aenderungen lokal ueberhaupt drin? ─────────────
 log "0/5  Lokale Aenderungen pruefen…"

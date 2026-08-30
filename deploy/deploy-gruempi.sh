@@ -55,17 +55,26 @@ fail=0
 check() { if [ "$2" -eq 0 ]; then echo "    OK   $1"; else echo "    FEHLER  $1"; fail=1; fi }
 
 # Einzelbeitrag erreichbar + Titel vorhanden?
+# Durchgehend if/else und enthaelt() statt «cmd; check … $?»: unter set -e
+# haette ein nicht findendes grep das Skript abgebrochen statt FEHLER zu
+# melden, und «… | grep -q» haette wegen SIGPIPE + pipefail einen Treffer
+# als Fehlschlag gewertet.
 html="$(lcurl -s "$LIVE/$SLUG/")"
-echo "$html" | grep -q "Grümpelturnier des FC Schattdorf"
-check "Einzelbeitrag /$SLUG/ zeigt den Titel" $?
+if enthaelt "$html" "Grümpelturnier des FC Schattdorf"
+  then check "Einzelbeitrag /$SLUG/ zeigt den Titel" 0
+  else check "Einzelbeitrag /$SLUG/ zeigt den Titel" 1; fi
 
 # Beitragsbild (Leadbild) ausgeliefert?
 code="$(lcurl -s -o /dev/null -w '%{http_code}' "$LIVE/$UPLOAD_SUB/thumbnail.jpg")"
-[ "$code" = "200" ]; check "Leadbild thumbnail.jpg erreichbar (HTTP $code)" $?
+if [ "$code" = "200" ]
+  then check "Leadbild thumbnail.jpg erreichbar (HTTP $code)" 0
+  else check "Leadbild thumbnail.jpg erreichbar (HTTP $code)" 1; fi
 
 # In der News-Übersicht gelistet?
-lcurl -s "$LIVE/news/" | grep -q "Dorf- und 66. Grümpelturnier"
-check "In der News-Übersicht /news/ gelistet" $?
+news="$(lcurl -s "$LIVE/news/")"
+if enthaelt "$news" "Dorf- und 66. Grümpelturnier"
+  then check "In der News-Übersicht /news/ gelistet" 0
+  else check "In der News-Übersicht /news/ gelistet" 1; fi
 
 echo
 if [ "$fail" -eq 0 ]; then

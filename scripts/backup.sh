@@ -28,8 +28,12 @@ mkdir -p backups
 # Zweitkopie ausserhalb des Rechners (OneDrive). In .env überschreibbar.
 BACKUP_REMOTE_DIR="${BACKUP_REMOTE_DIR:-$HOME/OneDrive/Urinet/projekte/fc-schattdorf/backup}"
 
-# Container müssen laufen
-if ! docker compose ps --status running --format '{{.Service}}' | grep -q '^db$'; then
+# Container müssen laufen. Direkt im Container nachfragen statt «ps
+# --status running --format …» zu parsen: diese Flags gibt es nicht in
+# jeder Compose-Version (am 30.08.2026 brach ein Skript deshalb mit
+# «unknown flag: --status» ab), und die Pipe in grep -q ist mit pipefail
+# ohnehin heikel.
+if ! docker compose exec -T db true >/dev/null 2>&1; then
   echo "FEHLER: Container laufen nicht (docker compose up -d)." >&2; exit 1
 fi
 

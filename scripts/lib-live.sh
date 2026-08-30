@@ -71,6 +71,17 @@ fcs_live_init() {
 
 fcs_live_init
 
+# Textsuche ohne Pipe: «enthaelt "$text" "muster"».
+#
+# Bewusst NICHT «printf … | grep -q» oder «curl … | grep -q»: grep -q endet
+# beim ersten Treffer und schliesst die Pipe. Der Schreiber davor bekommt
+# dann SIGPIPE (curl meldet Fehler 56), und weil die Skripte mit
+# «set -o pipefail» laufen, wird aus einem GEFUNDENEN Muster ein
+# Fehlschlag. Ob das zuschlaegt, haengt davon ab, wie frueh die Fundstelle
+# im Dokument steht — die Verifikation meldete am 30.08.2026 deshalb einen
+# funktionierenden Fix als fehlend, einen zweiten aber als in Ordnung.
+enthaelt() { case "$1" in *"$2"*) return 0 ;; *) return 1 ;; esac; }
+
 # curl gegen die Live-Seite — immer diese Funktion statt curl direkt.
 # Die Fallunterscheidung ist nötig: ein leeres Array darf nicht als
 # leeres Argument an curl geraten («option : blank argument where

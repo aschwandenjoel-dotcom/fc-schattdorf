@@ -79,7 +79,8 @@ lcurl -sS --max-time 600 "$LIVE/fcs-db-export.php?token=${TOKEN}" -o "$DUMP"
 ssh "$HOST" "rm -f $WEBROOT/fcs-db-export.php"
 
 log "3/4  Dump prüfen und importieren…"
-if ! tail -c 200 "$DUMP" | grep -q "FCS-DUMP-COMPLETE"; then
+ENDMARKE="$(tail -c 200 "$DUMP")"
+if ! enthaelt "$ENDMARKE" "FCS-DUMP-COMPLETE"; then
   echo "FEHLER: Dump unvollständig (Endmarke fehlt) — lokale DB UNVERÄNDERT." >&2
   head -5 "$DUMP" >&2
   exit 1
