@@ -38,9 +38,30 @@ wpc() { docker compose run --rm -T wpcli wp "$@"; }
 log() { printf "\n\033[1;32m==> %s\033[0m\n" "$1"; }
 
 log "Container prüfen…"
-if ! docker compose ps --status running --format '{{.Service}}' | grep -q '^db$'; then
-  docker compose up -d db wordpress
-  sleep 5
+# «docker compose up -d» ist idempotent: laufende Container bleiben, fehlende
+# starten. Bewusst ohne vorheriges «ps --status running --format …» — diese
+# Flags gibt es nicht in jeder Compose-Version, und schlug der Check fehl,
+# brach das ganze Skript mit «unknown flag: --status» ab (30.08.2026).
+if ! docker compose up -d db wordpress; then
+  echo "FEHLER: Container liessen sich nicht starten." >&2
+  echo "  Läuft die Docker-Maschine?   colima status   (sonst: colima start)" >&2
+  echo "  Ist Compose vorhanden?       docker compose version" >&2
+  exit 1
+fi
+
+# Auf die Datenbank warten statt blind zu schlafen: erst wenn MySQL antwortet,
+# ist der folgende mysqldump verlässlich.
+printf "    warte auf die Datenbank"
+for _ in $(seq 1 60); do
+  if docker compose exec -T db mysqladmin ping -u"${DB_USER}" -p"${DB_PASSWORD}" --silent >/dev/null 2>&1; then
+    db_bereit=1; break
+  fi
+  printf "."; sleep 1
+done
+echo
+if [ "${db_bereit:-0}" != "1" ]; then
+  echo "FEHLER: Datenbank antwortet nach 60 s nicht — Abbruch, lokale DB unverändert." >&2
+  exit 1
 fi
 
 log "1/4  Lokale DB sichern (backups/db-vor-pull-${STAMP}.sql.gz)…"
