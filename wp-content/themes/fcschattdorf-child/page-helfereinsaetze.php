@@ -8,6 +8,15 @@
  */
 defined( 'ABSPATH' ) || exit;
 
+/* Astra streckt #content auf grossen Schirmen (#page{min-height:100vh}
+   plus #page .site-content{flex-grow:1}). Diese Seite ist kurz, also
+   blieb unter dem weinroten Seitenkoerper ein heller Streifen ueber dem
+   Footer stehen. Die Schwesterseiten im selben Design (Kontakt, Anfahrt,
+   Ehrenmitglieder, …) faerben diese Flaeche ueber die Body-Klasse ein:
+   body.fcx-wine-page #content{background:var(--fcx-wine)} in fcs-front.css.
+   Hier fehlte sie als einziger Seite dieser Familie. */
+add_filter( 'body_class', function ( $c ) { $c[] = 'fcx-wine-page'; return $c; } );
+
 add_action( 'wp_enqueue_scripts', function () {
     $dir = get_stylesheet_directory();
     $uri = get_stylesheet_directory_uri();

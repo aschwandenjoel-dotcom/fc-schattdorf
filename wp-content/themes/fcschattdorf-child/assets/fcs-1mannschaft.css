@@ -102,9 +102,19 @@ body.page-id-46 .entry-header, body.fcs-team-page .entry-header  { padding: 0 !i
   width: 100%;
   line-height: 0;
 }
+/* Das Titelbild behaelt auf jeder Fensterbreite dasselbe Verhaeltnis.
+   Vorher war die Hoehe bei 620px gedeckelt, waehrend die Breite weiter
+   wuchs — die Box wurde also immer flacher und schnitt entsprechend mehr
+   weg: 35 % bei 1440px, 52 % bei 1920px, 64 % bei 2560px. Auf dem Laptop
+   fiel es nicht auf, auf dem Monitor sehr wohl.
+   100/44 ist exakt das bisherige 44vw, nur ohne Deckel — der Anblick vom
+   Laptop gilt damit auf jedem Schirm. min-height haelt den bisherigen
+   Boden von 300px auf dem Handy. */
 .fc1m-photo img {
   width: 100%;
-  height: clamp(300px, 44vw, 620px);
+  aspect-ratio: 100 / 44;
+  height: auto;
+  min-height: 300px;
   object-fit: cover;
   object-position: center 35%;
   display: block;
