@@ -47,15 +47,22 @@ check() { if [ "$2" -eq 0 ]; then printf "    \033[1;32mOK\033[0m      %s\n" "$1
 
 css_block() { awk '/^\.fc1m-photo img[[:space:]]*\{/,/\}/'; }
 
+# Textsuche ohne Pipe. Bewusst NICHT «printf … | grep -q»: grep -q endet
+# beim ersten Treffer, der Schreiber davor bekommt SIGPIPE, und pipefail
+# macht aus dem Treffer einen Fehlschlag — je nachdem, wie frueh die
+# Fundstelle im Dokument steht. Genau daran meldete die Verifikation am
+# 30.08.2026 einen funktionierenden Fix als fehlend.
+enthaelt() { case "$1" in *"$2"*) return 0 ;; *) return 1 ;; esac; }
+
 # ── 0. Sind die drei Aenderungen lokal ueberhaupt drin? ─────────────
 log "0/5  Lokale Aenderungen pruefen…"
 BLOCK="$(css_block < "$THEME/$CSS")"
 printf '%s\n' "$BLOCK" | sed 's/^/      /'
 # Bewusst durchgehend if/else statt «cmd; check … $?»: unter set -e wuerde
 # ein nicht findendes grep das Skript abbrechen, statt FEHLER zu melden.
-if printf '%s' "$BLOCK" | grep -q "aspect-ratio:[[:space:]]*100[[:space:]]*/[[:space:]]*44"
+if enthaelt "$BLOCK" "aspect-ratio: 100 / 44"
   then check "1) Titelbild: festes Verhaeltnis gesetzt" 0; else check "1) Titelbild: aspect-ratio fehlt" 1; fi
-if printf '%s' "$BLOCK" | grep -q "clamp("
+if enthaelt "$BLOCK" "clamp("
   then check "1) Titelbild: alte gedeckelte Hoehe steht noch drin" 1; else check "1) Titelbild: alte gedeckelte Hoehe entfernt" 0; fi
 if grep -q "wp_calculate_image_sizes" "$THEME/page-vorstand.php"
   then check "2) Vorstand: sizes-Filter vorhanden" 0; else check "2) Vorstand: sizes-Filter fehlt" 1; fi
@@ -121,11 +128,15 @@ sleep 60
 # Ein Syntaxfehler in den beiden Templates zeigt sich hier als 500.
 log "4/5  Laden die betroffenen Seiten noch?"
 fail=0
-for slug in 1-mannschaft 2-mannschaft 3-mannschaft \
+# -L folgt Weiterleitungen: die Aktivteams liegen unter /aktive/…, ein
+# Aufruf der alten Adresse antwortet mit 301. Gewertet wird der Code am
+# Ende der Kette, sonst meldet der Check eine funktionierende Seite als
+# Fehler (passiert am 30.08.2026).
+for slug in aktive/1-mannschaft aktive/2-mannschaft aktive/3-mannschaft \
             junioren/teams/junioren-a-junioren \
             junioren/teams/team-uri-ff11 \
             verein/vorstand helfereinsaetze; do
-  code="$(lcurl -sS -o /dev/null -w '%{http_code}' --max-time 60 "$LIVE/$slug/")"
+  code="$(lcurl -sS -L -o /dev/null -w '%{http_code}' --max-time 60 "$LIVE/$slug/")"
   if [ "$code" = "200" ]; then check "/$slug/ (HTTP $code)" 0; else check "/$slug/ (HTTP $code)" 1; fi
 done
 
@@ -133,15 +144,22 @@ done
 log "5/5  Verifikation der drei Fixes"
 
 LIVEBLOCK="$(lcurl -sS --max-time 60 "$LIVE/$THEME/$CSS" | css_block)"
-if printf '%s' "$LIVEBLOCK" | grep -q "aspect-ratio"
+if enthaelt "$LIVEBLOCK" "aspect-ratio"
   then check "1) Titelbild: neues Verhaeltnis ist live" 0; else check "1) Titelbild: neues Verhaeltnis fehlt live" 1; fi
-if printf '%s' "$LIVEBLOCK" | grep -q "clamp("
+if enthaelt "$LIVEBLOCK" "clamp("
   then check "1) Titelbild: alter Zuschnitt steht noch live" 1; else check "1) Titelbild: alter Zuschnitt ist live verschwunden" 0; fi
 
-if lcurl -sS --max-time 60 "$LIVE/verein/vorstand/" | grep -q "45vw, 375px"
+# Antwort erst in eine Variable, dann pruefen — NICHT «curl | grep -q»:
+# grep -q endet beim ersten Treffer, curl kann dann nicht mehr in die Pipe
+# schreiben (Fehler 56) und pipefail macht aus dem Treffer einen
+# Fehlschlag. Genau das meldete am 30.08.2026 funktionierende Fixes als
+# fehlend.
+VORSTAND="$(lcurl -sS -L --max-time 60 "$LIVE/verein/vorstand/")"
+if enthaelt "$VORSTAND" "45vw, 375px"
   then check "2) Vorstand: korrigiertes sizes wird ausgeliefert" 0; else check "2) Vorstand: sizes unveraendert" 1; fi
 
-if lcurl -sS --max-time 60 "$LIVE/helfereinsaetze/" | grep -qE '<body[^>]*fcx-wine-page'
+HELFER="$(lcurl -sS -L --max-time 60 "$LIVE/helfereinsaetze/")"
+if enthaelt "$HELFER" "fcx-wine-page"
   then check "3) Helfereinsaetze: body-Klasse fcx-wine-page ist gesetzt" 0; else check "3) Helfereinsaetze: body-Klasse fehlt" 1; fi
 
 echo
