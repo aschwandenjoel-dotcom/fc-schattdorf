@@ -1,6 +1,6 @@
 # Übergabe / Rechnerwechsel
 
-Stand: **29.08.2026**. Diese Datei beschreibt, was gerade offen ist und was
+Stand: **01.09.2026**. Diese Datei beschreibt, was gerade offen ist und was
 auf einem neuen Rechner eingerichtet werden muss. Die dauerhaften
 Projektregeln stehen in `CLAUDE.md`, das Setup der lokalen Umgebung in
 `README.md`.
@@ -34,9 +34,10 @@ Projektregeln stehen in `CLAUDE.md`, das Setup der lokalen Umgebung in
   `scripts/pull-theme-live.sh`) war nie gepusht und fehlte in diesem
   Stand. Einziger Konflikt war `.gitignore`, wo beide Seiten
   Deploy-Ausnahmen ergänzt hatten — beide Blöcke behalten.
-- Einzige offene Änderung im Arbeitsverzeichnis: `fc-schattdorf-db.sql`
-  (Transfer-Dump, wird von `scripts/backup.sh` erzeugt — gehört nicht zu
-  den Code-Änderungen und ist absichtlich nicht mitcommittet).
+- `fc-schattdorf-db.sql` (Transfer-Dump aus `scripts/backup.sh`) ist
+  inzwischen versioniert (`9b6312a`) und damit keine offene
+  Arbeitsverzeichnis-Änderung mehr. Der Stand vom 29.08.2026 in dieser
+  Datei behauptete das noch; korrigiert am 01.09.2026.
 
 ## 2. Offene Schritte
 
@@ -45,9 +46,36 @@ Kein Deploy. Beide sind gelaufen und live geprüft:
 `deploy/deploy-schiedsrichter.sh` (DB). Beide sind idempotent und
 könnten gefahrlos erneut laufen, es besteht aber kein Grund dazu.
 
-**Offen: `./scripts/pull-prod-db.sh`** — die lokale DB ist seit dem
-13.08.2026 nicht mehr gezogen worden. Vor jeder Arbeit an Inhalten oder
-Vorlagen nachholen, sonst arbeitet man auf altem Redaktionsstand.
+**Nichts offen.** `./scripts/pull-prod-db.sh` ist am 01.09.2026
+gelaufen, die lokale DB entspricht wieder dem Live-Stand.
+
+**Lokale Umgebung am 01.09.2026 neu aufgebaut.** Die Docker-Volumes
+`db_data` und `wordpress_data` waren im Konto `Joel` leer (frische
+Colima-VM; die alte Umgebung liegt in der separaten Colima-Instanz des
+Kontos `fabian` auf demselben Mac). Neu aufgesetzt mit
+`./scripts/setup.sh` — WordPress, Astra und die Plugins sportspress,
+the-events-calendar, fluentform, mailpoet, wordpress-seo — danach
+`pull-prod-db.sh` und der Uploads-Abgleich. Kein Code ging dabei
+verloren: unter `fabian` liegt kein zweiter Checkout, dessen
+Claude-Sitzungen liefen gegen dieses Verzeichnis.
+
+Zwei Punkte daraus, die beim nächsten Mal Zeit sparen:
+
+- **Port 8080 kann vom zweiten Benutzerkonto belegt sein.** Der
+  Colima-SSH-Mux des Kontos `fabian` hielt `*.8080` systemweit. Der
+  WordPress-Container lief einwandfrei, war von aussen aber nicht
+  erreichbar (`Connection reset by peer`), und `lsof` zeigte unter dem
+  eigenen Benutzer keinen Listener. Sichtbar wird der Halter mit
+  `netstat -anv -p tcp | grep 8080` (Spalte `process:pid`). Lösung: im
+  anderen Konto `colima stop`, danach `docker compose restart
+  wordpress`. Adminer auf 8081 war nie betroffen.
+- **Uploads sind jetzt eingebunden statt kopiert.** `docker-compose.yml`
+  mountet `./wp-content/uploads` in `wordpress` und `wpcli` (beide, damit
+  WP-CLI dieselben Dateien sieht wie Apache). Der rsync von live geht
+  damit direkt ins Projektverzeichnis; das frühere `docker compose cp`
+  in das Volume entfällt. Das Verzeichnis war über `.gitignore` schon
+  ausgenommen. Die Anzeige `root:root` im Container ist bei Colimas
+  virtiofs normal — Apache und WP-CLI können trotzdem schreiben.
 
 Erledigt am 29.08.2026: `deploy-designstand.sh`,
 `deploy-responsiv-kontakt-helfer.sh` und `deploy-schiedsrichter.sh`
@@ -95,7 +123,7 @@ muss es bleiben (Urheberrecht an diesen Assets).
 | Docker + Colima laufend | lokale Umgebung | `colima start`, dann `docker compose up -d` |
 | SSH-Zugang zu Hostpoint | jedes Deploy- und Pull-Skript nutzt `scp`/`ssh` als `aziwivac@sl1819.web.hostpoint.ch` | öffentlichen Schlüssel des neuen Rechners im Hostpoint-Panel hinterlegen und einmal `ssh aziwivac@sl1819.web.hostpoint.ch` testen |
 | Datenbank-Inhalt | liegt im Docker-Volume, nicht im Git | `./scripts/pull-prod-db.sh` (bevorzugt) oder ersatzweise `fc-schattdorf-db.sql` importieren |
-| Uploads / Medien | liegen im Docker-Volume | `rsync -avz aziwivac@sl1819.web.hostpoint.ch:www/fcschattdorf/wp-content/uploads/ <ziel>` — `pull-prod-db.sh` synchronisiert sie bewusst nicht |
+| Uploads / Medien | nicht im Git (`.gitignore`) | `rsync -avz aziwivac@sl1819.web.hostpoint.ch:www/fcschattdorf/wp-content/uploads/ ./wp-content/uploads/` — `docker-compose.yml` mountet dieses Verzeichnis seit 01.09.2026 in `wordpress` und `wpcli`, der rsync landet also direkt am richtigen Ort. `pull-prod-db.sh` synchronisiert Medien bewusst nicht |
 
 `.env` enthält ausschliesslich lokale Docker-Passwörter und ist aus
 `.env.example` erzeugbar — es muss nichts Geheimes vom alten Rechner
