@@ -68,7 +68,7 @@ else
   printf "\n\033[1;31mDeploy mit Auffälligkeiten – bitte oben prüfen.\033[0m\n"; exit 1
 fi
 
-cat <<'EOF'
+cat <<EOF
 
   NOCH EIN SCHRITT VON HAND — ohne ihn bleibt der alte Flyer stehen:
 
@@ -81,7 +81,7 @@ cat <<'EOF'
     -> Feld «Flyer: Bild (URL aus der Mediathek)» leeren -> Aktualisieren
 
   Gegenprobe danach (nach ~60 s wegen Seitencache):
-    curl -s https://fcschattdorf.dynalias.net/junioren/trainingslager/ \
+    curl -s $LIVE/junioren/trainingslager/ \
       | grep -o 'tl26-flyer.jpg\|IMG_8904.jpg' | sort -u
 
 EOF

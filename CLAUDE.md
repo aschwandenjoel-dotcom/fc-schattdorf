@@ -1,7 +1,7 @@
 # FC Schattdorf – Entwicklungsumgebung
 
 WordPress-Site des FC Schattdorf. Lokal via Docker (`docker compose up -d`,
-Colima muss laufen), live auf Hostpoint (https://fcschattdorf.dynalias.net).
+Colima muss laufen), live auf Hostpoint (https://www.fcschattdorf.ch).
 
 **Offener Stand und Rechnerwechsel: `UEBERGABE.md`** — dort steht, was
 gerade live ist, welcher Deploy noch aussteht und was auf einem neuen
@@ -39,6 +39,9 @@ nicht (Hinweis im Skript-Kopf).
   Filter `fcs_page_fields_config` in `inc/fcs-fields-*.php`.
 - Vorlagen enthalten KEINE hartkodierten Inhalte mehr — neue Inhalte
   gehören in CPTs oder Seitenfelder, nie in PHP-Arrays.
+- **Weiterleitungen** (`inc/fcs-redirects.php`): alte Joomla-URLs und
+  fremde Hosts (Test-Adresse, nackte Domain) per 301 auf die neue
+  Seite. Fehlende Regeln dort nachtragen, nicht in `.htaccess`.
 
 ## Deployment
 
@@ -56,22 +59,32 @@ nicht (Hinweis im Skript-Kopf).
 
 ## Domain / DNS (häufigste Ausfallursache)
 
-`fcschattdorf.dynalias.net` ist ein **dynamischer DNS-Eintrag**
-(dynalias.net, Nameserver bei Oracle, TTL 60 s) und muss per A-Record
-auf den Hostpoint-Server `sl1819.web.hostpoint.ch` zeigen. Zeigt er
-woanders hin, ist die Seite offline, obwohl Server, WordPress und Theme
-einwandfrei laufen — **erst prüfen, nicht am Code suchen:**
+Domain `fcschattdorf.ch`, Nameserver und die Vereins-Mail liegen bei
+**cyon** (Registrar cyon AG, `ns1/ns2.cyon.ch`, MX `mail.fcschattdorf.ch`,
+TTL 60 s). Die Website läuft auf Hostpoint: der Haupt-A-Record `@` (und
+der AAAA-Record) muss auf `sl1819.web.hostpoint.ch` zeigen, `www` ist
+ein CNAME auf `@`. Zeigt der Record woanders hin, ist die Seite offline,
+obwohl Server, WordPress und Theme einwandfrei laufen — **erst prüfen,
+nicht am Code suchen:**
 
 ```
 ./scripts/check-live.sh
 ```
 
-Trennt DNS-Problem von Server-Problem und nennt die Soll-IP. Am
-05.08.2026 zeigte der Record auf eine Vercel-IP (216.198.79.1), Vercel
-antwortete `DEPLOYMENT_NOT_FOUND` und hatte kein Zertifikat für den
-Namen. Die Korrektur des Records ist nur im dynalias.net-Konto möglich.
+Trennt DNS-Problem von Server-Problem und nennt die Soll-IP. Korrektur
+nur im cyon-DNS-Editor (`my.cyon`, Zugang beim Verein). MX, SPF, DMARC
+und die `mail`-/`webmail`-Einträge dort nie anfassen — daran hängt die
+Vereins-Mail. Mailversand aus WordPress läuft über FluentSMTP mit einem
+cyon-Postfach, nicht über den Hostpoint-Mailer (SPF der Domain ist
+`-all` und kennt Hostpoint nicht).
 
-Deploy- und Pull-Skripte sind dagegen abgesichert: sie binden
+Bis September 2026 lief die Seite unter der Test-Adresse
+`fcschattdorf.dynalias.net` (DynDNS); am 05.08.2026 zeigte deren Record
+auf eine Vercel-IP. Der Domainwechsel ist in `UMSTELLUNG.md`
+dokumentiert; der Test-Host leitet noch per 301 auf
+`www.fcschattdorf.ch` und wird ca. Dezember 2026 abgebaut.
+
+Deploy- und Pull-Skripte sind gegen DNS-Fehler abgesichert: sie binden
 `scripts/lib-live.sh` ein und rufen die Live-Seite über `lcurl` auf,
 das bei falschem DNS per `--resolve` direkt auf die Hostpoint-IP geht
 (korrektes SNI, Zertifikatsprüfung bleibt aktiv). Neue Skripte, die

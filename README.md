@@ -84,9 +84,9 @@ inklusive `backups/` kopieren.
 └── README.md
 ```
 
-## Hinweis zum späteren Go-Live
+## Live-Betrieb
 
-Diese Umgebung ist zum **Bauen & Testen**. Für die echte Seite später:
-Hosting bei einem Schweizer Anbieter (Hostpoint/Cyon/Infomaniak), Domain
-`fcschattdorf.ch` verbinden, Inhalte exportieren/migrieren. Das Child-Theme
-und die Konfiguration lassen sich direkt übernehmen.
+Die Seite läuft live auf Hostpoint unter https://www.fcschattdorf.ch
+(Domain und Mail bei cyon). Deploy, DB-Abgleich und DNS-Prüfung: siehe
+`CLAUDE.md` und `UEBERGABE.md`. Der Domainwechsel vom Test-Host
+`fcschattdorf.dynalias.net` ist in `UMSTELLUNG.md` dokumentiert.

@@ -8,8 +8,11 @@
 #   B) Server/WordPress kaputt -> DNS korrekt, Origin antwortet nicht
 #
 # Genau dieser Unterschied hat am 05.08.2026 Zeit gekostet: der
-# A-Record von fcschattdorf.dynalias.net zeigte auf eine Vercel-IP,
-# WordPress auf Hostpoint lief die ganze Zeit einwandfrei.
+# A-Record der damaligen Test-Adresse fcschattdorf.dynalias.net zeigte
+# auf eine Vercel-IP, WordPress auf Hostpoint lief die ganze Zeit
+# einwandfrei. Seit dem Domainwechsel liegt das DNS bei cyon
+# (UMSTELLUNG.md) — die Prüfung bleibt dieselbe: A (und AAAA) von
+# www.fcschattdorf.ch müssen auf sl1819.web.hostpoint.ch zeigen.
 #
 # Aufruf:  ./scripts/check-live.sh
 # Exit 0 = alles gut, 1 = Handlungsbedarf (für Cron/Monitoring nutzbar)
@@ -28,6 +31,8 @@ bad()  { printf '  %sFEHLER%s %s\n' "$rot" "$aus" "$1"; fail=1; }
 
 DNS_IP="$(fcs_dns_ip || true)"
 ORIGIN_IP="$(fcs_origin_ip || true)"
+DNS_IP6="$(fcs_ip6_of "$LIVE_HOST" || true)"
+ORIGIN_IP6="$(fcs_ip6_of "$ORIGIN_HOST" || true)"
 
 # ── 1. DNS ──────────────────────────────────────────────────────────
 printf '\n%s1/4  DNS%s\n' "$gruen" "$aus"
@@ -42,6 +47,16 @@ elif [ "$DNS_IP" = "$ORIGIN_IP" ]; then
   ok "A-Record zeigt korrekt auf Hostpoint."
 else
   bad "A-Record zeigt auf ${DNS_IP}, muss aber auf ${ORIGIN_IP} (Hostpoint) zeigen."
+fi
+# IPv6: ein AAAA-Record, der noch auf den alten Hoster zeigt, schickt
+# IPv6-Besucher woanders hin, obwohl der A-Record stimmt.
+if [ -n "$DNS_IP6" ]; then
+  printf '      %-28s -> %s (AAAA)\n' "$LIVE_HOST" "$DNS_IP6"
+  if [ "$DNS_IP6" = "$ORIGIN_IP6" ]; then
+    ok "AAAA-Record zeigt korrekt auf Hostpoint."
+  else
+    bad "AAAA-Record zeigt auf ${DNS_IP6}, muss auf ${ORIGIN_IP6:-die Hostpoint-IPv6} zeigen oder gelöscht werden."
+  fi
 fi
 
 # ── 2. Wie ein Besucher es sieht (über das echte DNS) ───────────────
@@ -111,18 +126,18 @@ printf '%s==> Handlungsbedarf.%s\n' "$rot" "$aus"
 if [ -n "$DNS_IP" ] && [ -n "$ORIGIN_IP" ] && [ "$DNS_IP" != "$ORIGIN_IP" ]; then
   cat <<EOF
 
-  So wird der A-Record korrigiert (nur im Konto möglich, nicht von hier):
+  So wird der A-Record korrigiert (nur im cyon-Konto möglich, nicht von hier):
 
-    1. Bei account.dyn.com bzw. dem dynalias.net-Konto anmelden
-       (dynalias.net = dynamisches DNS, Nameserver bei Oracle Cloud).
-    2. Host "fcschattdorf" in der Zone dynalias.net öffnen.
-    3. A-Record von ${DNS_IP} auf ${ORIGIN_IP} ändern und speichern.
+    1. Bei my.cyon anmelden (Zugang beim Verein), Domain fcschattdorf.ch
+       wählen, Menü «DNS-Editor» — Domain, Nameserver und Mail liegen bei cyon.
+    2. Haupt-A-Record «@» von ${DNS_IP} auf ${ORIGIN_IP} ändern und speichern.
+       «www» ist ein CNAME auf «@» und folgt automatisch.
        ${ORIGIN_IP} ist die aktuelle IP von ${ORIGIN_HOST} — bei
        Unsicherheit gilt immer, was "dig +short ${ORIGIN_HOST}" sagt.
-    4. TTL ist 60 s, danach hier erneut prüfen: ./scripts/check-live.sh
-
-  Läuft ein DynDNS-Update-Client (Router/NAS) auf diesen Hostnamen, muss
-  der abgeschaltet werden — sonst überschreibt er den Eintrag wieder.
+    3. AAAA-Record ebenso (dig +short ${ORIGIN_HOST} AAAA) oder löschen.
+    4. MX, SPF, DMARC und die mail-/webmail-Einträge NICHT anfassen —
+       daran hängt die Vereins-Mail.
+    5. TTL ist 60 s, danach hier erneut prüfen: ./scripts/check-live.sh
 
   Deploys und ./scripts/pull-prod-db.sh funktionieren in der Zwischenzeit
   weiter, sie gehen bei falschem DNS automatisch direkt auf Hostpoint.

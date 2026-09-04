@@ -46,6 +46,10 @@ deploy/*
 # Token wird erst beim Deploy eingesetzt, enthaelt selbst keine Geheimnisse
 !deploy/deploy-schiedsrichter.sh
 !deploy/fcs-schiedsrichter-update.php.tpl
+# Ausnahme: Domainwechsel auf www.fcschattdorf.ch (UMSTELLUNG.md, Schritt B4);
+# Token wird erst beim Deploy eingesetzt, enthaelt selbst keine Geheimnisse
+!deploy/deploy-domain.sh
+!deploy/fcs-domain-switch.php.tpl
 
 # OS
 .DS_Store

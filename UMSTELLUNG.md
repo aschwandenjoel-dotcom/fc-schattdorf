@@ -104,13 +104,13 @@ laufen. A5 und A6 sind Voraussetzung für Phase B.
       ist die Mailfrage schon *vor* dem Wechsel gelöst und domainunabhängig.
       Notlösung, falls kein Postfach: SPF bei cyon um
       `include:spf.mail.hostpoint.ch` ergänzen (vor `-all`).
-- [ ] **A4 Theme: Weiterleitungsmodul** `inc/fcs-redirects.php` bauen
+- [x] **A4 Theme: Weiterleitungsmodul** `inc/fcs-redirects.php` bauen *(erledigt 04.09.2026, Branch `umstellung`)*
       (wird per Glob geladen): (1) Host ≠ Host von `home_url()` → 301 auf
       denselben Pfad unter `home_url()` (fängt dynalias und apex; lokal
       harmlos, weil `home` dort `localhost:8080` ist); (2) Pfadtabelle aus
       Abschnitt 7 mit 301, Muster `/newsblog/*`, `/spielberichte/*`,
       `/saison-*`, `/index.php/*`. Lokal testen (`curl -I`).
-- [ ] **A5 DB-Umstellskript** `deploy/fcs-domain-switch.php.tpl` +
+- [x] **A5 DB-Umstellskript** `deploy/fcs-domain-switch.php.tpl` + *(erledigt 04.09.2026, Branch `umstellung`, lokal in beide Richtungen getestet)*
       `deploy/deploy-domain.sh` nach dem Muster von
       `fcs-schiedsrichter-update.php.tpl`: Token, `&dry=1` zeigt Trefferzahl
       pro Tabelle, Abbruch wenn `siteurl` nicht `https://fcschattdorf.dynalias.net`
@@ -131,7 +131,7 @@ laufen. A5 und A6 sind Voraussetzung für Phase B.
 - [ ] **A7 Inhalte gegenlesen.** Yoast-Titel/Descriptions und `og:image`
       der Hauptseiten, Impressum/Datenschutz (Hoster-Nennung: Hostpoint statt
       cyon), Sponsoren-PDFs/Downloads, die auf der alten Seite lagen.
-- [ ] **A8 Repo vorbereiten (Branch `umstellung`):** `scripts/lib-live.sh`
+- [x] **A8 Repo vorbereiten (Branch `umstellung`)** *(erledigt 04.09.2026)*: `scripts/lib-live.sh`
       (`LIVE_HOST`, Kommentar), `scripts/check-live.sh` (Hinweistexte —
       die Prüfung «A-Record = sl1819-IP» bleibt richtig, nur der Hinweis
       zeigt dann auf cyon statt dynalias), `scripts/pull-prod-db.sh:99`

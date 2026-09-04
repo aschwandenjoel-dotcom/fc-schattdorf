@@ -96,7 +96,7 @@ gzip -f "$DUMP"
 
 log "4/4  URLs auf lokal umschreiben…"
 # Host ohne Schema ersetzen (erfasst auch JSON-escapte URLs), dann Schema angleichen
-wpc search-replace 'fcschattdorf.dynalias.net' 'localhost:8080' --all-tables --report-changed-only | tail -2
+wpc search-replace 'www.fcschattdorf.ch' 'localhost:8080' --all-tables --report-changed-only | tail -2
 wpc search-replace 'https://localhost:8080' 'http://localhost:8080' --all-tables --report-changed-only | tail -2
 wpc search-replace 'https:\/\/localhost:8080' 'http:\/\/localhost:8080' --all-tables --report-changed-only | tail -2
 wpc cache flush >/dev/null 2>&1 || true

@@ -1,6 +1,6 @@
 # Übergabe / Rechnerwechsel
 
-Stand: **29.08.2026**. Diese Datei beschreibt, was gerade offen ist und was
+Stand: **04.09.2026**. Diese Datei beschreibt, was gerade offen ist und was
 auf einem neuen Rechner eingerichtet werden muss. Die dauerhaften
 Projektregeln stehen in `CLAUDE.md`, das Setup der lokalen Umgebung in
 `README.md`.
@@ -40,7 +40,19 @@ Projektregeln stehen in `CLAUDE.md`, das Setup der lokalen Umgebung in
 
 ## 2. Offene Schritte
 
-Kein Deploy. Beide sind gelaufen und live geprüft:
+**Offen: Domainwechsel auf www.fcschattdorf.ch** — Plan in `UMSTELLUNG.md`.
+Der Branch `umstellung` enthält die vorbereiteten Code-Teile aus Phase A
+(Weiterleitungsmodul `inc/fcs-redirects.php`, DB-Umstellung
+`deploy/deploy-domain.sh` + `deploy/fcs-domain-switch.php.tpl`, Skripte
+und Doku auf die neue Domain). **Nicht vor Schritt B2/B3 nach `main`
+mergen:** auf dem Branch zeigen `scripts/lib-live.sh` & Co. bereits auf
+`www.fcschattdorf.ch`, und das ist bis zur DNS-Umstellung noch die alte
+Joomla-Seite bei cyon. Bis dahin `pull-prod-db.sh` und Deploys von `main`
+aus fahren. Aus Phase A noch offen: A1–A3, A6, A7, A9, A10 (Zugänge,
+Hostpoint-Panel, FluentSMTP, Trainingslager-Link, Inhalte, Termin,
+Server-Check).
+
+Sonst kein Deploy. Die beiden letzten sind gelaufen und live geprüft:
 `deploy/deploy-responsiv-kontakt-helfer.sh` (Theme) und
 `deploy/deploy-schiedsrichter.sh` (DB). Beide sind idempotent und
 könnten gefahrlos erneut laufen, es besteht aber kein Grund dazu.

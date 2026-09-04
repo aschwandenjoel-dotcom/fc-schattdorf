@@ -2,28 +2,27 @@
 # ====================================================================
 # Gemeinsame Helfer für Zugriffe auf die Live-Seite
 # --------------------------------------------------------------------
-# Die Live-Seite läuft auf Hostpoint (sl1819) und ist über den
-# Hostnamen fcschattdorf.dynalias.net erreichbar. Dieser Hostname ist
-# ein dynamisches DNS (dynalias.net, Nameserver bei Oracle) — und
-# damit die empfindlichste Stelle des ganzen Setups: zeigt der
-# A-Record nicht mehr auf Hostpoint, ist die Seite offline, obwohl
-# Server, WordPress und Theme einwandfrei laufen.
+# Die Live-Seite läuft auf Hostpoint (sl1819) unter www.fcschattdorf.ch.
+# Domain, Nameserver und Vereins-Mail liegen bei cyon; dort muss der
+# Haupt-A-Record «@» (und der AAAA-Record) auf den Hostpoint-Server
+# zeigen, «www» ist ein CNAME auf «@». Zeigt der Record woanders hin,
+# ist die Seite offline, obwohl Server, WordPress und Theme einwandfrei
+# laufen.
 #
-# Genau das ist am 05.08.2026 passiert: der A-Record zeigte auf eine
-# Vercel-IP (216.198.79.1), Vercel antwortete mit
-# DEPLOYMENT_NOT_FOUND und hatte kein Zertifikat für den Namen.
-#
-# Damit Deploys und DB-Pulls in so einem Fall nicht ebenfalls
-# ausfallen, laufen alle Live-Aufrufe über lcurl(): das prüft beim
-# Einbinden den A-Record und zwingt curl per --resolve auf die
-# Hostpoint-IP, sobald das DNS woanders hin zeigt. Hostname, SNI und
-# Zertifikatsprüfung bleiben dabei korrekt — nur die IP wird gesetzt.
+# Genau das ist der früheren Test-Adresse fcschattdorf.dynalias.net
+# (DynDNS) am 05.08.2026 passiert: der A-Record zeigte auf eine
+# Vercel-IP. Der Domainwechsel (UMSTELLUNG.md, September 2026) hat die
+# DynDNS-Schwachstelle beseitigt, die Absicherung bleibt: alle
+# Live-Aufrufe laufen über lcurl(). Das prüft beim Einbinden den
+# A-Record und zwingt curl per --resolve auf die Hostpoint-IP, sobald
+# das DNS woanders hin zeigt. Hostname, SNI und Zertifikatsprüfung
+# bleiben dabei korrekt — nur die IP wird gesetzt.
 #
 # Einbinden:  . "$(dirname "$0")/../scripts/lib-live.sh"
 # Diagnose:   ./scripts/check-live.sh
 # ====================================================================
 
-LIVE_HOST="fcschattdorf.dynalias.net"
+LIVE_HOST="www.fcschattdorf.ch"
 LIVE="https://${LIVE_HOST}"
 ORIGIN_HOST="sl1819.web.hostpoint.ch"   # Hostpoint-Server dieser Seite
 
@@ -37,6 +36,12 @@ fcs_ip_of() {
     { dscacheutil -q host -a name "$1" 2>/dev/null || getent hosts "$1" 2>/dev/null; } \
       | grep -o -m1 -E '[0-9]+(\.[0-9]+){3}'
   fi
+}
+
+# IPv6 (nur mit dig; ohne dig leer — dann entfällt die AAAA-Prüfung).
+fcs_ip6_of() {
+  command -v dig >/dev/null 2>&1 || return 0
+  dig +short "$1" AAAA 2>/dev/null | grep -m1 ':'
 }
 
 fcs_origin_ip() { fcs_ip_of "$ORIGIN_HOST"; }
@@ -66,7 +71,7 @@ fcs_live_init() {
     "$LIVE_HOST" "${dns:-<keine Antwort>}" "$origin" >&2
   printf '   Die Seite ist damit für Besucher offline, der Server selbst läuft.\n' >&2
   printf '   Dieses Skript arbeitet trotzdem weiter (direkt auf %s).\n' "$origin" >&2
-  printf '   A-Record im dynalias.net-Konto korrigieren, Details: ./scripts/check-live.sh\033[0m\n\n' >&2
+  printf '   A-Record im cyon-DNS-Editor korrigieren, Details: ./scripts/check-live.sh\033[0m\n\n' >&2
 }
 
 fcs_live_init
