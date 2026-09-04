@@ -84,7 +84,7 @@ laufen. A5 und A6 sind Voraussetzung für Phase B.
 - [ ] **A1 Zugänge.** `my.cyon`-Login vom Verein; klären, wer im Google
       Search Console Eigentümer der Property `fcschattdorf.ch` ist (TXT
       `google-site-verification=IjSW…` liegt in der Zone).
-- [ ] **A2 Hostpoint-Panel: Domain zuweisen.** `admin.hostpoint.ch` →
+- [x] **A2 Hostpoint-Panel: Domain zuweisen** *(erledigt 04.09.2026: `fcschattdorf.ch` + `www` der Website `fcschattdorf.dynalias.net (SSL)` zugewiesen; HTTP liefert WordPress, HTTPS erst nach B2/B3 mit FreeSSL)*. `admin.hostpoint.ch` →
       *Domains* → externe Domain `fcschattdorf.ch` hinzufügen → dem Webhosting
       zuweisen → unter *Websites* auf den Docroot `www/fcschattdorf` legen,
       `www.fcschattdorf.ch` als Variante mit. Weiterleitung `fcschattdorf.ch`
