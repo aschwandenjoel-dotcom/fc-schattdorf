@@ -175,7 +175,7 @@ laufen. A5 und A6 sind Voraussetzung für Phase B.
       'grep -n "WP_HOME\|WP_SITEURL\|dynalias" www/fcschattdorf/wp-config.php'`
       — muss leer sein (sonst würde die Konstante die DB überstimmen).
       `.htaccess` im Docroot anschauen: keine hartkodierten Host-Regeln.
-- [ ] **A11 TTL senken (mindestens 4 h vor B2).** Im cyon-DNS-Editor die
+- [x] **A11 TTL senken** *(erledigt 05.09.2026: `@` A, `@` AAAA und `www` auf 300 s, per `dig @ns1.cyon.ch` bestätigt; Werte, MX und `mail` unverändert)*. Im cyon-DNS-Editor die
       TTL von `@` A (heute 900 s), `@` AAAA (14400 s) und `www` CNAME
       (14400 s) auf **300 s** stellen, sonst nichts ändern. Erst wenn die
       alten TTLs abgelaufen sind (4 h), greifen Wechsel *und* Rollback
