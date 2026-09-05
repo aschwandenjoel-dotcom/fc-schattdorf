@@ -17,7 +17,7 @@ ist, hier abhaken. Gehört zu `UMSTELLUNG.md`, Schritt A7.
 | **OG-Bild** (Vorschaubild bei Facebook/WhatsApp) | fehlt auf ~40 Seiten (alle Verein-/Junioren-Unterseiten, Teams, Kontakt, Sponsoren) |
 | Datenschutzerklärung | «Stand: September 2023» — von der alten Seite übernommen; nennt weder Hoster noch die externen Dienste der neuen Seite |
 | Impressum | in Ordnung (Stand August 2026) |
-| Externe Dienste, die beim Seitenaufruf geladen werden | Google Fonts (Inter) und AOS-Bibliothek von `unpkg.com` — beide auf jeder Seite; Facebook/Instagram/IFV/Tickaroo sind nur Links |
+| Externe Dienste, die beim Seitenaufruf geladen werden | ~~Google Fonts (Inter) und AOS von `unpkg.com`~~ — seit 05.09.2026 im Theme (`assets/vendor/`, Branch `umstellung`); Facebook/Instagram/IFV/Tickaroo sind nur Links |
 | Veraltete Inhalte | siehe Abschnitt 4 |
 
 ## 1. Meta-Descriptions (Yoast, pro Seite: «SEO → Meta-Beschreibung»)
@@ -97,12 +97,9 @@ durch den Verein.
 > E-Mail an die zuständige Stelle im Verein übermittelt; wir verwenden sie
 > nur zur Bearbeitung Ihrer Anfrage oder Bestellung. Der Warenkorb des Fanshops wird lokal in Ihrem Browser gespeichert (Web Storage) und nicht an uns übermittelt, bis Sie eine Bestellung absenden.
 
-**Schriften und Skripte von Drittanbietern** (neu — entfällt, wenn wir
-Google Fonts und AOS ins Theme legen, siehe unten)
-> Zur Darstellung der Schriften wird die Schriftart Inter von Google Fonts
-> (Google LLC, USA) geladen; für Animationen die Bibliothek AOS über das
-> Content Delivery Network unpkg.com (Cloudflare, Inc., USA). Beim Laden
-> wird Ihre IP-Adresse an diese Anbieter übermittelt.
+**Schriften und Skripte von Drittanbietern** — kein Abschnitt nötig: Inter
+und AOS werden seit dem Branch `umstellung` vom eigenen Server ausgeliefert
+(`assets/vendor/`), es fliesst nichts an Google oder unpkg.com.
 
 **Links zu Drittanbietern** (neu)
 > Wir verlinken auf Facebook, Instagram, das IFV-Matchcenter und den
@@ -119,10 +116,10 @@ Wird der Vereins-Newsletter weiterhin versendet (DNS-Zone: Mailgun über
 `m.fcschattdorf.ch`), bleibt der Abschnitt und nennt das Versandwerkzeug;
 sonst streichen.
 
-**Empfehlung dazu:** Google Fonts (Inter) und AOS ins Child-Theme legen
-statt extern zu laden — dann entfällt der Drittanbieter-Abschnitt, die
-Seite lädt schneller und ist unabhängig von unpkg.com. Kleiner
-Theme-Eingriff, kann auf dem Branch `umstellung` mitgehen.
+**Erledigt 05.09.2026:** Inter (variable Schrift 400–900, latin + latin-ext,
+134 KB) und AOS 2.3.4 liegen im Child-Theme unter `assets/vendor/` und
+werden lokal eingebunden; die Google-Fonts-Links in `functions.php` und
+`front-page.php` sind entfernt. Geht mit B5 live.
 
 ## 4. Veraltete Inhalte (Redaktion, unabhängig vom Domainwechsel)
 

@@ -149,8 +149,10 @@ laufen. A5 und A6 sind Voraussetzung für Phase B.
       in `UMSTELLUNG-A7-INHALTE.md`.* Befund: keine Nennung von cyon/Joomla,
       alle 11 PDFs erreichbar, Titel überall gesetzt — aber **Meta-Description
       auf 64/65 Seiten leer**, OG-Bild auf ~40 Seiten fehlend,
-      Datenschutzerklärung von 2023 ohne Hoster und ohne die externen
-      Dienste (Google Fonts, AOS via unpkg.com). Offen für die Redaktion:
+      Datenschutzerklärung von 2023 ohne Hoster. Google Fonts und AOS
+      (unpkg.com) sind seit 05.09.2026 ins Theme geholt (`assets/vendor/`,
+      geht mit B5 live) — dafür braucht der Datenschutz keinen Abschnitt
+      mehr. Offen für die Redaktion:
       Descriptions eintragen (Vorschläge liegen bereit), Yoast-Standardbild
       setzen, Datenschutz-Ergänzungen übernehmen, veraltete Termine/Saison
       nachführen.

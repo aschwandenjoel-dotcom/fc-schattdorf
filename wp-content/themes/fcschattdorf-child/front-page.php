@@ -182,8 +182,6 @@ $sponsor_lead = array_shift( $sponsor_groups );
 <head>
 <meta charset="<?php bloginfo( 'charset' ); ?>">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="<?php echo esc_url( $theme_uri . '/assets/fcs-home.css?v=' . $ver ); ?>">
 <link rel="stylesheet" href="<?php echo esc_url( $theme_uri . '/assets/fcs-front.css?v=' . $ver_front ); ?>">
 <?php wp_head(); ?>
