@@ -95,7 +95,7 @@ laufen. A5 und A6 sind Voraussetzung für Phase B.
       Test: `curl -sk --resolve www.fcschattdorf.ch:443:217.26.61.134
       https://www.fcschattdorf.ch/` liefert WordPress statt der
       Hostpoint-Fehlerseite.
-- [ ] **A3 Mailversand.** In cyon ein Postfach für die Website anlegen
+- [x] **A3 Mailversand** *(erledigt 05.09.2026: FluentSMTP live über cyon-Postfach via `s086.cyon.net:465`; Testmail, Fanshop-Bestellung und Kontaktformular alle zugestellt)*. In cyon ein Postfach für die Website anlegen
       (z.B. `website@fcschattdorf.ch`) oder ein bestehendes nehmen. Auf der
       Live-Seite FluentSMTP installieren, Verbindung: SMTP-Host
       **`s086.cyon.net`** (nicht `mail.fcschattdorf.ch` — dessen Zertifikat
