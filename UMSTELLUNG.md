@@ -168,7 +168,7 @@ laufen. A5 und A6 sind Voraussetzung für Phase B.
       `wp-config-production.php` löschen (Infomaniak-Anleitung von Juni,
       Salt-Platzhalter — beides überholt). **Nicht vor Phase B mergen** —
       bis dahin sprechen alle Skripte noch mit dem Test-Host.
-- [ ] **A9 Termin und Freeze.** Umstelltag festlegen: Werktag-Vormittag,
+- [x] **A9 Termin und Freeze** *(erledigt 05.09.2026: Umstelltag **Dienstag, 08.09.2026**, Vormittag)*. Umstelltag festlegen: Werktag-Vormittag,
       nicht an einem Spielwochenende, jemand vom Vorstand erreichbar.
       Redaktion informiert: ab dann keine Änderungen mehr an der alten Seite.
 - [x] **A10 Server-Check** *(erledigt 05.09.2026: grep leer — keine WP_HOME/WP_SITEURL-Konstanten, kein dynalias in wp-config.php)*. `ssh aziwivac@sl1819.web.hostpoint.ch
@@ -189,6 +189,47 @@ laufen. A5 und A6 sind Voraussetzung für Phase B.
 Die Reihenfolge ist wichtig: **erst DNS, dann Zertifikat, dann DB.** Würde
 die DB zuerst umgestellt, leitete WordPress alle Besucher der Test-Adresse
 auf `www.fcschattdorf.ch` — und das wäre noch die alte Seite bei cyon.
+
+**Spickzettel für Dienstag, 08.09.2026** (Vorbereitung A11 spätestens am
+Montag: TTL bei cyon auf 300 s):
+
+```bash
+# ── Vormittag, vor B2 ───────────────────────────────────────────
+git checkout main && git pull
+./scripts/pull-prod-db.sh                                   # B1 Live-Dump -> backups/
+rsync -avz aziwivac@sl1819.web.hostpoint.ch:www/fcschattdorf/wp-content/uploads/ backups/uploads-2026-09-08/
+./scripts/check-live.sh                                     # muss grün sein
+dig +short sl1819.web.hostpoint.ch A                        # IPv4 für cyon
+dig +short sl1819.web.hostpoint.ch AAAA                     # IPv6 für cyon
+
+# ── B2: my.cyon -> DNS-Editor: «@» A und AAAA auf die beiden Werte, Rest unverändert
+dig +short www.fcschattdorf.ch A; dig +short www.fcschattdorf.ch AAAA   # bis beides = Hostpoint
+dig +short fcschattdorf.ch MX                               # muss mail.fcschattdorf.ch bleiben
+
+# ── B3: Zertifikat abwarten (Minuten bis ~1 h), alle paar Minuten:
+curl -sS -o /dev/null -w '%{http_code}\n' https://www.fcschattdorf.ch/     # 200 ohne TLS-Fehler
+openssl s_client -connect www.fcschattdorf.ch:443 -servername www.fcschattdorf.ch </dev/null 2>/dev/null \
+  | openssl x509 -noout -subject -enddate                   # CN=www.fcschattdorf.ch
+
+# ── B4: DB umstellen (Skript prüft DNS/Zertifikat/Dump, Probelauf, Rückfrage)
+git checkout umstellung && git pull
+./deploy/deploy-domain.sh
+
+# ── B5: Branch nach main, Theme deployen (Weiterleitungen, Fonts, Trainingslager-Button)
+git checkout main && git merge umstellung && git push
+rsync -avz wp-content/themes/fcschattdorf-child/ aziwivac@sl1819.web.hostpoint.ch:www/fcschattdorf/wp-content/themes/fcschattdorf-child/
+
+# ── B6: nach 60 s prüfen
+./scripts/check-live.sh
+curl -sI https://fcschattdorf.dynalias.net/verein/vorstand/ | grep -i '^location'   # -> www…/verein/vorstand/
+curl -sI https://www.fcschattdorf.ch/verein/so-finden-sie-uns | grep -i '^location' # -> /verein/anfahrt/
+curl -s  https://www.fcschattdorf.ch/ | grep -c dynalias                             # 0
+# dann Checkliste Abschnitt 8: Formulare, Fanshop, Admin-Login, Bilder
+
+# ── Rollback: DNS bei cyon zurück auf 149.126.4.95 / 2a01:ab20:0:4::95
+# nach B4 zusätzlich:  git checkout umstellung && ./deploy/deploy-domain.sh --rueckwaerts
+```
+
 
 - [ ] **B1 Sicherung.** `./scripts/pull-prod-db.sh` (Live-Dump nach
       `backups/prod-db-<Zeit>.sql.gz` = Rückweg für die DB) und
