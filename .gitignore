@@ -42,6 +42,10 @@ deploy/*
 !deploy/fcs-junioren-seiten.php.tpl
 # Ausnahme: Theme-Deploy der Responsiv-Anpassungen Kontakt/Helfereinsaetze
 !deploy/deploy-responsiv-kontakt-helfer.sh
+# Ausnahme: Inhalte für den Domainwechsel (A7: Descriptions, Standardbild,
+# Datenschutz) — Token wird erst beim Deploy eingesetzt, keine Geheimnisse
+!deploy/deploy-a7-inhalte.sh
+!deploy/fcs-a7-inhalte.php.tpl
 # Ausnahme: Schiedsrichter-Stand (zwei neue SR + Spielleiter-Liste);
 # Token wird erst beim Deploy eingesetzt, enthaelt selbst keine Geheimnisse
 !deploy/deploy-schiedsrichter.sh
