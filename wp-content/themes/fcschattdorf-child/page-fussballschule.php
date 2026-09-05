@@ -19,22 +19,24 @@ $up = wp_upload_dir()['baseurl'] . '/2026/06/';
 
 get_header();
 
-$intro     = fcs_pf( 'fs_intro', 'Ab dem 16. März 2026 findet jeweils **montags von 17:45 bis 19:00 Uhr** die Fussballschule für Kinder mit Jahrgang 2019 und 2020 auf dem **Sportplatz Grüner Wald** statt. Wir freuen uns auf deinen Besuch!' );
+$intro     = fcs_pf( 'fs_intro', 'Jeweils **montags von 17:45 bis 19:00 Uhr** trainiert die Fussballschule für Kinder mit Jahrgang 2020 und 2021 auf dem **Hauptplatz «Grüner Wald»** in Schattdorf. Mitnehmen, wenn vorhanden: Fussballschuhe, Schoner, Fussball (Grösse 4), Getränke und wettertaugliche Kleider. **Die Trainings finden bei jeder Witterung statt.** Fragen beantwortet Jacqueline Kempf-Imholz, 078 795 29 67.' );
 $karten    = fcs_pf_lines( 'fs_karten', array(
-	'Wann | Montag · 17:45 – 19:00 Uhr | Ab 16. März 2026',
-	'Für wen | Jahrgang 2019 & 2020 | Kinder im Vorschul- und Schulalter',
-	'Ort | Sportplatz Grüner Wald | Schattdorf',
+	'Wann | Montag · 17:45 – 19:00 Uhr | 17.8. / 24.8. / 31.8. / 7.9. / 14.9. / 21.9. / 28.9. / 12.10. / 19.10. (Abschlussturnier)',
+	'Für wen | Jahrgang 2020 & 2021 | Kinder im Vorschul- und Schulalter',
+	'Ort | Hauptplatz «Grüner Wald» | Schattdorf',
+	'Kosten | CHF 2.– pro Training | Versicherung ist Sache der Teilnehmer',
 ) );
 $pdf       = fcs_pf( 'fs_pdf', $up . 'Flyer_Fussballschule.pdf' );
 $pdf_label = fcs_pf( 'fs_pdf_label', 'Flyer Fussballschule (PDF)' );
 $team      = fcs_pf_lines( 'fs_team', array(
-	'Jacqueline Kempf | Leiterin Fussballschule | Jaqueline_Kempf.jpg',
-	'Rachel Arnold | Betreuer Fussballschule | rachel_ajpg.jpg',
-	'Adriana Fedier | Betreuerin Fussballschule | Adi_Fedier.jpg',
-	'Robin Mahrow | Betreuer Fussballschule | Rubi_Mahrow.jpg',
-	'Jasmin Jaun | Betreuerin Fussballschule | Jasmin_Jaun_1.jpg',
-	'Orlando Gisler | Betreuer Fussballschule | Orlando_Gisler.jpg',
+	'Jacqueline Kempf-Imholz | Leiterin Fussballschule | Jacqueline_Kempf.jpg',
+	'Rachel Arnold | Betreuerin Fussballschule | rachel_ajpg.jpg',
 	'Nicola Mahrow | Betreuer Fussballschule | Nici_Mahrow_2.jpg',
+	'Orlando Gisler | Betreuer Fussballschule | Orlando_Gisler.jpg',
+	'Robin Mahrow | Betreuer Fussballschule | Rubi_Mahrow.jpg',
+	'Nico Zgraggen | Betreuer Fussballschule | Nico_Zgraggen.jpg',
+	'Janic Gisler | Betreuer Fussballschule | Silhouette_Male_v2.jpg',
+	'Fabio Tresch | Betreuer Fussballschule | Silhouette_Male_v2.jpg',
 ) );
 ?>
 

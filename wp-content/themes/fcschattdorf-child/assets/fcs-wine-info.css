@@ -61,6 +61,87 @@ body.fcx-info-page .entry-header { padding: 0 !important; margin: 0 !important; 
   color: var(--fcx-cream-muted, #5f584a);
   margin: 0;
 }
+/* ── Gruppenbild unter dem Kopf (nur Junioren-Übersicht) ──
+   Feststehender Hintergrund nach dem Vorbild des Parallax-Bands der
+   alten Vereinsseite: «background-attachment: fixed» heftet das Bild an
+   den Viewport, das Band ist nur das Fenster darauf. Beim Scrollen
+   wandert der Ausschnitt, man sieht also nach und nach andere Teile des
+   Bildes. Die Datei ist assets/img/junioren-gruppenbild.jpg in
+   Originalauflösung (3000x2002) — ein fixierter Hintergrund wird über
+   die volle Viewport-Breite gerechnet und braucht deshalb viele Pixel;
+   ein Ersatzbild über das Seitenfeld «Gruppenbild» sollte ebenso gross
+   sein. Kein Verlauf darüber: das Bild soll unverfälscht wirken.
+
+   Das Band reicht bis zur Faltkante (siehe unten), damit der Streifen
+   so hoch wie möglich ist.
+
+   «center 55%» und eine Bandhöhe bis zur Faltkante: beides zusammen
+   sorgt dafür, dass beim Seitenanfang die ganze Kindergruppe im Fenster
+   liegt. Die Zahlen dahinter — im Foto stehen die Kinder zwischen 38 %
+   und 88 % der Höhe und zwischen 10 % und 88 % der Breite (zeilen- und
+   spaltenweise über den Rot-Anteil gemessen). Bei «fixed» rechnet der
+   Browser das Bild auf das ganze Fenster, das Band zeigt davon nur
+   einen Streifen; damit die 50 % Bildhöhe der Gruppe hineinpassen, muss
+   der Streifen möglichst hoch sein — daher «100vh minus Kopfzeile und
+   Kopfblock» (15rem = 6.25rem + 8.75rem). «center bottom» war zu tief:
+   auf niedrigen Fenstern schnitt es die hinteren Reihen ab und zeigte
+   unten nur Rasen. Bei 55 % sind alle Kinder von 1280x720 bis 2560x1400
+   vollständig zu sehen, mit etwas mehr Luft über der Gruppe als
+   darunter. Sehr breite Formate (21:9) schneiden unten noch etwas an —
+   dort ist das Bild rechnerisch zu hoch für den Streifen. */
+.fctc-hero {
+  /* Das Bild selbst setzt die Vorlage inline (Seitenfeld «Gruppenbild»). */
+  background-color: var(--fcx-wine, #711712);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center 55%;
+  background-attachment: fixed;
+  height: max(20rem, calc(100vh - 15rem));
+}
+/* Auf Touch-Geräten ist «fixed» unzuverlässig (iOS rendert es ruckelnd
+   bis gar nicht) — dort das Bild normal mitscrollen lassen. Ein
+   bildschirmhohes Band ergäbe mitscrollend nur einen Klotz, deshalb
+   hier deutlich niedriger. */
+@media (max-width: 860px), (hover: none) and (pointer: coarse) {
+  .fctc-hero {
+    background-attachment: scroll;
+    height: clamp(13rem, 34vh, 20rem);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fctc-hero { background-attachment: scroll; }
+}
+
+/* ── Andockender Seitenkopf (nur Junioren-Übersicht) ──
+   Der Kopf wandert beim Scrollen unter der Kopfzeile mit und bleibt
+   stehen, sobald seine Unterkante die Unterkante des Gruppenbildes
+   erreicht — danach scrollt er normal mit der Seite weg.
+
+   Das macht «position: sticky» von allein: ein klebendes Element wird
+   von seinem umschliessenden Block begrenzt. .fctc-dock umfasst genau
+   Kopf und Bild, seine Unterkante ist also die Bildunterkante. Kein JS
+   nötig.
+
+   «top» ist die Höhe der geschrumpften Kopfzeile (.fcx-hdr.is-scrolled
+   .fcx-hdr__bar) — nur in diesem Zustand ist die Seite gescrollt. Der
+   4-px-Rand steckt dank border-box schon in dieser Höhe.
+
+   Der Container steht nur in page-junioren-teams.php; die übrigen
+   Vorlagen mit .fctc-header (Juniorenkonzept, Tauschbörse, Top Club 88)
+   bleiben unberührt. */
+.fctc-dock {
+  --fctc-dock-top: 4.75rem;
+  position: relative;
+}
+.fctc-dock .fctc-header {
+  position: sticky;
+  top: var(--fctc-dock-top);
+  z-index: 2;
+}
+@media (max-width: 64rem) {
+  .fctc-dock { --fctc-dock-top: 4.5rem; }
+}
+
 /* ── Main content area ── */
 .fctc-main { max-width: 1100px; margin: 0 auto; padding: 3rem 2.5rem 4rem; }
 

@@ -159,28 +159,6 @@ a:hover { color: var(--fcs-primary-d); }
 .fcsh-sub-nav a:hover  { color: #fff; }
 .fcsh-sub-nav a.is-active { color: var(--fcsh-red); }
 
-/* ── Sub-Nav zweite Ebene (Team-Grid) ── */
-.fcsh-sub-nav--grid {
-	height: auto;
-	justify-content: flex-start;
-	flex-wrap: wrap;
-	padding: .35rem 1rem;
-	gap: 0;
-	border-top: 1px solid rgba(255,255,255,.04);
-}
-.fcsh-sub-nav--grid a {
-	height: auto;
-	padding: .4rem 1rem;
-	font-size: .625rem;
-	font-weight: 600;
-	text-transform: none;
-	letter-spacing: .04em;
-	white-space: nowrap;
-	border-right: none;
-	border-bottom: none;
-}
-.fcsh-sub-nav--grid a.is-active { color: var(--fcsh-red); }
-
 /* Overlay über inner header ziehen */
 .fcsh-overlay { z-index: 300 !important; }
 .fcsh-overlay a { text-decoration: none; }

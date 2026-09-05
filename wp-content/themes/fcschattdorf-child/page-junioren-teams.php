@@ -30,6 +30,16 @@ get_header();
 
 $jl_label = fcs_pf( 'jl_label', 'FC Schattdorf · Junioren' );
 
+/* Gruppenbild aller Junioren. Standard ist das mitgelieferte Theme-Bild
+   (3000x2002, Originalauflösung von der alten Vereinsseite); das
+   Seitenfeld «Gruppenbild» kann auf ein Bild aus der Mediathek zeigen.
+   Es wird als fixierter Hintergrund gezeigt, ein Ersatzbild sollte
+   deshalb ebenfalls gross sein (ab ~2500 px Breite). */
+$jl_bild = fcsh_bild_url( fcs_pf( 'jl_bild', '' ), $up );
+if ( '' === $jl_bild ) {
+	$jl_bild = get_stylesheet_directory_uri() . '/assets/img/junioren-gruppenbild.jpg';
+}
+
 /* Teamkacheln = Unterseiten dieser Seite (Vorlage «Junioren Team»). */
 $teams = get_posts( array(
 	'post_type'      => 'page',
@@ -42,6 +52,13 @@ $teams = get_posts( array(
 
 <div class="fctc-page">
 
+  <!-- Seitenkopf und Gruppenbild bilden zusammen den Andock-Bereich:
+       .fctc-dock ist der umschliessende Block, an dessen Unterkante der
+       mitwandernde Kopf stehen bleibt (position: sticky). Der Container
+       steht nur hier, die Wirkung gilt deshalb nur für diese Seite —
+       .fctc-header nutzen auch andere Vorlagen. -->
+  <div class="fctc-dock">
+
   <!-- Header -->
   <div class="fctc-header">
     <div class="fctc-header__inner">
@@ -49,6 +66,18 @@ $teams = get_posts( array(
       <p class="fctc-header__label"><?php echo esc_html( $jl_label ); ?></p>
     </div>
   </div>
+
+  <?php if ( $jl_bild ) : ?>
+  <!-- Gruppenbild aller Junioren als feststehender Hintergrund: das Band
+       ist ein Fenster auf ein im Viewport fixiertes Bild, beim Scrollen
+       wandert also der Ausschnitt (wie das Parallax-Band der alten
+       Vereinsseite). Deshalb Hintergrundbild statt <img> — mit role/
+       aria-label, damit es für Screenreader ein Bild bleibt. -->
+  <div class="fctc-hero" role="img" aria-label="Die Junioren des FC Schattdorf"
+       style="background-image: url('<?php echo esc_url( $jl_bild ); ?>');"></div>
+  <?php endif; ?>
+
+  </div><!-- .fctc-dock -->
 
   <!-- Main -->
   <div class="fctc-main">

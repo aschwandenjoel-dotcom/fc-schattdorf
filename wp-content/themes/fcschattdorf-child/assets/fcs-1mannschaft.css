@@ -119,6 +119,39 @@ body.page-id-46 .entry-header, body.fcs-team-page .entry-header  { padding: 0 !i
   object-position: center 35%;
   display: block;
 }
+/* ── Titelbild füllt den ersten Bildschirm ──────────────────────────
+   Kopfzeile plus Titelbild sollen beim Aufrufen genau bis zum unteren
+   Fensterrand reichen. Vorher gab das feste Seitenverhältnis 100:44 die
+   Höhe vor: bei 1440x900 waren das 634 px Bild plus 100 px Kopfzeile,
+   also 166 px zu wenig. Jetzt richtet sich die Höhe nach dem Fenster.
+
+   svh statt vh: auf dem Handy meint vh die Höhe OHNE eingeblendete
+   Adressleiste, das Bild ragte damit beim Laden unten heraus.
+
+   Erst ab 64rem: in einem hochkanten Fenster würde die volle Resthöhe
+   aus einem querformatigen Mannschaftsfoto einen schmalen Streifen
+   schneiden, auf dem kaum jemand zu erkennen wäre. Darunter bleibt es
+   deshalb beim festen Seitenverhältnis. */
+@media (min-width: 64rem) {
+  .fc1m-hero { height: calc(100vh - var(--fcx-hdr-h, 6.25rem)); min-height: 420px; }
+  .fc1m-photo { height: 100%; }
+  .fc1m-photo img { height: 100%; min-height: 0; aspect-ratio: auto; }
+}
+@supports (height: 100svh) {
+  @media (min-width: 64rem) {
+    .fc1m-hero { height: calc(100svh - var(--fcx-hdr-h, 6.25rem)); }
+  }
+}
+
+/* Ausnahme 3. Mannschaft: auf diesem Mannschaftsfoto steht das Team
+   tiefer im Bild als bei den uebrigen Teams. Mit den gemeinsamen 35 %
+   schnitt das breite Band der vorderen Reihe die Beine ab. 65 % nimmt
+   den Ueberhang oben weg statt unten – dann ist die Mannschaft samt
+   Fuessen drin und oben bleibt Luft (geprueft an 35/50/60/65/70/75 %,
+   ab 75 % wird es fuer die hintere Reihe am oberen Rand eng). */
+body.page-template-page-3mannschaft .fc1m-photo img {
+  object-position: center 65%;
+}
 
 /* Der Verlauf trägt den weissen Titel – nur so weit, wie er gebraucht wird. */
 .fc1m-herobar {
@@ -308,7 +341,13 @@ a.fc1m-sponsor-box__name:focus-visible { outline: 3px solid var(--red); outline-
   height: auto;
   overflow: hidden;
   margin-bottom: .875rem;
-  background: var(--surf) center 15% / cover no-repeat;
+  /* Der Ausschnitt nimmt den Ueberhang oben weg, nicht unten: die Fotos
+     haben reichlich Luft ueber dem Kopf, und bei 15% blieb die im Bild
+     waehrend unten Schultern und Oberkoerper wegfielen. Bei 50% sitzen
+     die Gesichter mittig und fuellen die Karte besser. Hoeher als 55%
+     wird es fuer einzelne Portraets am oberen Rand knapp (geprueft an
+     18 Fotos inkl. der beiden Silhouetten). */
+  background: var(--surf) center 50% / cover no-repeat;
   transition: transform .3s var(--ease);
 }
 @media (hover: hover) and (pointer: fine) {
@@ -347,36 +386,9 @@ a.fc1m-sponsor-box__name:focus-visible { outline: 3px solid var(--red); outline-
   padding: clamp(3rem, 7vw, 5.5rem) 0;
 }
 
-/* Positionsgruppe: rote Marke links, Text bleibt in Ink (Kontrast). */
-.fc1m-pos-title {
-  display: flex;
-  align-items: center;
-  gap: .875rem;
-  font-family: var(--f-display) !important;
-  font-size: 1rem !important;
-  font-weight: 800 !important;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  color: var(--black) !important;
-  margin: 2.75rem 0 1.25rem !important;
-}
-.fc1m-pos-title::before {
-  content: "";
-  width: 1.75rem;
-  height: 3px;
-  background: var(--red);
-  flex: 0 0 auto;
-}
-.fc1m-pos-title::after {
-  content: "";
-  flex: 1 1 auto;
-  height: 1px;
-  background: var(--rule);
-}
-.fc1m-kader-sec .fc1m-wrap > .fc1m-sechead + .fc1m-pos-title {
-  margin-top: 0 !important;
-}
-
+/* Das Kader zeigt eine durchgehende Liste nach Rückennummer; die
+   früheren Positions-Zwischentitel (.fc1m-pos-title) entfallen. Die
+   Position steht weiter auf jeder Spielerkarte (.fc1m-player__pos). */
 .fc1m-player-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);

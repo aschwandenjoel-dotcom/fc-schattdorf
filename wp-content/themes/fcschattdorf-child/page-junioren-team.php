@@ -9,6 +9,8 @@ add_action( 'wp_enqueue_scripts', function () {
     $dir = get_stylesheet_directory();
     $uri = get_stylesheet_directory_uri();
     wp_enqueue_style( 'fcs-1mannschaft', $uri . '/assets/fcs-1mannschaft.css', [], filemtime( $dir . '/assets/fcs-1mannschaft.css' ) );
+    wp_enqueue_style( 'fcs-junioren-team', $uri . '/assets/fcs-junioren-team.css', [ 'fcs-1mannschaft' ], filemtime( $dir . '/assets/fcs-junioren-team.css' ) );
+    wp_enqueue_script( 'fcs-junioren-team', $uri . '/assets/fcs-junioren-team.js', [], filemtime( $dir . '/assets/fcs-junioren-team.js' ), true );
 }, 5 );
 
 add_filter( 'body_class', function( $classes ) {
@@ -30,6 +32,46 @@ foreach ( fcs_pf_lines( 'jt_betreuer' ) as $line ) {
     $staff[] = [ 'role' => $p[0] ?? '', 'name' => $p[1] ?? '', 'portrait' => $p[2] ?? '' ];
 }
 
+/* ── Team-Umschalter ───────────────────────────────────────────────
+   Alle Juniorenteams sind Geschwisterseiten unter «Teams». Früher lief
+   daraus ein Band mit allen Namen über dem Titelbild; bei 18 Teams
+   waren das drei Zeilen vor dem eigentlichen Bild. Jetzt stehen sie
+   zusammengeklappt neben dem Teamnamen, gruppiert nach Alterskategorie
+   und mit Kurznamen: «Junioren Mannschaft Ed/Ee» -> Kategorie «E»,
+   Kürzel «Ed/Ee». Seiten ohne dieses Namensmuster (Team Uri FF11/14/17)
+   sammeln sich unter «Juniorinnen». */
+$jt_eltern_id = wp_get_post_parent_id( get_the_ID() );
+$jt_gruppen   = array();
+$jt_anzahl    = 0;
+if ( $jt_eltern_id ) {
+	$jt_geschwister = get_pages( array(
+		'parent'      => $jt_eltern_id,
+		'sort_column' => 'menu_order',
+		'sort_order'  => 'ASC',
+		'post_status' => 'publish',
+	) );
+	foreach ( $jt_geschwister as $jt_g ) {
+		$jt_titel = get_the_title( $jt_g );
+		$jt_kurz  = trim( preg_replace( '/^Junioren\s+Mannschaft\s*/iu', '', $jt_titel ) );
+		if ( '' !== $jt_kurz && $jt_kurz !== $jt_titel ) {
+			$jt_kat = mb_strtoupper( mb_substr( $jt_kurz, 0, 1 ) );
+		} else {
+			$jt_kat  = 'Juniorinnen';
+			$jt_kurz = trim( preg_replace( '/^Team\s+Uri\s*/iu', '', $jt_titel ) );
+			if ( '' === $jt_kurz ) {
+				$jt_kurz = $jt_titel;
+			}
+		}
+		$jt_anzahl++;
+		$jt_gruppen[ $jt_kat ][] = array(
+			'kurz'  => $jt_kurz,
+			'titel' => $jt_titel,
+			'href'  => get_permalink( $jt_g ),
+			'aktiv' => ( (int) $jt_g->ID === (int) get_the_ID() ),
+		);
+	}
+}
+
 /* Team-Sponsoren: eine Zeile pro Sponsor «Name | Logo-Dateiname | Link» */
 $sponsors = [];
 foreach ( fcs_pf_lines( 'jt_sponsoren' ) as $line ) {
@@ -48,8 +90,42 @@ get_header();
       <img src="<?php echo esc_url( $up . $photo ); ?>" alt="<?php echo esc_attr( $title ); ?> FC Schattdorf">
     </div>
     <div class="fc1m-herobar">
-      <div class="fc1m-herobar__inner">
+      <div class="fc1m-herobar__inner fcjt-herobar">
         <h1 class="fc1m-herobar__title"><?php echo esc_html( $title ); ?></h1>
+
+        <?php if ( $jt_anzahl > 1 ) : ?>
+        <!-- Team wechseln: <details> klappt auch ohne JavaScript auf -->
+        <details class="fcjt-switch" data-fcjt-switch>
+          <summary class="fcjt-switch__btn">
+            <span>Team wechseln</span>
+            <svg class="fcjt-switch__chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg>
+          </summary>
+          <div class="fcjt-switch__panel">
+            <div class="fcjt-switch__head">
+              <span class="fcjt-switch__head-title">Juniorenteams</span>
+              <?php if ( $jt_eltern_id ) : ?>
+              <a class="fcjt-switch__all" href="<?php echo esc_url( get_permalink( $jt_eltern_id ) ); ?>">
+                Alle Teams
+                <svg viewBox="0 0 12 12" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 6h8M6.5 2.5 10 6l-3.5 3.5"/></svg>
+              </a>
+              <?php endif; ?>
+            </div>
+            <?php foreach ( $jt_gruppen as $jt_kat => $jt_teams ) : ?>
+            <div class="fcjt-switch__row">
+              <span class="fcjt-switch__cat"><?php echo esc_html( $jt_kat ); ?></span>
+              <div class="fcjt-switch__chips">
+                <?php foreach ( $jt_teams as $jt_t ) : ?>
+                <a class="fcjt-chip<?php echo $jt_t['aktiv'] ? ' is-current' : ''; ?>"
+                   href="<?php echo esc_url( $jt_t['href'] ); ?>"
+                   title="<?php echo esc_attr( $jt_t['titel'] ); ?>"
+                   <?php echo $jt_t['aktiv'] ? 'aria-current="page"' : ''; ?>><?php echo esc_html( $jt_t['kurz'] ); ?></a>
+                <?php endforeach; ?>
+              </div>
+            </div>
+            <?php endforeach; ?>
+          </div>
+        </details>
+        <?php endif; ?>
       </div>
     </div>
   </div>

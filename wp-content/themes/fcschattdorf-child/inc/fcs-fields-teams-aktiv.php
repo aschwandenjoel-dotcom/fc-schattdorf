@@ -30,7 +30,7 @@ add_filter( 'fcs_page_fields_config', function ( $config ) {
 	$config['page-1mannschaft.php'] = array(
 		'team_staff' => $staff,
 		'team_kader' => array(
-			'label' => 'Kader (ein Spieler pro Zeile: Position | Rückennummer | Name | Porträt-Bilddatei | Sponsorlogo-Datei | Sponsorname — die letzten beiden optional; Zeilen mit gleicher Position bilden eine Gruppe)',
+			'label' => 'Kader (ein Spieler pro Zeile: Position | Rückennummer | Name | Porträt-Bilddatei | Sponsorlogo-Datei | Sponsorname — die letzten beiden optional; die Anzeige sortiert aufsteigend nach Rückennummer, die Position steht auf der Spielerkarte)',
 			'type'  => 'textarea',
 		),
 		'team_sponsoren' => $sponsoren,
@@ -68,7 +68,11 @@ function fcsh_team_staff( $fallback = array() ) {
 }
 
 /* Kader: 'Position | Nr | Name | Porträtbild | Sponsorlogo | Sponsorname'
-   → nach Position gruppiert (Gruppen-Reihenfolge = erstes Vorkommen) */
+   → eine flache Liste, aufsteigend nach Rückennummer sortiert. Die
+   Position bleibt am Spieler und erscheint auf seiner Karte; sie
+   bestimmt die Reihenfolge nicht mehr. Zeilen ohne Nummer stehen am
+   Schluss, gleiche Nummern behalten die Reihenfolge des Feldes
+   (usort ist seit PHP 8.0 stabil). */
 function fcsh_team_kader( $fallback = array() ) {
 	$squad = array();
 	foreach ( fcs_pf_lines( 'team_kader', $fallback ) as $zeile ) {
@@ -76,7 +80,8 @@ function fcsh_team_kader( $fallback = array() ) {
 		if ( count( $t ) < 4 ) {
 			continue;
 		}
-		$squad[ $t[0] ][] = array(
+		$squad[] = array(
+			'pos'      => $t[0],
 			'nr'       => $t[1],
 			'name'     => $t[2],
 			'portrait' => $t[3],
@@ -84,6 +89,11 @@ function fcsh_team_kader( $fallback = array() ) {
 			'sponsor'  => $t[5] ?? '',
 		);
 	}
+	usort( $squad, function ( $a, $b ) {
+		$na = '' === $a['nr'] ? PHP_INT_MAX : (int) $a['nr'];
+		$nb = '' === $b['nr'] ? PHP_INT_MAX : (int) $b['nr'];
+		return $na <=> $nb;
+	} );
 	return $squad;
 }
 

@@ -29,7 +29,7 @@ $staff = fcsh_team_staff( [
 
 // Team-Sponsoren: Name | Logo-Bilddatei | Website
 $sponsors = fcsh_team_sponsoren( [
-    'Binary One | sp-binary-one.jpg | https://www.binaryone.ch/',
+    'Feritec AG | feritec-2026.png | https://www.feritec.ch/',
 ] );
 
 $tabelle_url  = 'https://matchcenter.ifv.ch/default.aspx?v=329&oid=7&lng=1&t=58522&a=trr';
@@ -44,7 +44,7 @@ get_header();
   <!-- ── Hero: Teamfoto mit Titel ── -->
   <div class="fc1m-hero">
     <div class="fc1m-photo">
-      <img src="<?php echo esc_url( $up . 'FCS3_Web2526.jpg' ); ?>" alt="3. Mannschaft FC Schattdorf">
+      <img src="<?php echo esc_url( $up . 'FCS3_Web2627.jpg' ); ?>" alt="3. Mannschaft FC Schattdorf">
     </div>
     <div class="fc1m-herobar">
       <div class="fc1m-herobar__inner">

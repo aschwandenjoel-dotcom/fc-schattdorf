@@ -1,6 +1,6 @@
 <?php
 /**
- * Template Name: Frauen Team Uri I
+ * Template Name: Frauen Team Uri
  * Template Post Type: page
  */
 defined( 'ABSPATH' ) || exit;
@@ -40,11 +40,11 @@ get_header();
   <!-- ── Hero: Teamfoto mit Titel ── -->
   <div class="fc1m-hero">
     <div class="fc1m-photo">
-      <img src="<?php echo esc_url( $up . 'FrauenUri1_Web2526.jpg' ); ?>" alt="Frauen Team Uri I FC Schattdorf">
+      <img src="<?php echo esc_url( $up . 'FrauenUri1_Web2526.jpg' ); ?>" alt="Frauen Team Uri FC Schattdorf">
     </div>
     <div class="fc1m-herobar">
       <div class="fc1m-herobar__inner">
-        <h1 class="fc1m-herobar__title">Frauen Team Uri I</h1>
+        <h1 class="fc1m-herobar__title">Frauen Team Uri</h1>
       </div>
     </div>
   </div>
