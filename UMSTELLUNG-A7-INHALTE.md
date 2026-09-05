@@ -20,11 +20,19 @@ ist, hier abhaken. Gehört zu `UMSTELLUNG.md`, Schritt A7.
 | Externe Dienste, die beim Seitenaufruf geladen werden | ~~Google Fonts (Inter) und AOS von `unpkg.com`~~ — seit 05.09.2026 im Theme (`assets/vendor/`, Branch `umstellung`); Facebook/Instagram/IFV/Tickaroo sind nur Links |
 | Veraltete Inhalte | siehe Abschnitt 4 |
 
+## 0. Was `./deploy/deploy-a7-inhalte.sh` erledigt (von `main` aus, jederzeit)
+
+Die Abschnitte 1–3 sind als DB-Skript vorbereitet (`deploy/fcs-a7-inhalte.php.tpl`,
+lokal getestet): setzt alle Descriptions unten, wo noch keine steht
+(nie überschreiben), das Yoast-Standardbild und die Datenschutz-Ergänzungen
+(nur bei unverändertem Text von 2023; alte Fassung bleibt als Revision).
+Abschnitt 4 bleibt Handarbeit der Redaktion.
+
 ## 1. Meta-Descriptions (Yoast, pro Seite: «SEO → Meta-Beschreibung»)
 
 Ziel ≤ 155 Zeichen. Vorschläge, aus dem jeweiligen Seiteninhalt abgeleitet —
-gern umformulieren, wichtig ist, dass etwas drinsteht. Ohne Description
-zeigt Google beliebige Textfetzen.
+nachträglich im Admin gern umformulieren. Ohne Description zeigt Google
+beliebige Textfetzen.
 
 | Seite | Vorschlag |
 |---|---|
@@ -46,13 +54,13 @@ zeigt Google beliebige Textfetzen.
 | `/aktive/frauen-uri-1/` | Frauen Team Uri I – das Frauenteam des FC Schattdorf: Betreuerstab, Team-Sponsoren, Tabelle und Spielplan beim IFV. |
 | `/aktive/frauen-uri-2/` | Frauen Team Uri II des FC Schattdorf: Betreuerstab, Team-Sponsoren, Tabelle und Spielplan beim IFV. |
 | `/aktive/senioren-uri-1/` | Senioren Team Uri I des FC Schattdorf: Betreuerstab, Team-Sponsoren, Tabelle und Spielplan beim IFV. |
-| `/junioren/` | Die Juniorenabteilung des FC Schattdorf: Fussball für Kinder und Jugendliche von den F- bis zu den A-Junioren und dem Team Uri FF11 – Teams, Leitung, Angebote. |
+| `/junioren/` | Die Juniorenabteilung des FC Schattdorf: Fussball für Kinder und Jugendliche von den F- bis zu den A-Junioren und dem Team Uri FF11. |
 | `/junioren/juniorengeschichte/` | Geschichte der Juniorenabteilung des FC Schattdorf – von den Anfängen 1937 auf dem Loomehlplatz bis heute. |
 | `/junioren/junioren-organisation/` | Organisation der Juniorenabteilung des FC Schattdorf: Juniorenobmann, Leitung Kinderfussball, J+S-Coach, Material und Kommunikation – mit Kontakt. |
 | `/junioren/goalietraining/` | Goalietraining beim FC Schattdorf: Trainingszeiten für die Junioren D/E und A–C auf dem Hauptplatz Grüner Wald und das Trainerteam. |
 | `/junioren/fussballschule/` | Fussballschule des FC Schattdorf für die jüngsten Kinder: montags auf dem Sportplatz Grüner Wald – Jahrgänge, Zeiten, Leitungsteam und Flyer. |
-| `/junioren/trainingslager/` | Das Junioren-Trainingslager des FC Schattdorf: fünf Tage Fussball, zwei Trainings täglich, Campus mit Freibad – Impressionen und Infos zur nächsten Ausgabe. |
-| `/junioren/betreuer-werden/` | Betreuer werden beim FC Schattdorf: Wir suchen Trainerinnen und Trainer für die Juniorenteams und begleiten dich bis zur Trainerlizenz – Ausbildungsweg und Kontakt. |
+| `/junioren/trainingslager/` | Das Junioren-Trainingslager des FC Schattdorf: fünf Tage Fussball, zwei Trainings täglich, Campus mit Freibad – Impressionen und Ausblick. |
+| `/junioren/betreuer-werden/` | Betreuer werden beim FC Schattdorf: Wir suchen Trainerinnen und Trainer für die Juniorenteams und begleiten dich bis zur Trainerlizenz. |
 | `/junioren/juniorenkonzept/` | Das Juniorenkonzept des FC Schattdorf: Leitfaden und Philosophie für Trainer, Funktionäre, Kinder und Eltern – als PDF zum Herunterladen. |
 | `/junioren/tauschboerse/` | Fussball-Tauschbörse des FC Schattdorf: Schuhe, Trikots und Ausrüstung per WhatsApp mit anderen Vereinsmitgliedern tauschen oder verkaufen. |
 | `/junioren/teams/junioren-…/` (17 Teamseiten) | Muster: «D-Junioren Da des FC Schattdorf: Betreuerstab, Team-Sponsoren sowie Tabelle und Spielplan beim IFV.» |

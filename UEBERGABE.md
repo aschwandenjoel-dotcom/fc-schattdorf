@@ -54,6 +54,10 @@ auf dem Branch). Erledigt: A1 (`my.cyon`-Zugang), A2
 (Domain im Hostpoint-Panel), A3 (FluentSMTP über cyon-Postfach, alle
 Testmails zugestellt), A4/A5/A8 (Code und Doku auf diesem Branch).
 
+**Offen: `./deploy/deploy-a7-inhalte.sh`** (auf `main`, unabhängig vom
+Domainwechsel): Meta-Descriptions, Yoast-Standardbild, Datenschutz-
+Ergänzungen — Probelauf, Rückfrage, Schreiben; idempotent.
+
 Sonst kein Deploy. Die beiden letzten sind gelaufen und live geprüft:
 `deploy/deploy-responsiv-kontakt-helfer.sh` (Theme) und
 `deploy/deploy-schiedsrichter.sh` (DB). Beide sind idempotent und

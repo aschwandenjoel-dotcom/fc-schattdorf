@@ -152,10 +152,11 @@ laufen. A5 und A6 sind Voraussetzung für Phase B.
       Datenschutzerklärung von 2023 ohne Hoster. Google Fonts und AOS
       (unpkg.com) sind seit 05.09.2026 ins Theme geholt (`assets/vendor/`,
       geht mit B5 live) — dafür braucht der Datenschutz keinen Abschnitt
-      mehr. Offen für die Redaktion:
-      Descriptions eintragen (Vorschläge liegen bereit), Yoast-Standardbild
-      setzen, Datenschutz-Ergänzungen übernehmen, veraltete Termine/Saison
-      nachführen.
+      mehr. **Vorbereitet als `./deploy/deploy-a7-inhalte.sh`** (auf `main`,
+      jederzeit fahrbar): Descriptions für alle 53 Seiten ohne Description,
+      Yoast-Standardbild (Startseiten-Foto), Datenschutz-Ergänzungen mit
+      Stand September 2026. Danach bleibt für die Redaktion: veraltete
+      Termine/Saison nachführen (Abschnitt 4 der Arbeitsliste).
 - [x] **A8 Repo vorbereiten (Branch `umstellung`)** *(erledigt 04.09.2026)*: `scripts/lib-live.sh`
       (`LIVE_HOST`, Kommentar), `scripts/check-live.sh` (Hinweistexte —
       die Prüfung «A-Record = sl1819-IP» bleibt richtig, nur der Hinweis
