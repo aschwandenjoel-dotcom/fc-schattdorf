@@ -97,10 +97,16 @@ laufen. A5 und A6 sind Voraussetzung für Phase B.
       Hostpoint-Fehlerseite.
 - [ ] **A3 Mailversand.** In cyon ein Postfach für die Website anlegen
       (z.B. `website@fcschattdorf.ch`) oder ein bestehendes nehmen. Auf der
-      Live-Seite FluentSMTP installieren, Verbindung: SMTP-Host laut cyon
-      (`mail.fcschattdorf.ch`, Port 465/SSL), Benutzer = Postfach,
-      Absender = dasselbe Postfach, «Absender erzwingen» an. Testmail, dann
-      eine Fanshop-Testbestellung und das Kontaktformular auslösen. Damit
+      Live-Seite FluentSMTP installieren, Verbindung: SMTP-Host
+      **`s086.cyon.net`** (nicht `mail.fcschattdorf.ch` — dessen Zertifikat
+      lautet auf `*.cyon.net`, die TLS-Prüfung schlägt sonst fehl), Port
+      465/SSL, Benutzer = Postfach, Absender = dasselbe Postfach, «Absender
+      erzwingen» an. Testmail, dann eine Fanshop-Testbestellung und das
+      Kontaktformular auslösen. Dabei prüfen, ob das Kontaktformular in
+      Fluent Forms überhaupt eine E-Mail-Benachrichtigung hat (im lokalen
+      DB-Stand vom 05.09.2026 fehlt sie — dann Empfänger
+      `kommunikation@fcschattdorf.ch` anlegen, wie im Seitenfeld
+      `kontakt_mail`). Damit
       ist die Mailfrage schon *vor* dem Wechsel gelöst und domainunabhängig.
       Notlösung, falls kein Postfach: SPF bei cyon um
       `include:spf.mail.hostpoint.ch` ergänzen (vor `-all`).
