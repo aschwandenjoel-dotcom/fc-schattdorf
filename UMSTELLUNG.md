@@ -19,8 +19,8 @@ DNS-Records — und ist auf demselben Weg jederzeit rückgängig zu machen.
 | Hosting | Hostpoint `sl1819.web.hostpoint.ch`, Docroot `www/fcschattdorf` | cyon `s086.cyon.net` (`149.126.4.95`, IPv6 `2a01:ab20:0:4::95`) |
 | System | WordPress, Child-Theme `fcschattdorf-child` = `main` | Joomla, gebaut von UBIQ (`ubiq.swiss`) |
 | Zustand | `check-live.sh` grün, Zertifikat bis 21.10.2026, HTTPS + HSTS | läuft, ~99 News-Artikel unter `/newsblog/` |
-| Registrar / NS | – | **cyon AG**, `ns1/ns2.cyon.ch`, TTL 60 s |
-| Mail | – | MX `mail.fcschattdorf.ch` → cyon (eigener A-Record), SPF `+a +mx +ip4:cyon -all`, DMARC-Reports an `fcschattdorf@ubiq.ch`, `webmail`/`autoconfig` als CNAME zu cyon |
+| Registrar / NS | – | **cyon AG**, `ns1/ns2.cyon.ch`; TTL `@` A 900 s, `@` AAAA und `www` 14400 s (→ A11) |
+| Mail | – | MX `mail.fcschattdorf.ch` → cyon (eigener A-Record), SPF `+a +mx +ip4:cyon -all`, DKIM `default._domainkey` bei cyon, DMARC `p=none` mit Reports an `fcschattdorf@ubiq.ch`, `webmail`/`autoconfig` als CNAME zu cyon |
 
 Was daraus folgt:
 
@@ -43,6 +43,10 @@ Was daraus folgt:
   von `fcschattdorf.ch` ist `-all` und kennt Hostpoint nicht → Fanshop-
   Bestellungen, Kontaktformular (FluentForm), Passwort-Resets landen im Spam
   oder werden abgewiesen. Muss vorher gelöst sein (Phase A).
+- **Subdomain `m.fcschattdorf.ch` läuft über Mailgun** (MX/SPF/DKIM/DMARC
+  `quarantine`, A `5.148.183.20` bei Nine) — vermutlich der
+  Newsletter-Versand der alten Seite (UBIQ). Von der Umstellung nicht
+  berührt; bei UBIQ nachfragen, ob das noch gebraucht wird (C5).
 - **Die Test-Seite ist indexierbar** (kein noindex, `robots.txt` offen).
   Nach dem Wechsel braucht der Test-Host eine 301-Weiterleitung.
 - **Die alten Joomla-URLs stimmen zum grossen Teil nicht mit den neuen
@@ -55,7 +59,7 @@ Was daraus folgt:
 
 | Entscheid | Wahl | Begründung |
 |---|---|---|
-| Domain und Mail | **bleiben bei cyon**, nur A/AAAA-Records werden auf Hostpoint gebogen | Kein Mail-Umzug, kein Domaintransfer, Rollback in 60 s. Ein Transfer zu Hostpoint kann später ein eigenes Projekt sein. |
+| Domain und Mail | **bleiben bei cyon**, nur A/AAAA-Records werden auf Hostpoint gebogen | Kein Mail-Umzug, kein Domaintransfer, Rollback in Minuten. Ein Transfer zu Hostpoint kann später ein eigenes Projekt sein. |
 | Kanonische Adresse | **`https://www.fcschattdorf.ch`** | Entspricht der alten Seite, allen bestehenden Links und dem Theme-Default in `page-trainingslager.php`. `fcschattdorf.ch` leitet auf `www.` um. |
 | Weiterleitungen | **im Child-Theme** (`inc/fcs-redirects.php`), nicht in `.htaccess` und nicht per Plugin | Versioniert, lokal testbar, geht mit dem normalen Theme-rsync mit. Übernimmt auch Host-Weiterleitung (dynalias, apex) als Sicherheitsnetz. |
 | Alte News | **nicht migrieren**, `/newsblog/*` → `/news/` | 99 Joomla-Artikel gegen 14 neue; Migration wäre ein eigenes Projekt. Entscheid des Vereins — kann später nachgeholt werden. |
@@ -155,6 +159,12 @@ laufen. A5 und A6 sind Voraussetzung für Phase B.
       'grep -n "WP_HOME\|WP_SITEURL\|dynalias" www/fcschattdorf/wp-config.php'`
       — muss leer sein (sonst würde die Konstante die DB überstimmen).
       `.htaccess` im Docroot anschauen: keine hartkodierten Host-Regeln.
+- [ ] **A11 TTL senken (mindestens 4 h vor B2).** Im cyon-DNS-Editor die
+      TTL von `@` A (heute 900 s), `@` AAAA (14400 s) und `www` CNAME
+      (14400 s) auf **300 s** stellen, sonst nichts ändern. Erst wenn die
+      alten TTLs abgelaufen sind (4 h), greifen Wechsel *und* Rollback
+      überall innert ~5 Minuten. Zonen-Dump vom 05.09.2026 liegt beim
+      Verein (`cyon-zonedump-fcschattdorf.ch-2026-09-05-185443.json`).
 
 ---
 
@@ -185,7 +195,7 @@ auf `www.fcschattdorf.ch` — und das wäre noch die alte Seite bei cyon.
       | MX, `mail` A, SPF, DMARC, `webmail`, `autoconfig`, `_autodiscover`, `google-site-verification`, `MS=…` | unverändert | **unverändert — nicht anfassen** |
       | `ftp` CNAME | zeigt danach auf Hostpoint | belassen (UBIQ informiert) |
 
-      TTL ist 60 s — die Änderung greift innert Minuten. Prüfen:
+      TTL nach A11 300 s — die Änderung greift innert ~5 Minuten. Prüfen:
       `dig +short www.fcschattdorf.ch A` = Hostpoint-IP,
       `dig +short fcschattdorf.ch MX` = weiterhin `mail.fcschattdorf.ch`.
 - [ ] **B3 Zertifikat abwarten.** Hostpoint stellt FreeSSL für
@@ -232,7 +242,8 @@ auf `www.fcschattdorf.ch` — und das wäre noch die alte Seite bei cyon.
       der Verein die Mail anderswo will, ist das ein separates Projekt.
       Sinnvoll: bei cyon nachfragen, ob ein kleineres (Mail-)Paket reicht.
 - [ ] **C5 UBIQ abmelden.** Joomla-Seite darf offline; Search-Console-
-      Eigentum und DMARC-`rua` an den Verein übergeben.
+      Eigentum und DMARC-`rua` an den Verein übergeben; klären, ob die
+      Mailgun-Subdomain `m.fcschattdorf.ch` noch gebraucht wird.
 - [ ] **C6 Test-Host abbauen (nach ~3 Monaten, ca. Dezember 2026).**
       Domain `fcschattdorf.dynalias.net` im Hostpoint-Panel entfernen,
       DynDNS-Konto kündigen, `lib-live.sh`-Kommentare zum DynDNS-Vorfall
@@ -248,7 +259,7 @@ auf `www.fcschattdorf.ch` — und das wäre noch die alte Seite bei cyon.
 
 | Wann | Was | Dauer |
 |---|---|---|
-| Nach B2/B3, vor B4 | A/AAAA bei cyon auf `149.126.4.95` / `2a01:ab20:0:4::95` zurück. Alte Seite läuft unverändert weiter. | ~2 Minuten (TTL 60 s) |
+| Nach B2/B3, vor B4 | A/AAAA bei cyon auf `149.126.4.95` / `2a01:ab20:0:4::95` zurück. Alte Seite läuft unverändert weiter. | ~5 Minuten (TTL 300 s nach A11) |
 | Nach B4 | DNS zurück **und** DB zurück: `deploy-domain.sh` in Gegenrichtung (Skript kann beide Richtungen) oder Live-Dump aus B1 einspielen (Web-Import-Skript nach dem Muster von `fcs-db-export.php.tpl`). | ~15 Minuten |
 | Nach B5 | zusätzlich Theme-Stand vor dem Merge per rsync zurück (oder `main` vor Merge auschecken und deployen) | ~5 Minuten |
 

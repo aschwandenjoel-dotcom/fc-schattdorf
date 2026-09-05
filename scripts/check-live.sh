@@ -137,7 +137,7 @@ if [ -n "$DNS_IP" ] && [ -n "$ORIGIN_IP" ] && [ "$DNS_IP" != "$ORIGIN_IP" ]; the
     3. AAAA-Record ebenso (dig +short ${ORIGIN_HOST} AAAA) oder löschen.
     4. MX, SPF, DMARC und die mail-/webmail-Einträge NICHT anfassen —
        daran hängt die Vereins-Mail.
-    5. TTL ist 60 s, danach hier erneut prüfen: ./scripts/check-live.sh
+    5. TTL ist 300 s — nach ~5 min hier erneut prüfen: ./scripts/check-live.sh
 
   Deploys und ./scripts/pull-prod-db.sh funktionieren in der Zwischenzeit
   weiter, sie gehen bei falschem DNS automatisch direkt auf Hostpoint.

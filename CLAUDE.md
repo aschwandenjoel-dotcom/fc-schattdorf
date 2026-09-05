@@ -61,7 +61,7 @@ nicht (Hinweis im Skript-Kopf).
 
 Domain `fcschattdorf.ch`, Nameserver und die Vereins-Mail liegen bei
 **cyon** (Registrar cyon AG, `ns1/ns2.cyon.ch`, MX `mail.fcschattdorf.ch`,
-TTL 60 s). Die Website läuft auf Hostpoint: der Haupt-A-Record `@` (und
+TTL 300 s). Die Website läuft auf Hostpoint: der Haupt-A-Record `@` (und
 der AAAA-Record) muss auf `sl1819.web.hostpoint.ch` zeigen, `www` ist
 ein CNAME auf `@`. Zeigt der Record woanders hin, ist die Seite offline,
 obwohl Server, WordPress und Theme einwandfrei laufen — **erst prüfen,
