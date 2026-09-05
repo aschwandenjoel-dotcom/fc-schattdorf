@@ -20,7 +20,7 @@ ist, hier abhaken. Gehört zu `UMSTELLUNG.md`, Schritt A7.
 | Externe Dienste, die beim Seitenaufruf geladen werden | ~~Google Fonts (Inter) und AOS von `unpkg.com`~~ — seit 05.09.2026 im Theme (`assets/vendor/`, Branch `umstellung`); Facebook/Instagram/IFV/Tickaroo sind nur Links |
 | Veraltete Inhalte | siehe Abschnitt 4 |
 
-## 0. Was `./deploy/deploy-a7-inhalte.sh` erledigt (von `main` aus, jederzeit)
+## 0. Erledigt 05.09.2026: `./deploy/deploy-a7-inhalte.sh` ist live gelaufen
 
 Die Abschnitte 1–3 sind als DB-Skript vorbereitet (`deploy/fcs-a7-inhalte.php.tpl`,
 lokal getestet): setzt alle Descriptions unten, wo noch keine steht

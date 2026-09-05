@@ -48,15 +48,16 @@ und Doku auf die neue Domain). **Nicht vor Schritt B2/B3 nach `main`
 mergen:** auf dem Branch zeigen `scripts/lib-live.sh` & Co. bereits auf
 `www.fcschattdorf.ch`, und das ist bis zur DNS-Umstellung noch die alte
 Joomla-Seite bei cyon. Bis dahin `pull-prod-db.sh` und Deploys von `main`
-aus fahren. Aus Phase A noch offen: A7, A9, A10, A11 (Inhalte, Termin,
-Server-Check, TTL senken). A6 erledigt (Seitenfeld geleert, Theme-Teil
+aus fahren. Aus Phase A noch offen: A9, A10, A11 (Termin, Server-Check, TTL
+senken); A7 erledigt bis auf Redaktionsarbeit (veraltete Termine/Saison,
+`UMSTELLUNG-A7-INHALTE.md` Abschnitt 4). A6 erledigt (Seitenfeld geleert, Theme-Teil
 auf dem Branch). Erledigt: A1 (`my.cyon`-Zugang), A2
 (Domain im Hostpoint-Panel), A3 (FluentSMTP über cyon-Postfach, alle
 Testmails zugestellt), A4/A5/A8 (Code und Doku auf diesem Branch).
 
-**Offen: `./deploy/deploy-a7-inhalte.sh`** (auf `main`, unabhängig vom
-Domainwechsel): Meta-Descriptions, Yoast-Standardbild, Datenschutz-
-Ergänzungen — Probelauf, Rückfrage, Schreiben; idempotent.
+Erledigt 05.09.2026: `./deploy/deploy-a7-inhalte.sh` ist live gelaufen
+(53 Meta-Descriptions, Yoast-Standardbild, Datenschutz mit Stand
+September 2026) und wurde geprüft.
 
 Sonst kein Deploy. Die beiden letzten sind gelaufen und live geprüft:
 `deploy/deploy-responsiv-kontakt-helfer.sh` (Theme) und

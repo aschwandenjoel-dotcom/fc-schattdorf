@@ -145,7 +145,7 @@ laufen. A5 und A6 sind Voraussetzung für Phase B.
       Name, Vorname, Adresse, E-Mail, Telefon, Vegetarier ja/nein,
       Kleidergrösse 128/140/152/164/XS/S/M/L) und dessen Seite ins Feld
       eintragen.
-- [ ] **A7 Inhalte gegenlesen.** *Analyse erledigt 05.09.2026, Arbeitsliste
+- [x] **A7 Inhalte gegenlesen** *(erledigt 05.09.2026: `deploy-a7-inhalte.sh` live gelaufen und geprüft; Rest ist Redaktion, Abschnitt 4 der Arbeitsliste)*. *Analyse 05.09.2026, Arbeitsliste
       in `UMSTELLUNG-A7-INHALTE.md`.* Befund: keine Nennung von cyon/Joomla,
       alle 11 PDFs erreichbar, Titel überall gesetzt — aber **Meta-Description
       auf 64/65 Seiten leer**, OG-Bild auf ~40 Seiten fehlend,
