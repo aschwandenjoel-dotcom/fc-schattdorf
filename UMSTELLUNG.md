@@ -145,9 +145,15 @@ laufen. A5 und A6 sind Voraussetzung für Phase B.
       Name, Vorname, Adresse, E-Mail, Telefon, Vegetarier ja/nein,
       Kleidergrösse 128/140/152/164/XS/S/M/L) und dessen Seite ins Feld
       eintragen.
-- [ ] **A7 Inhalte gegenlesen.** Yoast-Titel/Descriptions und `og:image`
-      der Hauptseiten, Impressum/Datenschutz (Hoster-Nennung: Hostpoint statt
-      cyon), Sponsoren-PDFs/Downloads, die auf der alten Seite lagen.
+- [ ] **A7 Inhalte gegenlesen.** *Analyse erledigt 05.09.2026, Arbeitsliste
+      in `UMSTELLUNG-A7-INHALTE.md`.* Befund: keine Nennung von cyon/Joomla,
+      alle 11 PDFs erreichbar, Titel überall gesetzt — aber **Meta-Description
+      auf 64/65 Seiten leer**, OG-Bild auf ~40 Seiten fehlend,
+      Datenschutzerklärung von 2023 ohne Hoster und ohne die externen
+      Dienste (Google Fonts, AOS via unpkg.com). Offen für die Redaktion:
+      Descriptions eintragen (Vorschläge liegen bereit), Yoast-Standardbild
+      setzen, Datenschutz-Ergänzungen übernehmen, veraltete Termine/Saison
+      nachführen.
 - [x] **A8 Repo vorbereiten (Branch `umstellung`)** *(erledigt 04.09.2026)*: `scripts/lib-live.sh`
       (`LIVE_HOST`, Kommentar), `scripts/check-live.sh` (Hinweistexte —
       die Prüfung «A-Record = sl1819-IP» bleibt richtig, nur der Hinweis
