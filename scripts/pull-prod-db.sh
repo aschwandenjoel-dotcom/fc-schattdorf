@@ -74,9 +74,12 @@ TOKEN="$(openssl rand -hex 24)"
 sed "s/__TOKEN__/${TOKEN}/" deploy/fcs-db-export.php.tpl > deploy/fcs-db-export.php
 scp -q deploy/fcs-db-export.php "$HOST:$WEBROOT/fcs-db-export.php"
 rm deploy/fcs-db-export.php
+# Ab jetzt liegt ein Token-Skript im Live-Webroot. Es wird beim Skriptende
+# entfernt — auch bei Abbruch (set -e): am 05.09.2026 scheiterte der
+# curl-Abruf (Zertifikat), und das Skript blieb auf dem Server liegen.
+trap 'ssh "$HOST" "rm -f $WEBROOT/fcs-db-export.php"' EXIT
 DUMP="backups/prod-db-${STAMP}.sql"
 lcurl -sS --max-time 600 "$LIVE/fcs-db-export.php?token=${TOKEN}" -o "$DUMP"
-ssh "$HOST" "rm -f $WEBROOT/fcs-db-export.php"
 
 log "3/4  Dump prüfen und importieren…"
 ENDMARKE="$(tail -c 200 "$DUMP")"
