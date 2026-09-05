@@ -81,7 +81,7 @@ Was daraus folgt:
 Alles hier ist ohne Auswirkung auf Besucher und kann in beliebiger Reihenfolge
 laufen. A5 und A6 sind Voraussetzung für Phase B.
 
-- [ ] **A1 Zugänge.** `my.cyon`-Login vom Verein; klären, wer im Google
+- [x] **A1 Zugänge** *(erledigt 05.09.2026: `my.cyon`-Zugang vorhanden — damit ist B2 möglich; Search-Console-Eigentümer noch offen, wird in C1 geklärt)*. `my.cyon`-Login vom Verein; klären, wer im Google
       Search Console Eigentümer der Property `fcschattdorf.ch` ist (TXT
       `google-site-verification=IjSW…` liegt in der Zone).
 - [x] **A2 Hostpoint-Panel: Domain zuweisen** *(erledigt 04.09.2026: `fcschattdorf.ch` + `www` der Website `fcschattdorf.dynalias.net (SSL)` zugewiesen; HTTP liefert WordPress, HTTPS erst nach B2/B3 mit FreeSSL)*. `admin.hostpoint.ch` →
