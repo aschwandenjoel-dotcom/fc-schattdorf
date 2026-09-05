@@ -171,7 +171,7 @@ laufen. A5 und A6 sind Voraussetzung für Phase B.
 - [ ] **A9 Termin und Freeze.** Umstelltag festlegen: Werktag-Vormittag,
       nicht an einem Spielwochenende, jemand vom Vorstand erreichbar.
       Redaktion informiert: ab dann keine Änderungen mehr an der alten Seite.
-- [ ] **A10 Server-Check.** `ssh aziwivac@sl1819.web.hostpoint.ch
+- [x] **A10 Server-Check** *(erledigt 05.09.2026: grep leer — keine WP_HOME/WP_SITEURL-Konstanten, kein dynalias in wp-config.php)*. `ssh aziwivac@sl1819.web.hostpoint.ch
       'grep -n "WP_HOME\|WP_SITEURL\|dynalias" www/fcschattdorf/wp-config.php'`
       — muss leer sein (sonst würde die Konstante die DB überstimmen).
       `.htaccess` im Docroot anschauen: keine hartkodierten Host-Regeln.

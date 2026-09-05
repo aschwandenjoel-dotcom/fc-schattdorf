@@ -48,8 +48,8 @@ und Doku auf die neue Domain). **Nicht vor Schritt B2/B3 nach `main`
 mergen:** auf dem Branch zeigen `scripts/lib-live.sh` & Co. bereits auf
 `www.fcschattdorf.ch`, und das ist bis zur DNS-Umstellung noch die alte
 Joomla-Seite bei cyon. Bis dahin `pull-prod-db.sh` und Deploys von `main`
-aus fahren. Aus Phase A noch offen: A9, A10, A11 (Termin, Server-Check, TTL
-senken); A7 erledigt bis auf Redaktionsarbeit (veraltete Termine/Saison,
+aus fahren. Aus Phase A noch offen: A9, A11 (Termin, TTL senken); A10 erledigt
+(wp-config.php ohne Host-Konstanten); A7 erledigt bis auf Redaktionsarbeit (veraltete Termine/Saison,
 `UMSTELLUNG-A7-INHALTE.md` Abschnitt 4). A6 erledigt (Seitenfeld geleert, Theme-Teil
 auf dem Branch). Erledigt: A1 (`my.cyon`-Zugang), A2
 (Domain im Hostpoint-Panel), A3 (FluentSMTP über cyon-Postfach, alle
