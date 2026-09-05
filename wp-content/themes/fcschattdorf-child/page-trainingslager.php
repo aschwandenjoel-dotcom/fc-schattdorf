@@ -24,7 +24,11 @@ get_header();
 
 $daten        = fcs_pf( 'tl_daten', '20 – 24 Juli 2026' );
 $ort          = fcs_pf( 'tl_ort', 'Zuchwil' );
-$anmelde_url  = fcs_pf( 'tl_anmeldung_url', 'https://www.fcschattdorf.ch/anmeldung-juniorentrainingslager' );
+/* Ohne gesetztes Seitenfeld gibt es keinen Anmelde-Button: Der frühere
+   Standard zeigte auf das Formular der alten Joomla-Seite, das mit dem
+   Domainwechsel verschwindet. Für die nächste Anmeldung im Admin unter
+   «Seiteninhalte» den Link (z. B. auf ein Fluent-Forms-Formular) eintragen. */
+$anmelde_url  = fcs_pf( 'tl_anmeldung_url', '' );
 $facts        = fcs_pf_lines( 'tl_facts', array(
 	'5 | Tage Trainingslager',
 	'2× | Training täglich',
@@ -149,6 +153,7 @@ $programm_delays = array( '', ' tl-reveal-delay-1', ' tl-reveal-delay-2', ' tl-r
         <span class="tl-hero__meta-item"><?php echo esc_html( $daten ); ?></span>
         <span class="tl-hero__meta-item"><?php echo esc_html( $ort ); ?></span>
       </div>
+      <?php if ( $anmelde_url ) : ?>
       <a href="<?php echo esc_url( $anmelde_url ); ?>"
          class="tl-hero__cta" target="_blank" rel="noopener">
         Jetzt anmelden
@@ -156,6 +161,7 @@ $programm_delays = array( '', ' tl-reveal-delay-1', ' tl-reveal-delay-2', ' tl-r
           <path d="M5 12h14M12 5l7 7-7 7"/>
         </svg>
       </a>
+      <?php endif; ?>
     </div>
   </section>
 
@@ -325,6 +331,7 @@ $programm_delays = array( '', ' tl-reveal-delay-1', ' tl-reveal-delay-2', ' tl-r
       <div class="tl-cta-section tl-reveal">
         <h2 class="tl-heading">Bist du <em>dabei?</em></h2>
         <p class="tl-cta-lead"><?php echo esc_html( $cta_lead ); ?></p>
+        <?php if ( $anmelde_url ) : ?>
         <a href="<?php echo esc_url( $anmelde_url ); ?>"
            class="tl-cta-btn" target="_blank" rel="noopener">
           Jetzt anmelden
@@ -332,6 +339,7 @@ $programm_delays = array( '', ' tl-reveal-delay-1', ' tl-reveal-delay-2', ' tl-r
             <path d="M5 12h14M12 5l7 7-7 7"/>
           </svg>
         </a>
+        <?php endif; ?>
 
         <div class="tl-contacts">
           <?php foreach ( $kontakte as $zeile ) :

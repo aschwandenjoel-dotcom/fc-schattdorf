@@ -132,12 +132,19 @@ laufen. A5 und A6 sind Voraussetzung für Phase B.
       Transients löschen; Skript räumt sich vom Server. Probelauf lokal
       gegen die per `pull-prod-db.sh` geholte DB (dort `localhost:8080`
       als Quellhost).
-- [ ] **A6 Trainingslager-Link.** `page-trainingslager.php:27` verweist
-      standardmässig auf `www.fcschattdorf.ch/anmeldung-juniorentrainingslager`
-      — nach dem Wechsel ein 404 auf der neuen Seite. Im Live-Admin das
-      Seitenfeld `tl_anmeldung_url` auf das neue Ziel setzen (oder die Seite
-      neu anlegen); zusätzlich Redirect `/anmeldung-juniorentrainingslager`
-      → `/junioren/trainingslager/` in A4.
+- [ ] **A6 Trainingslager-Link.** Das Seitenfeld «Link zur Anmeldung»
+      (`fcs_tl_anmeldung_url`) der Trainingslager-Seite zeigt live auf das
+      Joomla-Formular `www.fcschattdorf.ch/anmeldung-juniorentrainingslager`
+      — nach dem Wechsel liefe der Button über den Redirect auf die eigene
+      Seite zurück. *Theme-Teil erledigt 05.09.2026 (Branch):* ohne gesetztes
+      Feld gibt es keinen «Jetzt anmelden»-Button mehr (der alte
+      Vorlagen-Standard ist entfernt; lokal getestet). **Offen, von Hand:**
+      im Live-Admin → Seiten → Trainingslager → Box «Seiteninhalte» → «Link
+      zur Anmeldung» **leeren** → Aktualisieren. Das Lager 2026 ist vorbei;
+      für 2027 ein Fluent-Forms-Formular bauen (Felder wie im alten:
+      Name, Vorname, Adresse, E-Mail, Telefon, Vegetarier ja/nein,
+      Kleidergrösse 128/140/152/164/XS/S/M/L) und dessen Seite ins Feld
+      eintragen.
 - [ ] **A7 Inhalte gegenlesen.** Yoast-Titel/Descriptions und `og:image`
       der Hauptseiten, Impressum/Datenschutz (Hoster-Nennung: Hostpoint statt
       cyon), Sponsoren-PDFs/Downloads, die auf der alten Seite lagen.
