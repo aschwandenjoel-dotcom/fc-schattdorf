@@ -132,7 +132,7 @@ laufen. A5 und A6 sind Voraussetzung für Phase B.
       Transients löschen; Skript räumt sich vom Server. Probelauf lokal
       gegen die per `pull-prod-db.sh` geholte DB (dort `localhost:8080`
       als Quellhost).
-- [ ] **A6 Trainingslager-Link.** Das Seitenfeld «Link zur Anmeldung»
+- [x] **A6 Trainingslager-Link** *(erledigt 05.09.2026: Seitenfeld im Live-Admin geleert, Theme-Teil auf dem Branch)*. Das Seitenfeld «Link zur Anmeldung»
       (`fcs_tl_anmeldung_url`) der Trainingslager-Seite zeigt live auf das
       Joomla-Formular `www.fcschattdorf.ch/anmeldung-juniorentrainingslager`
       — nach dem Wechsel liefe der Button über den Redirect auf die eigene
