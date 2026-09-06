@@ -313,6 +313,8 @@ pruefe "FF17: Sponsor TEKO"                   "/junioren/teams/team-uri-ff17/" '
 # auch ein Eintrag aus diesem Jahrzehnt in der Chronik steht.
 pruefe "Vereinsgeschichte: 1916 ist weg"      "/verein/vereinsgeschichte/"  '#decade-1910'            "0"
 pruefe "Vereinsgeschichte: 1930er zuerst"     "/verein/vereinsgeschichte/"  '#decade-1930'            ">0"
+pruefe "Vereinsgeschichte: Beschreibung ab 1933" "/verein/vereinsgeschichte/" 'von der Gründung 1933'   ">0"
+pruefe "Vereinsgeschichte: keine 110 Jahre"   "/verein/vereinsgeschichte/"  '110 Jahre FC Schattdorf'  "0"
 pruefe "Schiedsrichter: Foto René Hüglin"     "/verein/schiedsrichter/"     'ReneHueglin_2026.jpg'    ">0"
 pruefe "2. Mannschaft: neues Teamfoto"        "/aktive/2-mannschaft/"       'FCS_2_Web2627.jpg'       ">0"
 pruefe "2. Mannschaft: Igor Sureta"           "/aktive/2-mannschaft/"       'Igor Sureta'             ">0"

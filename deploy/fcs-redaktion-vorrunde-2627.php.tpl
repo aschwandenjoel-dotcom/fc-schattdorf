@@ -37,6 +37,8 @@
  *      Uri FF11, FF14 und FF17 (Angaben der Redaktion vom 05.09.2026)
  *   M) Vereinsgeschichte: Chronik-Eintrag «Erste Gruendung» (1916) in
  *      den Papierkorb
+ *   N) Vereinsgeschichte: Yoast-Beschreibung nannte «110 Jahre» und die
+ *      «erste Gruendung 1916» — beides ab 1916 gerechnet
  *
  * Schutz gegen Überschreiben von Redaktions-Arbeit: Teile, die einen
  * bestehenden Text ersetzen, prüfen vorher den erwarteten alten Wert.
@@ -790,6 +792,42 @@ if ( ! $ch ) {
 		echo $dry ? "   würde in den Papierkorb legen: #{$eintrag->ID} «{$eintrag->post_title}» (1916)\n"
 		          : "   in den Papierkorb gelegt: #{$eintrag->ID} «{$eintrag->post_title}» (1916)\n";
 		if ( ! $dry ) { wp_trash_post( $eintrag->ID ); }
+	}
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   N) Vereinsgeschichte: Yoast-Beschreibung
+   ══════════════════════════════════════════════════════════════════ */
+echo "\nN) Vereinsgeschichte: Beschreibung\n";
+
+/* Die Beschreibung stammt aus deploy/fcs-a7-inhalte.php.tpl und rechnete
+   ab der ersten Gruendung: «110 Jahre» und «von der ersten Gruendung
+   1916 bis heute». Beides widerspricht der Seite, die ab 1933 zaehlt
+   (93 Jahre) und den 1916er-Eintrag seit Teil M nicht mehr fuehrt.
+
+   Der neue Text nennt bewusst keine Jahreszahl der Vereinsdauer mehr —
+   «110 Jahre» war genau die Sorte Angabe, die still veraltet.
+
+   Das A7-Skript setzt Beschreibungen nur, wo noch keine steht, und
+   ruehrt vorhandene nie an. Ein erneuter Lauf wuerde diesen Wert also
+   nicht korrigieren; er muss hier gezielt ersetzt werden. */
+$vg_alt = '110 Jahre FC Schattdorf: die Vereinsgeschichte von der ersten Gründung 1916 bis heute – Meilensteine, Aufstiege und drei IFV-Cupsiege.';
+$vg_neu = 'Die Vereinsgeschichte des FC Schattdorf von der Gründung 1933 bis heute – Meilensteine, Aufstiege und drei IFV-Cupsiege.';
+$vg = fcs_seite( 'verein/vereinsgeschichte' );
+if ( ! $vg ) { $vg = fcs_seite( 'vereinsgeschichte' ); }
+if ( ! $vg ) {
+	echo "   FEHLER – Seite nicht gefunden.\n"; $fehler++;
+} else {
+	$ist = trim( (string) get_post_meta( $vg->ID, '_yoast_wpseo_metadesc', true ) );
+	if ( $ist === $vg_neu ) {
+		echo "   SKIP – Beschreibung steht bereits richtig.\n";
+	} elseif ( $ist !== $vg_alt && ! $force ) {
+		echo "   ABBRUCH – Beschreibung lautet «{$ist}»,\n"
+		   . "             erwartet war der Stand aus dem A7-Deploy. Nichts geändert.\n";
+		$fehler++;
+	} else {
+		echo $dry ? "   würde setzen: «{$vg_neu}»\n" : "   gesetzt: «{$vg_neu}»\n";
+		if ( ! $dry ) { update_post_meta( $vg->ID, '_yoast_wpseo_metadesc', $vg_neu ); }
 	}
 }
 
