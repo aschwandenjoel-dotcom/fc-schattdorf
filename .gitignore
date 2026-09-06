@@ -46,6 +46,9 @@ deploy/*
 # Datenschutz) — Token wird erst beim Deploy eingesetzt, keine Geheimnisse
 !deploy/deploy-a7-inhalte.sh
 !deploy/fcs-a7-inhalte.php.tpl
+# Ausnahme: Impressum-Anpassung (Webdesign: Urinet Aschwanden)
+!deploy/deploy-impressum.sh
+!deploy/fcs-impressum-update.php.tpl
 # Ausnahme: Schiedsrichter-Stand (zwei neue SR + Spielleiter-Liste);
 # Token wird erst beim Deploy eingesetzt, enthaelt selbst keine Geheimnisse
 !deploy/deploy-schiedsrichter.sh
