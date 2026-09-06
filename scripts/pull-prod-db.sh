@@ -18,7 +18,10 @@
 #      JSON-escapter URLs z. B. in MailPoet-Vorlagen)
 #
 # Uploads/Medien werden NICHT synchronisiert — bei Bedarf:
-#   rsync -avz aziwivac@sl1819.web.hostpoint.ch:www/fcschattdorf/wp-content/uploads/ <ziel>
+#   rsync -avz aziwivac@sl1819.web.hostpoint.ch:www/fcschattdorf/wp-content/uploads/ \
+#     ./wp-content/uploads/
+#   docker-compose.yml bindet dieses Verzeichnis in wordpress und wpcli
+#   ein, der rsync landet also direkt am richtigen Ort (seit 01.09.2026).
 #
 # Aufruf:  ./scripts/pull-prod-db.sh
 # ====================================================================

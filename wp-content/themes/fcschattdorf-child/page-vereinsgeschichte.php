@@ -18,9 +18,12 @@ add_filter( 'body_class', function ( $c ) { $c[] = 'fcx-wine-page'; return $c; }
    Registrierung des Inhaltstyps und Abfrage: inc/fcs-chronik.php */
 $events = fcs_get_chronik_events();
 
-/* Gründungsjahr und Alter aus dem ersten Chronik-Eintrag ableiten, damit die
-   Zahlen im Hero nicht von Hand nachgeführt werden müssen. */
-$fcs_founded = $events ? (int) $events[0]['year'] : 1933;
+/* Gründungsjahr für Kopfzeile und Zähler. Bewusst NICHT aus dem ersten
+   Chronik-Eintrag abgeleitet, sondern über das Seitenfeld
+   «Gründungsjahr» gesetzt: der Verein zählt ab der Neugründung 1933 (so
+   auch der Claim im Footer), unabhängig davon, womit die Chronik gerade
+   beginnt. */
+$fcs_founded = (int) fcs_pf( 'vg_gruendung', 1933 );
 $fcs_years   = max( 0, (int) current_time( 'Y' ) - $fcs_founded );
 
 get_header();

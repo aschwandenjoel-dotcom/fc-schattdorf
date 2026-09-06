@@ -258,45 +258,11 @@ body:not(.fcsh-has-inner-header) .fcx-hdr{
 /* Alte Kopfzeilen-Reste der Startseite ruhigstellen */
 .fcsh-nav{display:none;}
 
-/* ── Team-Umschalter (Geschwisterseiten, z.B. alle Juniorenteams) ──
-   Vorher: 10px graue Schrift auf Schwarz, aktiv in Rot (4.0:1 – zu wenig).
-   Jetzt: helles Band, Ink-Text, aktiv als Ink-Pille mit roter Marke. */
-.fcsh-sub-nav--grid{
-  position:relative;z-index:150;
-  height:auto;background:var(--fcx-mist);
-  display:flex;flex-wrap:wrap;justify-content:center;align-items:center;
-  gap:.35rem;padding:.75rem var(--fcx-pad);
-  border-top:none;border-bottom:1px solid var(--fcx-line);
-  overflow:visible;
-}
-.fcsh-sub-nav--grid a{
-  height:auto;border:none;
-  padding:.45rem .85rem;
-  font-size:.8125rem;font-weight:600;letter-spacing:.01em;text-transform:none;
-  color:var(--fcx-ink);background:transparent;
-  transition:background var(--fcx-fast) var(--fcx-ease),color var(--fcx-fast) var(--fcx-ease);
-}
-@media(hover:hover) and (pointer:fine){
-  .fcsh-sub-nav--grid a:hover{background:var(--fcx-paper);color:var(--fcx-ink);}
-}
-.fcsh-sub-nav--grid a:active{transform:scale(.98);}
-.fcsh-sub-nav--grid a.is-active{
-  position:relative;
-  background:var(--fcx-ink);color:#fff;
-}
-.fcsh-sub-nav--grid a.is-active::after{
-  content:"";position:absolute;left:.85rem;right:.85rem;bottom:.2rem;
-  height:2px;background:var(--fcx-red);
-}
-/* Ab hier bräuchten 20 Teams vier Zeilen – als Wischleiste bleibt es eine. */
-@media(max-width:64rem){
-  .fcsh-sub-nav--grid{
-    flex-wrap:nowrap;justify-content:flex-start;
-    overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;
-  }
-  .fcsh-sub-nav--grid::-webkit-scrollbar{display:none;}
-  .fcsh-sub-nav--grid a{white-space:nowrap;}
-}
+/* Das Band mit allen Geschwisterseiten (.fcsh-sub-nav--grid) ist
+   entfallen: es erschien nur auf den Juniorenteam-Seiten und brauchte
+   dort bei 18 Teams drei Zeilen über dem Titelbild. Der Wechsel läuft
+   jetzt über den Umschalter in der Titelzeile, siehe
+   assets/fcs-junioren-team.css. */
 
 /* ── Bausteine ─────────────────────────────────────────────── */
 .fcx-sec{padding:clamp(3rem,7vw,6rem) var(--fcx-pad);}
@@ -357,8 +323,47 @@ body.fcx-wine-page #content{background:var(--fcx-wine);}
 
 /* ── HERO (überschreibt fcs-home.css) ──────────────────────── */
 .fcsh-hero{height:calc(100vh - 6.25rem);min-height:520px;background:var(--fcx-ink);}
-.fcsh-hero__slide{transform:scale(1.04);transition:opacity .9s ease, transform 9s linear;}
-.fcsh-hero__slide.is-active{transform:scale(1);}
+/* ── Wechsel zur nächsten Story ───────────────────────────────
+   Vorher blendeten beide Bilder gleichzeitig über die Opazität. In der
+   Mitte des Wechsels lagen beide bei ~50 %, der dunkle Grund schien
+   durch und es gab einen sichtbaren Helligkeitseinbruch. Datum und
+   Titel sprangen dabei schlagartig um, während das Bild 0.9 s brauchte.
+   Der Ken-Burns-Zoom lief zudem über 9 s weiter, obwohl das Bild nach
+   0.9 s weg war – bei jedem Durchlauf startete er an einer anderen
+   Stelle.
+
+   Jetzt liegt das neue Bild ÜBER dem alten und blendet allein ein; das
+   alte bleibt darunter deckend stehen, bis die Blende durch ist. Kein
+   Einbruch mehr. Der Zoom hängt nur am aktiven Zustand und beginnt
+   jedes Mal bei 1.06. */
+.fcsh-hero__slide{
+  opacity:0;transform:scale(1.06);
+  transition:opacity .7s var(--fcx-ease);
+  will-change:opacity,transform;
+}
+.fcsh-hero__slide.is-active{
+  opacity:1;z-index:2;
+  transform:scale(1);
+  transition:opacity .7s var(--fcx-ease),transform 8s linear;
+}
+/* Das abgelöste Bild bleibt während der Blende deckend darunter. */
+.fcsh-hero__slide.is-leaving{opacity:1;z-index:1;transform:scale(1);transition:none;}
+/* Die Slides tragen jetzt z-index – Verlauf und Text müssen darüber. */
+.fcsh-hero__overlay{z-index:3;}
+.fcsh-hero__content{z-index:4;}
+.fcsh-hero__sponsor{z-index:4;}
+
+/* Datum und Titel gehen mit: kurz raus, tauschen, wieder rein.
+   Bewusst OHNE reservierte Mindesthöhe: .fcsh-hero__content ist unten
+   verankert, der Block wächst also nach oben. Die Pfeile stehen dadurch
+   ohnehin still, und die Titel-Grundlinie liegt bei jeder Story auf
+   derselben Höhe. Eine Mindesthöhe würde kurze Titel nach oben drücken
+   und genau den Sprung erzeugen, den sie verhindern soll (gemessen:
+   74 px Versatz bei der kürzesten Schlagzeile). */
+.fcsh-hero__story{
+  transition:opacity .28s var(--fcx-ease),transform .28s var(--fcx-ease);
+}
+.fcsh-hero__story.is-swapping{opacity:0;transform:translateY(.6rem);}
 .fcsh-hero__overlay{
   background:linear-gradient(to bottom,rgba(16,18,20,.55) 0%,rgba(16,18,20,0) 35%,rgba(16,18,20,.92) 100%);
 }
@@ -622,13 +627,18 @@ body.fcx-wine-page #content{background:var(--fcx-wine);}
 }
 .fcx-event__loc{font-size:.8125rem;color:var(--fcx-muted);margin:0;}
 .fcx-event__full{font-size:.75rem;color:var(--fcx-muted);margin:.15rem 0 0;letter-spacing:.06em;}
-.fcx-event__empty{font-size:.9375rem;color:var(--fcx-muted);margin:0;padding:.5rem 0;}
-
-/* Spielbetrieb: Kacheln statt Linkliste, damit sie auffallen */
+/* Spaltenkoepfe des roten Bandes: «Spielbetrieb IFV» rechts und der
+   Leerzustand «Zurzeit sind keine Termine erfasst.» links. Beide stehen
+   als einzige Texte der Sektion direkt auf dem Rot statt auf einer
+   weissen Karte — eine gemeinsame Regel, damit die zwei Spalten auf
+   derselben Linie beginnen und nicht auseinanderlaufen koennen. */
+.fcx-event__empty,
 .fcx-spielbetrieb__lbl{
   margin:0 0 1rem;color:#fff;
   font-size:.6875rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;
 }
+
+/* Spielbetrieb: Kacheln statt Linkliste, damit sie auffallen */
 /* Vier Kacheln in einer Reihe; erst auf schmalen Viewports umbrechen */
 .fcx-tiles{
   display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
@@ -788,6 +798,8 @@ body.fcx-wine-page #content{background:var(--fcx-wine);}
 /* ── Motion-Rücksicht ──────────────────────────────────────── */
 @media(prefers-reduced-motion:reduce){
   .fcx-reveal-ready .fcx-reveal{opacity:1 !important;transform:none !important;}
-  .fcsh *,.fcx-ncard__img img,.fcsh-hero__slide{transition-duration:.01ms !important;animation:none !important;}
+  .fcsh *,.fcx-ncard__img img,.fcsh-hero__slide,.fcsh-hero__story{transition-duration:.01ms !important;animation:none !important;}
+  .fcsh-hero__slide,.fcsh-hero__slide.is-active{transform:none !important;}
+  .fcsh-hero__story.is-swapping{transform:none !important;}
   .fcsh-parallax{background-attachment:scroll;}
 }

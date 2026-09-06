@@ -28,7 +28,8 @@ add_action( 'template_redirect', function () {
 		'2-mannschaft'   => 'aktive/2-mannschaft',
 		'3-mannschaft'   => 'aktive/3-mannschaft',
 		'frauen-uri-1'   => 'aktive/frauen-uri-1',
-		'frauen-uri-2'   => 'aktive/frauen-uri-2',
+		/* Frauen Team Uri II gibt es seit der Vorrunde 26/27 nicht mehr */
+		'frauen-uri-2'   => 'aktive',
 		'senioren-uri-1' => 'aktive/senioren-uri-1',
 		'junioren-a'     => 'junioren/teams/junioren-a-junioren',
 		'junioren-d'     => 'junioren/teams/junioren-d-junioren',

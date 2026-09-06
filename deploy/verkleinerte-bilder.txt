@@ -1,0 +1,95 @@
+# Bilder, die am 05.09.2026 auf eine web-taugliche Grösse verkleinert wurden.
+#
+# Grund: viele Porträts waren unbearbeitete Kameraoriginale (bis 4690x7035
+# und 15,5 MB). Die Karten stellen sie rund 290 CSS-Pixel breit dar, auf
+# Retina also 580 Gerätepixel. Der Browser rechnet in einem Schritt um den
+# Faktor 8 bis 16 herunter; feine helle Strukturen (graue Barthaare, Zaun,
+# Himmel zwischen Bäumen) bleiben dabei als einzelne weisse Punkte stehen.
+# Beim Hineinzoomen sinkt der Faktor und die Punkte verschwinden.
+#
+# Kappe: Porträts 1600 px lange Kante, Kopfbilder 2400 px, JPEG-Qualität 88.
+# 1600 wurde im direkten Vergleich (800/1200/1600/2400/Original bei Retina)
+# gewählt: 800 und 1200 wirken weich, 2400 und das Original sprenkeln noch.
+#
+# Die Originale liegen lokal als <name>.orig.<ext> und werden NICHT deployt.
+Adi_Tresch.jpg
+Alessandro_Gallo.jpg
+Andre_Deplazes.jpg
+Andre_Schelbert.jpg
+Andre_Zgraggen.jpg
+AschwandenThomas.jpg
+BaumannAndri.jpg
+Ben_Arnold.jpg
+Bernhard_Gisler.jpg
+Bruno_Inderbitzin_2.jpg
+CediGisler.jpg
+Christian_Esins.jpg
+Christian_Meier.jpg
+Daniel_Schibli.jpg
+Daniel_Triolo.jpg
+David_Baumann.jpg
+Elias_Mueller.jpg
+Elias_Muoser_2627.jpg
+Endrit_Krasniqi.jpg
+Fabian_Bachmann.jpg
+Fabio_Achermann.jpg
+Fabio_Moser.jpg
+Fabrizio_Merenda.jpg
+GianGisler.jpg
+GianLuca_Tresch.jpg
+GislerJoachim.jpg
+HeinzerFranco.jpg
+IMG_8327.jpeg
+IMG_8335.jpeg
+Igor_Sureta.jpg
+Ivo_Bissig_2.jpg
+Jacqueline_Kempf.jpg
+Jasmin_Jaun_1.jpg
+Joel_Aschwanden.jpg
+Joelle_Schibli.jpg
+Kusi_Baumann.jpg
+Linus_Arnold.jpg
+Livio_Mahrow.jpg
+Luan_Krosa.jpg
+MahrowRobin.jpg
+Manuel_Gnos.jpg
+Mario_Trova.jpg
+MattiaSchorno.jpg
+May_Van_der_Ven.jpg
+Michael_Gisler.jpg
+Nici_Mahrow_2.jpg
+NicoBissig.jpg
+Nico_Zgraggen.jpg
+Nico_Zgraggen_2627.jpg
+Niels_Chab.jpg
+Noel_Gisler.jpg
+Noel_Herger.jpg
+Patrik_Mueller.jpg
+Ramanan_Ananthacettivelu.jpg
+Raphael_Imhof.jpg
+Reichmuth_Daniel.jpg
+Reto_Infanger.jpg
+Robert_Gwerder.jpg
+Robin_Zurfluh.jpg
+Rubi_Mahrow.jpg
+Ruedi_Herger.jpg
+Samuel_Wirth_2627.jpg
+Sandro_Imbach.jpg
+Sandro_Zamuner.jpg
+Sandro_Zwyssig.jpg
+Saverio_LaBella.jpg
+Sebastian_Herzog.jpg
+Silhouette_Female.jpg
+SimonWipfli.jpg
+Simon_Gnos.jpg
+Simon_Welti.jpg
+StampfliPatrik.jpg
+Tamara_Eller.jpg
+Thomas_Zberg_2627.jpg
+Ti_Venzin.jpg
+TimGisler.jpg
+Tim_Riesen.jpg
+arnold_simon2122.jpg
+fussballschule_photo.jpg
+goalie_training.jpg
+rachel_ajpg.jpg

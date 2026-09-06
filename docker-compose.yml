@@ -27,6 +27,7 @@ services:
     volumes:
       - wordpress_data:/var/www/html
       - ./wp-content/themes/fcschattdorf-child:/var/www/html/wp-content/themes/fcschattdorf-child
+      - ./wp-content/uploads:/var/www/html/wp-content/uploads
     depends_on:
       - db
 
@@ -45,6 +46,7 @@ services:
     volumes:
       - wordpress_data:/var/www/html
       - ./wp-content/themes/fcschattdorf-child:/var/www/html/wp-content/themes/fcschattdorf-child
+      - ./wp-content/uploads:/var/www/html/wp-content/uploads
     depends_on:
       - db
 

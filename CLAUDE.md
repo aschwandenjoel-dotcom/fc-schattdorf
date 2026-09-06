@@ -45,10 +45,12 @@ nicht (Hinweis im Skript-Kopf).
 
 ## Deployment
 
-- Theme-Code: `rsync -avz wp-content/themes/fcschattdorf-child/
-  aziwivac@sl1819.web.hostpoint.ch:www/fcschattdorf/wp-content/themes/fcschattdorf-child/`
-  (Cache-Busting via filemtime automatisch). SSH ist für Claude
-  gesperrt — Deploy-Skript vorbereiten, der Nutzer führt es aus.
+- Theme-Code: `./scripts/deploy-theme.sh` — macht vorher die Gegenprobe
+  live -> lokal (live enthielt schon Arbeit, die nie im Repo landete),
+  zeigt was `--delete` entfernen würde, fragt nach und vergleicht danach
+  jede CSS-/JS-Datei byteweise mit dem Repo. Cache-Busting via filemtime
+  automatisch. SSH ist für Claude gesperrt — Deploy-Skript vorbereiten,
+  der Nutzer führt es aus.
 - DB-Änderungen Richtung live: token-geschütztes PHP-Skript in den
   Webroot legen, per HTTPS auslösen, danach löschen (MySQL ist auf
   Hostpoint nur aus Web-Prozessen erreichbar). Lebendes Beispiel für

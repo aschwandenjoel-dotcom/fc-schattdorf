@@ -33,6 +33,10 @@ function fcs_page_fields_config() {
 		),
 		'page-junioren-teams.php' => array(
 			'jl_label' => array( 'label' => 'Zeile unter dem Seitentitel', 'type' => 'text' ),
+			'jl_bild'  => array( 'label' => 'Gruppenbild unter dem Titel (Dateiname aus der Mediathek 2026/06 oder komplette URL; leer = mitgeliefertes Junioren-Gruppenbild)', 'type' => 'text' ),
+		),
+		'page-vereinsgeschichte.php' => array(
+			'vg_gruendung' => array( 'label' => 'Gründungsjahr für Kopfzeile und Zähler «Jahre Geschichte» (der Verein zählt ab der Neugründung 1933; die Chronik selbst beginnt früher)', 'type' => 'text' ),
 		),
 		'page-fussball-tauschboerse.php' => array(
 			'tb_intro'     => array( 'label' => 'Abschnitt «Worum geht es?» (ein Absatz pro Zeile)', 'type' => 'textarea' ),

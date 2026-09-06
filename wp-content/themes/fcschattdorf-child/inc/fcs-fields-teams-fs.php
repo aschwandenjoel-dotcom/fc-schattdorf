@@ -1,6 +1,6 @@
 <?php
 /**
- * Pflegbare Seitenfelder für die Teamseiten Frauen Uri I/II und Senioren Uri I.
+ * Pflegbare Seitenfelder für die Teamseiten Frauen Team Uri und Senioren Team Uri.
  *
  * Ergänzt die Feld-Box «Seiteninhalte» (inc/fcs-page-fields.php) um die
  * Felder dieser drei Vorlagen: Betreuerstab und Team-Sponsoren werden als
@@ -10,7 +10,7 @@
 defined( 'ABSPATH' ) || exit;
 
 add_filter( 'fcs_page_fields_config', function ( $config ) {
-	/* Alle drei Teamseiten nutzen dasselbe Layout und dieselben Felder. */
+	/* Beide Teamseiten nutzen dasselbe Layout und dieselben Felder. */
 	$team_felder = array(
 		'team_staff'     => array(
 			'label' => 'Betreuerstab (eine Person pro Zeile: Rolle | Name | Bilddatei, optional | Badge-Datei)',
@@ -23,7 +23,6 @@ add_filter( 'fcs_page_fields_config', function ( $config ) {
 	);
 
 	$config['page-frauen-uri-1.php']   = $team_felder;
-	$config['page-frauen-uri-2.php']   = $team_felder;
 	$config['page-senioren-uri-1.php'] = $team_felder;
 
 	return $config;

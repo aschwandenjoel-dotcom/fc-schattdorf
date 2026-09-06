@@ -22,12 +22,10 @@ $tl = get_stylesheet_directory_uri() . '/assets/img/tl/';
 
 get_header();
 
-$daten        = fcs_pf( 'tl_daten', '20 – 24 Juli 2026' );
+$daten        = fcs_pf( 'tl_daten', 'Juli 2027' );
 $ort          = fcs_pf( 'tl_ort', 'Zuchwil' );
-/* Ohne gesetztes Seitenfeld gibt es keinen Anmelde-Button: Der frühere
-   Standard zeigte auf das Formular der alten Joomla-Seite, das mit dem
-   Domainwechsel verschwindet. Für die nächste Anmeldung im Admin unter
-   «Seiteninhalte» den Link (z. B. auf ein Fluent-Forms-Formular) eintragen. */
+/* Leeres Feld = keine Anmeldung offen: beide «Jetzt anmelden»-Buttons
+   (Hero und Abschluss-Block) verschwinden. */
 $anmelde_url  = fcs_pf( 'tl_anmeldung_url', '' );
 $facts        = fcs_pf_lines( 'tl_facts', array(
 	'5 | Tage Trainingslager',
@@ -63,17 +61,20 @@ $infos_tag    = fcs_pf( 'tl_infos_tag', 'Ausblick' );
 $infos_titel  = fcs_pf( 'tl_infos_titel', 'Infos | folgen' );
 $infos_zeit   = fcs_pf( 'tl_infos_zeitpunkt', 'Frühling 2027' );
 $infos_text   = fcs_pf( 'tl_infos_text', 'Die Daten für das nächste Juniorentrainingslager stehen noch nicht fest. Wir informieren euch jedoch schon jetzt darüber, wann ihr mit allen Informationen rechnen könnt.' );
-$flyer_bild   = fcs_pf( 'tl_flyer_bild', $tl . 'tl26-flyer.jpg' );
+/* Leeres Feld = kein Flyer vorhanden: der ganze Flyer-Abschnitt entfällt. */
+$flyer_bild   = fcs_pf( 'tl_flyer_bild', '' );
 /* Zeigt das Feld auf ein Upload-Bild, das gar nicht existiert (Uploads werden
    nicht synchronisiert), das mitgelieferte Theme-Bild verwenden. Uebernommen
    aus Fabians Fassung, angepasst auf den Theme-Pfad dieser Vorlage. */
 $_ud = wp_upload_dir();
-if ( 0 === strpos( $flyer_bild, $_ud['baseurl'] ) &&
+if ( '' !== $flyer_bild && 0 === strpos( $flyer_bild, $_ud['baseurl'] ) &&
      ! file_exists( str_replace( $_ud['baseurl'], $_ud['basedir'], $flyer_bild ) ) ) {
 	$flyer_bild = $tl . 'tl26-flyer.jpg';
 }
 $flyer_text   = fcs_pf( 'tl_flyer_text', '' );
-$cta_lead     = fcs_pf( 'tl_cta_lead', 'Melde dich jetzt an und sichere dir deinen Platz am Juniorentrainingslager des FC Schattdorf. Plätze sind begrenzt!' );
+/* Leeres Feld = Aufruf «Bist du dabei?» ausgeblendet; die Kontaktpersonen
+   darunter bleiben in jedem Fall sichtbar. */
+$cta_lead     = fcs_pf( 'tl_cta_lead', '' );
 $kontakte     = fcs_pf_lines( 'tl_kontakte', array(
 	'Sandro Zamuner | Organisator TL Zuchwil | 079 280 77 20',
 	'René Gnos | Organisator TL Zuchwil | 079 420 61 20',
@@ -153,7 +154,7 @@ $programm_delays = array( '', ' tl-reveal-delay-1', ' tl-reveal-delay-2', ' tl-r
         <span class="tl-hero__meta-item"><?php echo esc_html( $daten ); ?></span>
         <span class="tl-hero__meta-item"><?php echo esc_html( $ort ); ?></span>
       </div>
-      <?php if ( $anmelde_url ) : ?>
+      <?php if ( '' !== $anmelde_url ) : ?>
       <a href="<?php echo esc_url( $anmelde_url ); ?>"
          class="tl-hero__cta" target="_blank" rel="noopener">
         Jetzt anmelden
@@ -303,6 +304,7 @@ $programm_delays = array( '', ' tl-reveal-delay-1', ' tl-reveal-delay-2', ' tl-r
   <!-- ══════════════════════════════════════════
        FLYER
   ══════════════════════════════════════════ -->
+  <?php if ( '' !== $flyer_bild ) : ?>
   <section class="tl-section tl-section--dark">
     <div class="tl-inner">
       <div class="tl-flyer-row">
@@ -322,6 +324,7 @@ $programm_delays = array( '', ' tl-reveal-delay-1', ' tl-reveal-delay-2', ' tl-r
       </div>
     </div>
   </section>
+  <?php endif; ?>
 
   <!-- ══════════════════════════════════════════
        CTA / CONTACT
@@ -329,9 +332,11 @@ $programm_delays = array( '', ' tl-reveal-delay-1', ' tl-reveal-delay-2', ' tl-r
   <section class="tl-section tl-section--black">
     <div class="tl-inner">
       <div class="tl-cta-section tl-reveal">
+        <?php if ( '' !== trim( $cta_lead ) ) : ?>
         <h2 class="tl-heading">Bist du <em>dabei?</em></h2>
         <p class="tl-cta-lead"><?php echo esc_html( $cta_lead ); ?></p>
-        <?php if ( $anmelde_url ) : ?>
+        <?php endif; ?>
+        <?php if ( '' !== $anmelde_url ) : ?>
         <a href="<?php echo esc_url( $anmelde_url ); ?>"
            class="tl-cta-btn" target="_blank" rel="noopener">
           Jetzt anmelden

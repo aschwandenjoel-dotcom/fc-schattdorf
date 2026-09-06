@@ -24,14 +24,15 @@ $up = wp_upload_dir()['baseurl'] . '/2026/06/';
 
 // Betreuerstab: Rolle | Name | Porträtbild | Sponsorlogo (kleines Overlay in der Ecke)
 $staff = fcsh_team_staff( [
-    'Betreuer | Mathias Lussmann | Mathias_Lussmann_p.jpg',
+    'Betreuer | Igor Sureta | Igor_Sureta.jpg',
     'Betreuer | Roger Zurfluh | Silhouette_Male_v2.jpg',
+    'Betreuer | Robin Lindauer | Silhouette_Male_v2.jpg',
 ] );
 
 // Team-Sponsoren: Name | Logo-Bilddatei | Website
 $sponsors = fcsh_team_sponsoren( [
     'PORR | sp-porr.jpg | https://porr.ch/',
-    'Zurich | sp-zurich.jpg | https://www.zurich.ch/',
+    'Zurich | zurich-ga-simon-mani-2026.png | https://www.zurich.ch/',
     'Albert Burch | sp-albert-burch.jpg | https://www.albertburch.ch/',
     'Christen Automobile | sp-christen-automobile.jpg | https://www.christen-automobile.ch/de',
     'Arnold Co AG | sp-arnold-coag.png | https://www.arnold-coag.ch/',
@@ -49,7 +50,7 @@ get_header();
   <!-- ── Hero: Teamfoto mit Titel ── -->
   <div class="fc1m-hero">
     <div class="fc1m-photo">
-      <img src="<?php echo esc_url( $up . 'FCS_2_Web.jpg' ); ?>" alt="2. Mannschaft FC Schattdorf">
+      <img src="<?php echo esc_url( $up . 'FCS_2_Web2627.jpg' ); ?>" alt="2. Mannschaft FC Schattdorf">
     </div>
     <div class="fc1m-herobar">
       <div class="fc1m-herobar__inner">

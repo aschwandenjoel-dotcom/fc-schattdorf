@@ -46,10 +46,36 @@ deploy/*
 # Datenschutz) — Token wird erst beim Deploy eingesetzt, keine Geheimnisse
 !deploy/deploy-a7-inhalte.sh
 !deploy/fcs-a7-inhalte.php.tpl
+# Ausnahme: Impressum-Anpassung (Webdesign: Urinet Aschwanden)
+!deploy/deploy-impressum.sh
+!deploy/fcs-impressum-update.php.tpl
 # Ausnahme: Schiedsrichter-Stand (zwei neue SR + Spielleiter-Liste);
 # Token wird erst beim Deploy eingesetzt, enthaelt selbst keine Geheimnisse
 !deploy/deploy-schiedsrichter.sh
 !deploy/fcs-schiedsrichter-update.php.tpl
+# Ausnahme: Redaktions-Rueckmeldungen Vorrunde 26/27 (Theme + DB);
+# Token wird erst beim Deploy eingesetzt, enthaelt selbst keine Geheimnisse
+!deploy/deploy-redaktion-vorrunde-2627.sh
+!deploy/fcs-redaktion-vorrunde-2627.php.tpl
+# Ausnahme: Liste der verkleinerten Bilder (nur Dateinamen, keine Geheimnisse)
+!deploy/verkleinerte-bilder.txt
+# Ausnahme: News-Nachtrag von der alten Vereinsseite (Token wird erst beim
+# Deploy eingesetzt; die JSON-Liste enthaelt nur veroeffentlichte Inhalte)
+!deploy/deploy-news-import-0926.sh
+!deploy/fcs-news-import-0926.php.tpl
+!deploy/news-import-0926.json
+# Ausnahme: 1. Mannschaft Vorrunde 26/27 (Betreuerstab, Kader, Kopfsponsoren);
+# Token wird erst beim Deploy eingesetzt, enthaelt selbst keine Geheimnisse
+!deploy/deploy-1mannschaft-vorrunde-2627.sh
+!deploy/fcs-1mannschaft-vorrunde-2627.php.tpl
+# Ausnahme: 3. Mannschaft, neues Mannschaftsfoto + Teamsponsor Feritec AG;
+# Token wird erst beim Deploy eingesetzt, enthaelt selbst keine Geheimnisse
+!deploy/deploy-3mannschaft-feritec.sh
+!deploy/fcs-3mannschaft-feritec.php.tpl
+# Ausnahme: Vorstandsseite bindet Vorschaubilder statt Originale ein;
+# Token wird erst beim Deploy eingesetzt, enthaelt selbst keine Geheimnisse
+!deploy/deploy-vorstand-bilder.sh
+!deploy/fcs-vorstand-bilder.php.tpl
 # Ausnahme: Domainwechsel auf www.fcschattdorf.ch (UMSTELLUNG.md, Schritt B4);
 # Token wird erst beim Deploy eingesetzt, enthaelt selbst keine Geheimnisse
 !deploy/deploy-domain.sh
@@ -66,3 +92,7 @@ wp-content-backup/
 
 # Recovery-Artefakte (gerettete DB + Uploads, 478 MB, nicht Teil der Historie)
 /backup/
+
+# Ausgangsmaterial der Redaktion (Bildschirmfotos der Sponsorenlogos vom
+# 05.09.2026). Die daraus abgeleiteten Dateien liegen in uploads/.
+Spielersponsoren-Logo/

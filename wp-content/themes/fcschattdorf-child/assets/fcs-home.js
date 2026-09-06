@@ -136,7 +136,13 @@
           entry.target.classList.add("is-in");
           io.unobserve(entry.target);
         });
-      }, { rootMargin: "0px 0px -8% 0px", threshold: 0.1 });
+        /* Der Auslöser liegt bewusst UNTERHALB des Sichtfensters
+           (positiver unterer rootMargin) statt darin: die News-Karten
+           brauchen 620 ms plus bis zu 400 ms Staffelung, bis sie stehen.
+           Vorher (-8 % und 10 % Sichtbarkeit) startete eine Karte erst,
+           wenn sie schon gut im Bild war — man sah sie unscharf
+           nachladen. Jetzt hat sie beim Hereinscrollen einen Vorlauf. */
+      }, { rootMargin: "0px 0px 12% 0px", threshold: 0 });
 
       Array.prototype.forEach.call(revealGroups, function (group) {
         Array.prototype.forEach.call(group.children, function (child, i) {
@@ -147,8 +153,16 @@
       });
     }
 
-    /* ── Hero-Slider ───────────────────────────────── */
-    var slides = Array.prototype.slice.call(document.querySelectorAll(".fcsh-hero__slide"));
+    /* ── Hero-Slider ─────────────────────────────────
+       Der Wechsel laeuft in zwei getrennten Spuren, damit nichts
+       springt: das neue Bild blendet UEBER dem alten ein (das alte
+       bleibt darunter deckend stehen, sonst schiene mittendrin der
+       dunkle Grund durch), und Datum/Titel gehen kurz raus, werden
+       getauscht und kommen wieder herein. Beides ist in
+       fcs-front.css beschrieben. */
+    var hero     = document.querySelector(".fcsh-hero");
+    var slides   = Array.prototype.slice.call(document.querySelectorAll(".fcsh-hero__slide"));
+    var story    = document.querySelector("[data-hero-story]");
     var titleEls = {
       tag:   document.querySelector("[data-hero-tag]"),
       date:  document.querySelector("[data-hero-date]"),
@@ -158,24 +172,86 @@
     };
     var heroData = [];
     try { heroData = JSON.parse(document.getElementById("fcsh-hero-data").textContent); } catch (e) {}
-    var cur = 0, timer = null;
-    function render(i) {
-      slides.forEach(function (s, idx) { s.classList.toggle("is-active", idx === i); });
-      var d = heroData[i];
-      if (d && titleEls.title) {
-        if (titleEls.tag)  titleEls.tag.textContent = d.tag || "";
-        if (titleEls.date) titleEls.date.textContent = d.date || "";
-        if (titleEls.title) titleEls.title.textContent = d.title || "";
-        if (titleEls.link) titleEls.link.setAttribute("href", d.url || "#");
-        if (titleEls.count) titleEls.count.textContent = (i + 1) + " / " + slides.length;
+
+    var STANDZEIT = 7000;   /* wie lange eine Story stehen bleibt */
+    var BLENDE    = 700;    /* Bildblende, muss zu fcs-front.css passen */
+    var TEXTZEIT  = 280;    /* Aus- bzw. Einblenden von Datum und Titel */
+
+    var cur = 0, timer = null, laeuft = false, angehalten = false;
+    var sanft = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    function texteSetzen(i) {
+      var d = heroData[i] || {};
+      if (titleEls.tag)   titleEls.tag.textContent = d.tag || "";
+      if (titleEls.date)  titleEls.date.textContent = d.date || "";
+      if (titleEls.title) titleEls.title.textContent = d.title || "";
+      if (titleEls.link)  titleEls.link.setAttribute("href", d.url || "#");
+      if (titleEls.count) titleEls.count.textContent = (i + 1) + " / " + slides.length;
+    }
+
+    function bildWechseln(vonIdx, nachIdx) {
+      var alt = slides[vonIdx], neu = slides[nachIdx];
+      if (alt && alt !== neu) {
+        alt.classList.add("is-leaving");
+        alt.classList.remove("is-active");
+        window.setTimeout(function () { alt.classList.remove("is-leaving"); }, BLENDE + 80);
+      }
+      if (neu) { neu.classList.add("is-active"); }
+    }
+
+    function planen() {
+      clearTimeout(timer);
+      if (slides.length > 1 && !angehalten) {
+        timer = window.setTimeout(function () { go(cur + 1); }, STANDZEIT);
       }
     }
-    function go(n) { cur = (n + slides.length) % slides.length; render(cur); schedule(); }
-    function schedule() { if (slides.length > 1) { clearTimeout(timer); timer = setTimeout(function () { go(cur + 1); }, 7000); } }
+
+    function go(n) {
+      if (slides.length < 2 || laeuft) { return; }
+      var ziel = ((n % slides.length) + slides.length) % slides.length;
+      if (ziel === cur) { planen(); return; }
+      var vorher = cur;
+      cur = ziel;
+
+      if (sanft || !story) {
+        texteSetzen(cur);
+        bildWechseln(vorher, cur);
+        planen();
+        return;
+      }
+
+      laeuft = true;
+      story.classList.add("is-swapping");
+      window.setTimeout(function () {
+        texteSetzen(cur);
+        bildWechseln(vorher, cur);
+        story.classList.remove("is-swapping");
+        laeuft = false;
+        planen();
+      }, TEXTZEIT);
+    }
+
     var prev = document.querySelector("[data-hero-prev]"), next = document.querySelector("[data-hero-next]");
     if (prev) prev.addEventListener("click", function () { go(cur - 1); });
     if (next) next.addEventListener("click", function () { go(cur + 1); });
-    if (slides.length) { render(0); schedule(); }
+
+    /* Wer liest oder gerade auf den Pfeilen ist, soll nicht
+       weitergeschaltet werden; im Hintergrundtab laeuft nichts. */
+    if (hero) {
+      hero.addEventListener("mouseenter", function () { angehalten = true; clearTimeout(timer); });
+      hero.addEventListener("mouseleave", function () { angehalten = false; planen(); });
+      hero.addEventListener("focusin",    function () { angehalten = true; clearTimeout(timer); });
+      hero.addEventListener("focusout",   function () { angehalten = false; planen(); });
+    }
+    document.addEventListener("visibilitychange", function () {
+      if (document.hidden) { clearTimeout(timer); } else { planen(); }
+    });
+
+    if (slides.length) {
+      texteSetzen(0);
+      if (slides[0]) { slides[0].classList.add("is-active"); }
+      planen();
+    }
 
     /* ── Promo-Carousel ────────────────────────────── */
     var track = document.querySelector(".fcsh-promo__track");

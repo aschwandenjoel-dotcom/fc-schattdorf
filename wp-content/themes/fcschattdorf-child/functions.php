@@ -56,7 +56,6 @@ function fcsh_is_news_context() {
 function fcsh_get_inner_header_data() {
 	$section_title = '';
 	$sub_nav       = array();
-	$sub_nav_2     = array();
 
 	if ( fcsh_is_news_context() ) {
 		/* News laufen bewusst ohne Filter/Sortierung – ein durchgehender Feed. */
@@ -83,23 +82,6 @@ function fcsh_get_inner_header_data() {
 				);
 			}
 
-			/* Zweite Ebene: Geschwister anzeigen wenn mind. 2 Vorfahren */
-			if ( count( $ancestors ) >= 2 ) {
-				$parent_id      = $ancestors[0]; // direkter Elternteil
-				$siblings       = get_pages( array(
-					'parent'      => $parent_id,
-					'sort_column' => 'menu_order',
-					'sort_order'  => 'ASC',
-					'post_status' => 'publish',
-				) );
-				foreach ( $siblings as $sib ) {
-					$sub_nav_2[] = array(
-						'label'  => get_the_title( $sib ),
-						'href'   => get_permalink( $sib ),
-						'active' => ( $sib->ID === $current_id ),
-					);
-				}
-			}
 		} else {
 			/* Oberste Seite: sie IST die Sektion */
 			$section_title = get_the_title( $current_id );
@@ -123,7 +105,7 @@ function fcsh_get_inner_header_data() {
 		$section_title = get_the_title();
 	}
 
-	return array( 'title' => $section_title, 'sub_nav' => $sub_nav, 'sub_nav_2' => $sub_nav_2 );
+	return array( 'title' => $section_title, 'sub_nav' => $sub_nav );
 }
 
 /* Vorab-Berechnung via template_redirect (vor body_class) */
@@ -145,7 +127,7 @@ function fcsh_get_overlay_nav() {
 			array( 'Mitglied werden',   fcsh_page_url( 'verein/mitglied-werden',   fcsh_page_url( 'mitglied-werden' ) ) ),
 			array( 'Fanshop',           fcsh_page_url( 'verein/fanshop',           fcsh_page_url( 'fanshop' ) ) ),
 			array( 'Schiedsrichter',    fcsh_page_url( 'verein/schiedsrichter',    fcsh_page_url( 'schiedsrichter' ) ) ),
-			array( 'Ehrenmitglieder',   fcsh_page_url( 'verein/ehrenmitglieder',   fcsh_page_url( 'ehrenmitglieder' ) ) ),
+			array( 'Ehren-/Freimitglieder', fcsh_page_url( 'verein/ehrenmitglieder', fcsh_page_url( 'ehrenmitglieder' ) ) ),
 			array( 'Vereinsgeschichte', fcsh_page_url( 'verein/vereinsgeschichte', fcsh_page_url( 'vereinsgeschichte' ) ) ),
 			array( 'So finden Sie uns', fcsh_page_url( 'verein/anfahrt',           fcsh_page_url( 'anfahrt' ) ) ),
 			array( 'Vorfall melden',    fcsh_page_url( 'verein/vorfall-melden',    fcsh_page_url( 'vorfall-melden' ) ) ),
@@ -155,9 +137,8 @@ function fcsh_get_overlay_nav() {
 			array( '1. Mannschaft',  fcsh_page_url( 'aktive/1-mannschaft',   fcsh_page_url( '1-mannschaft' ) ) ),
 			array( '2. Mannschaft',  fcsh_page_url( 'aktive/2-mannschaft',   fcsh_page_url( '2-mannschaft' ) ) ),
 			array( '3. Mannschaft',  fcsh_page_url( 'aktive/3-mannschaft',   fcsh_page_url( '3-mannschaft' ) ) ),
-			array( 'Frauen Uri I',   fcsh_page_url( 'aktive/frauen-uri-1',   fcsh_page_url( 'frauen-uri-1' ) ) ),
-			array( 'Frauen Uri II',  fcsh_page_url( 'aktive/frauen-uri-2',   fcsh_page_url( 'frauen-uri-2' ) ) ),
-			array( 'Senioren',       fcsh_page_url( 'aktive/senioren-uri-1', fcsh_page_url( 'senioren-uri-1' ) ) ),
+			array( 'Frauen Team Uri',   fcsh_page_url( 'aktive/frauen-uri-1',   fcsh_page_url( 'frauen-uri-1' ) ) ),
+			array( 'Senioren Team Uri', fcsh_page_url( 'aktive/senioren-uri-1', fcsh_page_url( 'senioren-uri-1' ) ) ),
 		) ),
 		array( 'label' => 'Junioren',      'children' => array(
 			array( 'Juniorengeschichte', fcsh_page_url( 'junioren/juniorengeschichte', fcsh_page_url( 'juniorengeschichte' ) ) ),
@@ -332,15 +313,11 @@ add_action( 'wp_body_open', function () {
 
 <?php fcsh_render_site_header(); ?>
 
-<?php if ( ! empty( $hd['sub_nav_2'] ) ) : ?>
-<nav class="fcsh-sub-nav fcsh-sub-nav--grid">
-	<?php foreach ( $hd['sub_nav_2'] as $item ) : ?>
-		<a href="<?php echo esc_url( $item['href'] ); ?>"<?php echo $item['active'] ? ' class="is-active"' : ''; ?>>
-			<?php echo esc_html( $item['label'] ); ?>
-		</a>
-	<?php endforeach; ?>
-</nav>
-<?php endif; ?>
+<?php /* Früher stand hier ein Band mit allen Geschwisterseiten. Es trat nur
+         auf den Juniorenteam-Seiten auf und brauchte dort bei 18 Teams drei
+         Zeilen über dem Titelbild. Den Wechsel zwischen den Teams erledigt
+         jetzt der Umschalter in der Titelzeile (page-junioren-team.php,
+         assets/fcs-junioren-team.css). */ ?>
 
 <!-- ══ OVERLAY-MENÜ ══ -->
 <div class="fcsh-overlay">

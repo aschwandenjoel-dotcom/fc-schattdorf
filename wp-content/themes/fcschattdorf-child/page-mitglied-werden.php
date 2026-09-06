@@ -20,8 +20,9 @@ get_header();
 $sub    = fcs_pf( 'mw_sub', 'Beim FC Schattdorf ist jeder willkommen — ob aktiver Spieler, Junior oder Kind.' );
 $tracks = fcs_pf_lines( 'mw_tracks', array(
 	'Aktivfussball | Aktive Mannschaft | Du spielst Fussball und möchtest auf einem hohen Niveau trainieren? Melde dich unverbindlich bei unserem Sportchef — wir freuen uns auf dich. | René Gnos | Sportchef | renegnos@bluewin.ch | 079 420 61 20',
-	'Junioren A–C | Juniorenbereich | Für Anmeldungen im Juniorenbereich (A- bis C-Junioren) wende dich direkt an unseren Juniorenobmann und Vizepräsidenten. | Iwan Herger | Vizepräsident · Juniorenobmann | juniorenabteilung@fcschattdorf.ch | 078 698 91 95',
-	'Kinder F–D | Kinderfussball | Die Jüngsten (F- bis D-Junioren) sind bei unserer KIFU-Leiterin in besten Händen. Einfach melden — Fussball macht Spass! | Jacqueline Kempf | Leiterin KIFU · F–D Junioren | jacqueline.kempf-imholz@gmx.ch | 078 795 29 67',
+	'Junioren A–C | Juniorenbereich · Jahrgang 2012–2006 | Für Anmeldungen im Juniorenbereich (A- bis C-Junioren, Jahrgang 2012 bis 2006) wende dich direkt an unseren Juniorenobmann und Vizepräsidenten. | Iwan Herger | Vizepräsident · Juniorenobmann | juniorenabteilung@fcschattdorf.ch | 078 698 91 95',
+	'Kinder F–D | Kinderfussball · Jahrgang 2018–2013 | Die Jüngsten (F- bis D-Junioren, Jahrgang 2018 bis 2013) sind bei unserer KIFU-Leiterin in besten Händen. Einfach melden — Fussball macht Spass! | Jacqueline Kempf | Leiterin KIFU · F–D Junioren | jacqueline.kempf-imholz@gmx.ch | 078 795 29 67',
+	'Passivmitglied | Verein unterstützen | Du spielst selbst nicht mehr, willst den FC Schattdorf aber weiterhin unterstützen? Als Passivmitglied hältst du dem Verein die Treue. Melde dich bei unserer Administration. | Robin Lindauer | Administration | admin@fcschattdorf.ch | 079 912 04 80',
 ) );
 
 /* Icons je Einstiegsweg (Design, bleibt in der Vorlage) */
