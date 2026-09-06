@@ -110,12 +110,12 @@ pruefe() { # $1 Beschreibung  $2 Pfad  $3 Suchmuster  $4 erwartet (>0|0)
 }
 
 pruefe "News: neuster Beitrag 04.09."      "/news/" 'Schattdorf holt sich in Eschenbach einen Punkt' ">0"
-pruefe "News: Frauen-Auftakt"              "/news/" 'Team Uri Frauen'                                ">0"
+pruefe "News: Frauen-Auftakt"              "/news/" 'Team Uri Frauen: 3:2-Heimsieg zum Saisonauftakt' ">0"
 pruefe "News: Junioren Da"                 "/news/" 'Gelungener Auftakt der'                         ">0"
 pruefe "News: 2. Mannschaft Ibach"         "/news/" 'FC Schattdorf 2 unterliegt dem FC Ibach 2'      ">0"
-pruefe "News: Ehrenmitglieder"             "/news/" 'Zwei neue Ehrenmitglieder'                      ">0"
+pruefe "News: Ehrenmitglieder (S.2)"         "/news/page/2/" 'Zwei neue Ehrenmitglieder'                      ">0"
 pruefe "News: Bilder aus 2026/09"          "/news/" 'uploads/2026/09/'                               ">0"
-pruefe "Startseite: neuste Story im Hero"  "/"      'Team Uri Frauen'                                ">0"
+pruefe "Startseite: neuste Story im Hero"  "/"      'Team Uri Frauen: 3:2-Heimsieg zum Saisonauftakt' ">0"
 
 # Reihenfolge: die Beitraege muessen in derselben Folge stehen wie auf
 # www.fcschattdorf.ch. Dafuer tragen sie innerhalb eines Tages
