@@ -149,3 +149,6 @@ werden lokal eingebunden; die Google-Fonts-Links in `functions.php` und
       Vorlage), sonst stehen sie leer im Index.
 - [ ] `/kontakt/`: nur Adresse und E-Mail — Öffnungszeiten Clubhaus oder
       Telefon ergänzen, falls gewünscht.
+- [ ] Nach Joels Redaktions-Deploy (Frauen Team Uri I → «Frauen Team Uri»,
+      Uri II entfällt): Descriptions von `/aktive/` und
+      `/aktive/frauen-uri-1/` in Yoast an die neuen Namen anpassen.

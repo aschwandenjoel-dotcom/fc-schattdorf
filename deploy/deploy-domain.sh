@@ -140,7 +140,7 @@ cat <<EOF
 
   Nächste Schritte (UMSTELLUNG.md):
     B5  Branch «umstellung» nach main mergen und das Theme deployen:
-        rsync -avz wp-content/themes/fcschattdorf-child/ $HOST:$WEBROOT/wp-content/themes/fcschattdorf-child/
+        git checkout main && git merge umstellung && git push && ./scripts/deploy-theme.sh
         -> erst damit greifen die Weiterleitungen (inc/fcs-redirects.php)
     B6  ./scripts/check-live.sh und die Checkliste in Abschnitt 8
     Optional: WP-Admin -> Yoast SEO -> Werkzeuge -> «SEO-Daten optimieren»

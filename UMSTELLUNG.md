@@ -190,8 +190,13 @@ Die Reihenfolge ist wichtig: **erst DNS, dann Zertifikat, dann DB.** Würde
 die DB zuerst umgestellt, leitete WordPress alle Besucher der Test-Adresse
 auf `www.fcschattdorf.ch` — und das wäre noch die alte Seite bei cyon.
 
-**Spickzettel für Dienstag, 08.09.2026** (Vorbereitung A11 spätestens am
-Montag: TTL bei cyon auf 300 s):
+**Voraussetzung (B0):** Joels fünf Deploys vom 05.09.2026 (`UEBERGABE.md`
+Abschnitt 2: Redaktion Vorrunde 26/27, News-Import, 1. Mannschaft,
+3. Mannschaft, Vorstand-Bilder) sind **vor B1 von `main` aus** gelaufen —
+sie bringen Theme und DB auf den Redaktionsstand; der Umstelltag soll
+nur noch den Wechsel selbst tun. Am besten Montag zusammen mit Joel.
+
+**Spickzettel für Dienstag, 08.09.2026:**
 
 ```bash
 # ── Vormittag, vor B2 ───────────────────────────────────────────
@@ -217,7 +222,7 @@ git checkout umstellung && git pull
 
 # ── B5: Branch nach main, Theme deployen (Weiterleitungen, Fonts, Trainingslager-Button)
 git checkout main && git merge umstellung && git push
-rsync -avz wp-content/themes/fcschattdorf-child/ aziwivac@sl1819.web.hostpoint.ch:www/fcschattdorf/wp-content/themes/fcschattdorf-child/
+./scripts/deploy-theme.sh        # Joels Skript: Gegenprobe live->lokal, Trockenlauf mit --delete, Rückfrage, Prüfung
 
 # ── B6: nach 60 s prüfen
 ./scripts/check-live.sh
@@ -266,9 +271,12 @@ curl -s  https://www.fcschattdorf.ch/ | grep -c dynalias                        
       (Trefferzahlen plausibel? `siteurl` = Test-Host?), bestätigen, echter
       Lauf, Skript räumt sich vom Server (HTTP 404 prüfen). Danach im
       WP-Admin *Einstellungen → Permalinks* einmal speichern.
-- [ ] **B5 Theme und Repo-Stand deployen.** Branch `umstellung` mergen,
-      dann der übliche rsync des Child-Themes (Weiterleitungsmodul geht mit).
-      Ab jetzt zeigen `lib-live.sh` & Co. auf die neue Domain.
+- [ ] **B5 Theme und Repo-Stand deployen.** Branch `umstellung` nach `main`
+      mergen, dann `./scripts/deploy-theme.sh` (Joels Skript vom 06.09.:
+      Gegenprobe live→lokal, Trockenlauf mit `--delete`, Rückfrage, Prüfung
+      jeder CSS/JS-Datei). Damit gehen Weiterleitungsmodul, lokale
+      Fonts/AOS und der Trainingslager-Stand live. Ab jetzt zeigen
+      `lib-live.sh` & Co. auf die neue Domain.
 - [ ] **B6 Verifikation** (nach ~1 Minute wegen Hostpoint-Cache) — Liste
       in Abschnitt 8. Mindestens: `./scripts/check-live.sh` grün,
       Startseite ohne `dynalias` im Quelltext, `curl -I
@@ -372,6 +380,10 @@ der neuen (04.09.2026). Unverändert und ohne Regel: `/aktive/1-mannschaft`,
 
 Team-Zuordnungen (Da/Db, Ea-Eb-Ec → E usw.) mit dem Juniorenobmann
 gegenprüfen — die Zusammensetzung der Teams ändert sich jede Saison.
+Joels Redaktions-Deploy (05.09.) löst Df und Ef auf und legt «Frauen Team
+Uri II» in den Papierkorb: die betroffenen Regeln laufen dann über den
+Fallback auf `/junioren/teams/` bzw. `/aktive/` — kein 404, nichts
+anzupassen.
 
 ---
 
