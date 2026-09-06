@@ -261,12 +261,16 @@ function fcs_enqueue_styles() {
 	wp_enqueue_style( 'astra-parent-style', get_template_directory_uri() . '/style.css', array(), wp_get_theme( 'astra' )->get( 'Version' ) );
 	wp_enqueue_style( 'fcs-child-style',    get_stylesheet_uri(), array( 'astra-parent-style' ), wp_get_theme()->get( 'Version' ) );
 	wp_enqueue_style( 'fcs-custom',         $uri . '/assets/custom.css', array( 'fcs-child-style' ), wp_get_theme()->get( 'Version' ) );
-	wp_enqueue_style( 'aos',               'https://unpkg.com/aos@2.3.4/dist/aos.css', array(), '2.3.4' );
-	wp_enqueue_script( 'aos',              'https://unpkg.com/aos@2.3.4/dist/aos.js', array(), '2.3.4', true );
+	/* AOS und die Schrift Inter liegen im Theme (assets/vendor/) statt bei
+	   unpkg.com bzw. Google Fonts: keine Drittanbieter-Aufrufe pro Seitenaufruf,
+	   kein Eintrag in der Datenschutzerklärung nötig, kein Ausfall, wenn das
+	   CDN hakt. Inter ist die variable Schrift (400–900), latin + latin-ext. */
+	wp_enqueue_style( 'aos',             $uri . '/assets/vendor/aos/aos.css', array(), '2.3.4' );
+	wp_enqueue_script( 'aos',            $uri . '/assets/vendor/aos/aos.js', array(), '2.3.4', true );
 	wp_add_inline_script( 'aos', 'document.addEventListener("DOMContentLoaded",function(){AOS.init({duration:700,once:false,easing:"ease-out"});});' );
+	wp_enqueue_style( 'fcsh-inter-font', $uri . '/assets/vendor/inter/inter.css', array(), filemtime( $dir . '/assets/vendor/inter/inter.css' ) );
 
 	if ( ! is_front_page() ) {
-		wp_enqueue_style( 'fcsh-inter-font', 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap', array(), null );
 		/* Designsystem (Tokens + Bausteine) – identisch zur Startseite */
 		wp_enqueue_style( 'fcs-front', $uri . '/assets/fcs-front.css', array(), filemtime( $dir . '/assets/fcs-front.css' ) );
 		$css_ver = file_exists( $dir . '/assets/fcs-home.css' ) ? filemtime( $dir . '/assets/fcs-home.css' ) : '1';
