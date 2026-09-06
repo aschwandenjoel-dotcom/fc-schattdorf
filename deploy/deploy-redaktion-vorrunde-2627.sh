@@ -315,6 +315,8 @@ pruefe "Vereinsgeschichte: 1916 ist weg"      "/verein/vereinsgeschichte/"  '#de
 pruefe "Vereinsgeschichte: 1930er zuerst"     "/verein/vereinsgeschichte/"  '#decade-1930'            ">0"
 pruefe "Vereinsgeschichte: Beschreibung ab 1933" "/verein/vereinsgeschichte/" 'von der Gründung 1933'   ">0"
 pruefe "Vereinsgeschichte: keine 110 Jahre"   "/verein/vereinsgeschichte/"  '110 Jahre FC Schattdorf'  "0"
+pruefe "Vereinsgeschichte: Jahreszahl gesetzt" "/verein/vereinsgeschichte/" 'Jahre FC Schattdorf'     ">0"
+pruefe "Vereinsgeschichte: kein Platzhalter"  "/verein/vereinsgeschichte/"  '%%fcs_'                   "0"
 pruefe "Schiedsrichter: Foto René Hüglin"     "/verein/schiedsrichter/"     'ReneHueglin_2026.jpg'    ">0"
 pruefe "2. Mannschaft: neues Teamfoto"        "/aktive/2-mannschaft/"       'FCS_2_Web2627.jpg'       ">0"
 pruefe "2. Mannschaft: Igor Sureta"           "/aktive/2-mannschaft/"       'Igor Sureta'             ">0"

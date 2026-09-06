@@ -811,8 +811,16 @@ echo "\nN) Vereinsgeschichte: Beschreibung\n";
    Das A7-Skript setzt Beschreibungen nur, wo noch keine steht, und
    ruehrt vorhandene nie an. Ein erneuter Lauf wuerde diesen Wert also
    nicht korrigieren; er muss hier gezielt ersetzt werden. */
-$vg_alt = '110 Jahre FC Schattdorf: die Vereinsgeschichte von der ersten Gründung 1916 bis heute – Meilensteine, Aufstiege und drei IFV-Cupsiege.';
-$vg_neu = 'Die Vereinsgeschichte des FC Schattdorf von der Gründung 1933 bis heute – Meilensteine, Aufstiege und drei IFV-Cupsiege.';
+/* Zielwert mit Platzhaltern: inc/fcs-vereinsjahre.php meldet sie bei
+   Yoast an, eingesetzt werden sie bei jedem Seitenaufruf. Der
+   Jahreswechsel braucht damit keinen Deploy. */
+$vg_neu = '%%fcs_vereinsjahre%% Jahre FC Schattdorf: die Vereinsgeschichte von der Gründung %%fcs_gruendungsjahr%% bis heute – Meilensteine, Aufstiege und drei IFV-Cupsiege.';
+/* Erlaubte Vorgaenger: der A7-Stand und die kurzzeitige Fassung ohne
+   Jahresangabe. Alles andere ist Handarbeit und wird nicht angetastet. */
+$vg_alte = array(
+	'110 Jahre FC Schattdorf: die Vereinsgeschichte von der ersten Gründung 1916 bis heute – Meilensteine, Aufstiege und drei IFV-Cupsiege.',
+	'Die Vereinsgeschichte des FC Schattdorf von der Gründung 1933 bis heute – Meilensteine, Aufstiege und drei IFV-Cupsiege.',
+);
 $vg = fcs_seite( 'verein/vereinsgeschichte' );
 if ( ! $vg ) { $vg = fcs_seite( 'vereinsgeschichte' ); }
 if ( ! $vg ) {
@@ -821,7 +829,7 @@ if ( ! $vg ) {
 	$ist = trim( (string) get_post_meta( $vg->ID, '_yoast_wpseo_metadesc', true ) );
 	if ( $ist === $vg_neu ) {
 		echo "   SKIP – Beschreibung steht bereits richtig.\n";
-	} elseif ( $ist !== $vg_alt && ! $force ) {
+	} elseif ( ! in_array( $ist, $vg_alte, true ) && ! $force ) {
 		echo "   ABBRUCH – Beschreibung lautet «{$ist}»,\n"
 		   . "             erwartet war der Stand aus dem A7-Deploy. Nichts geändert.\n";
 		$fehler++;

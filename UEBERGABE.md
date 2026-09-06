@@ -254,6 +254,27 @@ Was der Deploy erledigt:
   waagrechter Überhang, `scrollWidth == clientWidth`.
 - Fussballschule: neues Flyer-PDF verlinkt.
 
+- **Jahreszahlen der Vereinsgeschichte rechnen sich selbst fort**
+  (`inc/fcs-vereinsjahre.php`, neu am 06.09.2026). Die Meta-Beschreibung
+  sagte «110 Jahre FC Schattdorf … von der ersten Gründung 1916» —
+  beides ab 1916 gerechnet, während die Seite ab 1933 zählt, und die
+  Zahl wäre jeden Neujahr veraltet.
+
+  Neu liefern zwei Funktionen beides: `fcs_gruendungsjahr()` (Seitenfeld
+  «Gründungsjahr», sonst 1933, mit Plausibilitätsgrenzen) und
+  `fcs_vereinsjahre()`. Die Vorlage benutzt sie für «Gegründet …» und
+  «Jahre Geschichte»; Yoast bekommt sie als Platzhalter
+  `%%fcs_vereinsjahre%%` und `%%fcs_gruendungsjahr%%`, angemeldet über
+  `wpseo_register_extra_replacements`. In der Datenbank stehen die
+  Platzhalter, eingesetzt werden sie bei jedem Seitenaufruf — **der
+  Jahreswechsel braucht also keinen Deploy**.
+
+  Ein Sicherheitsnetz auf `wpseo_metadesc`, `wpseo_opengraph_desc`,
+  `wpseo_twitter_description` und `wpseo_title` ersetzt die Platzhalter
+  auch dann, wenn Yoast einmal fehlt — roh im Quelltext landen sie nie.
+  Geprüft: Feld testweise auf 1930 gesetzt, daraufhin zeigten Seite und
+  Beschreibung übereinstimmend 96 Jahre; nach dem Leeren wieder 93.
+
 - **Vereinsgeschichte: Eintrag «Erste Gründung» (1916) entfernt**
   (Rückmeldung vom 05.09.2026, Teil M des DB-Skripts). Er geht in den
   Papierkorb, nicht in die endgültige Löschung — im Admin also
