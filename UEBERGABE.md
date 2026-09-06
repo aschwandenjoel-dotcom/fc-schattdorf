@@ -56,6 +56,9 @@ unabhängig — sie fassen verschiedene Felder an:
 5. `./deploy/deploy-vorstand-bilder.sh` — Vorstandsseite bindet
    Vorschaubilder statt Originale ein (Abschnitt 2e). Reine
    DB-Änderung, kein Theme-Code, keine neuen Dateien.
+6. `./deploy/deploy-impressum.sh` — Impressum: Webdesign «Urinet
+   Aschwanden», urinet.ch, Onlineschaltung und Stand September 2026.
+   Reine DB-Änderung, unabhängig von allem anderen, jederzeit.
 
 Nummer 1, 3 und 4 sind gleich aufgebaut: Theme-Code per rsync, dann die
 neuen Bilddateien, dann die DB-Änderung über ein token-geschütztes
