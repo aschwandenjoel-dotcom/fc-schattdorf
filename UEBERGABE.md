@@ -56,6 +56,17 @@ unabhängig — sie fassen verschiedene Felder an:
 5. `./deploy/deploy-vorstand-bilder.sh` — Vorstandsseite bindet
    Vorschaubilder statt Originale ein (Abschnitt 2e). Reine
    DB-Änderung, kein Theme-Code, keine neuen Dateien.
+**Reihenfolge beachten:** `deploy-vorstand-bilder.sh` muss VOR
+`deploy-redaktion-vorrunde-2627.sh` laufen. Teil J des Redaktions-
+Skripts haengt die vier Vorstandsfotos auf hochkant zugeschnittene
+Fassungen um und sucht dafuer `<name>.jpg`. Solange live noch die
+WordPress-Vorschauen `<name>-300x200.jpg` eingebunden sind — genau das
+raeumt der Vorstand-Deploy auf — findet Teil J nichts und meldet
+ABBRUCH. Am 06.09.2026 in dieser Reihenfolge gelaufen und deshalb bei
+Rene Gnos, Patrick Schorno und Iwan Herger fehlgeschlagen; Markus
+Indergand griff, weil dessen Bild schon ohne Groessenzusatz eingebunden
+war. Beide Skripte sind idempotent, ein Nachziehen genuegt.
+
 6. `./deploy/deploy-impressum.sh` — Impressum: Webdesign «Urinet
    Aschwanden», urinet.ch, Onlineschaltung und Stand September 2026.
    Reine DB-Änderung, unabhängig von allem anderen, jederzeit.

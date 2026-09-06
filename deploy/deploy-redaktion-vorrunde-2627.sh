@@ -307,7 +307,11 @@ pruefe "FF14: Luca Forte"                     "/junioren/teams/team-uri-ff14/" '
 pruefe "FF14: Sponsor Raiffeisen"             "/junioren/teams/team-uri-ff14/" 'Raiffeisen'           ">0"
 pruefe "FF17: Noreen Häfliger"                "/junioren/teams/team-uri-ff17/" 'Noreen Häfliger'      ">0"
 pruefe "FF17: Sponsor TEKO"                   "/junioren/teams/team-uri-ff17/" 'TEKO'                 ">0"
-pruefe "Vereinsgeschichte: 1916 ist weg"      "/verein/vereinsgeschichte/"  '1916'                    "0"
+# Nicht auf die blosse Jahreszahl pruefen: die Yoast-Beschreibung der
+# Seite nennt «von der ersten Gruendung 1916 bis heute» und liefert
+# damit einen Fehlalarm. Der Anker der 1910er-Jahre gibt es nur, wenn
+# auch ein Eintrag aus diesem Jahrzehnt in der Chronik steht.
+pruefe "Vereinsgeschichte: 1916 ist weg"      "/verein/vereinsgeschichte/"  '#decade-1910'            "0"
 pruefe "Vereinsgeschichte: 1930er zuerst"     "/verein/vereinsgeschichte/"  '#decade-1930'            ">0"
 pruefe "Schiedsrichter: Foto René Hüglin"     "/verein/schiedsrichter/"     'ReneHueglin_2026.jpg'    ">0"
 pruefe "2. Mannschaft: neues Teamfoto"        "/aktive/2-mannschaft/"       'FCS_2_Web2627.jpg'       ">0"
