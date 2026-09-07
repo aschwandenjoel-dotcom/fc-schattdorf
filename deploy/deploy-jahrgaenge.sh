@@ -93,7 +93,7 @@ jahr="$(date +%Y)"; monat="$(date +%-m)"
 saison=$(( monat >= 8 ? jahr : jahr - 1 ))
 jun="$(( saison - 14 )) bis $(( saison - 20 ))"
 kin="$(( saison - 8 )) bis $(( saison - 13 ))"
-echo "    Saison ${saison}/$(( (saison + 1) % 100 )) – erwartet: Junioren «$jun», Kinder «$kin»"
+echo "    Saison ${saison}/$(( (saison + 1) % 100 )) – erwartet: Junioren «${jun}», Kinder «${kin}»"
 
 t_jun_titel="$(zaehl 'fcmb-track__title">Juniorenbereich<')"
 t_kin_titel="$(zaehl 'fcmb-track__title">Kinderfussball<')"
