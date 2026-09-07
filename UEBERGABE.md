@@ -996,10 +996,22 @@ steht im Beschriftungstext des Feldes (`inc/fcs-fields-design2.php`).
 ### 2h. Trainingslager-Porträts und Schiedsrichter-Fotos
 
 **Trainingslager.** Sandro Zamuner und René Gnos standen im Aufruf-Block
-nur als Name mit Telefonnummer. Neu steht über jedem ein Porträt im
-gleichen Zuschnitt wie auf den Team- und Betreuerseiten (3:4, von oben
-beschnitten). Das Zeilenformat von `tl_kontakte` hat dafür ein viertes
-Feld bekommen:
+nur als Name mit Telefonnummer, frei im Weissraum. Sie sitzen jetzt in
+derselben Kartenform wie `.tl-campus-card` weiter oben auf der Seite:
+weiss, 12 px Radius, rote Oberkante, weicher Schatten, Foto randlos
+oben (4:5, von oben beschnitten), Telefonnummer als eigene Zeile mit
+Trennlinie — auf dem Handy ein sicheres Ziel zum Antippen.
+
+Darüber steht neu ein Abschnitts-Label «Kontakt / Fragen zum Lager?».
+Ohne den abgeschalteten Anmelde-Aufruf hatte der Block gar keine
+Überschrift und stand verloren in einer sehr grossen leeren Fläche.
+Ist der Aufruf wieder aktiv, bleibt «Bist du dabei?» die
+Abschnittsüberschrift und das Label ordnet sich darunter ein
+(`.tl-heading--sm`). Die Klasse `tl-cta-section--kontakt` nimmt im
+abgeschalteten Zustand zusätzlich die doppelte Polsterung heraus.
+
+Das Zeilenformat von `tl_kontakte` hat dafür ein viertes Feld
+bekommen:
 
     Name | Rolle | Telefon | Bilddatei
 
