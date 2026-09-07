@@ -76,8 +76,8 @@ $flyer_text   = fcs_pf( 'tl_flyer_text', '' );
    darunter bleiben in jedem Fall sichtbar. */
 $cta_lead     = fcs_pf( 'tl_cta_lead', '' );
 $kontakte     = fcs_pf_lines( 'tl_kontakte', array(
-	'Sandro Zamuner | Organisator TL Zuchwil | 079 280 77 20',
-	'René Gnos | Organisator TL Zuchwil | 079 420 61 20',
+	'Sandro Zamuner | Organisator TL Zuchwil | 079 280 77 20 | Sandro_Zamuner.jpg',
+	'René Gnos | Organisator TL Zuchwil | 079 420 61 20 | Rene_Gnos_hoch.jpg',
 ) );
 
 $galerie      = fcs_pf_lines( 'tl_galerie', array(
@@ -349,8 +349,17 @@ $programm_delays = array( '', ' tl-reveal-delay-1', ' tl-reveal-delay-2', ' tl-r
         <div class="tl-contacts">
           <?php foreach ( $kontakte as $zeile ) :
               $teile = array_map( 'trim', explode( '|', $zeile ) );
-              $tel   = $teile[2] ?? ''; ?>
+              $tel   = $teile[2] ?? '';
+              /* Viertes Feld: Bilddatei aus der Mediathek (2026/06) oder volle
+                 URL. Leer = kein Foto, der Block bleibt wie bisher. */
+              $foto  = fcsh_bild_url( $teile[3] ?? '', $_ud['baseurl'] . '/2026/06/' ); ?>
           <div class="tl-contact-person">
+            <?php if ( '' !== $foto ) : ?>
+            <div class="tl-contact-person__photo">
+              <img src="<?php echo esc_url( $foto ); ?>" alt="<?php echo esc_attr( $teile[0] ); ?>"
+                   loading="lazy" width="150" height="200">
+            </div>
+            <?php endif; ?>
             <div class="tl-contact-person__name"><?php echo esc_html( $teile[0] ); ?></div>
             <div class="tl-contact-person__detail">
               <?php echo esc_html( $teile[1] ?? '' ); ?><br>
