@@ -781,9 +781,11 @@ body.fcx-wine-page #content{background:var(--fcx-wine);}
   display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem;
 }
 .fcx-foot__bar p{margin:0;font-size:.75rem;color:rgba(255,255,255,.4);}
-.fcx-foot__bar div{display:flex;gap:1.5rem;}
+.fcx-foot__bar-left{display:flex;align-items:center;flex-wrap:wrap;gap:.2rem 1.5rem;}
+.fcx-foot__bar-links{display:flex;gap:1.5rem;}
 .fcx-foot__bar a{font-size:.75rem;color:rgba(255,255,255,.4);letter-spacing:.06em;text-transform:uppercase;}
 .fcx-foot__bar a:hover{color:#fff;}
+.fcx-foot__credit a{text-transform:none;letter-spacing:0;text-decoration:underline;text-underline-offset:2px;}
 
 /* ── Scroll-Reveal ─────────────────────────────────────────
    Greift nur, wenn JS die Klasse gesetzt hat: ohne JS bleibt alles
