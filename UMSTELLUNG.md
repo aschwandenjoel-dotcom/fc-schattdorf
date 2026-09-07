@@ -242,11 +242,11 @@ curl -s  https://www.fcschattdorf.ch/ | grep -c dynalias                        
 ```
 
 
-- [ ] **B1 Sicherung.** `./scripts/pull-prod-db.sh` (Live-Dump nach
+- [x] **B1 Sicherung** *(erledigt 07.09.2026 17:23: `backups/prod-db-20260907-172334.sql.gz`)*. `./scripts/pull-prod-db.sh` (Live-Dump nach
       `backups/prod-db-<Zeit>.sql.gz` = Rückweg für die DB) und
       `rsync -avz aziwivac@sl1819.web.hostpoint.ch:www/fcschattdorf/wp-content/uploads/ backups/uploads-<Datum>/`.
       `./scripts/check-live.sh` muss grün sein.
-- [ ] **B2 DNS bei cyon umstellen** (`my.cyon` → Domain → *DNS-Editor*).
+- [x] **B2 DNS bei cyon umstellen** *(erledigt 07.09.2026 ~17:40: `@` A → 217.26.61.134, an ns1/ns2.cyon.ch und öffentlich bestätigt, MX unverändert)* (`my.cyon` → Domain → *DNS-Editor*).
       Vorher die aktuellen Hostpoint-Adressen holen — nie aus diesem
       Dokument abschreiben:
 
