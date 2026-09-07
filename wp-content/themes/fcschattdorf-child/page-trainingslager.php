@@ -352,11 +352,6 @@ $programm_delays = array( '', ' tl-reveal-delay-1', ' tl-reveal-delay-2', ' tl-r
         <?php endif; ?>
 
         <div class="tl-contacts">
-          <div class="tl-contacts__head">
-            <span class="tl-tag">Kontakt</span>
-            <h2 class="tl-heading tl-heading--sm">Fragen zum <em>Lager?</em></h2>
-          </div>
-
           <div class="tl-contacts__grid">
           <?php foreach ( $kontakte as $zeile ) :
               $teile = array_map( 'trim', explode( '|', $zeile ) );

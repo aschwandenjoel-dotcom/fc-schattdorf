@@ -297,9 +297,6 @@ body.page-id-59 .entry-header { padding: 0 !important; margin: 0 !important; }
   color: var(--tl-black);
 }
 .tl-heading em { font-style: normal; color: var(--tl-red); }
-/* Zwischenueberschrift innerhalb eines Abschnitts – kleiner als die
-   Abschnittsueberschrift, damit beide nebeneinander bestehen koennen. */
-.tl-heading--sm { font-size: clamp(1.5rem, 3vw, 2.125rem); margin-bottom: 0; }
 
 /* ── Ausblick-Block («Infos folgen») ──
    Ankuendigung statt Termin: linker roter Balken als Hinweis-Signal,
@@ -500,9 +497,10 @@ body.page-id-59 .entry-header { padding: 0 !important; margin: 0 !important; }
 /* ── Kontaktpersonen ──
    Gleiche Kartensprache wie .tl-campus-card (weiss, 12px Radius, rote
    Oberkante, weicher Schatten). Vorher standen Name und Nummer frei im
-   Weissraum – ohne den Anmelde-Aufruf darueber wirkte der Abschnitt leer. */
+   Weissraum. Der Abschnitt traegt bewusst keine Ueberschrift – der
+   Anmelde-Aufruf ist abgeschaltet, und eine eigene sollte er nicht
+   bekommen. tl-cta-section--kontakt nimmt dafuer die Polsterung heraus. */
 .tl-contacts { margin-top: 1rem; }
-.tl-contacts__head { margin-bottom: 2.5rem; }
 .tl-contacts__grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

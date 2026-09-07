@@ -1002,13 +1002,12 @@ weiss, 12 px Radius, rote Oberkante, weicher Schatten, Foto randlos
 oben (4:5, von oben beschnitten), Telefonnummer als eigene Zeile mit
 Trennlinie — auf dem Handy ein sicheres Ziel zum Antippen.
 
-Darüber steht neu ein Abschnitts-Label «Kontakt / Fragen zum Lager?».
-Ohne den abgeschalteten Anmelde-Aufruf hatte der Block gar keine
-Überschrift und stand verloren in einer sehr grossen leeren Fläche.
-Ist der Aufruf wieder aktiv, bleibt «Bist du dabei?» die
-Abschnittsüberschrift und das Label ordnet sich darunter ein
-(`.tl-heading--sm`). Die Klasse `tl-cta-section--kontakt` nimmt im
-abgeschalteten Zustand zusätzlich die doppelte Polsterung heraus.
+Der Block trägt **bewusst keine Überschrift** — der Anmelde-Aufruf
+«Bist du dabei?» ist abgeschaltet, und eine eigene sollte der
+Kontaktteil auf Wunsch nicht bekommen. Damit die beiden Karten
+trotzdem nicht in einer riesigen leeren Fläche stehen, nimmt die
+Klasse `tl-cta-section--kontakt` die doppelte Polsterung heraus,
+solange `tl_cta_lead` und `tl_anmeldung_url` leer sind.
 
 Das Zeilenformat von `tl_kontakte` hat dafür ein viertes Feld
 bekommen:
