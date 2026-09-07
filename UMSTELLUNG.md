@@ -315,6 +315,21 @@ curl -s  https://www.fcschattdorf.ch/ | grep -c dynalias                        
 - [ ] **C5 UBIQ abmelden.** Joomla-Seite darf offline; Search-Console-
       Eigentum und DMARC-`rua` an den Verein übergeben; klären, ob die
       Mailgun-Subdomain `m.fcschattdorf.ch` noch gebraucht wird.
+- [ ] **C0 Zertifikatskette vervollständigen (dringlich vor 17.11.2026).** Das
+      übernommene cyon-Zertifikat hängt an Let's Encrypts Generation-Y-Root
+      («ISRG Root YR»), die in den Browser-Trust-Stores noch fehlt. Hostpoint
+      liefert nur das Zwischenzertifikat YR1 aus; Chrome/Safari holen das
+      cross-signierte «Root YR by ISRG Root X1» selbst nach (AIA) und zeigen
+      die Seite als sicher, **Firefox und ältere Clients nicht**. Beheben:
+      (a) im Hostpoint-Panel die Kette hinterlegen — Dateien liegen in
+      `~/Downloads` (`fcschattdorf-fullchain.crt` = Leaf + YR1 + Root YR-by-X1,
+      alternativ `…-leaf-und-yr1.crt` + `…-root-yr-by-x1.crt`); das Formular
+      lehnte am 08.09. ein 2-Zertifikate-Bundle mit «PEM: no start line» ab →
+      Hostpoint-Support (0844 040404); oder (b) FreeSSL übernehmen lassen
+      (Panel: Status prüfen; liefert die Kette automatisch richtig). Danach
+      prüfen: `openssl s_client -connect www.fcschattdorf.ch:443 -servername
+      www.fcschattdorf.ch -showcerts </dev/null | grep ' s:'` muss drei
+      Zertifikate zeigen (Leaf, YR1, Root YR).
 - [ ] **C6 Test-Host abbauen (nach ~3 Monaten, ca. Dezember 2026).**
       Domain `fcschattdorf.dynalias.net` im Hostpoint-Panel entfernen,
       DynDNS-Konto kündigen, `lib-live.sh`-Kommentare zum DynDNS-Vorfall
