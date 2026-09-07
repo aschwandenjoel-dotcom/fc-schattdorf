@@ -76,6 +76,10 @@ deploy/*
 # Token wird erst beim Deploy eingesetzt, enthaelt selbst keine Geheimnisse
 !deploy/deploy-vorstand-bilder.sh
 !deploy/fcs-vorstand-bilder.php.tpl
+# Ausnahme: Jahrgangs-Automatik auf «Mitglied werden»
+#   (Token wird erst beim Deploy eingesetzt, enthaelt selbst keine Geheimnisse)
+!deploy/fcs-jahrgaenge.php.tpl
+!deploy/deploy-jahrgaenge.sh
 
 # OS
 .DS_Store
