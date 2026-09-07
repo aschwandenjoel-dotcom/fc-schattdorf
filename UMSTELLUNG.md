@@ -190,11 +190,17 @@ Die Reihenfolge ist wichtig: **erst DNS, dann Zertifikat, dann DB.** Würde
 die DB zuerst umgestellt, leitete WordPress alle Besucher der Test-Adresse
 auf `www.fcschattdorf.ch` — und das wäre noch die alte Seite bei cyon.
 
-**Voraussetzung (B0):** Joels fünf Deploys vom 05.09.2026 (`UEBERGABE.md`
-Abschnitt 2: Redaktion Vorrunde 26/27, News-Import, 1. Mannschaft,
-3. Mannschaft, Vorstand-Bilder) sind **vor B1 von `main` aus** gelaufen —
-sie bringen Theme und DB auf den Redaktionsstand; der Umstelltag soll
-nur noch den Wechsel selbst tun. Am besten Montag zusammen mit Joel.
+**B0 erledigt (06./07.09.2026):** Joels fünf Deploys (Redaktion Vorrunde
+26/27, News-Import, 1. Mannschaft, 3. Mannschaft, Vorstand-Bilder) und
+das Impressum sind live und nachgeprüft. Der Branch `umstellung` hat
+diesen Stand gemerged (`9fa4d31`) — er unterscheidet sich von `main` nur
+noch um Weiterleitungsmodul, DB-Umstellung, Skripte und Doku. Noch offen
+auf `main`, unabhängig vom Wechsel: `deploy-news-1577-bild.sh`.
+
+**AAAA-Record:** Der `@` AAAA bei cyon existiert seit dem 07.09.2026 nicht
+mehr (Nameserver antworten leer). Damit ist B2 nur noch der A-Record;
+IPv6-Besucher nehmen IPv4. Optional später einen AAAA auf die
+Hostpoint-IPv6 anlegen.
 
 **Spickzettel für Dienstag, 08.09.2026:**
 
@@ -204,11 +210,11 @@ git checkout main && git pull
 ./scripts/pull-prod-db.sh                                   # B1 Live-Dump -> backups/
 rsync -avz aziwivac@sl1819.web.hostpoint.ch:www/fcschattdorf/wp-content/uploads/ backups/uploads-2026-09-08/
 ./scripts/check-live.sh                                     # muss grün sein
-dig +short sl1819.web.hostpoint.ch A                        # IPv4 für cyon
-dig +short sl1819.web.hostpoint.ch AAAA                     # IPv6 für cyon
+dig +short sl1819.web.hostpoint.ch A                        # IPv4 für cyon (07.09.: 217.26.61.134)
 
-# ── B2: my.cyon -> DNS-Editor: «@» A und AAAA auf die beiden Werte, Rest unverändert
-dig +short www.fcschattdorf.ch A; dig +short www.fcschattdorf.ch AAAA   # bis beides = Hostpoint
+# ── B2: my.cyon -> DNS-Editor: «@» A auf die Hostpoint-IPv4, Rest unverändert (kein AAAA mehr vorhanden)
+dig @ns1.cyon.ch +short www.fcschattdorf.ch A               # sofort beim cyon-Nameserver prüfen
+dig +short www.fcschattdorf.ch A                            # dann öffentlich, bis = Hostpoint (TTL 300)
 dig +short fcschattdorf.ch MX                               # muss mail.fcschattdorf.ch bleiben
 
 # ── B3: Zertifikat abwarten (Minuten bis ~1 h), alle paar Minuten:
@@ -252,7 +258,7 @@ curl -s  https://www.fcschattdorf.ch/ | grep -c dynalias                        
       | Record | Alt (cyon) | Neu |
       |---|---|---|
       | `@` A (Haupt-A-Record) | `149.126.4.95` | Hostpoint-IPv4 |
-      | `@` AAAA | `2a01:ab20:0:4::95` | Hostpoint-IPv6 (oder Record löschen) |
+      | `@` AAAA | — (am 07.09.2026 nicht mehr vorhanden) | keiner; optional später Hostpoint-IPv6 |
       | `www` CNAME → `fcschattdorf.ch` | unverändert | unverändert |
       | MX, `mail` A, SPF, DMARC, `webmail`, `autoconfig`, `_autodiscover`, `google-site-verification`, `MS=…` | unverändert | **unverändert — nicht anfassen** |
       | `ftp` CNAME | zeigt danach auf Hostpoint | belassen (UBIQ informiert) |
