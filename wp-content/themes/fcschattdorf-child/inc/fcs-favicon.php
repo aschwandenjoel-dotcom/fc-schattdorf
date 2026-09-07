@@ -33,7 +33,7 @@ add_action( 'wp_head', function () {
 
 /* /favicon.ico ohne Website-Icon: WordPress würde auf sein «W» umleiten —
    stattdessen auf das Vereinsemblem. */
-add_action( 'do_faviconredirect', function () {
+add_action( 'do_faviconico', function () {
 	if ( has_site_icon() ) {
 		return;
 	}
