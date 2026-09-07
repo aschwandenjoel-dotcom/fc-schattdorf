@@ -41,7 +41,8 @@ Projektregeln stehen in `CLAUDE.md`, das Setup der lokalen Umgebung in
 
 ## 2. Offene Schritte
 
-**Domainwechsel erledigt (07./08.09.2026).** Plan und Protokoll in
+**Domainwechsel erledigt (07./08.09.2026).** Favicon-Modul (`inc/fcs-favicon.php`,
+Vereinsemblem statt WordPress-«W») ist seit 08.09. live. Plan und Protokoll in
 `UMSTELLUNG.md` (Phasen A und B abgehakt), Branch `umstellung` ist
 fast-forward in `main` — kann gelöscht werden. Wichtig für den Betrieb:
 
@@ -59,12 +60,8 @@ fast-forward in `main` — kann gelöscht werden. Wichtig für den Betrieb:
   Domain einmal auslösen. Phase C (Search Console, 404-Log, Mail
   beobachten, cyon/UBIQ) steht in `UMSTELLUNG.md`.
 
-**Zwei Deploys stehen aus:**
+**Ein Deploy steht aus:**
 
-0. `./scripts/deploy-theme.sh` — Favicon (08.09.2026): Vereinsemblem aus
-   `assets/img/favicon/` samt Modul `inc/fcs-favicon.php`; nach dem
-   Domainwechsel zeigte der Browser das WordPress-«W», weil die Seite
-   nie ein Website-Icon hatte. Reiner Theme-Deploy.
 1. `./deploy/deploy-news-1577-bild.sh` — setzt Beitragsbild und
    Kategorie von «Bittere 2:3 Niederlage gegen Hünenberg» auf den
    Stand der Quelle (Abschnitt 2j). Reine DB-Änderung, keine Dateien,
