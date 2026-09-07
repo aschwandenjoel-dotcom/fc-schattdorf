@@ -1056,7 +1056,7 @@ Seither sind auf www.fcschattdorf.ch drei weitere erschienen:
 
 | Nr. | Titel | Kategorie | Bild |
 | --- | --- | --- | --- |
-| 1577 | Bittere 2:3 Niederlage gegen Hünenberg | 1. Mannschaft | `FCS_1_Team_Web.jpg` (lag schon live) |
+| 1577 | Bittere 2:3 Niederlage gegen Hünenberg | 2. Mannschaft | `FCS_2_Web.jpg` (lag schon live) |
 | 1576 | Erneute Niederlage für die Ba-Junioren | Junioren | `Ba-GeringQWEB.jpg` (neu) |
 | 1575 | Den SC Engelberg gleich zweimal bezwungen | Junioren | `Ca-2425-geringWEB.jpg` (lag schon live) |
 
@@ -1067,18 +1067,26 @@ nach und sind mit `curl` leer. Die Kategoriefeeds sind ebenfalls leer;
 die Zuordnung zu «1. Mannschaft», «Junioren» usw. muss aus dem Inhalt
 kommen.
 
-**Zwei Eingriffe gegenüber der Quelle, beide bewusst:**
+**Bilder und Zuordnung sind die der Quelle.** Ein einziger Eingriff:
+in 1576 stand «Ba- Junioren» mit Leerzeichen — Tippfehler der Quelle,
+korrigiert.
 
-1. Beitrag 1577 trägt auf der alten Seite `FCS_2_Web.jpg`, das
-   Mannschaftsfoto der **zweiten** Mannschaft. Der Text ist aber ein
-   Bericht der ersten: jeder echte Bericht der zweiten nennt
-   «Schattdorf 2» dreimal im Fliesstext, dieser kein einziges Mal, und
-   die genannten Torschützen (Ben Arnold, Mattia Schorno) stehen im
-   Kader der ersten Mannschaft. Der Beitrag bekommt deshalb Kategorie
-   «1. Mannschaft» und `FCS_1_Team_Web.jpg`. Wer das anders sieht:
-   in `deploy/news-import-0907.json` Kategorie und Bild ändern.
-2. In 1576 stand «Ba- Junioren» mit Leerzeichen — Tippfehler der
-   Quelle, korrigiert.
+Notiz zu 1577: der Beitrag trägt das Mannschaftsfoto der zweiten
+Mannschaft und ist entsprechend eingeordnet. Auffällig bleibt, dass er
+als einziger Bericht der zweiten Mannschaft nie «Schattdorf 2» im
+Fliesstext nennt und die genannten Torschützen im Kader der ersten
+stehen. Das zu klären ist Sache der Redaktion — der Import folgt der
+Quelle.
+
+**Zur Bildqualität** (Frage vom 07.09.2026): mehr ist nicht
+herauszuholen. Die Beitragsbilder werden immer mit **rund 630 px**
+dargestellt — der Inhaltsbereich ist gedeckelt, auch auf einem
+2560-px-Schirm. Die Dateien sind 1600 px breit, also bereits 2,5-fach.
+Gemessen am verlustfrei nachkodierten Detailgehalt liegen JPEG-Qualität
+70 bis 95 gleichauf; nur Qualität 100 hält ~11 % mehr Detail, bei
+vierfacher Dateigrösse. Und eine frische 1600-px-Verkleinerung aus dem
+7035-px-Original unterscheidet sich um 1 % von der vorhandenen Datei.
+Grössere Quelldateien landen schlicht nicht auf dem Bildschirm.
 
 **Neu gegenüber dem ersten Nachtrag:** fett ausgezeichnete Absätze der
 Quelle werden zu `<h3>`-Zwischentiteln statt zu Fliesstext (1577 hat

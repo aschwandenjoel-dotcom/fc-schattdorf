@@ -14,14 +14,12 @@
  * lädt es vorher hoch. Auf Hostpoint ist MySQL nur aus Web-Prozessen
  * erreichbar, deshalb der Umweg über den Webroot.
  *
- * Zu Beitrag 1577 «Bittere 2:3 Niederlage gegen Hünenberg»: die alte
- * Seite hängt dort FCS_2_Web.jpg an, das Mannschaftsfoto der zweiten
- * Mannschaft. Der Text ist aber ein Bericht der ersten: jeder echte
- * Bericht der zweiten nennt «Schattdorf 2» im Fliesstext (dreimal),
- * dieser kein einziges Mal, und die genannten Torschützen stehen im
- * Kader der ersten Mannschaft. Der Beitrag bekommt deshalb die
- * Kategorie «1. Mannschaft» und FCS_1_Team_Web.jpg wie die übrigen
- * Berichte der ersten Mannschaft.
+ * Bilder und Zuordnung folgen der Quelle. Beitrag 1577 «Bittere 2:3
+ * Niederlage gegen Hünenberg» trägt dort FCS_2_Web.jpg, das
+ * Mannschaftsfoto der zweiten Mannschaft — entsprechend Kategorie
+ * «2. Mannschaft». (Auffällig ist, dass der Text als einziger Bericht
+ * der zweiten Mannschaft nie «Schattdorf 2» nennt; die Redaktion
+ * entscheidet, nicht das Importskript.)
  *
  * Idempotent: ein Beitrag mit demselben Slug wird übersprungen, ein
  * bereits angelegtes Bild wiederverwendet. Ein zweiter Lauf meldet

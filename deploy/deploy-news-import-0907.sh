@@ -6,23 +6,14 @@
 # sind auf www.fcschattdorf.ch drei weitere erschienen (Stand
 # 07.09.2026):
 #
-#   1577  Bittere 2:3 Niederlage gegen Hünenberg      1. Mannschaft
+#   1577  Bittere 2:3 Niederlage gegen Hünenberg      2. Mannschaft
 #   1576  Erneute Niederlage für die Ba-Junioren      Junioren
 #   1575  Den SC Engelberg gleich zweimal bezwungen   Junioren
 #
-# Zwei der drei Bilder liegen schon live (aus dem ersten Nachtrag), neu
-# ist nur Ba-GeringQWEB.jpg — gezielt eine Datei, kein rsync des ganzen
+# Bilder und Zuordnung sind die der Quelle — nichts umgehaengt. Zwei
+# der drei Bilder liegen schon live (aus dem ersten Nachtrag), neu ist
+# nur Ba-GeringQWEB.jpg — gezielt eine Datei, kein rsync des ganzen
 # Upload-Ordners, dort liegt Redaktions-Material.
-#
-# Zu 1577: die alte Seite hängt dort das Mannschaftsfoto der ZWEITEN
-# Mannschaft an, der Text ist aber ein Bericht der ersten. Jeder echte
-# Bericht der zweiten nennt «Schattdorf 2» im Fliesstext (dreimal),
-# dieser kein einziges Mal, und die genannten Torschützen stehen im
-# Kader der ersten. Der Beitrag bekommt deshalb Kategorie
-# «1. Mannschaft» und FCS_1_Team_Web.jpg wie die übrigen Berichte der
-# ersten Mannschaft. Wer das anders sieht: in
-# deploy/news-import-0907.json Kategorie und Bild ändern, dann dieses
-# Skript laufen lassen.
 #
 # Unabhängig von den anderen offenen Deploys: fasst weder Theme-Code
 # noch deren Felder an und kann jederzeit laufen.
