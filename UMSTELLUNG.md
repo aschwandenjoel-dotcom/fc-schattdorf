@@ -266,7 +266,7 @@ curl -s  https://www.fcschattdorf.ch/ | grep -c dynalias                        
       TTL nach A11 300 s — die Änderung greift innert ~5 Minuten. Prüfen:
       `dig +short www.fcschattdorf.ch A` = Hostpoint-IP,
       `dig +short fcschattdorf.ch MX` = weiterhin `mail.fcschattdorf.ch`.
-- [ ] **B3 Zertifikat abwarten.** Hostpoint stellt FreeSSL für
+- [x] **B3 Zertifikat** *(erledigt 07.09.2026 23:50 — nicht per FreeSSL: Hostpoints Bestellung hing 6 h in «Aktivierung läuft». Stattdessen das noch gültige Let's-Encrypt-Zertifikat der alten cyon-Seite (SAN `fcschattdorf.ch`, `www`, gültig bis 17.11.2026) samt privatem Schlüssel aus `my.cyon` als Drittanbieter-Zertifikat bei Hostpoint hochgeladen. **Folge für C-Phase: bis Anfang November muss FreeSSL übernommen haben oder das Zertifikat erneuert werden.**)* Hostpoint stellt FreeSSL für
       `fcschattdorf.ch` + `www.` automatisch aus, sobald die HTTP-Validierung
       durchgeht (Minuten bis ~1 Stunde; im Panel unter *Websites* sichtbar).
       Bis dahin zeigt `https://www.fcschattdorf.ch` eine Zertifikatswarnung
