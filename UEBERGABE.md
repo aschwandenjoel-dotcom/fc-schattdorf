@@ -41,23 +41,11 @@ Projektregeln stehen in `CLAUDE.md`, das Setup der lokalen Umgebung in
 
 ## 2. Offene Schritte
 
-**Vier Deploys stehen aus.** Der Theme-Deploy zuerst, danach die drei
-übrigen in beliebiger Reihenfolge:
+**Ein Deploy steht aus:**
 
-1. `./scripts/deploy-theme.sh` — Theme-Code, sammelt zwei Änderungen:
-   - Trainingslager: Porträts über den beiden Organisatoren
-     (Abschnitt 2h)
-   - Fanshop: Bestellbenachrichtigungen gehen an
-     `admin@fcschattdorf.ch` statt an `marketing@` (Abschnitt 2i)
-2. `./deploy/deploy-tl-kontaktbilder.sh` — DB: Bilddateien für Sandro
-   Zamuner und René Gnos im Feld `tl_kontakte` (Abschnitt 2h). Muss
-   **nach** dem Theme-Deploy laufen; das Skript prüft das selbst und
-   bricht sonst ab. Beide Bilder liegen bereits live.
-3. `./deploy/deploy-schiedsrichter-bilder.sh` — zwei Bilddateien plus
-   `fcs_pe_bild` für Ayman Labib Badr und Giuseppe Accardi
-   (Abschnitt 2h). **Kein** Theme-Code betroffen, jederzeit.
-4. `./deploy/deploy-news-import-0907.sh` — drei weitere News von der
-   alten Vereinsseite (Abschnitt 2j). **Kein** Theme-Code betroffen,
+1. `./deploy/deploy-news-1577-bild.sh` — setzt Beitragsbild und
+   Kategorie von «Bittere 2:3 Niederlage gegen Hünenberg» auf den
+   Stand der Quelle (Abschnitt 2j). Reine DB-Änderung, keine Dateien,
    jederzeit.
 
 **Erledigt und live nachgeprüft (06./07.09.2026):** Redaktions-
@@ -1070,6 +1058,13 @@ kommen.
 **Bilder und Zuordnung sind die der Quelle.** Ein einziger Eingriff:
 in 1576 stand «Ba- Junioren» mit Leerzeichen — Tippfehler der Quelle,
 korrigiert.
+
+**Achtung, Nachzügler:** der Deploy vom 07.09.2026 lief mit einer
+früheren Fassung der Datenliste, in der 1577 auf `FCS_1_Team_Web.jpg`
+und «1. Mannschaft» hing. Der News-Import kann das nicht nachziehen —
+er überspringt Beiträge, deren Slug schon existiert. Dafür gibt es
+`./deploy/deploy-news-1577-bild.sh`, das gezielt Beitragsbild,
+Bildblock und Kategorie korrigiert.
 
 Notiz zu 1577: der Beitrag trägt das Mannschaftsfoto der zweiten
 Mannschaft und ist entsprechend eingeordnet. Auffällig bleibt, dass er

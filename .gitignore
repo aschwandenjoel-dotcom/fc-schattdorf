@@ -90,6 +90,9 @@ deploy/*
 !deploy/fcs-news-import-0907.php.tpl
 !deploy/news-import-0907.json
 !deploy/deploy-news-import-0907.sh
+# Ausnahme: Bildkorrektur am News-Beitrag 1577
+!deploy/fcs-news-1577-bild.php.tpl
+!deploy/deploy-news-1577-bild.sh
 
 # OS
 .DS_Store
