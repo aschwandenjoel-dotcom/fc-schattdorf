@@ -41,8 +41,8 @@ Projektregeln stehen in `CLAUDE.md`, das Setup der lokalen Umgebung in
 
 ## 2. Offene Schritte
 
-**Drei Deploys stehen aus.** Der Theme-Deploy zuerst, danach die zwei
-DB-Skripte in beliebiger Reihenfolge:
+**Vier Deploys stehen aus.** Der Theme-Deploy zuerst, danach die drei
+übrigen in beliebiger Reihenfolge:
 
 1. `./scripts/deploy-theme.sh` — Theme-Code, sammelt zwei Änderungen:
    - Trainingslager: Porträts über den beiden Organisatoren
@@ -56,6 +56,9 @@ DB-Skripte in beliebiger Reihenfolge:
 3. `./deploy/deploy-schiedsrichter-bilder.sh` — zwei Bilddateien plus
    `fcs_pe_bild` für Ayman Labib Badr und Giuseppe Accardi
    (Abschnitt 2h). **Kein** Theme-Code betroffen, jederzeit.
+4. `./deploy/deploy-news-import-0907.sh` — drei weitere News von der
+   alten Vereinsseite (Abschnitt 2j). **Kein** Theme-Code betroffen,
+   jederzeit.
 
 **Erledigt und live nachgeprüft (06./07.09.2026):** Redaktions-
 Rückmeldungen (2a), News-Nachtrag mit 25 Beiträgen (2b), 1. Mannschaft
@@ -1045,6 +1048,47 @@ Bestätigungsmail an den Besteller bleibt unverändert.
 nichts zu tun. Nicht versehentlich mitziehen.
 
 Reine Theme-Änderung, kein DB-Deploy.
+
+### 2j. News-Nachtrag vom 07.09.2026
+
+Der erste Nachtrag (Abschnitt 2b) endete bei Beitrag 1573 vom 04.09.
+Seither sind auf www.fcschattdorf.ch drei weitere erschienen:
+
+| Nr. | Titel | Kategorie | Bild |
+| --- | --- | --- | --- |
+| 1577 | Bittere 2:3 Niederlage gegen Hünenberg | 1. Mannschaft | `FCS_1_Team_Web.jpg` (lag schon live) |
+| 1576 | Erneute Niederlage für die Ba-Junioren | Junioren | `Ba-GeringQWEB.jpg` (neu) |
+| 1575 | Den SC Engelberg gleich zweimal bezwungen | Junioren | `Ca-2425-geringWEB.jpg` (lag schon live) |
+
+**Die Quelle findet man am zuverlässigsten über den RSS-Feed**
+`https://www.fcschattdorf.ch/newsblog?format=feed&type=rss` — die
+Übersichts- und Kategorieseiten laden ihre Beiträge per JavaScript
+nach und sind mit `curl` leer. Die Kategoriefeeds sind ebenfalls leer;
+die Zuordnung zu «1. Mannschaft», «Junioren» usw. muss aus dem Inhalt
+kommen.
+
+**Zwei Eingriffe gegenüber der Quelle, beide bewusst:**
+
+1. Beitrag 1577 trägt auf der alten Seite `FCS_2_Web.jpg`, das
+   Mannschaftsfoto der **zweiten** Mannschaft. Der Text ist aber ein
+   Bericht der ersten: jeder echte Bericht der zweiten nennt
+   «Schattdorf 2» dreimal im Fliesstext, dieser kein einziges Mal, und
+   die genannten Torschützen (Ben Arnold, Mattia Schorno) stehen im
+   Kader der ersten Mannschaft. Der Beitrag bekommt deshalb Kategorie
+   «1. Mannschaft» und `FCS_1_Team_Web.jpg`. Wer das anders sieht:
+   in `deploy/news-import-0907.json` Kategorie und Bild ändern.
+2. In 1576 stand «Ba- Junioren» mit Leerzeichen — Tippfehler der
+   Quelle, korrigiert.
+
+**Neu gegenüber dem ersten Nachtrag:** fett ausgezeichnete Absätze der
+Quelle werden zu `<h3>`-Zwischentiteln statt zu Fliesstext (1577 hat
+zwei davon). Der Lead-Absatz bleibt Fliesstext, wie in den 25 bereits
+importierten Beiträgen. Die Datenliste führt sie unter
+`zwischentitel`.
+
+`Ba-GeringQWEB.jpg` kam mit 7035 px und 6,5 MB von der alten Seite und
+wurde auf 1600 px / 564 KB gebracht — dieselbe Grösse wie die übrigen
+Bilder des ersten Nachtrags.
 
 ## 3. Neuer Rechner: was gebraucht wird
 
