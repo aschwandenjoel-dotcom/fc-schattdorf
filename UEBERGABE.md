@@ -41,59 +41,34 @@ Projektregeln stehen in `CLAUDE.md`, das Setup der lokalen Umgebung in
 
 ## 2. Offene Schritte
 
-**Fünf Deploys stehen aus.** Ihre DB-Teile sind voneinander
-unabhängig — sie fassen verschiedene Felder an:
+**Drei Deploys stehen aus:**
 
-1. `./deploy/deploy-redaktion-vorrunde-2627.sh` — Redaktions-
-   Rückmeldungen vom 03.09.2026 (Abschnitt 2a).
-2. `./deploy/deploy-news-import-0926.sh` — 25 News von der alten
-   Vereinsseite nachtragen (Abschnitt 2b). Keine Theme-Änderung.
-3. `./deploy/deploy-1mannschaft-vorrunde-2627.sh` — 1. Mannschaft,
-   Betreuerstab, Kader und Kopfsponsoren (Abschnitt 2c).
-4. `./deploy/deploy-3mannschaft-feritec.sh` — 3. Mannschaft, neues
-   Mannschaftsfoto und Feritec AG als alleiniger Teamsponsor
-   (Abschnitt 2d).
-5. `./deploy/deploy-vorstand-bilder.sh` — Vorstandsseite bindet
-   Vorschaubilder statt Originale ein (Abschnitt 2e). Reine
-   DB-Änderung, kein Theme-Code, keine neuen Dateien.
-**Reihenfolge beachten:** `deploy-vorstand-bilder.sh` muss VOR
-`deploy-redaktion-vorrunde-2627.sh` laufen. Teil J des Redaktions-
-Skripts haengt die vier Vorstandsfotos auf hochkant zugeschnittene
-Fassungen um und sucht dafuer `<name>.jpg`. Solange live noch die
-WordPress-Vorschauen `<name>-300x200.jpg` eingebunden sind — genau das
-raeumt der Vorstand-Deploy auf — findet Teil J nichts und meldet
-ABBRUCH. Am 06.09.2026 in dieser Reihenfolge gelaufen und deshalb bei
-Rene Gnos, Patrick Schorno und Iwan Herger fehlgeschlagen; Markus
-Indergand griff, weil dessen Bild schon ohne Groessenzusatz eingebunden
-war. Beide Skripte sind idempotent, ein Nachziehen genuegt.
-
-6. `./deploy/deploy-impressum.sh` — Impressum: Webdesign «Urinet
+1. `./scripts/deploy-theme.sh` — Theme-Code. Enthält die Fussleisten-
+   Korrektur (Aktive und Junioren zeigen neu direkt auf die
+   1. Mannschaft bzw. die Junioren-Teams, «Login» entfernt, unten links
+   «Designt und erstellt von Urinet.ch») und das neue Modul
+   `inc/fcs-jahrgaenge.php` (Abschnitt 2g).
+2. `./deploy/deploy-jahrgaenge.sh` — DB: die Jahrgänge auf «Mitglied
+   werden» auf Platzhalter umstellen (Abschnitt 2g). Muss **nach** dem
+   Theme-Deploy laufen — das Skript prüft in Schritt 1 selbst, ob das
+   Modul live liegt, und bricht sonst ab.
+3. `./deploy/deploy-impressum.sh` — Impressum: Webdesign «Urinet
    Aschwanden», urinet.ch, Onlineschaltung und Stand September 2026.
    Reine DB-Änderung, unabhängig von allem anderen, jederzeit.
 
-Nummer 1, 3 und 4 sind gleich aufgebaut: Theme-Code per rsync, dann die
-neuen Bilddateien, dann die DB-Änderung über ein token-geschütztes
-Skript im Webroot. Nummer 2 überträgt Mediendateien und legt Beiträge
-an, Nummer 5 hat nur den DB-Teil. Jeder fragt vor dem Schreiben nach,
-ist idempotent und wird am Schluss gegen die Live-Seite verifiziert.
+Alle drei fragen vor dem Schreiben nach, sind idempotent und werden am
+Schluss gegen die Live-Seite verifiziert.
 
-**Zur Reihenfolge:** der rsync überträgt jedes Mal den ganzen
-Theme-Ordner. Wer zuerst läuft, nimmt also den Code der beiden anderen
-mit — deren DB-Teile fehlen dann aber noch. Wenige Minuten lang zeigt
-die Seite in diesem Fall Vorlagen, die auf noch nicht gesetzte Felder
-zugreifen; die Vorlagen fallen dabei auf ihre Standardwerte zurück,
-kaputt geht nichts. Eine Ausnahme sind die **fest verdrahteten
-Titelbilder**: `page-1mannschaft.php` zeigt auf `FCS1_Web2627.jpg`,
-`page-3mannschaft.php` auf `FCS3_Web2627.jpg` und `feritec-2026.png`.
-Die haben keinen Fallback und laufen bis zum jeweiligen Deploy ins
-Leere. `deploy-redaktion-vorrunde-2627.sh` prüft das in einem Schritt 0
-gegen live und fragt nach, bevor es den Theme-Ordner überträgt. Am
-ruhigsten läuft es in der Reihenfolge 1, 2, 3 kurz hintereinander.
-Nummer 4 ist davon unabhängig und kann jederzeit laufen.
+**Erledigt am 06./07.09.2026, live nachgeprüft:** Redaktions-
+Rückmeldungen (2a), News-Nachtrag mit 25 Beiträgen (2b), 1. Mannschaft
+(2c), 3. Mannschaft (2d) und die Vorstandsbilder (2e). Die vier
+Vorstandsfotos liegen live als `<name>_hoch.jpg` — wer den alten
+Dateinamen `Rene_Gnos.jpg` sucht, findet nichts und hält den Deploy
+faelschlich fuer gescheitert. Die Abschnitte 2a–2e bleiben als
+Protokoll stehen.
 
-**Vorher `./scripts/pull-prod-db.sh` laufen lassen.** Zuletzt am
-05.09.2026 geholt (`backups/prod-db-20260905-121635.sql.gz`) — dieser
-Dump ist zugleich der Rückweg.
+**Vorher `./scripts/pull-prod-db.sh` laufen lassen.** Die lokale DB ist
+seit dem News-Import und den Deploys vom 06.09.2026 hinter live.
 
 ### 2a. Deploy Redaktions-Rückmeldungen
 
@@ -957,6 +932,60 @@ als Rückweg für eine Live-Änderung. Der Rückweg ist der Live-Dump aus
 `deploy/fcs-schiedsrichter-update.php.tpl` taugt als Vorlage: Token-Schutz,
 Probelauf via `&dry=1`, Abbruch statt Überschreiben, wenn der Live-Wert
 nicht dem erwarteten alten Stand entspricht.
+
+### 2g. Jahrgänge auf «Mitglied werden» rechnen sich selbst
+
+Auf der Seite standen die Jahrgänge doppelt und fest im Text — einmal im
+Titel («Juniorenbereich · Jahrgang 2012–2006») und einmal im Fliesstext.
+Sie veralteten damit jede Saison still. Neu stehen sie **nur noch im
+Text**, und dort als Platzhalter:
+
+    %%fcs_jahrgaenge_junioren%%   ->  «2012 bis 2006»   (A- bis C-Junioren)
+    %%fcs_jahrgaenge_kinder%%     ->  «2018 bis 2013»   (F- bis D-Junioren)
+
+`inc/fcs-jahrgaenge.php` löst sie bei jedem Seitenaufruf auf. Gerechnet
+wird nicht mit Jahreszahlen, sondern mit Altersabständen zum Saisonjahr
+(Junioren 14–20, Kinder 8–13) — daran ändert der Saisonwechsel nichts.
+
+**Der Wechsel passiert im August, nicht am 1. Januar.** Die
+Jahrgangs-Einteilung hängt an der Saison; spränge sie im Januar um,
+stünde ein halbes Jahr lang die Einteilung der noch gar nicht
+begonnenen Saison auf der Seite:
+
+| Stichtag | Saison | Junioren A–C | Kinder F–D |
+| --- | --- | --- | --- |
+| 09.2026 … 07.2027 | 2026/27 | 2012 bis 2006 | 2018 bis 2013 |
+| 08.2027 … 07.2028 | 2027/28 | 2013 bis 2007 | 2019 bis 2014 |
+| ab 08.2028 | 2028/29 | 2014 bis 2008 | 2020 bis 2015 |
+
+Die Ersetzung läuft über den Filter `fcs_platzhalter` und damit durch
+dieselbe Funktion wie `%%fcs_vereinsjahre%%` (`inc/fcs-vereinsjahre.php`,
+Abschnitt weiter unten). `fcs_pf()` und `fcs_pf_lines()` lösen sie jetzt
+ebenfalls auf — die Platzhalter funktionieren also auch in den Feldern
+der Box «Seiteninhalte» und in Yoast, nicht nur in den Vorgaben der
+Vorlage.
+
+**Warum es zusätzlich einen DB-Deploy braucht:** die Einstiegswege
+stehen im Seitenfeld `fcs_mw_tracks` (Seite #36). Sobald dieses Feld
+gepflegt ist — und das ist es seit dem Redaktions-Deploy —, greift die
+Vorgabe der Vorlage nicht mehr. Der Theme-Deploy allein ändert an der
+Seite deshalb nichts.
+
+Reihenfolge zwingend:
+
+    ./scripts/deploy-theme.sh        # zuerst: Modul und Vorlage
+    ./deploy/deploy-jahrgaenge.sh    # danach: Feldwert in der DB
+
+`deploy-jahrgaenge.sh` prüft in Schritt 1 per SSH, ob
+`inc/fcs-jahrgaenge.php` live liegt, und bricht sonst ab — sonst
+stünden die rohen `%%…%%` auf der Seite. Das PHP-Skript ersetzt vier
+Textstellen und schreibt nur, wenn jede davon **genau einmal**
+vorkommt; wurde das Feld zwischenzeitlich im Admin gepflegt, meldet es
+ABBRUCH und rührt nichts an. Ein zweiter Lauf meldet SKIP.
+
+Wird das Feld künftig im Admin bearbeitet: die Platzhalter
+stehenlassen, keine festen Jahreszahlen eintragen. Der Hinweis dazu
+steht im Beschriftungstext des Feldes (`inc/fcs-fields-design2.php`).
 
 ## 3. Neuer Rechner: was gebraucht wird
 

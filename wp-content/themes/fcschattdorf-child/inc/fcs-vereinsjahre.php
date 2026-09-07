@@ -73,11 +73,14 @@ function fcs_platzhalter_ersetzen( $text ) {
 	if ( ! is_string( $text ) || false === strpos( $text, '%%fcs_' ) ) {
 		return $text;
 	}
-	return str_replace(
-		array( '%%fcs_vereinsjahre%%', '%%fcs_gruendungsjahr%%' ),
-		array( (string) fcs_vereinsjahre(), (string) fcs_gruendungsjahr() ),
-		$text
-	);
+	/* Weitere Module haengen ihre Platzhalter ueber diesen Filter an
+	   (z. B. inc/fcs-jahrgaenge.php) — dann greift ueberall dieselbe
+	   Ersetzung statt eines zweiten Mechanismus daneben. */
+	$map = apply_filters( 'fcs_platzhalter', array(
+		'%%fcs_vereinsjahre%%'   => (string) fcs_vereinsjahre(),
+		'%%fcs_gruendungsjahr%%' => (string) fcs_gruendungsjahr(),
+	) );
+	return str_replace( array_keys( $map ), array_values( $map ), $text );
 }
 foreach ( array( 'wpseo_metadesc', 'wpseo_opengraph_desc', 'wpseo_twitter_description', 'wpseo_title' ) as $fcs_hook ) {
 	add_filter( $fcs_hook, 'fcs_platzhalter_ersetzen', 20 );
