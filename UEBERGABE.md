@@ -41,7 +41,7 @@ Projektregeln stehen in `CLAUDE.md`, das Setup der lokalen Umgebung in
 
 ## 2. Offene Schritte
 
-**Vier Deploys stehen aus.** Der Theme-Deploy zuerst, danach die drei
+**Drei Deploys stehen aus.** Der Theme-Deploy zuerst, danach die zwei
 DB-Skripte in beliebiger Reihenfolge:
 
 1. `./scripts/deploy-theme.sh` — Theme-Code, sammelt zwei Änderungen:
@@ -56,14 +56,12 @@ DB-Skripte in beliebiger Reihenfolge:
 3. `./deploy/deploy-schiedsrichter-bilder.sh` — zwei Bilddateien plus
    `fcs_pe_bild` für Ayman Labib Badr und Giuseppe Accardi
    (Abschnitt 2h). **Kein** Theme-Code betroffen, jederzeit.
-4. `./deploy/deploy-impressum.sh` — Impressum: Webdesign «Urinet
-   Aschwanden», urinet.ch, Onlineschaltung und Stand September 2026.
-   Reine DB-Änderung, unabhängig von allem anderen, jederzeit.
 
 **Erledigt und live nachgeprüft (06./07.09.2026):** Redaktions-
 Rückmeldungen (2a), News-Nachtrag mit 25 Beiträgen (2b), 1. Mannschaft
 (2c), 3. Mannschaft (2d), Vorstandsbilder (2e), Fussleiste und
-Jahrgangs-Automatik (2g). Die Abschnitte bleiben als Protokoll stehen.
+Jahrgangs-Automatik (2g) sowie das Impressum (Urinet Aschwanden,
+urinet.ch, Stand September 2026). Die Abschnitte bleiben als Protokoll stehen.
 
 Zwei Stolpersteine beim Nachprüfen, die schon zu Fehlalarmen geführt
 haben:
