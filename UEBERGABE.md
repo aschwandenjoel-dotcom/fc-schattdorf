@@ -41,9 +41,22 @@ Projektregeln stehen in `CLAUDE.md`, das Setup der lokalen Umgebung in
 
 ## 2. Offene Schritte
 
-**Ein Deploy steht aus:**
+**Vier Deploys stehen aus.** Der Theme-Deploy zuerst, danach die drei
+DB-Skripte in beliebiger Reihenfolge:
 
-1. `./deploy/deploy-impressum.sh` — Impressum: Webdesign «Urinet
+1. `./scripts/deploy-theme.sh` — Theme-Code, sammelt zwei Änderungen:
+   - Trainingslager: Porträts über den beiden Organisatoren
+     (Abschnitt 2h)
+   - Fanshop: Bestellbenachrichtigungen gehen an
+     `admin@fcschattdorf.ch` statt an `marketing@` (Abschnitt 2i)
+2. `./deploy/deploy-tl-kontaktbilder.sh` — DB: Bilddateien für Sandro
+   Zamuner und René Gnos im Feld `tl_kontakte` (Abschnitt 2h). Muss
+   **nach** dem Theme-Deploy laufen; das Skript prüft das selbst und
+   bricht sonst ab. Beide Bilder liegen bereits live.
+3. `./deploy/deploy-schiedsrichter-bilder.sh` — zwei Bilddateien plus
+   `fcs_pe_bild` für Ayman Labib Badr und Giuseppe Accardi
+   (Abschnitt 2h). **Kein** Theme-Code betroffen, jederzeit.
+4. `./deploy/deploy-impressum.sh` — Impressum: Webdesign «Urinet
    Aschwanden», urinet.ch, Onlineschaltung und Stand September 2026.
    Reine DB-Änderung, unabhängig von allem anderen, jederzeit.
 
@@ -981,6 +994,48 @@ ABBRUCH und rührt nichts an. Ein zweiter Lauf meldet SKIP.
 Wird das Feld künftig im Admin bearbeitet: die Platzhalter
 stehenlassen, keine festen Jahreszahlen eintragen. Der Hinweis dazu
 steht im Beschriftungstext des Feldes (`inc/fcs-fields-design2.php`).
+
+### 2h. Trainingslager-Porträts und Schiedsrichter-Fotos
+
+**Trainingslager.** Sandro Zamuner und René Gnos standen im Aufruf-Block
+nur als Name mit Telefonnummer. Neu steht über jedem ein Porträt im
+gleichen Zuschnitt wie auf den Team- und Betreuerseiten (3:4, von oben
+beschnitten). Das Zeilenformat von `tl_kontakte` hat dafür ein viertes
+Feld bekommen:
+
+    Name | Rolle | Telefon | Bilddatei
+
+Leeres viertes Feld = kein Foto. Beide Bilder (`Sandro_Zamuner.jpg`,
+`Rene_Gnos_hoch.jpg`) lagen bereits in uploads/2026/06 — der Deploy
+überträgt keine Dateien, er ergänzt nur den Feldwert. Wie bei den
+Jahrgängen gilt: das Feld ist gepflegt, die Vorlagen-Vorgabe greift
+nicht, es braucht beide Deploys.
+
+**Schiedsrichter.** Am 07.09.2026 kamen sechs benannte Aufnahmen. Vier
+davon sind dieselben Bilder, die schon live liegen — neu waren nur
+Ayman Labib Badr und Giuseppe Accardi. Ukaj Alex hat weiterhin kein
+Foto, dafür liegt keine Aufnahme vor.
+
+Alle sechs Dateien trugen **EXIF-Orientierung 6**: im Finder und im
+Browser sehen sie aufrecht aus, die Pixel liegen aber quer (640×480).
+WordPress berücksichtigt das beim Erzeugen der Vorschaubilder nicht —
+die Karten hätten die beiden liegend gezeigt. Die zwei übernommenen
+Bilder sind deshalb gedreht und das Tag auf 1 gesetzt worden; sie sind
+jetzt 480×640 wie die übrigen. **Bei künftigen Handyfotos immer
+zuerst die Orientierung prüfen.**
+
+### 2i. Fanshop: Bestellungen an die Administration
+
+`fcsh_handle_shop_order()` in `functions.php` schickte die
+Bestellbenachrichtigung an `marketing@fcschattdorf.ch`. Empfänger ist
+neu `admin@fcschattdorf.ch` (Wunsch vom 07.09.2026). Die
+Bestätigungsmail an den Besteller bleibt unverändert.
+
+`marketing@` steht weiterhin auf der Sponsoren-Seite und beim Vorstand
+— das ist die Adresse für Sponsoring-Anfragen und hat mit dem Fanshop
+nichts zu tun. Nicht versehentlich mitziehen.
+
+Reine Theme-Änderung, kein DB-Deploy.
 
 ## 3. Neuer Rechner: was gebraucht wird
 
