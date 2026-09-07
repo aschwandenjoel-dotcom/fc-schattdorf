@@ -89,16 +89,28 @@ function fcsh_tel_href( $display ) {
 /* Feldwert lesen: Seiten-Meta, sonst Fallback (= bisheriger fixer Text) */
 function fcs_pf( $key, $fallback = '' ) {
 	$v = get_post_meta( get_the_ID(), 'fcs_' . $key, true );
-	return '' !== trim( (string) $v ) ? $v : $fallback;
+	return fcs_pf_platzhalter( '' !== trim( (string) $v ) ? $v : $fallback );
+}
+
+/* Platzhalter wie %%fcs_jahrgaenge_junioren%% aufloesen — in gepflegten
+   Feldern wie in den Vorgaben der Vorlage. Faellt das Modul mit der
+   Ersetzung einmal weg, bleibt der Text unveraendert statt fatal. */
+function fcs_pf_platzhalter( $wert ) {
+	if ( ! function_exists( 'fcs_platzhalter_ersetzen' ) ) {
+		return $wert;
+	}
+	return is_array( $wert )
+		? array_map( 'fcs_platzhalter_ersetzen', $wert )
+		: fcs_platzhalter_ersetzen( $wert );
 }
 
 /* Mehrzeilen-Feld als Liste (eine Zeile = ein Eintrag) */
 function fcs_pf_lines( $key, $fallback = array() ) {
 	$v = get_post_meta( get_the_ID(), 'fcs_' . $key, true );
 	if ( '' === trim( (string) $v ) ) {
-		return $fallback;
+		return fcs_pf_platzhalter( $fallback );
 	}
-	return array_values( array_filter( array_map( 'trim', explode( "\n", $v ) ) ) );
+	return fcs_pf_platzhalter( array_values( array_filter( array_map( 'trim', explode( "\n", $v ) ) ) ) );
 }
 
 /* ── Feld-Box registrieren (nur auf Seiten mit passender Vorlage) ── */

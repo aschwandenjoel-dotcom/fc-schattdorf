@@ -41,7 +41,7 @@ add_filter( 'fcs_page_fields_config', function ( $config ) {
 		'tl_flyer_bild'    => array( 'label' => 'Flyer: Bild (URL aus der Mediathek)', 'type' => 'url' ),
 		'tl_flyer_text'    => array( 'label' => 'Flyer: Beschreibungstext', 'type' => 'textarea' ),
 		'tl_cta_lead'      => array( 'label' => 'Aufruf-Text im Abschluss-Block («Bist du dabei?»)', 'type' => 'textarea' ),
-		'tl_kontakte'      => array( 'label' => 'Kontaktpersonen (eine pro Zeile: Name | Rolle | Telefon)', 'type' => 'textarea' ),
+		'tl_kontakte'      => array( 'label' => 'Kontaktpersonen (eine pro Zeile: Name | Rolle | Telefon | Bilddatei aus der Mediathek oder Bild-URL)', 'type' => 'textarea' ),
 		'tl_galerie'       => array( 'label' => 'Galerie am Seitenende (eine Bildbeschreibung pro Zeile; Reihenfolge entspricht den 24 Fotos, weniger Zeilen = weniger Bilder)', 'type' => 'textarea' ),
 	);
 

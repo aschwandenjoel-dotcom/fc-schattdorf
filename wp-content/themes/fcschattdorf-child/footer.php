@@ -38,8 +38,8 @@ $logo_svg = get_stylesheet_directory_uri() . '/assets/img/fcs-logo.svg';
 			<div class="fcx-foot__col">
 				<h3>Sport</h3>
 				<a href="<?php echo esc_url( fcsh_page_url( 'news' ) ); ?>">News</a>
-				<a href="<?php echo esc_url( fcsh_page_url( 'aktive' ) ); ?>">Aktive</a>
-				<a href="<?php echo esc_url( fcsh_page_url( 'junioren' ) ); ?>">Junioren</a>
+				<a href="<?php echo esc_url( fcsh_page_url( 'aktive/1-mannschaft', fcsh_page_url( 'aktive' ) ) ); ?>">Aktive</a>
+				<a href="<?php echo esc_url( fcsh_page_url( 'junioren/teams', fcsh_page_url( 'junioren' ) ) ); ?>">Junioren</a>
 				<a href="<?php echo esc_url( fcsh_page_url( 'events' ) ); ?>">Events</a>
 			</div>
 			<div class="fcx-foot__col">
@@ -47,14 +47,16 @@ $logo_svg = get_stylesheet_directory_uri() . '/assets/img/fcs-logo.svg';
 				<a href="<?php echo esc_url( fcsh_page_url( 'helfereinsaetze' ) ); ?>">Helfereinsätze</a>
 				<a href="<?php echo esc_url( fcsh_page_url( 'sponsoren' ) ); ?>">Sponsoren</a>
 				<a href="<?php echo esc_url( fcsh_page_url( 'kontakt' ) ); ?>">Kontakt</a>
-				<a href="<?php echo esc_url( wp_login_url() ); ?>">Login</a>
 			</div>
 		</div>
 	</div>
 
 	<div class="fcx-foot__bar">
-		<p>© <?php echo esc_html( date( 'Y' ) ); ?> FC Schattdorf</p>
-		<div>
+		<div class="fcx-foot__bar-left">
+			<p>© <?php echo esc_html( date( 'Y' ) ); ?> FC Schattdorf</p>
+			<p class="fcx-foot__credit">Designt und erstellt von <a href="https://www.urinet.ch/" target="_blank" rel="noopener">Urinet.ch</a></p>
+		</div>
+		<div class="fcx-foot__bar-links">
 			<a href="<?php echo esc_url( fcsh_page_url( 'impressum', '#' ) ); ?>">Impressum</a>
 			<a href="<?php echo esc_url( fcsh_page_url( 'datenschutzerklaerung', home_url( '/datenschutzerklaerung/' ) ) ); ?>">Datenschutz</a>
 		</div>

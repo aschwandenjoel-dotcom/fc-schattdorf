@@ -399,7 +399,11 @@ function fcsh_handle_shop_order() {
 		wp_send_json_error( 'Bitte fülle alle Pflichtfelder aus.' );
 	}
 
-	$to      = 'marketing@fcschattdorf.ch';
+	/* Bestellungen gehen an die Administration, nicht mehr ans Marketing
+	   (Wunsch vom 07.09.2026). Die Sponsoren-Seite und der Vorstand nennen
+	   marketing@ weiterhin — das ist die Adresse fuer Sponsoring-Anfragen
+	   und hat mit dem Fanshop nichts zu tun. */
+	$to      = 'admin@fcschattdorf.ch';
 	$subject = 'Fanshop-Bestellung von ' . $vorname . ' ' . $nachname;
 	$message =
 		"Neue Fanshop-Bestellung\n" .

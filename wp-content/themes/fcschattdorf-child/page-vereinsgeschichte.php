@@ -22,9 +22,14 @@ $events = fcs_get_chronik_events();
    Chronik-Eintrag abgeleitet, sondern über das Seitenfeld
    «Gründungsjahr» gesetzt: der Verein zählt ab der Neugründung 1933 (so
    auch der Claim im Footer), unabhängig davon, womit die Chronik gerade
-   beginnt. */
-$fcs_founded = (int) fcs_pf( 'vg_gruendung', 1933 );
-$fcs_years   = max( 0, (int) current_time( 'Y' ) - $fcs_founded );
+   beginnt.
+
+   Beide Zahlen kommen aus inc/fcs-vereinsjahre.php — dieselbe Quelle,
+   aus der Yoast die Platzhalter %%fcs_vereinsjahre%% und
+   %%fcs_gruendungsjahr%% für die Meta-Beschreibung bedient. So können
+   Seite und Beschreibung nicht auseinanderlaufen. */
+$fcs_founded = fcs_gruendungsjahr();
+$fcs_years   = fcs_vereinsjahre();
 
 get_header();
 ?>

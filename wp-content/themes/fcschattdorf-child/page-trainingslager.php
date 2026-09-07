@@ -76,8 +76,8 @@ $flyer_text   = fcs_pf( 'tl_flyer_text', '' );
    darunter bleiben in jedem Fall sichtbar. */
 $cta_lead     = fcs_pf( 'tl_cta_lead', '' );
 $kontakte     = fcs_pf_lines( 'tl_kontakte', array(
-	'Sandro Zamuner | Organisator TL Zuchwil | 079 280 77 20',
-	'René Gnos | Organisator TL Zuchwil | 079 420 61 20',
+	'Sandro Zamuner | Organisator TL Zuchwil | 079 280 77 20 | Sandro_Zamuner.jpg',
+	'René Gnos | Organisator TL Zuchwil | 079 420 61 20 | Rene_Gnos_hoch.jpg',
 ) );
 
 $galerie      = fcs_pf_lines( 'tl_galerie', array(
@@ -331,7 +331,12 @@ $programm_delays = array( '', ' tl-reveal-delay-1', ' tl-reveal-delay-2', ' tl-r
   ══════════════════════════════════════════ -->
   <section class="tl-section tl-section--black">
     <div class="tl-inner">
-      <div class="tl-cta-section tl-reveal">
+      <?php
+      /* Ohne Anmelde-Aufruf traegt der Abschnitt nur noch die beiden
+         Kontaktkarten – dann ist die grosse Polsterung zu viel Leerraum. */
+      $nur_kontakt = ( '' === trim( $cta_lead ) && '' === $anmelde_url );
+      ?>
+      <div class="tl-cta-section tl-reveal<?php echo $nur_kontakt ? ' tl-cta-section--kontakt' : ''; ?>">
         <?php if ( '' !== trim( $cta_lead ) ) : ?>
         <h2 class="tl-heading">Bist du <em>dabei?</em></h2>
         <p class="tl-cta-lead"><?php echo esc_html( $cta_lead ); ?></p>
@@ -347,17 +352,36 @@ $programm_delays = array( '', ' tl-reveal-delay-1', ' tl-reveal-delay-2', ' tl-r
         <?php endif; ?>
 
         <div class="tl-contacts">
+          <div class="tl-contacts__grid">
           <?php foreach ( $kontakte as $zeile ) :
               $teile = array_map( 'trim', explode( '|', $zeile ) );
-              $tel   = $teile[2] ?? ''; ?>
-          <div class="tl-contact-person">
-            <div class="tl-contact-person__name"><?php echo esc_html( $teile[0] ); ?></div>
-            <div class="tl-contact-person__detail">
-              <?php echo esc_html( $teile[1] ?? '' ); ?><br>
-              <?php if ( $tel ) : ?><a href="<?php echo esc_attr( fcsh_tel_href( $tel ) ); ?>"><?php echo esc_html( $tel ); ?></a><?php endif; ?>
+              $tel   = $teile[2] ?? '';
+              /* Viertes Feld: Bilddatei aus der Mediathek (2026/06) oder volle
+                 URL. Leer = kein Foto, die Karte beginnt dann beim Namen. */
+              $foto  = fcsh_bild_url( $teile[3] ?? '', $_ud['baseurl'] . '/2026/06/' ); ?>
+            <div class="tl-contact-person">
+              <?php if ( '' !== $foto ) : ?>
+              <div class="tl-contact-person__photo">
+                <img src="<?php echo esc_url( $foto ); ?>" alt="<?php echo esc_attr( $teile[0] ); ?>"
+                     loading="lazy" width="300" height="375">
+              </div>
+              <?php endif; ?>
+              <div class="tl-contact-person__body">
+                <div class="tl-contact-person__name"><?php echo esc_html( $teile[0] ); ?></div>
+                <div class="tl-contact-person__role"><?php echo esc_html( $teile[1] ?? '' ); ?></div>
+              </div>
+              <?php if ( $tel ) : ?>
+              <a class="tl-contact-person__tel" href="<?php echo esc_attr( fcsh_tel_href( $tel ) ); ?>">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/>
+                </svg>
+                <?php echo esc_html( $tel ); ?>
+              </a>
+              <?php endif; ?>
             </div>
-          </div>
           <?php endforeach; ?>
+          </div>
         </div>
       </div>
     </div>

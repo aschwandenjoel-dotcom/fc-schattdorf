@@ -55,7 +55,7 @@ add_filter( 'fcs_page_fields_config', function ( $config ) {
 	/* ── Mitglied werden (Verein) ── */
 	$config['page-mitglied-werden.php'] = array(
 		'mw_sub'      => array( 'label' => 'Untertitel im Seitenkopf', 'type' => 'text' ),
-		'mw_tracks'   => array( 'label' => 'Einstiegswege (einer pro Zeile: Badge | Titel | Text | Name | Rolle | E-Mail | Telefon — die erste Zeile wird hervorgehoben)', 'type' => 'textarea' ),
+		'mw_tracks'   => array( 'label' => 'Einstiegswege (einer pro Zeile: Badge | Titel | Text | Name | Rolle | E-Mail | Telefon — die erste Zeile wird hervorgehoben). Für die Jahrgänge %%fcs_jahrgaenge_junioren%% bzw. %%fcs_jahrgaenge_kinder%% schreiben statt fester Zahlen — die passen sich dann jede Saison von selbst an.', 'type' => 'textarea' ),
 	);
 
 	/* ── Top-Club 88 (Sponsoren) ── */

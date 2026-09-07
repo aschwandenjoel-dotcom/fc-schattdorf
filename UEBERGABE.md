@@ -1,6 +1,6 @@
 # Übergabe / Rechnerwechsel
 
-Stand: **06.09.2026**. Diese Datei beschreibt, was gerade offen ist und was
+Stand: **07.09.2026**. Diese Datei beschreibt, was gerade offen ist und was
 auf einem neuen Rechner eingerichtet werden muss. Die dauerhaften
 Projektregeln stehen in `CLAUDE.md`, das Setup der lokalen Umgebung in
 `README.md`.
@@ -57,48 +57,31 @@ auf dem Branch). Erledigt: A1 (`my.cyon`-Zugang), A2
 (Domain im Hostpoint-Panel), A3 (FluentSMTP über cyon-Postfach, alle
 Testmails zugestellt), A4/A5/A8 (Code und Doku auf diesem Branch).
 
-**Fünf Deploys stehen aus.** Ihre DB-Teile sind voneinander
-unabhängig — sie fassen verschiedene Felder an:
+**Ein Deploy steht aus:**
 
-1. `./deploy/deploy-redaktion-vorrunde-2627.sh` — Redaktions-
-   Rückmeldungen vom 03.09.2026 (Abschnitt 2a).
-2. `./deploy/deploy-news-import-0926.sh` — 25 News von der alten
-   Vereinsseite nachtragen (Abschnitt 2b). Keine Theme-Änderung.
-3. `./deploy/deploy-1mannschaft-vorrunde-2627.sh` — 1. Mannschaft,
-   Betreuerstab, Kader und Kopfsponsoren (Abschnitt 2c).
-4. `./deploy/deploy-3mannschaft-feritec.sh` — 3. Mannschaft, neues
-   Mannschaftsfoto und Feritec AG als alleiniger Teamsponsor
-   (Abschnitt 2d).
-5. `./deploy/deploy-vorstand-bilder.sh` — Vorstandsseite bindet
-   Vorschaubilder statt Originale ein (Abschnitt 2e). Reine
-   DB-Änderung, kein Theme-Code, keine neuen Dateien.
-6. `./deploy/deploy-impressum.sh` — Impressum: Webdesign «Urinet
-   Aschwanden», urinet.ch, Onlineschaltung und Stand September 2026.
-   Reine DB-Änderung, unabhängig von allem anderen, jederzeit.
+1. `./deploy/deploy-news-1577-bild.sh` — setzt Beitragsbild und
+   Kategorie von «Bittere 2:3 Niederlage gegen Hünenberg» auf den
+   Stand der Quelle (Abschnitt 2j). Reine DB-Änderung, keine Dateien,
+   jederzeit.
 
-Nummer 1, 3 und 4 sind gleich aufgebaut: Theme-Code per rsync, dann die
-neuen Bilddateien, dann die DB-Änderung über ein token-geschütztes
-Skript im Webroot. Nummer 2 überträgt Mediendateien und legt Beiträge
-an, Nummer 5 hat nur den DB-Teil. Jeder fragt vor dem Schreiben nach,
-ist idempotent und wird am Schluss gegen die Live-Seite verifiziert.
+**Erledigt und live nachgeprüft (06./07.09.2026):** Redaktions-
+Rückmeldungen (2a), News-Nachtrag mit 25 Beiträgen (2b), 1. Mannschaft
+(2c), 3. Mannschaft (2d), Vorstandsbilder (2e), Fussleiste und
+Jahrgangs-Automatik (2g) sowie das Impressum (Urinet Aschwanden,
+urinet.ch, Stand September 2026). Die Abschnitte bleiben als Protokoll stehen.
 
-**Zur Reihenfolge:** der rsync überträgt jedes Mal den ganzen
-Theme-Ordner. Wer zuerst läuft, nimmt also den Code der beiden anderen
-mit — deren DB-Teile fehlen dann aber noch. Wenige Minuten lang zeigt
-die Seite in diesem Fall Vorlagen, die auf noch nicht gesetzte Felder
-zugreifen; die Vorlagen fallen dabei auf ihre Standardwerte zurück,
-kaputt geht nichts. Eine Ausnahme sind die **fest verdrahteten
-Titelbilder**: `page-1mannschaft.php` zeigt auf `FCS1_Web2627.jpg`,
-`page-3mannschaft.php` auf `FCS3_Web2627.jpg` und `feritec-2026.png`.
-Die haben keinen Fallback und laufen bis zum jeweiligen Deploy ins
-Leere. `deploy-redaktion-vorrunde-2627.sh` prüft das in einem Schritt 0
-gegen live und fragt nach, bevor es den Theme-Ordner überträgt. Am
-ruhigsten läuft es in der Reihenfolge 1, 2, 3 kurz hintereinander.
-Nummer 4 ist davon unabhängig und kann jederzeit laufen.
+Zwei Stolpersteine beim Nachprüfen, die schon zu Fehlalarmen geführt
+haben:
 
-**Vorher `./scripts/pull-prod-db.sh` laufen lassen.** Zuletzt am
-05.09.2026 geholt (`backups/prod-db-20260905-121635.sql.gz`) — dieser
-Dump ist zugleich der Rückweg.
+- Die vier Vorstandsfotos liegen live als `<name>_hoch.jpg`. Wer nach
+  `Rene_Gnos.jpg` sucht, findet nichts und hält den Deploy
+  fälschlich für gescheitert.
+- «Team Uri Frauen» steht auch im Fliesstext eines älteren Beitrags.
+  Als Prüfmuster für den News-Import taugt es nicht — dafür den vollen
+  Titel nehmen.
+
+**Vorher `./scripts/pull-prod-db.sh` laufen lassen.** Die lokale DB ist
+seit den Deploys vom 06./07.09.2026 hinter live.
 
 ### 2a. Deploy Redaktions-Rückmeldungen
 
@@ -258,6 +241,27 @@ Was der Deploy erledigt:
   unten. Geprüft mit Chrome headless bei 1280 und 500 px: kein
   waagrechter Überhang, `scrollWidth == clientWidth`.
 - Fussballschule: neues Flyer-PDF verlinkt.
+
+- **Jahreszahlen der Vereinsgeschichte rechnen sich selbst fort**
+  (`inc/fcs-vereinsjahre.php`, neu am 06.09.2026). Die Meta-Beschreibung
+  sagte «110 Jahre FC Schattdorf … von der ersten Gründung 1916» —
+  beides ab 1916 gerechnet, während die Seite ab 1933 zählt, und die
+  Zahl wäre jeden Neujahr veraltet.
+
+  Neu liefern zwei Funktionen beides: `fcs_gruendungsjahr()` (Seitenfeld
+  «Gründungsjahr», sonst 1933, mit Plausibilitätsgrenzen) und
+  `fcs_vereinsjahre()`. Die Vorlage benutzt sie für «Gegründet …» und
+  «Jahre Geschichte»; Yoast bekommt sie als Platzhalter
+  `%%fcs_vereinsjahre%%` und `%%fcs_gruendungsjahr%%`, angemeldet über
+  `wpseo_register_extra_replacements`. In der Datenbank stehen die
+  Platzhalter, eingesetzt werden sie bei jedem Seitenaufruf — **der
+  Jahreswechsel braucht also keinen Deploy**.
+
+  Ein Sicherheitsnetz auf `wpseo_metadesc`, `wpseo_opengraph_desc`,
+  `wpseo_twitter_description` und `wpseo_title` ersetzt die Platzhalter
+  auch dann, wenn Yoast einmal fehlt — roh im Quelltext landen sie nie.
+  Geprüft: Feld testweise auf 1930 gesetzt, daraufhin zeigten Seite und
+  Beschreibung übereinstimmend 96 Jahre; nach dem Leeren wieder 93.
 
 - **Vereinsgeschichte: Eintrag «Erste Gründung» (1916) entfernt**
   (Rückmeldung vom 05.09.2026, Teil M des DB-Skripts). Er geht in den
@@ -941,6 +945,169 @@ als Rückweg für eine Live-Änderung. Der Rückweg ist der Live-Dump aus
 `deploy/fcs-schiedsrichter-update.php.tpl` taugt als Vorlage: Token-Schutz,
 Probelauf via `&dry=1`, Abbruch statt Überschreiben, wenn der Live-Wert
 nicht dem erwarteten alten Stand entspricht.
+
+### 2g. Jahrgänge auf «Mitglied werden» rechnen sich selbst
+
+Auf der Seite standen die Jahrgänge doppelt und fest im Text — einmal im
+Titel («Juniorenbereich · Jahrgang 2012–2006») und einmal im Fliesstext.
+Sie veralteten damit jede Saison still. Neu stehen sie **nur noch im
+Text**, und dort als Platzhalter:
+
+    %%fcs_jahrgaenge_junioren%%   ->  «2012 bis 2006»   (A- bis C-Junioren)
+    %%fcs_jahrgaenge_kinder%%     ->  «2018 bis 2013»   (F- bis D-Junioren)
+
+`inc/fcs-jahrgaenge.php` löst sie bei jedem Seitenaufruf auf. Gerechnet
+wird nicht mit Jahreszahlen, sondern mit Altersabständen zum Saisonjahr
+(Junioren 14–20, Kinder 8–13) — daran ändert der Saisonwechsel nichts.
+
+**Der Wechsel passiert im August, nicht am 1. Januar.** Die
+Jahrgangs-Einteilung hängt an der Saison; spränge sie im Januar um,
+stünde ein halbes Jahr lang die Einteilung der noch gar nicht
+begonnenen Saison auf der Seite:
+
+| Stichtag | Saison | Junioren A–C | Kinder F–D |
+| --- | --- | --- | --- |
+| 09.2026 … 07.2027 | 2026/27 | 2012 bis 2006 | 2018 bis 2013 |
+| 08.2027 … 07.2028 | 2027/28 | 2013 bis 2007 | 2019 bis 2014 |
+| ab 08.2028 | 2028/29 | 2014 bis 2008 | 2020 bis 2015 |
+
+Die Ersetzung läuft über den Filter `fcs_platzhalter` und damit durch
+dieselbe Funktion wie `%%fcs_vereinsjahre%%` (`inc/fcs-vereinsjahre.php`,
+Abschnitt weiter unten). `fcs_pf()` und `fcs_pf_lines()` lösen sie jetzt
+ebenfalls auf — die Platzhalter funktionieren also auch in den Feldern
+der Box «Seiteninhalte» und in Yoast, nicht nur in den Vorgaben der
+Vorlage.
+
+**Warum es zusätzlich einen DB-Deploy braucht:** die Einstiegswege
+stehen im Seitenfeld `fcs_mw_tracks` (Seite #36). Sobald dieses Feld
+gepflegt ist — und das ist es seit dem Redaktions-Deploy —, greift die
+Vorgabe der Vorlage nicht mehr. Der Theme-Deploy allein ändert an der
+Seite deshalb nichts.
+
+Reihenfolge zwingend:
+
+    ./scripts/deploy-theme.sh        # zuerst: Modul und Vorlage
+    ./deploy/deploy-jahrgaenge.sh    # danach: Feldwert in der DB
+
+`deploy-jahrgaenge.sh` prüft in Schritt 1 per SSH, ob
+`inc/fcs-jahrgaenge.php` live liegt, und bricht sonst ab — sonst
+stünden die rohen `%%…%%` auf der Seite. Das PHP-Skript ersetzt vier
+Textstellen und schreibt nur, wenn jede davon **genau einmal**
+vorkommt; wurde das Feld zwischenzeitlich im Admin gepflegt, meldet es
+ABBRUCH und rührt nichts an. Ein zweiter Lauf meldet SKIP.
+
+Wird das Feld künftig im Admin bearbeitet: die Platzhalter
+stehenlassen, keine festen Jahreszahlen eintragen. Der Hinweis dazu
+steht im Beschriftungstext des Feldes (`inc/fcs-fields-design2.php`).
+
+### 2h. Trainingslager-Porträts und Schiedsrichter-Fotos
+
+**Trainingslager.** Sandro Zamuner und René Gnos standen im Aufruf-Block
+nur als Name mit Telefonnummer, frei im Weissraum. Sie sitzen jetzt in
+derselben Kartenform wie `.tl-campus-card` weiter oben auf der Seite:
+weiss, 12 px Radius, rote Oberkante, weicher Schatten, Foto randlos
+oben (4:5, von oben beschnitten), Telefonnummer als eigene Zeile mit
+Trennlinie — auf dem Handy ein sicheres Ziel zum Antippen.
+
+Der Block trägt **bewusst keine Überschrift** — der Anmelde-Aufruf
+«Bist du dabei?» ist abgeschaltet, und eine eigene sollte der
+Kontaktteil auf Wunsch nicht bekommen. Damit die beiden Karten
+trotzdem nicht in einer riesigen leeren Fläche stehen, nimmt die
+Klasse `tl-cta-section--kontakt` die doppelte Polsterung heraus,
+solange `tl_cta_lead` und `tl_anmeldung_url` leer sind.
+
+Das Zeilenformat von `tl_kontakte` hat dafür ein viertes Feld
+bekommen:
+
+    Name | Rolle | Telefon | Bilddatei
+
+Leeres viertes Feld = kein Foto. Beide Bilder (`Sandro_Zamuner.jpg`,
+`Rene_Gnos_hoch.jpg`) lagen bereits in uploads/2026/06 — der Deploy
+überträgt keine Dateien, er ergänzt nur den Feldwert. Wie bei den
+Jahrgängen gilt: das Feld ist gepflegt, die Vorlagen-Vorgabe greift
+nicht, es braucht beide Deploys.
+
+**Schiedsrichter.** Am 07.09.2026 kamen sechs benannte Aufnahmen. Vier
+davon sind dieselben Bilder, die schon live liegen — neu waren nur
+Ayman Labib Badr und Giuseppe Accardi. Ukaj Alex hat weiterhin kein
+Foto, dafür liegt keine Aufnahme vor.
+
+Alle sechs Dateien trugen **EXIF-Orientierung 6**: im Finder und im
+Browser sehen sie aufrecht aus, die Pixel liegen aber quer (640×480).
+WordPress berücksichtigt das beim Erzeugen der Vorschaubilder nicht —
+die Karten hätten die beiden liegend gezeigt. Die zwei übernommenen
+Bilder sind deshalb gedreht und das Tag auf 1 gesetzt worden; sie sind
+jetzt 480×640 wie die übrigen. **Bei künftigen Handyfotos immer
+zuerst die Orientierung prüfen.**
+
+### 2i. Fanshop: Bestellungen an die Administration
+
+`fcsh_handle_shop_order()` in `functions.php` schickte die
+Bestellbenachrichtigung an `marketing@fcschattdorf.ch`. Empfänger ist
+neu `admin@fcschattdorf.ch` (Wunsch vom 07.09.2026). Die
+Bestätigungsmail an den Besteller bleibt unverändert.
+
+`marketing@` steht weiterhin auf der Sponsoren-Seite und beim Vorstand
+— das ist die Adresse für Sponsoring-Anfragen und hat mit dem Fanshop
+nichts zu tun. Nicht versehentlich mitziehen.
+
+Reine Theme-Änderung, kein DB-Deploy.
+
+### 2j. News-Nachtrag vom 07.09.2026
+
+Der erste Nachtrag (Abschnitt 2b) endete bei Beitrag 1573 vom 04.09.
+Seither sind auf www.fcschattdorf.ch drei weitere erschienen:
+
+| Nr. | Titel | Kategorie | Bild |
+| --- | --- | --- | --- |
+| 1577 | Bittere 2:3 Niederlage gegen Hünenberg | 2. Mannschaft | `FCS_2_Web.jpg` (lag schon live) |
+| 1576 | Erneute Niederlage für die Ba-Junioren | Junioren | `Ba-GeringQWEB.jpg` (neu) |
+| 1575 | Den SC Engelberg gleich zweimal bezwungen | Junioren | `Ca-2425-geringWEB.jpg` (lag schon live) |
+
+**Die Quelle findet man am zuverlässigsten über den RSS-Feed**
+`https://www.fcschattdorf.ch/newsblog?format=feed&type=rss` — die
+Übersichts- und Kategorieseiten laden ihre Beiträge per JavaScript
+nach und sind mit `curl` leer. Die Kategoriefeeds sind ebenfalls leer;
+die Zuordnung zu «1. Mannschaft», «Junioren» usw. muss aus dem Inhalt
+kommen.
+
+**Bilder und Zuordnung sind die der Quelle.** Ein einziger Eingriff:
+in 1576 stand «Ba- Junioren» mit Leerzeichen — Tippfehler der Quelle,
+korrigiert.
+
+**Achtung, Nachzügler:** der Deploy vom 07.09.2026 lief mit einer
+früheren Fassung der Datenliste, in der 1577 auf `FCS_1_Team_Web.jpg`
+und «1. Mannschaft» hing. Der News-Import kann das nicht nachziehen —
+er überspringt Beiträge, deren Slug schon existiert. Dafür gibt es
+`./deploy/deploy-news-1577-bild.sh`, das gezielt Beitragsbild,
+Bildblock und Kategorie korrigiert.
+
+Notiz zu 1577: der Beitrag trägt das Mannschaftsfoto der zweiten
+Mannschaft und ist entsprechend eingeordnet. Auffällig bleibt, dass er
+als einziger Bericht der zweiten Mannschaft nie «Schattdorf 2» im
+Fliesstext nennt und die genannten Torschützen im Kader der ersten
+stehen. Das zu klären ist Sache der Redaktion — der Import folgt der
+Quelle.
+
+**Zur Bildqualität** (Frage vom 07.09.2026): mehr ist nicht
+herauszuholen. Die Beitragsbilder werden immer mit **rund 630 px**
+dargestellt — der Inhaltsbereich ist gedeckelt, auch auf einem
+2560-px-Schirm. Die Dateien sind 1600 px breit, also bereits 2,5-fach.
+Gemessen am verlustfrei nachkodierten Detailgehalt liegen JPEG-Qualität
+70 bis 95 gleichauf; nur Qualität 100 hält ~11 % mehr Detail, bei
+vierfacher Dateigrösse. Und eine frische 1600-px-Verkleinerung aus dem
+7035-px-Original unterscheidet sich um 1 % von der vorhandenen Datei.
+Grössere Quelldateien landen schlicht nicht auf dem Bildschirm.
+
+**Neu gegenüber dem ersten Nachtrag:** fett ausgezeichnete Absätze der
+Quelle werden zu `<h3>`-Zwischentiteln statt zu Fliesstext (1577 hat
+zwei davon). Der Lead-Absatz bleibt Fliesstext, wie in den 25 bereits
+importierten Beiträgen. Die Datenliste führt sie unter
+`zwischentitel`.
+
+`Ba-GeringQWEB.jpg` kam mit 7035 px und 6,5 MB von der alten Seite und
+wurde auf 1600 px / 564 KB gebracht — dieselbe Grösse wie die übrigen
+Bilder des ersten Nachtrags.
 
 ## 3. Neuer Rechner: was gebraucht wird
 

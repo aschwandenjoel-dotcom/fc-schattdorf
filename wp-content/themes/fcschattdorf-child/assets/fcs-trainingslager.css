@@ -472,6 +472,7 @@ body.page-id-59 .entry-header { padding: 0 !important; margin: 0 !important; }
   background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(227,6,19,.05) 0%, transparent 70%);
 }
 .tl-cta-section .tl-heading { color: #111; margin-bottom: 1rem; }
+.tl-cta-section--kontakt { padding: 1rem 0 2rem; }
 .tl-cta-lead {
   font-size: 1.125rem; color: #6b7280;
   max-width: 540px; margin: 0 auto 2.5rem; line-height: 1.7;
@@ -493,24 +494,71 @@ body.page-id-59 .entry-header { padding: 0 !important; margin: 0 !important; }
 .tl-cta-btn:focus { outline: none; color: #fff; }
 .tl-cta-btn:focus-visible { box-shadow: inset 0 0 0 3px #fff; }
 
-.tl-contacts {
-  display: flex; justify-content: center; gap: 4rem;
-  flex-wrap: wrap; margin-top: 3.5rem;
+/* ── Kontaktpersonen ──
+   Gleiche Kartensprache wie .tl-campus-card (weiss, 12px Radius, rote
+   Oberkante, weicher Schatten). Vorher standen Name und Nummer frei im
+   Weissraum. Der Abschnitt traegt bewusst keine Ueberschrift – der
+   Anmelde-Aufruf ist abgeschaltet, und eine eigene sollte er nicht
+   bekommen. tl-cta-section--kontakt nimmt dafuer die Polsterung heraus. */
+.tl-contacts { margin-top: 1rem; }
+.tl-contacts__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+  max-width: 620px; margin: 0 auto;
 }
-.tl-contact-person { text-align: center; }
+.tl-contact-person {
+  background: #fff;
+  border-radius: 12px;
+  border-top: 3px solid var(--tl-red);
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+  overflow: hidden;
+  display: flex; flex-direction: column;
+  text-align: left;
+  transition: transform .25s var(--tl-ease), box-shadow .25s var(--tl-ease);
+}
+.tl-contact-person:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 28px rgba(0,0,0,.10);
+}
+/* Von oben beschnitten, damit der Kopf im Bild bleibt statt der Beine. */
+.tl-contact-person__photo {
+  width: 100%; aspect-ratio: 4/5;
+  overflow: hidden; background: #e8eaf0;
+}
+.tl-contact-person__photo img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center top; display: block;
+  transition: transform .55s ease;
+}
+.tl-contact-person:hover .tl-contact-person__photo img { transform: scale(1.05); }
+.tl-contact-person__body { padding: 1.375rem 1.5rem .875rem; }
 .tl-contact-person__name {
   font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
-  font-size: 1.25rem; font-weight: 800;
+  font-size: 1.0625rem; font-weight: 800;
   text-transform: uppercase; letter-spacing: .04em;
-  color: #111; margin-bottom: .25rem;
+  color: #111; margin-bottom: .3rem;
 }
-.tl-contact-person__detail {
-  font-size: .9rem; color: #6b7280; line-height: 1.6;
+.tl-contact-person__role {
+  font-size: .75rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: .1em;
+  color: #6b7280;
 }
-.tl-contact-person__detail a {
+/* Die Nummer ist der eigentliche Zweck der Karte – als eigene Zeile mit
+   Trennlinie, damit sie auf dem Handy ein sicheres Ziel zum Antippen ist. */
+.tl-contact-person__tel {
+  margin-top: auto;
+  display: flex; align-items: center; gap: .55rem;
+  padding: .95rem 1.5rem;
+  border-top: 1px solid rgba(0,0,0,.08);
+  font-size: .9375rem; font-weight: 700;
   color: var(--tl-red); text-decoration: none;
+  transition: background .2s, color .2s;
 }
-.tl-contact-person__detail a:hover { text-decoration: underline; }
+.tl-contact-person__tel svg { flex: none; }
+.tl-contact-person:hover .tl-contact-person__tel,
+.tl-contact-person__tel:hover { background: var(--tl-red); color: #fff; }
+.tl-contact-person__tel:focus-visible { outline: 2px solid var(--tl-red); outline-offset: -2px; }
 
 /* ── Animations ──
    Immer sichtbar per Default (kein Scroll-/JS-Gate — Inhalt darf nie
@@ -731,7 +779,7 @@ body.tl-lightbox-open { overflow: hidden; }
   .tl-details-grid { grid-template-columns: 1fr; }
   .tl-flyer-row { grid-template-columns: 1fr; gap: 2.5rem; }
   .tl-flyer-img-wrap { max-width: 380px; margin: 0 auto; }
-  .tl-contacts { gap: 2rem; }
+  .tl-contacts__grid { grid-template-columns: 1fr; max-width: 320px; }
   .tl-inner { padding: 0 1.25rem; }
   .tl-section { padding: 3.5rem 0; }
 }

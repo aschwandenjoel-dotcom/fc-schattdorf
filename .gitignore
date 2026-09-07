@@ -76,6 +76,23 @@ deploy/*
 # Token wird erst beim Deploy eingesetzt, enthaelt selbst keine Geheimnisse
 !deploy/deploy-vorstand-bilder.sh
 !deploy/fcs-vorstand-bilder.php.tpl
+# Ausnahme: Jahrgangs-Automatik auf «Mitglied werden»
+#   (Token wird erst beim Deploy eingesetzt, enthaelt selbst keine Geheimnisse)
+!deploy/fcs-jahrgaenge.php.tpl
+!deploy/deploy-jahrgaenge.sh
+# Ausnahme: Kontaktfotos auf der Trainingslager-Seite
+!deploy/fcs-tl-kontaktbilder.php.tpl
+!deploy/deploy-tl-kontaktbilder.sh
+# Ausnahme: Schiedsrichter-Fotos Ayman Labib Badr / Giuseppe Accardi
+!deploy/fcs-schiedsrichter-bilder.php.tpl
+!deploy/deploy-schiedsrichter-bilder.sh
+# Ausnahme: News-Nachtrag vom 07.09.2026 (drei Beitraege)
+!deploy/fcs-news-import-0907.php.tpl
+!deploy/news-import-0907.json
+!deploy/deploy-news-import-0907.sh
+# Ausnahme: Bildkorrektur am News-Beitrag 1577
+!deploy/fcs-news-1577-bild.php.tpl
+!deploy/deploy-news-1577-bild.sh
 # Ausnahme: Domainwechsel auf www.fcschattdorf.ch (UMSTELLUNG.md, Schritt B4);
 # Token wird erst beim Deploy eingesetzt, enthaelt selbst keine Geheimnisse
 !deploy/deploy-domain.sh
