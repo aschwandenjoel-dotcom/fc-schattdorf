@@ -171,7 +171,7 @@ laufen. A5 und A6 sind Voraussetzung für Phase B.
 - [x] **A9 Termin und Freeze** *(erledigt 05.09.2026: Umstelltag **Dienstag, 08.09.2026**, Vormittag)*. Umstelltag festlegen: Werktag-Vormittag,
       nicht an einem Spielwochenende, jemand vom Vorstand erreichbar.
       Redaktion informiert: ab dann keine Änderungen mehr an der alten Seite.
-- [x] **A10 Server-Check** *(erledigt 05.09.2026: grep leer — keine WP_HOME/WP_SITEURL-Konstanten, kein dynalias in wp-config.php)*. `ssh aziwivac@sl1819.web.hostpoint.ch
+- [x] **A10 Server-Check** *(05.09.2026 «grep leer» war ein **Fehlalarm**: Hostpoint ist FreeBSD, dessen `grep` kennt `\|` nicht — `wp-config.php` enthielt sehr wohl `WP_HOME`/`WP_SITEURL` auf den Test-Host. Am 07.09. nach B4 entdeckt und per `sed` auf `www.fcschattdorf.ch` gesetzt, Sicherung `wp-config.php.bak-20260907`. `deploy-domain.sh` prüft das jetzt in Schritt 0 mit `grep -E`.)* `ssh aziwivac@sl1819.web.hostpoint.ch
       'grep -n "WP_HOME\|WP_SITEURL\|dynalias" www/fcschattdorf/wp-config.php'`
       — muss leer sein (sonst würde die Konstante die DB überstimmen).
       `.htaccess` im Docroot anschauen: keine hartkodierten Host-Regeln.
@@ -273,17 +273,17 @@ curl -s  https://www.fcschattdorf.ch/ | grep -c dynalias                        
       — deshalb Vormittag, deshalb Freeze. Prüfen:
       `openssl s_client -connect www.fcschattdorf.ch:443 -servername www.fcschattdorf.ch </dev/null | openssl x509 -noout -subject -enddate`
       → `CN=www.fcschattdorf.ch` (oder `fcschattdorf.ch`).
-- [ ] **B4 DB umstellen.** `./deploy/deploy-domain.sh`: Probelauf lesen
+- [x] **B4 DB umstellen** *(erledigt 07.09.2026 23:5x: 1160 Zeilen / 1398 Zellen; danach `WP_HOME`/`WP_SITEURL` in `wp-config.php` auf www gesetzt — siehe A10; Verifikation grün)*. `./deploy/deploy-domain.sh`: Probelauf lesen
       (Trefferzahlen plausibel? `siteurl` = Test-Host?), bestätigen, echter
       Lauf, Skript räumt sich vom Server (HTTP 404 prüfen). Danach im
       WP-Admin *Einstellungen → Permalinks* einmal speichern.
-- [ ] **B5 Theme und Repo-Stand deployen.** Branch `umstellung` nach `main`
+- [x] **B5 Theme und Repo-Stand deployen** *(erledigt 08.09.2026 00:0x: `umstellung` fast-forward nach `main`, `deploy-theme.sh` — 29 CSS/JS-Dateien byteidentisch)*. Branch `umstellung` nach `main`
       mergen, dann `./scripts/deploy-theme.sh` (Joels Skript vom 06.09.:
       Gegenprobe live→lokal, Trockenlauf mit `--delete`, Rückfrage, Prüfung
       jeder CSS/JS-Datei). Damit gehen Weiterleitungsmodul, lokale
       Fonts/AOS und der Trainingslager-Stand live. Ab jetzt zeigen
       `lib-live.sh` & Co. auf die neue Domain.
-- [ ] **B6 Verifikation** (nach ~1 Minute wegen Hostpoint-Cache) — Liste
+- [x] **B6 Verifikation** *(08.09.2026 00:10 grün: check-live, 10 Redirect-Fälle inkl. Test-Host und Joomla-Pfade, Fonts/AOS lokal, Trainingslager ohne Button, iCal, kein Mixed Content. Offen: Kontaktformular und Fanshop-Testbestellung durch Fabian.)* (nach ~1 Minute wegen Hostpoint-Cache) — Liste
       in Abschnitt 8. Mindestens: `./scripts/check-live.sh` grün,
       Startseite ohne `dynalias` im Quelltext, `curl -I
       https://fcschattdorf.dynalias.net/verein/vorstand/` → 301 auf
@@ -331,7 +331,7 @@ curl -s  https://www.fcschattdorf.ch/ | grep -c dynalias                        
 | Wann | Was | Dauer |
 |---|---|---|
 | Nach B2/B3, vor B4 | A/AAAA bei cyon auf `149.126.4.95` / `2a01:ab20:0:4::95` zurück. Alte Seite läuft unverändert weiter. | ~5 Minuten (TTL 300 s nach A11) |
-| Nach B4 | DNS zurück **und** DB zurück: `deploy-domain.sh` in Gegenrichtung (Skript kann beide Richtungen) oder Live-Dump aus B1 einspielen (Web-Import-Skript nach dem Muster von `fcs-db-export.php.tpl`). | ~15 Minuten |
+| Nach B4 | DNS zurück **und** DB zurück: `deploy-domain.sh --rueckwaerts` oder Live-Dump aus B1 einspielen; **dazu `wp-config.php`**: `WP_HOME`/`WP_SITEURL` zurück auf den Test-Host (`wp-config.php.bak-20260907` zurückkopieren). | ~15 Minuten |
 | Nach B5 | zusätzlich Theme-Stand vor dem Merge per rsync zurück (oder `main` vor Merge auschecken und deployen) | ~5 Minuten |
 
 Die Test-Adresse bleibt während der ganzen Umstellung erreichbar; sie ist der

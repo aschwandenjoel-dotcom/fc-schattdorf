@@ -52,6 +52,22 @@ echo "    ${NEU_HOST} -> ${NEU_IP:-<keine Antwort>}   Hostpoint -> ${ORIGIN_IP:-
 [ -n "$ORIGIN_IP" ] || stop "Hostpoint-IP nicht auflösbar."
 [ "$NEU_IP" = "$ORIGIN_IP" ] || stop "${NEU_HOST} zeigt noch nicht auf Hostpoint — zuerst Schritt B2 (DNS bei cyon)."
 
+# WP_HOME/WP_SITEURL in wp-config.php überstimmen die DB — am 07.09.2026 stand
+# dort noch der Test-Host, und die frisch umgestellte DB blieb wirkungslos.
+# grep -E statt \| : Hostpoint ist FreeBSD, dessen grep kennt \| nicht.
+konst="$(ssh "$HOST" "grep -n -E 'WP_HOME|WP_SITEURL' $WEBROOT/wp-config.php" 2>/dev/null || true)"
+if [ -n "$konst" ]; then
+  if enthaelt "$konst" "$ALT_HOST"; then
+    printf '\n\033[1;33mwp-config.php setzt WP_HOME/WP_SITEURL noch auf %s:\n%s\n' "$ALT_HOST" "$konst"
+    printf 'Nach dem DB-Lauf auf %s umstellen (Sicherungskopie inklusive):\n' "$NEU_HOST"
+    printf '  ssh %s "cd %s && cp -p wp-config.php wp-config.php.bak && sed -i \"\" \"s#https://%s#https://%s#g\" wp-config.php"\033[0m\n\n' "$HOST" "$WEBROOT" "$ALT_HOST" "$NEU_HOST"
+  else
+    echo "    wp-config.php: WP_HOME/WP_SITEURL bereits auf ${NEU_HOST} (oder anderer Wert): $konst"
+  fi
+else
+  echo "    wp-config.php ohne WP_HOME/WP_SITEURL — die DB gilt."
+fi
+
 code="$(curl -sS -L -o /dev/null -w '%{http_code}' --max-time 30 "$BASE/" 2>&1 || true)"
 case "$code" in
   200) echo "    https://${NEU_HOST}/ antwortet mit HTTP 200, Zertifikat gültig." ;;
@@ -133,8 +149,10 @@ if [ "$fail" = "0" ]; then
   printf "\033[1;32mDB steht auf %s.\033[0m\n" "$NEU_HOST"
 else
   printf "\033[1;31mDB umgestellt, ABER die Prüfung passt nicht — oben nachsehen.\033[0m\n"
+  echo "  Meldet wp-json noch ${ALT_HOST}, während Yoast-Canonical schon ${NEU_HOST} zeigt:"
+  echo "  WP_HOME/WP_SITEURL in wp-config.php überstimmen die DB (siehe Vorprüfung oben)."
   echo "  Hostpoint-Seitencache kann nachhängen: nach 1–2 min erneut prüfen mit"
-  echo "  curl -s $BASE/ | grep -c $ALT_HOST     (erwartet 0)"
+  echo "  curl -s '$BASE/?cb=1' | grep -c $ALT_HOST     (erwartet 0)"
 fi
 cat <<EOF
 

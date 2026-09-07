@@ -1,13 +1,13 @@
 # Übergabe / Rechnerwechsel
 
-Stand: **07.09.2026**. Diese Datei beschreibt, was gerade offen ist und was
+Stand: **08.09.2026**. Diese Datei beschreibt, was gerade offen ist und was
 auf einem neuen Rechner eingerichtet werden muss. Die dauerhaften
 Projektregeln stehen in `CLAUDE.md`, das Setup der lokalen Umgebung in
 `README.md`.
 
 ## 1. Aktueller Stand
 
-**Live (https://fcschattdorf.dynalias.net)**
+**Live (https://www.fcschattdorf.ch — seit 07.09.2026 23:5x, vorher fcschattdorf.dynalias.net)**
 
 - Theme-Code ist auf dem Stand von `main`. Erneut geprüft am 29.08.2026
   durch Byte-Vergleich der ausgelieferten Stylesheets mit den Repo-Blobs
@@ -41,21 +41,23 @@ Projektregeln stehen in `CLAUDE.md`, das Setup der lokalen Umgebung in
 
 ## 2. Offene Schritte
 
-**Offen: Domainwechsel auf www.fcschattdorf.ch** — Plan in `UMSTELLUNG.md`.
-Der Branch `umstellung` enthält die vorbereiteten Code-Teile aus Phase A
-(Weiterleitungsmodul `inc/fcs-redirects.php`, DB-Umstellung
-`deploy/deploy-domain.sh` + `deploy/fcs-domain-switch.php.tpl`, Skripte
-und Doku auf die neue Domain). **Nicht vor Schritt B2/B3 nach `main`
-mergen:** auf dem Branch zeigen `scripts/lib-live.sh` & Co. bereits auf
-`www.fcschattdorf.ch`, und das ist bis zur DNS-Umstellung noch die alte
-Joomla-Seite bei cyon. Bis dahin `pull-prod-db.sh` und Deploys von `main`
-aus fahren. **Umstelltag: Dienstag, 08.09.2026 — Phase A ist komplett.** A11 erledigt
-(TTL bei cyon auf 300 s, bestätigt); A10 erledigt
-(wp-config.php ohne Host-Konstanten); A7 erledigt bis auf Redaktionsarbeit (veraltete Termine/Saison,
-`UMSTELLUNG-A7-INHALTE.md` Abschnitt 4). A6 erledigt (Seitenfeld geleert, Theme-Teil
-auf dem Branch). Erledigt: A1 (`my.cyon`-Zugang), A2
-(Domain im Hostpoint-Panel), A3 (FluentSMTP über cyon-Postfach, alle
-Testmails zugestellt), A4/A5/A8 (Code und Doku auf diesem Branch).
+**Domainwechsel erledigt (07./08.09.2026).** Plan und Protokoll in
+`UMSTELLUNG.md` (Phasen A und B abgehakt), Branch `umstellung` ist
+fast-forward in `main` — kann gelöscht werden. Wichtig für den Betrieb:
+
+- `wp-config.php` auf Hostpoint setzt `WP_HOME`/`WP_SITEURL` fest auf
+  `https://www.fcschattdorf.ch` (Konstanten schlagen die DB); Sicherung
+  der alten Fassung liegt daneben als `wp-config.php.bak-20260907`.
+- Das Zertifikat für `fcschattdorf.ch`/`www` ist **kein FreeSSL**, sondern
+  das übernommene Let's-Encrypt-Zertifikat der alten cyon-Seite, gültig
+  bis **17.11.2026** (Hostpoints FreeSSL-Bestellung hing stundenlang).
+  Bis Anfang November muss FreeSSL im Panel übernommen haben — sonst
+  erneuern (Plan B in `UMSTELLUNG.md`, C-Phase).
+- Test-Host `fcschattdorf.dynalias.net` leitet per 301 auf www und bleibt
+  bis ca. Dezember 2026 (C6).
+- Offen aus B6: Kontaktformular und Fanshop-Testbestellung auf der neuen
+  Domain einmal auslösen. Phase C (Search Console, 404-Log, Mail
+  beobachten, cyon/UBIQ) steht in `UMSTELLUNG.md`.
 
 **Ein Deploy steht aus:**
 
