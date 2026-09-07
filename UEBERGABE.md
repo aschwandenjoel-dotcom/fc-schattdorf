@@ -41,34 +41,29 @@ Projektregeln stehen in `CLAUDE.md`, das Setup der lokalen Umgebung in
 
 ## 2. Offene Schritte
 
-**Drei Deploys stehen aus:**
+**Ein Deploy steht aus:**
 
-1. `./scripts/deploy-theme.sh` — Theme-Code. Enthält die Fussleisten-
-   Korrektur (Aktive und Junioren zeigen neu direkt auf die
-   1. Mannschaft bzw. die Junioren-Teams, «Login» entfernt, unten links
-   «Designt und erstellt von Urinet.ch») und das neue Modul
-   `inc/fcs-jahrgaenge.php` (Abschnitt 2g).
-2. `./deploy/deploy-jahrgaenge.sh` — DB: die Jahrgänge auf «Mitglied
-   werden» auf Platzhalter umstellen (Abschnitt 2g). Muss **nach** dem
-   Theme-Deploy laufen — das Skript prüft in Schritt 1 selbst, ob das
-   Modul live liegt, und bricht sonst ab.
-3. `./deploy/deploy-impressum.sh` — Impressum: Webdesign «Urinet
+1. `./deploy/deploy-impressum.sh` — Impressum: Webdesign «Urinet
    Aschwanden», urinet.ch, Onlineschaltung und Stand September 2026.
    Reine DB-Änderung, unabhängig von allem anderen, jederzeit.
 
-Alle drei fragen vor dem Schreiben nach, sind idempotent und werden am
-Schluss gegen die Live-Seite verifiziert.
-
-**Erledigt am 06./07.09.2026, live nachgeprüft:** Redaktions-
+**Erledigt und live nachgeprüft (06./07.09.2026):** Redaktions-
 Rückmeldungen (2a), News-Nachtrag mit 25 Beiträgen (2b), 1. Mannschaft
-(2c), 3. Mannschaft (2d) und die Vorstandsbilder (2e). Die vier
-Vorstandsfotos liegen live als `<name>_hoch.jpg` — wer den alten
-Dateinamen `Rene_Gnos.jpg` sucht, findet nichts und hält den Deploy
-faelschlich fuer gescheitert. Die Abschnitte 2a–2e bleiben als
-Protokoll stehen.
+(2c), 3. Mannschaft (2d), Vorstandsbilder (2e), Fussleiste und
+Jahrgangs-Automatik (2g). Die Abschnitte bleiben als Protokoll stehen.
+
+Zwei Stolpersteine beim Nachprüfen, die schon zu Fehlalarmen geführt
+haben:
+
+- Die vier Vorstandsfotos liegen live als `<name>_hoch.jpg`. Wer nach
+  `Rene_Gnos.jpg` sucht, findet nichts und hält den Deploy
+  fälschlich für gescheitert.
+- «Team Uri Frauen» steht auch im Fliesstext eines älteren Beitrags.
+  Als Prüfmuster für den News-Import taugt es nicht — dafür den vollen
+  Titel nehmen.
 
 **Vorher `./scripts/pull-prod-db.sh` laufen lassen.** Die lokale DB ist
-seit dem News-Import und den Deploys vom 06.09.2026 hinter live.
+seit den Deploys vom 06./07.09.2026 hinter live.
 
 ### 2a. Deploy Redaktions-Rückmeldungen
 
