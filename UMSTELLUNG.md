@@ -410,20 +410,20 @@ anzupassen.
 
 ## 8. Verifikations-Checkliste (Umstelltag)
 
-- [ ] `./scripts/check-live.sh` grün (nach Merge des Branches)
-- [ ] `https://www.fcschattdorf.ch/` HTTP 200, Zertifikat gültig, Schloss im Browser
-- [ ] `http://www.fcschattdorf.ch/` → 301 https; `https://fcschattdorf.ch/` → 301 www
-- [ ] `https://fcschattdorf.dynalias.net/verein/vorstand/` → 301 `https://www.fcschattdorf.ch/verein/vorstand/`
-- [ ] Startseiten-Quelltext: 0 × `dynalias`, Canonical = `https://www.fcschattdorf.ch/`
-- [ ] Bilder/Uploads laden (Sponsorenlogos, Personenfotos, News-Bilder)
-- [ ] Kein Mixed Content (Browser-Konsole leer)
-- [ ] Unterseiten: Vorstand, Teams (SportsPress), Junioren-Teams, Events (Kalender + iCal-Feed), Chronik, Sponsoren, Fanshop
+- [x] `./scripts/check-live.sh` grün (nach Merge des Branches)
+- [x] `https://www.fcschattdorf.ch/` HTTP 200, Zertifikat gültig, Schloss im Browser
+- [x] `http://www.fcschattdorf.ch/` → 301 https; `https://fcschattdorf.ch/` → 301 www
+- [x] `https://fcschattdorf.dynalias.net/verein/vorstand/` → 301 `https://www.fcschattdorf.ch/verein/vorstand/`
+- [x] Startseiten-Quelltext: 0 × `dynalias`, Canonical = `https://www.fcschattdorf.ch/`
+- [x] Bilder/Uploads laden (Sponsorenlogos, Personenfotos, News-Bilder)
+- [x] Kein Mixed Content (Browser-Konsole leer)
+- [x] Unterseiten: Vorstand, Teams (SportsPress), Junioren-Teams, Events (Kalender + iCal-Feed), Chronik, Sponsoren, Fanshop
 - [ ] Kontaktformular sendet und kommt an; Fanshop-Testbestellung kommt an (inkl. Kundenbestätigung)
 - [ ] `wp-admin`-Login, Medien-Upload, Seite speichern
-- [ ] `https://www.fcschattdorf.ch/wp-sitemap.xml` und `robots.txt` zeigen die neue Domain
-- [ ] Drei alte Joomla-URLs aus Abschnitt 7 → 301 auf die richtige Seite
-- [ ] `dig +short fcschattdorf.ch MX` unverändert; Testmail an eine Vereinsadresse kommt an
-- [ ] `UEBERGABE.md` nachgeführt
+- [x] `https://www.fcschattdorf.ch/wp-sitemap.xml` und `robots.txt` zeigen die neue Domain
+- [x] Drei alte Joomla-URLs aus Abschnitt 7 → 301 auf die richtige Seite
+- [~] `dig +short fcschattdorf.ch MX` unverändert (geprüft 08.09.); Testmail an eine Vereinsadresse kommt an
+- [x] `UEBERGABE.md` nachgeführt
 
 ---
 
