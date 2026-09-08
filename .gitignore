@@ -49,6 +49,9 @@ deploy/*
 # Ausnahme: Impressum-Anpassung (Webdesign: Urinet Aschwanden)
 !deploy/deploy-impressum.sh
 !deploy/fcs-impressum-update.php.tpl
+# Ausnahme: Liveticker-Seite /liveticker/ (Theme + Seite anlegen)
+!deploy/deploy-liveticker.sh
+!deploy/fcs-liveticker-seite.php.tpl
 # Ausnahme: Schiedsrichter-Stand (zwei neue SR + Spielleiter-Liste);
 # Token wird erst beim Deploy eingesetzt, enthaelt selbst keine Geheimnisse
 !deploy/deploy-schiedsrichter.sh

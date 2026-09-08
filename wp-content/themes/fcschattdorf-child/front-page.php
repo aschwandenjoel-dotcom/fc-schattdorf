@@ -141,7 +141,10 @@ $ifv = array(
 	array( 'label' => 'Tabelle',          'sub' => '1. Mannschaft', 'url' => 'https://matchcenter.ifv.ch/default.aspx?v=329&oid=7&lng=1&t=30614&a=trr' ),
 	array( 'label' => 'Spielplan',        'sub' => '1. Mannschaft', 'url' => 'https://matchcenter.ifv.ch/default.aspx?oid=7&lng=1&v=329&t=30614&ls=24454&sg=67609&a=pt' ),
 	array( 'label' => 'Spielbetrieb FCS', 'sub' => 'alle Teams',    'url' => 'https://www.ifv.ch/Innerschweizerischer-Fussballverband/Vereine-IFV/Verein-IFV.aspx/v-329/a-as/' ),
-	array( 'label' => 'Liveticker',       'sub' => '1. Mannschaft', 'url' => 'https://cdn.tickaroo.com/embed/v4/fullpage/6375c4e2a76a60b2e34cff9b/fploTWVBarsiJF_29Yb6AUcSQeq7pY.html' ),
+	/* Feste Adresse /liveticker/ (Vorlage page-liveticker.php): dort pflegt die
+	   Redaktion den jeweils aktuellen Tickaroo-Link, kein Code-Deploy vor dem
+	   Spiel mehr. Solange die Seite fehlt, bleibt der letzte feste Ticker-Link. */
+	array( 'label' => 'Liveticker',       'sub' => '1. Mannschaft', 'url' => fcsh_page_url( 'liveticker', 'https://cdn.tickaroo.com/embed/v4/fullpage/6375c4e2a76a60b2e34cff9b/fploTWVBarsiJF_29Yb6AUcSQeq7pY.html' ) ),
 );
 
 /* ── Sponsoren-Gruppen ───────────────────────────────────────────── */

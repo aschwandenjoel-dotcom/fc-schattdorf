@@ -60,8 +60,13 @@ fast-forward in `main` — kann gelöscht werden. Wichtig für den Betrieb:
   Domain einmal auslösen. Phase C (Search Console, 404-Log, Mail
   beobachten, cyon/UBIQ) steht in `UMSTELLUNG.md`.
 
-**Ein Deploy steht aus:**
+**Zwei Deploys stehen aus:**
 
+0. `./deploy/deploy-liveticker.sh` — feste Adresse `/liveticker/` (08.09.2026):
+   Theme (Vorlage `page-liveticker.php`, Felder, Startseiten-Link) via
+   `scripts/deploy-theme.sh`, dann Seite «Liveticker» per DB-Skript anlegen.
+   Danach pflegt die Redaktion den Tickaroo-Link im Seitenfeld statt im
+   Code. Lokal getestet (Hinweisseite, 302-Weiterleitung, Idempotenz).
 1. `./deploy/deploy-news-1577-bild.sh` — setzt Beitragsbild und
    Kategorie von «Bittere 2:3 Niederlage gegen Hünenberg» auf den
    Stand der Quelle (Abschnitt 2j). Reine DB-Änderung, keine Dateien,
