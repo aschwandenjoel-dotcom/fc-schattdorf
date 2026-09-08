@@ -197,10 +197,9 @@ diesen Stand gemerged (`9fa4d31`) — er unterscheidet sich von `main` nur
 noch um Weiterleitungsmodul, DB-Umstellung, Skripte und Doku. Noch offen
 auf `main`, unabhängig vom Wechsel: `deploy-news-1577-bild.sh`.
 
-**AAAA-Record:** Der `@` AAAA bei cyon existiert seit dem 07.09.2026 nicht
-mehr (Nameserver antworten leer). Damit ist B2 nur noch der A-Record;
-IPv6-Besucher nehmen IPv4. Optional später einen AAAA auf die
-Hostpoint-IPv6 anlegen.
+**AAAA-Record:** am 07.09. gelöscht, am 08.09. neu auf Hostpoints IPv6
+gesetzt (siehe C0b — ohne AAAA lieferten Router-Caches den alten cyon-Wert
+weiter und IPv6-Geräte landeten auf der alten Seite).
 
 **Spickzettel für Dienstag, 08.09.2026:**
 
@@ -330,6 +329,16 @@ curl -s  https://www.fcschattdorf.ch/ | grep -c dynalias                        
       prüfen: `openssl s_client -connect www.fcschattdorf.ch:443 -servername
       www.fcschattdorf.ch -showcerts </dev/null | grep ' s:'` muss drei
       Zertifikate zeigen (Leaf, YR1, Root YR).
+- [x] **C0b IPv6 (08.09.2026).** Ein iPad im Heim-WLAN landete auf der alten
+      Seite: der Router lieferte den am 07.09. gelöschten AAAA-Record (cyon)
+      weiter aus dem Cache, IPv6 wird bevorzugt. Behoben durch neuen
+      `@` AAAA auf Hostpoints IPv6 `2a00:d70:0:b:2002:0:d91a:3d86` (cyon,
+      TTL 300) — Hostpoint liefert die Seite über IPv6 aus, vom iPad
+      bestätigt. `check-live.sh` prüft den AAAA seit dem 05.09. mit.
+- [ ] **C5b Sicherheitsnetz cyon.** Sobald der Rückweg nicht mehr gebraucht
+      wird: in `my.cyon` die alte Website auf `https://www.fcschattdorf.ch`
+      weiterleiten (statt Joomla auszuliefern). Dann führt jeder veraltete
+      Cache und `fcschattdorf.cyon.site` zur neuen Seite. Gehört zu C5.
 - [ ] **C6 Test-Host abbauen (nach ~3 Monaten, ca. Dezember 2026).**
       Domain `fcschattdorf.dynalias.net` im Hostpoint-Panel entfernen,
       DynDNS-Konto kündigen, `lib-live.sh`-Kommentare zum DynDNS-Vorfall
