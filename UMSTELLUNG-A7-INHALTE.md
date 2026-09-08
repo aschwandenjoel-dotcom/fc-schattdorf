@@ -69,7 +69,7 @@ beliebige Textfetzen.
 | `/gruempelturnier/` | Dorf- und Grümpelturnier des FC Schattdorf auf dem Sportplatz Grüner Wald: Programm, Kategorien, Spielpläne, Reglement und Anmeldung. |
 | `/sponsoren/` | Die Sponsoren des FC Schattdorf: Hauptsponsor, Nachwuchs-Patronat, Co-, Club- und Nachwuchs-Sponsoren – und das Sponsoringkonzept zum Download. |
 | `/sponsoren/top-club-88/` | Top-Club 88 – der Sponsorenclub des FC Schattdorf: Ziele, Leistungen für Mitglieder und wie du dabei bist. |
-| `/kontakt/` | Kontakt zum FC Schattdorf, 6467 Schattdorf UR: Kontaktformular und E-Mail an kommunikation@fcschattdorf.ch. |
+| `/kontakt/` | Kontakt zum FC Schattdorf, 6467 Schattdorf UR: E-Mail an kommunikation@fcschattdorf.ch. *(08.09.: Entscheid «kein Formular» — die am 07.09. gesetzte Fassung nennt noch ein Kontaktformular, im Admin kürzen)* |
 | `/news/` | News des FC Schattdorf: Spielberichte, Turniere und Neuigkeiten aus dem Verein. |
 | `/impressum/` | Impressum des FC Schattdorf: Kontaktadresse, Haftungsausschluss und Urheberrechte. |
 | `/datenschutzerklaerung/` | Datenschutzerklärung des FC Schattdorf: welche Personendaten wir bearbeiten, wozu, und wie wir sie schützen. |
@@ -149,6 +149,15 @@ werden lokal eingebunden; die Google-Fonts-Links in `functions.php` und
       Vorlage), sonst stehen sie leer im Index.
 - [ ] `/kontakt/`: nur Adresse und E-Mail — Öffnungszeiten Clubhaus oder
       Telefon ergänzen, falls gewünscht.
+- [ ] **Kontakt ohne Formular (Entscheid 08.09.2026):** `/kontakt/` bleibt bei
+      Adresse + E-Mail. Zwei Stellen nennen noch ein «Kontaktformular» und
+      sind im Admin zu kürzen: (1) Yoast-Meta-Description der Kontaktseite
+      → «Kontakt zum FC Schattdorf, 6467 Schattdorf UR: E-Mail an
+      kommunikation@fcschattdorf.ch.»; (2) Datenschutzerklärung, Abschnitt
+      «E-Mail und Formulare», Satz «Angaben aus dem Kontaktformular und aus
+      Fanshop-Bestellungen …» → «Angaben aus E-Mails und Fanshop-Bestellungen …».
+      Das Fluent-Forms-«Kontaktformular» (id 3) wird nicht verwendet und kann
+      im Admin gelöscht werden.
 - [ ] Nach Joels Redaktions-Deploy (Frauen Team Uri I → «Frauen Team Uri»,
       Uri II entfällt): Descriptions von `/aktive/` und
       `/aktive/frauen-uri-1/` in Yoast an die neuen Namen anpassen.
