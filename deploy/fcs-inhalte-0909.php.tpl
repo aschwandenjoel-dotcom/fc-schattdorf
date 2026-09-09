@@ -23,6 +23,7 @@
  *      bisher, deshalb dort nur die Vorschaugrössen neu rechnen.
  *   D) 2. Mannschaft: Betreuerbild von Robin Lindauer im Seitenfeld
  *      «Betreuerstab» von der Silhouette auf das Porträt umstellen.
+ *   E) Fussballschule: Nico Zgraggen aus dem Betreuerteam nehmen.
  *
  * Die Bilddateien überträgt das aufrufende Shell-Skript vorher per
  * scp; dieses Skript prüft nur noch, ob sie da sind.
@@ -92,7 +93,29 @@ if ( ! $gv ) {
 	}
 }
 
-/* A2: die neuen Termine. Reihenfolge = Datum; die Vorlage sortiert
+/* A2: Titel nachziehen, falls dieser Deploy schon einmal mit der
+   früheren Schreibweise gelaufen ist. So kommt dasselbe Ergebnis
+   heraus, egal ob das Skript zum ersten oder zum zweiten Mal läuft. */
+$alt_titel = get_posts( array(
+	'post_type'      => 'fcs_event',
+	'post_status'    => array( 'publish', 'draft', 'pending' ),
+	'posts_per_page' => -1,
+	'title'          => 'Ehren-/Freimitglieder- und Sponsorenapéro',
+	'fields'         => 'ids',
+) );
+if ( ! $alt_titel ) {
+	echo "   SKIP – kein Termin mit der früheren Schreibweise «Freimitglieder- und».\n";
+} else {
+	foreach ( $alt_titel as $id ) {
+		echo '   ' . ( $dry ? 'würde umbenennen: ' : 'umbenannt: ' )
+			. "#{$id} -> «Ehren-/Freimitglieder und Sponsorenapéro»\n";
+		if ( ! $dry ) {
+			wp_update_post( array( 'ID' => $id, 'post_title' => 'Ehren-/Freimitglieder und Sponsorenapéro' ) );
+		}
+	}
+}
+
+/* A3: die neuen Termine. Reihenfolge = Datum; die Vorlage sortiert
    selbst, die Liste steht hier nur der Lesbarkeit halber chronologisch.
    Leere Felder bleiben leer — «Wird bekannt gegeben» nur dort, wo die
    Angabe wirklich noch aussteht (gleiche Schreibweise wie bisher). */
@@ -112,7 +135,9 @@ $neue = array(
 		'ort_kurz' => 'Uristier-Saal',
 	),
 	array(
-		'titel'    => 'Ehren-/Freimitglieder- und Sponsorenapéro',
+		/* Schreibweise wie von der Redaktion geliefert – ohne Bindestrich
+		   nach «Freimitglieder» (Rückmeldung vom 09.09.2026). */
+		'titel'    => 'Ehren-/Freimitglieder und Sponsorenapéro',
 		'datum'    => '2027-04-24',
 		'zeit'     => 'Wird bekannt gegeben',
 		'zeit_kurz'=> 'Zeit folgt',
@@ -147,18 +172,21 @@ $neue = array(
 );
 
 foreach ( $neue as $ev ) {
-	/* Idempotenz über Titel UND Datum: «Weihnachtsfeier» kommt zweimal
-	   vor, unterscheidbar nur am Jahr. */
+	/* Idempotenz über das DATUM, nicht über den Titel: jeder der sechs
+	   Termine hat ein eigenes Datum (auch die zwei Weihnachtsfeiern),
+	   und so legt das Skript auch dann nichts doppelt an, wenn der Titel
+	   inzwischen anders lautet — sei es durch A2 oder weil die Redaktion
+	   ihn von Hand geändert hat. */
 	$vorhanden = get_posts( array(
 		'post_type'      => 'fcs_event',
 		'post_status'    => array( 'publish', 'draft', 'pending', 'trash' ),
 		'posts_per_page' => -1,
-		'title'          => $ev['titel'],
-		'fields'         => 'ids',
 		'meta_query'     => array( array( 'key' => 'fcs_ev_datum', 'value' => $ev['datum'] ) ),
 	) );
 	if ( $vorhanden ) {
-		echo "   SKIP – «{$ev['titel']}» am {$ev['datum']} gibt es schon (#" . implode( ', #', $vorhanden ) . ").\n";
+		foreach ( $vorhanden as $p ) {
+			echo "   SKIP – am {$ev['datum']} steht schon «" . get_the_title( $p ) . "» (#{$p->ID}).\n";
+		}
 		continue;
 	}
 	echo '   ' . ( $dry ? 'würde anlegen: ' : 'angelegt: ' ) . "{$ev['datum']}"
@@ -361,6 +389,41 @@ if ( ! $m2 ) {
 		} else {
 			echo '   ' . ( $dry ? 'würde setzen: ' : 'gesetzt: ' ) . "Betreuerstab, Robin Lindauer -> Robin_Lindauer.jpg\n";
 			if ( ! $dry ) { update_post_meta( $m2->ID, 'fcs_team_staff', $neu_feld ); }
+		}
+	}
+}
+
+/* ── E) Fussballschule: Nico Zgraggen aus dem Betreuerteam ──────── */
+echo "\nE) Fussballschule\n";
+
+$fs = get_page_by_path( 'junioren/fussballschule' );
+if ( ! $fs ) { $fs = get_page_by_path( 'fussballschule' ); }
+if ( ! $fs ) {
+	echo "   FEHLER – Seite «Fussballschule» nicht gefunden.\n";
+	$fehler++;
+} else {
+	$feld = (string) get_post_meta( $fs->ID, 'fcs_fs_team', true );
+	if ( '' === $feld ) {
+		echo "   SKIP – Seitenfeld «Team» ist leer, es gilt der Stand aus der Vorlage.\n";
+	} else {
+		/* Eine Person pro Zeile («Name | Rolle | Bild»). Gestrichen wird
+		   genau die Zeile, die mit «Nico Zgraggen |» beginnt – der
+		   gleichnamige Spieler der 1. Mannschaft steht woanders. */
+		$zeilen = preg_split( '/\r\n|\r|\n/', $feld );
+		$rest   = array_values( array_filter( $zeilen, function ( $z ) {
+			return ! preg_match( '/^\s*Nico Zgraggen\s*\|/i', $z );
+		} ) );
+		$neu_feld = implode( "\n", $rest );
+		if ( $neu_feld === $feld ) {
+			echo "   SKIP – Nico Zgraggen steht dort nicht (mehr).\n";
+		} elseif ( count( $rest ) !== count( $zeilen ) - 1 ) {
+			echo '   FEHLER – erwartet war genau eine Zeile weniger, entfernt wurden '
+				. ( count( $zeilen ) - count( $rest ) ) . ". Feld unverändert.\n";
+			$fehler++;
+		} else {
+			echo '   ' . ( $dry ? 'würde entfernen: ' : 'entfernt: ' )
+				. 'Nico Zgraggen (' . count( $zeilen ) . ' -> ' . count( $rest ) . " Personen)\n";
+			if ( ! $dry ) { update_post_meta( $fs->ID, 'fcs_fs_team', $neu_feld ); }
 		}
 	}
 }

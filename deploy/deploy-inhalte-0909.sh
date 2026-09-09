@@ -14,6 +14,7 @@
 #   C) Vorstand — neues Porträt von Claudia Gisler, erstes Porträt von
 #      Robin Lindauer (bisher Silhouette).
 #   D) 2. Mannschaft — Betreuerbild von Robin Lindauer.
+#   E) Fussballschule — Nico Zgraggen aus dem Betreuerteam nehmen.
 #
 # REIHENFOLGE: Zuerst `./scripts/deploy-theme.sh` laufen lassen. Der
 # Theme-Teil bringt das Feld «Enddatum», die Datumsspanne und die
@@ -150,6 +151,7 @@ pruefe "93. Generalversammlung weg"        "$E" '93\. Generalversammlung'       
 pruefe "Vorrundenabschluss"                "$E" 'Vorrundenabschluss'            ">0"
 pruefe "Weihnachtsfeier"                   "$E" 'Weihnachtsfeier'               ">0"
 pruefe "Sponsorenaperitif"                 "$E" 'Sponsorenap'                   ">0"
+pruefe "Schreibweise ohne Bindestrich"     "$E" 'Freimitglieder- und'            "0"
 pruefe "Kick-in-one"                       "$E" 'Kick-in-one'                   ">0"
 pruefe "Doerf- und Gruempelturnier"        "$E" 'mpelturnier'                   ">0"
 pruefe "Datumsspanne Juni 2027"            "$E" '19\. Juni 2027'                ">0"
@@ -169,6 +171,11 @@ pruefe "Portraet Claudia Gisler"           "$V" 'Claudia_Gisler\.jpg'           
 echo "  2. Mannschaft"
 M="/aktive/2-mannschaft/"
 pruefe "Betreuerbild Robin Lindauer"       "$M" 'Robin_Lindauer\.jpg'           ">0"
+
+echo "  Fussballschule"
+F="/junioren/fussballschule/"
+pruefe "Nico Zgraggen entfernt"            "$F" 'Nico Zgraggen'                 "0"
+pruefe "uebrige Betreuer noch da"          "$F" 'Janic Gisler'                  ">0"
 
 echo
 if [ "$ok" = "1" ]; then

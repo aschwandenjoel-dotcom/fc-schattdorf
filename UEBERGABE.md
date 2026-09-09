@@ -1127,7 +1127,8 @@ Bilder des ersten Nachtrags.
 
 ### 2k. Redaktions-Nachträge vom 09.09.2026
 
-Fünf Rückmeldungen aus einer Mail. Der Theme-Teil geht über
+Sieben Rückmeldungen aus zwei Mails (die letzten beiden — Schreibweise
+des Apéro-Termins und Fussballschule — kamen nach). Der Theme-Teil geht über
 `./scripts/deploy-theme.sh`, alles Inhaltliche über
 `./deploy/deploy-inhalte-0909.sh` (DB-Teil:
 `deploy/fcs-inhalte-0909.php.tpl`). Lokal auf dem Live-Stand vom
@@ -1177,7 +1178,7 @@ in den Papierkorb:
 | --- | --- | --- | --- |
 | 24.10.2026 | Vorrundenabschluss | ab 17.00 Uhr | Sportplatz Grüner Wald, Schattdorf |
 | 28.11.2026 | Weihnachtsfeier | ab 18.00 Uhr | Uristier-Saal, Altdorf |
-| 24.04.2027 | Ehren-/Freimitglieder- und Sponsorenapéro | offen | offen |
+| 24.04.2027 | Ehren-/Freimitglieder und Sponsorenapéro | offen | offen |
 | 27.05.2027 | Kick-in-one | offen | Sportplatz Grüner Wald, Schattdorf |
 | 17.–19.06.2027 | Dorf- und Grümpelturnier | offen | Sportplatz Grüner Wald, Schattdorf |
 | 04.12.2027 | Weihnachtsfeier | offen | Uristier-Saal, Altdorf |
@@ -1193,6 +1194,17 @@ liegen — sonst stünde über einer Liste bis 2027 die Zahl des ersten.
 
 Zielgruppe, Hinweiszeile und Agenda bleiben bei allen sechs leer;
 diese Angaben lagen nicht vor und werden nicht erfunden.
+
+**Schreibweise des Apéro-Termins** (Rückmeldung vom 09.09.2026): ohne
+Bindestrich nach «Freimitglieder», genau wie geliefert. Eine erste
+Fassung dieses Deploys hatte ihn grammatikalisch ergänzt
+(«Freimitglieder- und»). Das DB-Skript benennt einen bereits
+angelegten Termin mit der alten Schreibweise um (Schritt A2), das
+Ergebnis ist also dasselbe, egal ob der Deploy zum ersten oder zum
+zweiten Mal läuft. Die Idempotenz der Terminanlage hängt seither am
+**Datum**, nicht mehr am Titel — jeder der sechs Termine hat ein
+eigenes, und ein von Hand geänderter Titel führt so nie zu einem
+doppelten Eintrag.
 
 **4. WhatsApp-Kanal korrigiert.** Der bisherige Link
 (`0029VbCwxidGehEK9HVaJ01G`) war der falsche, richtig ist
@@ -1237,6 +1249,16 @@ unverändert übernommen).
 
 Nicht angefasst: **Robin Mahrow** (Fussballschule, `Rubi_Mahrow.jpg`)
 und **Robin Zurfluh** (1. Mannschaft) — andere Personen.
+
+**7. Nico Zgraggen aus dem Team der Fussballschule** (Rückmeldung vom
+09.09.2026). Wie beim Betreuerstab der 2. Mannschaft steht die Liste
+im Seitenfeld (`fcs_fs_team`, Seite «Fussballschule»); die Liste in
+`page-fussballschule.php` ist nur der Fallback — beide wurden
+nachgeführt. Das DB-Skript streicht genau die Zeile, die mit
+«Nico Zgraggen |» beginnt, und bricht ab, wenn dabei nicht exakt eine
+Zeile wegfällt. Von acht Personen bleiben sieben. Der gleichnamige
+**Spieler der 1. Mannschaft** (`Nico_Zgraggen_2627.jpg`) ist davon
+nicht betroffen — andere Seite, anderes Feld.
 
 **Vier neue bzw. ersetzte Dateien in `wp-content/uploads/2026/06/`**
 (Ordner ist über `.gitignore` ausgenommen, liegt also nur lokal und

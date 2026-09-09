@@ -34,7 +34,6 @@ $team      = fcs_pf_lines( 'fs_team', array(
 	'Nicola Mahrow | Betreuer Fussballschule | Nici_Mahrow_2.jpg',
 	'Orlando Gisler | Betreuer Fussballschule | Orlando_Gisler.jpg',
 	'Robin Mahrow | Betreuer Fussballschule | Rubi_Mahrow.jpg',
-	'Nico Zgraggen | Betreuer Fussballschule | Nico_Zgraggen.jpg',
 	'Janic Gisler | Betreuer Fussballschule | Silhouette_Male_v2.jpg',
 	'Fabio Tresch | Betreuer Fussballschule | Silhouette_Male_v2.jpg',
 ) );
