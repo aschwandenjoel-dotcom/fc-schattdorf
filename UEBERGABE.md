@@ -60,33 +60,31 @@ fast-forward in `main` — kann gelöscht werden. Wichtig für den Betrieb:
   Domain einmal auslösen. Phase C (Search Console, 404-Log, Mail
   beobachten, cyon/UBIQ) steht in `UMSTELLUNG.md`.
 
-**`./deploy/deploy-liveticker.sh` ist am 09.09.2026 gelaufen** (Seite
-`/liveticker/` antwortet mit HTTP 200). Sein Schritt 1 ist
-`scripts/deploy-theme.sh`, deshalb sind die Theme-Änderungen der
-Nachträge vom 09.09. gleich mit live gegangen: Muoser-Wortmarke,
-korrigierter WhatsApp-Kanal, Enddatum und Automatik für vergangene
-Veranstaltungen. Die «93. Generalversammlung» ist von `/events/`
-verschwunden, obwohl der Inhalte-Deploy noch aussteht — genau so soll
-die Anzeige-Ebene wirken.
+**Es steht kein Deploy mehr aus** (Stand 09.09.2026, live nachgeprüft).
+Gelaufen sind: `deploy-liveticker.sh`, `scripts/deploy-theme.sh`
+(zweimal — der zweite Lauf für die Responsive-Korrektur am
+Grümpelturnier-Programm), `deploy-inhalte-0909.sh` und
+`deploy-news-1577-bild.sh`. Alle Token-Skripte sind vom Webroot
+verschwunden (HTTP 404), die vier Bilddateien liefern HTTP 200.
 
-**Zwei Deploys stehen aus:**
+Nachgeprüft wurden 21 Muster über Startseite, `/events/`,
+`/sponsoren/`, `/verein/vorstand/`, `/aktive/2-mannschaft/` und
+`/junioren/fussballschule/` — alle grün. Zwei Beobachtungen aus dem
+Betrieb, die das Verhalten bestätigen:
 
-1. `./deploy/deploy-inhalte-0909.sh` — **dringend**, denn die
-   Startseite verweist seit dem Theme-Deploy auf `muoser-weiss.png`,
-   und die Datei liegt noch nicht live (HTTP 404): in der Hero-Ecke
-   steht gerade ein kaputtes Bild. Der Deploy überträgt sie als
-   Schritt 2 zusammen mit den drei anderen Dateien und macht danach
-   die DB-Änderungen (Veranstaltungen, Sponsorenlinks, Porträts,
-   Fussballschule — Abschnitt 2k).
-2. `./deploy/deploy-news-1577-bild.sh` — setzt Beitragsbild und
-   Kategorie von «Bittere 2:3 Niederlage gegen Hünenberg» auf den
-   Stand der Quelle (Abschnitt 2j). Reine DB-Änderung, keine Dateien,
-   unabhängig — kann jederzeit laufen.
+- Die «93. Generalversammlung» verschwand schon mit dem **Theme**-Deploy
+  von `/events/`, bevor der Inhalte-Deploy sie in den Papierkorb legte.
+  Genau so soll die Anzeige-Ebene der Automatik wirken (Abschnitt 2k).
+- Zwischen Theme- und Inhalte-Deploy verwies die Startseite auf ein noch
+  nicht hochgeladenes `muoser-weiss.png` — die Hero-Ecke zeigte
+  solange ein kaputtes Bild. **Lehre für künftige Deploys dieser Art:**
+  wenn eine Vorlage auf eine neue Datei zeigt, gehören Datei und
+  Vorlage in denselben Lauf, oder die Datei zuerst.
 
-**Ausserdem ein zweiter Theme-Deploy** (`./scripts/deploy-theme.sh`):
-die Responsive-Korrektur am Grümpelturnier-Programm (Abschnitt 2k,
-Punkt 8) entstand nach dem Liveticker-Deploy und ist noch nicht live.
-Reine CSS-Änderung, unkritisch in der Reihenfolge.
+Offen bleiben nur Schritte ohne Deploy: Kontaktformular und
+Fanshop-Testbestellung auf der neuen Domain einmal auslösen (B6),
+Phase C in `UMSTELLUNG.md` und die Zertifikatsübernahme bis Anfang
+November.
 
 **Erledigt und live nachgeprüft (06./07.09.2026):** Redaktions-
 Rückmeldungen (2a), News-Nachtrag mit 25 Beiträgen (2b), 1. Mannschaft
@@ -104,8 +102,10 @@ haben:
   Als Prüfmuster für den News-Import taugt es nicht — dafür den vollen
   Titel nehmen.
 
-**Vorher `./scripts/pull-prod-db.sh` laufen lassen.** Die lokale DB ist
-seit den Deploys vom 06./07.09.2026 hinter live.
+**Zu Beginn jeder Session `./scripts/pull-prod-db.sh` laufen lassen.**
+Die lokale DB entsprach am 09.09.2026 dem Live-Stand (frisch gezogen,
+danach derselbe Inhalte-Deploy lokal wie live gefahren) — durch die
+Redaktionsarbeit im Live-Admin veraltet sie aber laufend.
 
 ### 2a. Deploy Redaktions-Rückmeldungen
 
