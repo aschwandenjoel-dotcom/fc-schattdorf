@@ -60,25 +60,27 @@ fast-forward in `main` — kann gelöscht werden. Wichtig für den Betrieb:
   Domain einmal auslösen. Phase C (Search Console, 404-Log, Mail
   beobachten, cyon/UBIQ) steht in `UMSTELLUNG.md`.
 
-**Drei Deploys stehen aus:**
+**Drei Deploys stehen aus, in dieser Reihenfolge:**
 
-0. `./scripts/deploy-theme.sh` — der Theme-Deploy trägt inzwischen
-   **zwei** Themen gleichzeitig und muss vor den beiden anderen laufen:
-   - feste Adresse `/liveticker/` (08.09.2026): Vorlage
-     `page-liveticker.php`, Felder, Startseiten-Link. Danach Seite
-     «Liveticker» per `./deploy/deploy-liveticker.sh` anlegen — dessen
-     Theme-Schritt ist damit schon erledigt. Lokal getestet
-     (Hinweisseite, 302-Weiterleitung, Idempotenz).
-   - Redaktions-Nachträge vom 09.09.2026 (Abschnitt 2k): Muoser-
-     Wortmarke in der Hero-Ecke, korrigierter WhatsApp-Kanal,
-     Enddatum und Automatik für vergangene Veranstaltungen.
-1. `./deploy/deploy-news-1577-bild.sh` — setzt Beitragsbild und
+1. `./deploy/deploy-liveticker.sh` — feste Adresse `/liveticker/`
+   (08.09.2026). **Sein Schritt 1 ist `scripts/deploy-theme.sh`**, das
+   das ganze Child-Theme rsynct — damit gehen die Theme-Änderungen der
+   Nachträge vom 09.09. (Abschnitt 2k: Muoser-Wortmarke, korrigierter
+   WhatsApp-Kanal, Enddatum und Automatik für vergangene
+   Veranstaltungen) im selben Lauf mit live. `deploy-theme.sh` muss
+   also **nicht** separat aufgerufen werden. Schritt 2 legt die Seite
+   «Liveticker» an; danach pflegt die Redaktion den Tickaroo-Link im
+   Seitenfeld. Lokal getestet (Hinweisseite, 302-Weiterleitung,
+   Idempotenz).
+2. `./deploy/deploy-inhalte-0909.sh` — Veranstaltungen, Sponsorenlinks,
+   Porträts von Robin Lindauer und Claudia Gisler, Fussballschule
+   (Abschnitt 2k). Vier Bilddateien plus DB-Änderung. Braucht den
+   Theme-Teil aus Schritt 1, sonst zeigt das Grümpelturnier nur den
+   ersten Tag.
+3. `./deploy/deploy-news-1577-bild.sh` — setzt Beitragsbild und
    Kategorie von «Bittere 2:3 Niederlage gegen Hünenberg» auf den
    Stand der Quelle (Abschnitt 2j). Reine DB-Änderung, keine Dateien,
-   jederzeit.
-2. `./deploy/deploy-inhalte-0909.sh` — Veranstaltungen, Sponsorenlinks
-   und die Porträts von Robin Lindauer und Claudia Gisler
-   (Abschnitt 2k). Vier Bilddateien plus DB-Änderung.
+   unabhängig von 1 und 2 — kann auch jederzeit später laufen.
 
 **Erledigt und live nachgeprüft (06./07.09.2026):** Redaktions-
 Rückmeldungen (2a), News-Nachtrag mit 25 Beiträgen (2b), 1. Mannschaft
