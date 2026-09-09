@@ -60,27 +60,33 @@ fast-forward in `main` — kann gelöscht werden. Wichtig für den Betrieb:
   Domain einmal auslösen. Phase C (Search Console, 404-Log, Mail
   beobachten, cyon/UBIQ) steht in `UMSTELLUNG.md`.
 
-**Drei Deploys stehen aus, in dieser Reihenfolge:**
+**`./deploy/deploy-liveticker.sh` ist am 09.09.2026 gelaufen** (Seite
+`/liveticker/` antwortet mit HTTP 200). Sein Schritt 1 ist
+`scripts/deploy-theme.sh`, deshalb sind die Theme-Änderungen der
+Nachträge vom 09.09. gleich mit live gegangen: Muoser-Wortmarke,
+korrigierter WhatsApp-Kanal, Enddatum und Automatik für vergangene
+Veranstaltungen. Die «93. Generalversammlung» ist von `/events/`
+verschwunden, obwohl der Inhalte-Deploy noch aussteht — genau so soll
+die Anzeige-Ebene wirken.
 
-1. `./deploy/deploy-liveticker.sh` — feste Adresse `/liveticker/`
-   (08.09.2026). **Sein Schritt 1 ist `scripts/deploy-theme.sh`**, das
-   das ganze Child-Theme rsynct — damit gehen die Theme-Änderungen der
-   Nachträge vom 09.09. (Abschnitt 2k: Muoser-Wortmarke, korrigierter
-   WhatsApp-Kanal, Enddatum und Automatik für vergangene
-   Veranstaltungen) im selben Lauf mit live. `deploy-theme.sh` muss
-   also **nicht** separat aufgerufen werden. Schritt 2 legt die Seite
-   «Liveticker» an; danach pflegt die Redaktion den Tickaroo-Link im
-   Seitenfeld. Lokal getestet (Hinweisseite, 302-Weiterleitung,
-   Idempotenz).
-2. `./deploy/deploy-inhalte-0909.sh` — Veranstaltungen, Sponsorenlinks,
-   Porträts von Robin Lindauer und Claudia Gisler, Fussballschule
-   (Abschnitt 2k). Vier Bilddateien plus DB-Änderung. Braucht den
-   Theme-Teil aus Schritt 1, sonst zeigt das Grümpelturnier nur den
-   ersten Tag.
-3. `./deploy/deploy-news-1577-bild.sh` — setzt Beitragsbild und
+**Zwei Deploys stehen aus:**
+
+1. `./deploy/deploy-inhalte-0909.sh` — **dringend**, denn die
+   Startseite verweist seit dem Theme-Deploy auf `muoser-weiss.png`,
+   und die Datei liegt noch nicht live (HTTP 404): in der Hero-Ecke
+   steht gerade ein kaputtes Bild. Der Deploy überträgt sie als
+   Schritt 2 zusammen mit den drei anderen Dateien und macht danach
+   die DB-Änderungen (Veranstaltungen, Sponsorenlinks, Porträts,
+   Fussballschule — Abschnitt 2k).
+2. `./deploy/deploy-news-1577-bild.sh` — setzt Beitragsbild und
    Kategorie von «Bittere 2:3 Niederlage gegen Hünenberg» auf den
    Stand der Quelle (Abschnitt 2j). Reine DB-Änderung, keine Dateien,
-   unabhängig von 1 und 2 — kann auch jederzeit später laufen.
+   unabhängig — kann jederzeit laufen.
+
+**Ausserdem ein zweiter Theme-Deploy** (`./scripts/deploy-theme.sh`):
+die Responsive-Korrektur am Grümpelturnier-Programm (Abschnitt 2k,
+Punkt 8) entstand nach dem Liveticker-Deploy und ist noch nicht live.
+Reine CSS-Änderung, unkritisch in der Reihenfolge.
 
 **Erledigt und live nachgeprüft (06./07.09.2026):** Redaktions-
 Rückmeldungen (2a), News-Nachtrag mit 25 Beiträgen (2b), 1. Mannschaft
