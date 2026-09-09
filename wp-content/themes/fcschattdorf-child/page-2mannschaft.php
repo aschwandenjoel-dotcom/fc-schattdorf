@@ -26,7 +26,7 @@ $up = wp_upload_dir()['baseurl'] . '/2026/06/';
 $staff = fcsh_team_staff( [
     'Betreuer | Igor Sureta | Igor_Sureta.jpg',
     'Betreuer | Roger Zurfluh | Silhouette_Male_v2.jpg',
-    'Betreuer | Robin Lindauer | Silhouette_Male_v2.jpg',
+    'Betreuer | Robin Lindauer | Robin_Lindauer.jpg',
 ] );
 
 // Team-Sponsoren: Name | Logo-Bilddatei | Website

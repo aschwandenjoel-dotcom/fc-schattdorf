@@ -11,9 +11,12 @@ add_action( 'wp_enqueue_scripts', function () {
     wp_enqueue_style( 'fcs-events', $uri . '/assets/fcs-events.css', [], filemtime( $dir . '/assets/fcs-events.css' ) );
 }, 5 );
 
-/* Events aus der Datenbank (WP-Admin -> Events).
-   Registrierung des Inhaltstyps und Abfrage: inc/fcs-events.php */
-$events = fcs_get_events();
+/* Events aus der Datenbank (WP-Admin -> Veranstaltungen).
+   Registrierung des Inhaltstyps und Abfrage: inc/fcs-events.php
+   true = nur bevorstehende: ein Termin verschwindet am Tag nach seinem
+   letzten Tag von der Seite, auch bevor der tägliche Cron ihn in den
+   Papierkorb legt. */
+$events = fcs_get_events( true );
 
 get_header();
 ?>
@@ -37,7 +40,12 @@ get_header();
 
     <?php else : ?>
 
-      <div class="fce-section-label">Upcoming Events <?php echo esc_html( $events[0]['datum']['jahr'] ?? '' ); ?></div>
+      <?php
+      /* Jahreszahl nur, solange alle Termine im selben Jahr liegen –
+         sonst stünde über einer Liste bis 2027 die Zahl des ersten. */
+      $jahre = array_unique( array_filter( wp_list_pluck( wp_list_pluck( $events, 'datum' ), 'jahr' ) ) );
+      ?>
+      <div class="fce-section-label">Upcoming Events <?php echo esc_html( 1 === count( $jahre ) ? reset( $jahre ) : '' ); ?></div>
 
       <?php foreach ( $events as $ev ) :
           $card_id = 'ev-' . $ev['id'];
@@ -52,6 +60,12 @@ get_header();
             <div class="fce-card__year"><?php echo esc_html( $ev['datum']['jahr'] ?? '' ); ?></div>
             <div class="fce-card__title"><?php echo esc_html( $ev['titel'] ); ?></div>
             <div class="fce-card__meta">
+              <?php if ( $ev['spanne'] ) : /* mehrtägig: Badge zeigt nur den ersten Tag */ ?>
+              <span class="fce-card__tag">
+                <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                <?php echo esc_html( $ev['spanne'] ); ?>
+              </span>
+              <?php endif; ?>
               <?php if ( $ev['ort_kurz'] ) : ?>
               <span class="fce-card__tag">
                 <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
@@ -93,7 +107,7 @@ get_header();
               <?php if ( $ev['datum'] ) : ?>
               <div class="fce-detail__item">
                 <span class="fce-detail__item-label">Datum</span>
-                <span class="fce-detail__item-value"><?php echo esc_html( $ev['datum']['lang'] ); ?></span>
+                <span class="fce-detail__item-value"><?php echo esc_html( $ev['spanne'] ?: $ev['datum']['lang'] ); ?></span>
               </div>
               <?php endif; ?>
               <?php if ( $ev['zeit'] ) : ?>

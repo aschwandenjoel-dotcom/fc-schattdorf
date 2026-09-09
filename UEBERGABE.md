@@ -1,6 +1,6 @@
 # Übergabe / Rechnerwechsel
 
-Stand: **08.09.2026**. Diese Datei beschreibt, was gerade offen ist und was
+Stand: **09.09.2026**. Diese Datei beschreibt, was gerade offen ist und was
 auf einem neuen Rechner eingerichtet werden muss. Die dauerhaften
 Projektregeln stehen in `CLAUDE.md`, das Setup der lokalen Umgebung in
 `README.md`.
@@ -60,17 +60,25 @@ fast-forward in `main` — kann gelöscht werden. Wichtig für den Betrieb:
   Domain einmal auslösen. Phase C (Search Console, 404-Log, Mail
   beobachten, cyon/UBIQ) steht in `UMSTELLUNG.md`.
 
-**Zwei Deploys stehen aus:**
+**Drei Deploys stehen aus:**
 
-0. `./deploy/deploy-liveticker.sh` — feste Adresse `/liveticker/` (08.09.2026):
-   Theme (Vorlage `page-liveticker.php`, Felder, Startseiten-Link) via
-   `scripts/deploy-theme.sh`, dann Seite «Liveticker» per DB-Skript anlegen.
-   Danach pflegt die Redaktion den Tickaroo-Link im Seitenfeld statt im
-   Code. Lokal getestet (Hinweisseite, 302-Weiterleitung, Idempotenz).
+0. `./scripts/deploy-theme.sh` — der Theme-Deploy trägt inzwischen
+   **zwei** Themen gleichzeitig und muss vor den beiden anderen laufen:
+   - feste Adresse `/liveticker/` (08.09.2026): Vorlage
+     `page-liveticker.php`, Felder, Startseiten-Link. Danach Seite
+     «Liveticker» per `./deploy/deploy-liveticker.sh` anlegen — dessen
+     Theme-Schritt ist damit schon erledigt. Lokal getestet
+     (Hinweisseite, 302-Weiterleitung, Idempotenz).
+   - Redaktions-Nachträge vom 09.09.2026 (Abschnitt 2k): Muoser-
+     Wortmarke in der Hero-Ecke, korrigierter WhatsApp-Kanal,
+     Enddatum und Automatik für vergangene Veranstaltungen.
 1. `./deploy/deploy-news-1577-bild.sh` — setzt Beitragsbild und
    Kategorie von «Bittere 2:3 Niederlage gegen Hünenberg» auf den
    Stand der Quelle (Abschnitt 2j). Reine DB-Änderung, keine Dateien,
    jederzeit.
+2. `./deploy/deploy-inhalte-0909.sh` — Veranstaltungen, Sponsorenlinks
+   und die Porträts von Robin Lindauer und Claudia Gisler
+   (Abschnitt 2k). Vier Bilddateien plus DB-Änderung.
 
 **Erledigt und live nachgeprüft (06./07.09.2026):** Redaktions-
 Rückmeldungen (2a), News-Nachtrag mit 25 Beiträgen (2b), 1. Mannschaft
@@ -1116,6 +1124,136 @@ importierten Beiträgen. Die Datenliste führt sie unter
 `Ba-GeringQWEB.jpg` kam mit 7035 px und 6,5 MB von der alten Seite und
 wurde auf 1600 px / 564 KB gebracht — dieselbe Grösse wie die übrigen
 Bilder des ersten Nachtrags.
+
+### 2k. Redaktions-Nachträge vom 09.09.2026
+
+Fünf Rückmeldungen aus einer Mail. Der Theme-Teil geht über
+`./scripts/deploy-theme.sh`, alles Inhaltliche über
+`./deploy/deploy-inhalte-0909.sh` (DB-Teil:
+`deploy/fcs-inhalte-0909.php.tpl`). Lokal auf dem Live-Stand vom
+09.09.2026 durchgespielt: Probelauf, scharfer Lauf und zweiter Lauf
+(«SKIP») grün, das Skript hat sich selbst gelöscht.
+
+**1. Muoser-Wortmarke in der Hero-Ecke der Startseite.** Dort stand
+`<p class="name">MUOSER</p>` — der Markenname in der Hausschrift des
+Themes nachgebaut, was der Redaktion aufgefallen ist. Jetzt steht dort
+die echte Wortmarke in Weiss. Herkunft der Datei:
+`muoser-color.png` (1000×411, ein einziger Ton `#45516A`) auf die
+Wortmarke zugeschnitten (0,0 → 1000×185; darunter beginnt nach einer
+Lücke der Claim «Wir gestalten Räume») und mit
+`scripts/logo-einfaerben.php` auf `#FFFFFF` umgefärbt — der
+Alphakanal bleibt dabei Pixel für Pixel erhalten. Ergebnis:
+`muoser-weiss.png`. Die Höhe gibt das CSS vor (1.375 rem, in
+`fcs-front.css` 1.25 rem), nicht die Breite: so sitzt jedes künftige
+Sponsorenlogo dort auf derselben Linie wie zuvor der Text. Der Logo-
+Block ist wie bisher **kein Link** — das war er vorher auch nicht.
+
+**2. Vergangene Veranstaltungen räumen sich selbst weg.** Zwei Ebenen
+in `inc/fcs-events.php`, damit ein abgelaufener Termin nie stehen
+bleibt:
+
+- **Anzeige.** `page-events.php` ruft jetzt `fcs_get_events( true )`
+  auf — wie die Termin-Kachel der Startseite es schon immer tat. Ein
+  Termin verschwindet damit am Tag nach seinem letzten Tag von der
+  Website, ganz ohne Cron.
+- **Aufräumen.** Der tägliche Cron `fcs_events_aufraeumen` legt
+  vergangene Veranstaltungen in den **Papierkorb**. Bewusst kein
+  endgültiges Löschen: die Redaktion kann einen Eintrag
+  wiederherstellen und z. B. für die Weihnachtsfeier des Folgejahres
+  kopieren. Von der Website sind sie so oder so weg. Einträge ohne
+  gültiges Datum fasst der Cron nie an.
+
+Massgeblich ist `fcs_event_ende()` — das neue Feld **Enddatum**
+(`fcs_ev_datum_bis`), sonst das Datum. Gerechnet wird mit
+`current_time()`, nicht `date()`: der Server läuft auf UTC, gezählt
+wird der Schweizer Kalendertag. Lokal geprüft mit drei Testterminen:
+gestern → Papierkorb, mehrtägig-noch-laufend → bleibt, ohne Datum →
+bleibt.
+
+**3. Sechs neue Termine**, die «93. Generalversammlung» (21.08.2026)
+in den Papierkorb:
+
+| Datum | Titel | Zeit | Ort |
+| --- | --- | --- | --- |
+| 24.10.2026 | Vorrundenabschluss | ab 17.00 Uhr | Sportplatz Grüner Wald, Schattdorf |
+| 28.11.2026 | Weihnachtsfeier | ab 18.00 Uhr | Uristier-Saal, Altdorf |
+| 24.04.2027 | Ehren-/Freimitglieder- und Sponsorenapéro | offen | offen |
+| 27.05.2027 | Kick-in-one | offen | Sportplatz Grüner Wald, Schattdorf |
+| 17.–19.06.2027 | Dorf- und Grümpelturnier | offen | Sportplatz Grüner Wald, Schattdorf |
+| 04.12.2027 | Weihnachtsfeier | offen | Uristier-Saal, Altdorf |
+
+Wo Zeit oder Ort noch ausstehen, steht wie bei der bisherigen GV
+«Wird bekannt gegeben» (Kurzform «Zeit folgt» / «Ort folgt»). Das
+Grümpelturnier ist der erste mehrtägige Eintrag: die Karte zeigt im
+Datums-Badge den ersten Tag und daneben die Spanne
+«17. – 19. Juni 2027» (`fcs_event_spanne()`, kürzt Monat und Jahr
+weg, solange sie gleich bleiben). Die Zeile «Upcoming Events 2026»
+führt die Jahreszahl nur noch, solange alle Termine im selben Jahr
+liegen — sonst stünde über einer Liste bis 2027 die Zahl des ersten.
+
+Zielgruppe, Hinweiszeile und Agenda bleiben bei allen sechs leer;
+diese Angaben lagen nicht vor und werden nicht erfunden.
+
+**4. WhatsApp-Kanal korrigiert.** Der bisherige Link
+(`0029VbCwxidGehEK9HVaJ01G`) war der falsche, richtig ist
+`0029VbDULM4FXUugCV1Kiq1M`. Er stand nur im Theme-Code
+(`front-page.php` dreimal, `footer.php` einmal), nicht in der
+Datenbank — reine Theme-Änderung.
+
+**5. Sponsoren.** Beide Einträge lagen ohne Website-Link vor:
+
+- **Zurich Insurance** → `zurich.ch/de/standorte/generalagentur-simon-mani-6010-kriens`
+- **Duftruim** (im Admin so benannt, auf dem Logo «Duftruim
+  Massagepraxis / Olivia Bachmann») → `duftruim.com`, ausserdem
+  `duftruim-color.png` → `duftruim-2026.png`. Trotz des Namens war
+  `duftruim-color.png` das **graue** Logo; das farbige kam als
+  `~/Downloads/Olivia Bachmann.png` (642×700) und wurde unverändert
+  übernommen. Die alte Datei bleibt in der Mediathek liegen.
+
+Der generische Link `zurich.ch` im Team-Sponsoren-Feld der
+2. Mannschaft bleibt, wie er ist — er war nicht Teil der Rückmeldung.
+
+**6. Porträts Robin Lindauer und Claudia Gisler** (aus `~/Downloads`,
+beide 1280×1920, dieselbe Fotoserie wie die übrigen Vorstandsbilder,
+unverändert übernommen).
+
+- **Claudia Gisler**: das neue Foto ersetzt `Claudia_Gisler.jpg` unter
+  demselben Namen. Anders geht es nicht sauber — der Bildblock der
+  Vorstandsseite hängt an Mediathek-Eintrag **#218**, und WordPress
+  baut das `srcset` aus dessen Vorschaudateien. Ein neuer Dateiname bei
+  gleichbleibendem `wp-image-218` hätte im `srcset` weiter das alte
+  Foto ausgeliefert. Das Deploy-Skript sichert die alte Fassung vorher
+  auf dem Server als `Claudia_Gisler.bak-20260909.jpg` (lokal liegt sie
+  ebenso), das DB-Skript rechnet die Vorschaugrössen neu.
+- **Robin Lindauer**: hatte als Einziger im Vorstand noch die
+  Silhouette. `Robin_Lindauer.jpg` wird als Mediathek-Eintrag angelegt
+  (damit die Redaktion es findet und das `srcset` stimmt) und in den
+  `<figure>`-Block mit `alt="Robin Lindauer"` gesetzt. Dieselbe Datei
+  ersetzt sein Betreuerbild auf der **2. Mannschaft** — dort steht der
+  Betreuerstab im Seitenfeld `fcs_team_staff`, die Liste in
+  `page-2mannschaft.php` ist nur der Fallback; beide wurden
+  nachgeführt. **Roger Zurfluh behält dort die Silhouette**, zu ihm
+  liegt kein Foto vor.
+
+Nicht angefasst: **Robin Mahrow** (Fussballschule, `Rubi_Mahrow.jpg`)
+und **Robin Zurfluh** (1. Mannschaft) — andere Personen.
+
+**Vier neue bzw. ersetzte Dateien in `wp-content/uploads/2026/06/`**
+(Ordner ist über `.gitignore` ausgenommen, liegt also nur lokal und
+nach dem Deploy live). Schritt 2 des Skripts überträgt sie und prüft
+jede auf HTTP 200:
+
+| Datei | Quelle |
+| --- | --- |
+| `muoser-weiss.png` | Wortmarke aus `muoser-color.png`, zugeschnitten und weiss eingefärbt |
+| `Robin_Lindauer.jpg` | `~/Downloads/Robin_Web.jpg`, unverändert |
+| `Claudia_Gisler.jpg` | `~/Downloads/Claudia_Web.jpg`, unverändert — **ersetzt** die bestehende Datei |
+| `duftruim-2026.png` | `~/Downloads/Olivia Bachmann.png`, unverändert |
+
+**Zur GV-Meta-Beschreibung:** auf `/events/` steht weiterhin
+«…Generalversammlung, Turniere und Anlässe…» in der Yoast-
+Beschreibung. Das ist eine Gattungsbeschreibung, kein Rest des
+gelöschten Termins — bleibt bewusst stehen.
 
 ## 3. Neuer Rechner: was gebraucht wird
 

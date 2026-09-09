@@ -100,6 +100,10 @@ deploy/*
 # Token wird erst beim Deploy eingesetzt, enthaelt selbst keine Geheimnisse
 !deploy/deploy-domain.sh
 !deploy/fcs-domain-switch.php.tpl
+# Ausnahme: Redaktions-Nachtraege vom 09.09.2026 (Veranstaltungen, Sponsoren-
+# links, Portraets); Token wird erst beim Deploy eingesetzt, keine Geheimnisse
+!deploy/deploy-inhalte-0909.sh
+!deploy/fcs-inhalte-0909.php.tpl
 
 # OS
 .DS_Store

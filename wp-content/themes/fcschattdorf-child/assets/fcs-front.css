@@ -406,7 +406,7 @@ body.fcx-wine-page #content{background:var(--fcx-wine);}
 /* Sponsorenzeile war auf dem Foto kaum lesbar */
 .fcsh-hero__sponsor .lbl{letter-spacing:.2em;color:rgba(255,255,255,.72);}
 .fcsh-hero__socials a{color:rgba(255,255,255,.8);}
-.fcsh-hero__sponsor .name{font-size:1.1rem;letter-spacing:.08em;}
+.fcsh-hero__sponsor .logo{height:1.25rem;}
 .fcsh-scroll{
   background:var(--fcx-red-solid);letter-spacing:.14em;font-size:.6875rem;font-weight:800;
   padding:.95rem 1.4rem;

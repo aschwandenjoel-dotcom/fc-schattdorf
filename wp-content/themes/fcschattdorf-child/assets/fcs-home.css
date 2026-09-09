@@ -110,7 +110,10 @@
 .fcsh-arrow:hover{background:rgba(255,255,255,.1);}
 .fcsh-hero__sponsor{position:absolute;bottom:1.5rem;right:2.5rem;display:flex;flex-direction:column;align-items:flex-end;gap:.75rem;}
 .fcsh-hero__sponsor .lbl{color:rgba(255,255,255,.4);font-size:.625rem;text-transform:uppercase;letter-spacing:.15em;font-weight:600;margin:0 0 .25rem;}
-.fcsh-hero__sponsor .name{color:#fff;font-weight:900;font-size:1.25rem;letter-spacing:.05em;margin:0;}
+/* Wortmarke des Hauptsponsors (muoser-weiss.png, 1000x185). Hoehe statt
+   Breite vorgeben: das Logo bleibt so auf der Linie des frueheren
+   Schriftzugs, egal welches Sponsorenlogo dort einmal steht. */
+.fcsh-hero__sponsor .logo{display:block;height:1.375rem;width:auto;margin:0;}
 .fcsh-hero__socials{display:flex;gap:.75rem;}
 .fcsh-hero__socials a{color:rgba(255,255,255,.6);display:block;}
 .fcsh-hero__socials a:hover{color:#fff;}
