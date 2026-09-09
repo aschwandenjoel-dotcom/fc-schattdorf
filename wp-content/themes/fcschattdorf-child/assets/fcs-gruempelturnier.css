@@ -326,6 +326,13 @@ a.fgt-sponsor-box__name:focus-visible { outline: 3px solid var(--fcx-red-solid, 
 }
 @media (max-width: 480px) {
   .fgt-fact { flex: 1 1 100%; border-right: none; }
-  .fgt-program-day { grid-template-columns: 1fr; }
-  .fgt-program-day__date { border-right: none; border-bottom: 1px solid #e5e7eb; padding: 1rem 1.25rem; flex-direction: row; align-items: center; gap: 1rem; }
+  /* Datum bleibt auch auf dem Telefon LINKS neben dem Ereignis, wie auf
+     dem Desktop — vorher stapelte es sich als Streifen darueber.
+     Die Spalte wird nur schmaler; Wochentag und Datum ruecken eine
+     Stufe kleiner, damit «DONNERSTAG» einzeilig hineinpasst. */
+  .fgt-program-day { grid-template-columns: 100px 1fr; }
+  .fgt-program-day__date { padding: 1.25rem .75rem; }
+  .fgt-program-day__weekday { font-size: .625rem; letter-spacing: .06em; }
+  .fgt-program-day__dmy { font-size: 1rem; }
+  .fgt-program-day__body { padding: 1.25rem 1rem; }
 }

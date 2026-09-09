@@ -1262,6 +1262,25 @@ Zeile wegfällt. Von acht Personen bleiben sieben. Der gleichnamige
 **Spieler der 1. Mannschaft** (`Nico_Zgraggen_2627.jpg`) ist davon
 nicht betroffen — andere Seite, anderes Feld.
 
+**8. Grümpelturnier, Programm-Abschnitt auf dem Telefon** (Rückmeldung
+vom 09.09.2026). Unterhalb von 480 px klappte das Datum als
+Vollbreiten-Streifen **über** das Ereignis; gewünscht ist die
+Desktop-Anordnung, Datum **links daneben**. In
+`assets/fcs-gruempelturnier.css` ersetzt die 480er-Regel das
+`grid-template-columns: 1fr` jetzt durch `100px 1fr`, dazu kleinere
+Innenabstände und je eine Stufe kleinere Schrift bei Wochentag und
+Datum — sonst bricht «DONNERSTAG» um. Bei 390 px und bei 320 px
+geprüft: einzeilig, kein seitliches Überlaufen. Reine CSS-Änderung,
+geht mit dem Theme-Deploy (Schritt 1) mit.
+
+**Zum Nachprüfen von Responsive-Änderungen:** `--window-size` steuert
+in Chrome 151 headless den Viewport **nicht** — Screenshots zeigen den
+linken Ausschnitt einer Desktop-Ansicht, und Media Queries greifen
+nicht. Verlässlich ist eine Hilfsseite im Webroot mit
+`<iframe src="…" width="390">`: der iframe gibt dem eingebetteten
+Dokument echte 390 px. Ausserdem gibt es auf macOS kein `timeout` —
+ein davorgesetztes `timeout` lässt den Befehl kommentarlos ausfallen.
+
 **Vier neue bzw. ersetzte Dateien in `wp-content/uploads/2026/06/`**
 (Ordner ist über `.gitignore` ausgenommen, liegt also nur lokal und
 nach dem Deploy live). Schritt 2 des Skripts überträgt sie und prüft
