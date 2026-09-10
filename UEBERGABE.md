@@ -1,6 +1,6 @@
 # Übergabe / Rechnerwechsel
 
-Stand: **09.09.2026**. Diese Datei beschreibt, was gerade offen ist und was
+Stand: **10.09.2026**. Diese Datei beschreibt, was gerade offen ist und was
 auf einem neuen Rechner eingerichtet werden muss. Die dauerhaften
 Projektregeln stehen in `CLAUDE.md`, das Setup der lokalen Umgebung in
 `README.md`.
@@ -60,17 +60,17 @@ fast-forward in `main` — kann gelöscht werden. Wichtig für den Betrieb:
   Domain einmal auslösen. Phase C (Search Console, 404-Log, Mail
   beobachten, cyon/UBIQ) steht in `UMSTELLUNG.md`.
 
-**Es steht kein Deploy mehr aus** (Stand 09.09.2026, live nachgeprüft).
-Gelaufen sind: `deploy-liveticker.sh`, `scripts/deploy-theme.sh`
-(zweimal — der zweite Lauf für die Responsive-Korrektur am
-Grümpelturnier-Programm), `deploy-inhalte-0909.sh` und
-`deploy-news-1577-bild.sh`. Alle Token-Skripte sind vom Webroot
-verschwunden (HTTP 404), die vier Bilddateien liefern HTTP 200.
+**Ein Deploy steht aus:** `./deploy/deploy-inhalte-1009.sh` — drei neue
+Beiträge und zwei Teamfotos (Abschnitt 2l). Reine Inhaltsänderung, kein
+Theme-Code, jederzeit fahrbar.
 
-Nachgeprüft wurden 21 Muster über Startseite, `/events/`,
-`/sponsoren/`, `/verein/vorstand/`, `/aktive/2-mannschaft/` und
-`/junioren/fussballschule/` — alle grün. Zwei Beobachtungen aus dem
-Betrieb, die das Verhalten bestätigen:
+**Alles vom 09.09.2026 ist live** und wurde nachgeprüft: gelaufen sind
+`deploy-liveticker.sh`, `scripts/deploy-theme.sh` (zweimal — der zweite
+Lauf für die Responsive-Korrektur am Grümpelturnier-Programm),
+`deploy-inhalte-0909.sh` und `deploy-news-1577-bild.sh`. 21 Muster über
+Startseite, `/events/`, `/sponsoren/`, `/verein/vorstand/`,
+`/aktive/2-mannschaft/` und `/junioren/fussballschule/` waren grün, alle
+Token-Skripte vom Webroot verschwunden. Zwei Beobachtungen daraus:
 
 - Die «93. Generalversammlung» verschwand schon mit dem **Theme**-Deploy
   von `/events/`, bevor der Inhalte-Deploy sie in den Papierkorb legte.
@@ -81,7 +81,7 @@ Betrieb, die das Verhalten bestätigen:
   wenn eine Vorlage auf eine neue Datei zeigt, gehören Datei und
   Vorlage in denselben Lauf, oder die Datei zuerst.
 
-Offen bleiben nur Schritte ohne Deploy: Kontaktformular und
+Offen bleiben ausserdem Schritte ohne Deploy: Kontaktformular und
 Fanshop-Testbestellung auf der neuen Domain einmal auslösen (B6),
 Phase C in `UMSTELLUNG.md` und die Zertifikatsübernahme bis Anfang
 November.
@@ -1303,6 +1303,89 @@ jede auf HTTP 200:
 «…Generalversammlung, Turniere und Anlässe…» in der Yoast-
 Beschreibung. Das ist eine Gattungsbeschreibung, kein Rest des
 gelöschten Termins — bleibt bewusst stehen.
+
+### 2l. Redaktions-Nachträge vom 10.09.2026
+
+`./deploy/deploy-inhalte-1009.sh` (DB-Teil:
+`deploy/fcs-inhalte-1009.php.tpl`, Texte:
+`deploy/news-import-1009.json`). Lokal auf zwei frisch gezogenen
+Live-Ständen durchgespielt: Probelauf, scharfer Lauf und zweiter Lauf
+(«SKIP» überall) grün, das Skript hat sich samt Textliste selbst
+gelöscht.
+
+**Drei neue Beiträge** aus Word-Vorlagen in `~/Downloads`:
+
+| Titel | Kategorie | Bild | Quelle |
+| --- | --- | --- | --- |
+| Charaktertest auf dem Grünen Wald | 1. Mannschaft | `FCS_1_Team_Web.jpg` (lag schon live) | `2026-09-12_FC Gunzwil (H).docx` |
+| Team Uri Frauen: Erfolgreiche Englische Woche mit 2 Siegen! | Frauen | `Team_Uri_Frauen_09-09-2026.jpg` | `Zeitungsbericht Team Uri Frauen I_09.09.26.docx` |
+| Cb-Junioren: Urner Derby erst in der Schlussphase entschieden | Junioren | `Cb_Junioren_25-26.jpg` | `Spielbericht Cb Junioren FC Schattdorf FC Altdorf.docx` |
+
+Aufbau wie beim Nachtrag vom 07.09.: Bildblock, Fliesstext, fett
+ausgezeichnete Absätze der Quelle als `<h3>`-Zwischentitel. Nur die
+Gunzwil-Vorschau hat welche (drei); die beiden Spielberichte sind in
+der Quelle durchgehender Fliesstext und bleiben es.
+
+Zwei Eingriffe an den Quelltexten, beide bewusst:
+
+- **Der Cb-Bericht trägt in der Quelle den Titel «Urner Derby erst in
+  der Schlussphase entschieden»** — wortgleich mit dem Ca-Bericht vom
+  02.09.2026 (#821, derselbe Einsender). Zweimal dieselbe Zeile in der
+  News-Liste wäre für Leserinnen und Leser nicht auseinanderzuhalten,
+  deshalb ist «Cb-Junioren: » vorangestellt. Der Fliesstext bleibt
+  unverändert.
+- **Beim Cb-Bericht** entfallen wie beim Ca-Bericht die
+  Einsenderangaben, die Zeitungsrubrik, die Resultatzeile und die
+  Fotohinweise; es bleiben die drei Fliesstext-Absätze.
+
+**Die Beitragsdaten liegen am Vormittag des 10.09.** (08:28/08:29/08:30)
+und nicht wie sonst auf 18:00 Uhr. Grund: WordPress macht aus einem
+Beitrag mit Datum in der Zukunft einen **geplanten** Beitrag, der nicht
+auf der Website steht. Das DB-Skript fängt das zusätzlich ab und nimmt
+dann die aktuelle Zeit.
+
+**Neues Teamfoto der Ba-Junioren** (`~/Downloads/Ba Junioren_Teamfoto.jpeg`,
+2000×1500). Es geht an drei Stellen ein:
+
+- Seitenfeld «Teamfoto» der Ba-Seite (`fcs_jt_foto`, Seite #64) — das
+  speist zugleich die Kachel auf der Teams-Übersicht. Beide standen
+  vorher auf dem Platzhalter.
+- Bild und Beitragsbild im letzten Ba-Beitrag «Erneute Niederlage für
+  die Ba-Junioren» (#857), bisher `Ba-GeringQWEB.jpg`.
+
+**Erstes Teamfoto für Team Uri FF14** (`~/Downloads/FF14 Teamfoto.jpg`,
+5150×3433, 13 MB — auf 2000 px verkleinert). Seite #806 stand ebenfalls
+auf dem Platzhalter.
+
+**Fünf neue Dateien in `wp-content/uploads/`** (Ordner ist über
+`.gitignore` ausgenommen, liegt also nur lokal und nach dem Deploy
+live). Schritt 1 des Skripts überträgt sie und prüft jede auf HTTP 200:
+
+| Datei | Quelle |
+| --- | --- |
+| `2026/06/Ba_Junioren_26-27.jpg` (2000 px) | `Ba Junioren_Teamfoto.jpeg` |
+| `2026/06/FF14_Team_26-27.jpg` (2000 px) | `FF14 Teamfoto.jpg` |
+| `2026/09/Ba_Junioren_26-27.jpg` (1600 px) | dieselbe Quelle, News-Grösse |
+| `2026/09/Cb_Junioren_25-26.jpg` (1600 px) | aus `2026/06/Cb_Junioren_25-26.jpg` |
+| `2026/09/Team_Uri_Frauen_09-09-2026.jpg` (1200×1600) | `Damen Team Uri 1_Zeitungsberichtbild.jpeg` |
+
+Damit bleiben die Grössen des Projekts erhalten: **Teamfotos 2000 px**
+in `2026/06`, **News-Bilder 1600 px** in `2026/09` (Hochformat auf
+1600 px Höhe, wie `Baar.jpg`).
+
+**Stolperstein Yoast beim Bildwechsel.** Wird an einem bestehenden
+Beitrag nur das Beitragsbild getauscht, zeigt die Seite sofort das neue
+Bild — das `og:image` im Kopf aber weiter das alte. Yoast hält es in
+seiner Indexable-Tabelle und rechnet es erst beim Speichern des
+Beitrags neu; `set_post_thumbnail()` allein löst das nicht aus. Geteilte
+Links auf Facebook und WhatsApp zeigten sonst noch tagelang das alte
+Bild. Deshalb im DB-Skript **erst `set_post_thumbnail()`, dann
+`wp_update_post()`** — die Reihenfolge ist der ganze Trick. Der
+Deploy prüft es mit dem Muster `Ba-GeringQWEB` (erwartet 0).
+
+Nicht angefasst: `~/Downloads/Damen_Mannschaftsfoto.jpg` (14 MB) lag
+zwar daneben, war aber nicht Teil des Auftrags — der Frauen-Bericht
+bekam das Zeitungsberichtbild.
 
 ## 3. Neuer Rechner: was gebraucht wird
 

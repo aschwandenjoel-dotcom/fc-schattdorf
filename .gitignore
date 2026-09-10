@@ -104,6 +104,11 @@ deploy/*
 # links, Portraets); Token wird erst beim Deploy eingesetzt, keine Geheimnisse
 !deploy/deploy-inhalte-0909.sh
 !deploy/fcs-inhalte-0909.php.tpl
+# Ausnahme: Redaktions-Nachtraege vom 10.09.2026 (drei Beitraege, Teamfotos
+# Ba und FF14); Token wird erst beim Deploy eingesetzt, keine Geheimnisse
+!deploy/deploy-inhalte-1009.sh
+!deploy/fcs-inhalte-1009.php.tpl
+!deploy/news-import-1009.json
 
 # OS
 .DS_Store
