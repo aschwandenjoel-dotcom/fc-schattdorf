@@ -596,10 +596,21 @@ body.fcx-wine-page #content{background:var(--fcx-wine);}
   .fcx-agenda .fcx-btn:hover{background:#000;}
 }
 
+/* stretch statt start: die rechte Spalte ist wegen ihres Kopfes
+   «Spielbetrieb IFV» hoeher als die Terminkarte links. Mit start endete
+   die Karte rund 7 px ueber den IFV-Kacheln — sichtbar schief. Jetzt
+   fuellen beide Spalten die Bandhoehe, die Terminkarten waechst mit
+   (siehe .fcx-termine / .fcx-event unten), und die Unterkanten liegen
+   auf derselben Linie. Ab einer Spalte (<= 60rem) hat stretch keine
+   Wirkung, dort steht ohnehin alles untereinander. */
 .fcx-band{
   display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);
-  gap:clamp(1.5rem,4vw,3.5rem);align-items:start;
+  gap:clamp(1.5rem,4vw,3.5rem);align-items:stretch;
 }
+/* Die Karten teilen sich die Hoehe der Spalte – bei einem Termin fuellt
+   er sie ganz, bei mehreren wachsen alle gleichmaessig mit. */
+.fcx-termine{display:flex;flex-direction:column;}
+.fcx-termine .fcx-event{flex:1 1 auto;}
 @media(max-width:60rem){.fcx-band{grid-template-columns:1fr;}}
 
 /* Termin-Karte */

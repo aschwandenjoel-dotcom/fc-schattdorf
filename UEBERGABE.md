@@ -1483,9 +1483,15 @@ Termine. Auf Wunsch der Redaktion steht dort jetzt nur noch der
 `/events/`. Eine Zeile in `front-page.php`:
 `fcs_get_events( true, 4 )` -> `fcs_get_events( true, 1 )`.
 
-Das Layout hält: das rote Band ist ein Raster aus zwei Spalten mit
-`align-items: start` — die linke Spalte wird einfach kürzer, die
-IFV-Links rechts bleiben, wo sie sind. Bei 1440 px nachgeprüft.
+**Unterkanten bündig** (Nachtrag gleichentags): Die rechte Spalte ist
+wegen ihres Kopfes «Spielbetrieb IFV» 7,2 px höher als die Terminkarte
+links; mit dem bisherigen `align-items: start` endete die Karte
+entsprechend über den IFV-Kacheln. Das Band steht jetzt auf
+`align-items: stretch`, `.fcx-termine` ist eine Flex-Spalte und die
+Karten tragen `flex: 1 1 auto` — bei einem Termin füllt er die Spalte
+ganz, bei mehreren wachsen alle gleichmässig mit. Nachgemessen: Karte,
+rechte Spalte und Kacheln enden alle bei 107,3 px. Unterhalb von 60rem
+steht ohnehin alles untereinander, dort ändert `stretch` nichts.
 
 **Hinweis fürs Nachprüfen mit Screenshots:** die Kacheln blenden über
 einen `IntersectionObserver` ein (`.fcx-reveal` -> `.is-in`). Springt
