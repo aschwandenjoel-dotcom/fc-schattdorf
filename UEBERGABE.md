@@ -1326,24 +1326,29 @@ gelöscht.
 | --- | --- | --- | --- |
 | Charaktertest auf dem Grünen Wald | 1. Mannschaft | `FCS_1_Team_Web.jpg` (lag schon live) | `2026-09-12_FC Gunzwil (H).docx` |
 | Erfolgreiche Englische Woche mit 2 Siegen! | Frauen | Artikel `Team_Uri_Frauen_09-09-2026.jpg`, Beitragsbild `Team_Uri_Frauen_Team_26-27.jpg` | `Zeitungsbericht Team Uri Frauen I_09.09.26.docx` |
-| Cb-Junioren: Urner Derby erst in der Schlussphase entschieden | Junioren | `Cb_Junioren_25-26.jpg` | `Spielbericht Cb Junioren FC Schattdorf FC Altdorf.docx` |
+| Urner Derby erst in der Schlussphase entschieden | Junioren | `Cb_Junioren_25-26.jpg` | `Spielbericht Cb Junioren FC Schattdorf FC Altdorf.docx` |
 
 Aufbau wie beim Nachtrag vom 07.09.: Bildblock, Fliesstext, fett
 ausgezeichnete Absätze der Quelle als `<h3>`-Zwischentitel. Nur die
 Gunzwil-Vorschau hat welche (drei); die beiden Spielberichte sind in
 der Quelle durchgehender Fliesstext und bleiben es.
 
-Zwei Eingriffe an den Quelltexten, beide bewusst:
+**Titel: kein Teamname davor** (Regel vom 10.09.2026). Beide Berichte
+tragen den Titel der Quelle, ohne Präfix — die Kategorie nennt das Team
+ohnehin. Aus «Team Uri Frauen: Erfolgreiche Englische Woche…» wurde
+«Erfolgreiche Englische Woche mit 2 Siegen!», aus «Cb-Junioren: Urner
+Derby…» wieder «Urner Derby erst in der Schlussphase entschieden».
+Slug jeweils mitgezogen (die Beiträge waren noch nicht live, es bleibt
+also keine alte Adresse zurück).
 
-- **Der Cb-Bericht trägt in der Quelle den Titel «Urner Derby erst in
-  der Schlussphase entschieden»** — wortgleich mit dem Ca-Bericht vom
-  02.09.2026 (#821, derselbe Einsender). Zweimal dieselbe Zeile in der
-  News-Liste wäre für Leserinnen und Leser nicht auseinanderzuhalten,
-  deshalb ist «Cb-Junioren: » vorangestellt. Der Fliesstext bleibt
-  unverändert.
-- **Beim Cb-Bericht** entfallen wie beim Ca-Bericht die
-  Einsenderangaben, die Zeitungsrubrik, die Resultatzeile und die
-  Fotohinweise; es bleiben die drei Fliesstext-Absätze.
+Der Cb-Titel ist damit wortgleich mit dem Ca-Bericht vom 02.09.2026
+(#821, derselbe Einsender). Unterschieden wird deshalb nur der **Slug**:
+`…-entschieden-cb`. Ohne das hängte WordPress ein nichtssagendes «-2»
+an.
+
+**Beim Cb-Bericht** entfallen wie beim Ca-Bericht die Einsenderangaben,
+die Zeitungsrubrik, die Resultatzeile und die Fotohinweise; es bleiben
+die drei Fliesstext-Absätze.
 
 **Die Beitragsdaten liegen am Vormittag des 10.09.** (08:28/08:29/08:30)
 und nicht wie sonst auf 18:00 Uhr. Grund: WordPress macht aus einem
@@ -1427,6 +1432,48 @@ Links auf Facebook und WhatsApp zeigten sonst noch tagelang das alte
 Bild. Deshalb im DB-Skript **erst `set_post_thumbnail()`, dann
 `wp_update_post()`** — die Reihenfolge ist der ganze Trick. Der
 Deploy prüft es mit dem Muster `Ba-GeringQWEB` (erwartet 0).
+
+### 2m. Teamfotos: Mannschaft sitzt senkrecht mittig (10.09.2026)
+
+Rückmeldung: «schaue immer dass die Mannschaft — ob Aktive oder
+Junioren — immer zentral in der Mitte ist, momentan sind sie oft zu
+weit unten positioniert.» Das stimmte, und die Ursache lag an zwei
+Stellen.
+
+**Im CSS** stand `.fc1m-photo img { object-position: center 35% }`. Der
+Hero schneidet das Foto mit `object-fit: cover` auf ein sehr breites
+Band; 35 % zeigt mehr vom oberen Bildrand und schiebt die Mannschaft
+nach unten. Jetzt steht dort `center`. **50 % ist ausserdem der einzige
+Wert, der unabhängig von der Fenstergrösse hält:** nur bei 50 % fällt
+die Bildmitte immer auf die Kastenmitte, jeder andere Wert verschiebt
+den Ausschnitt mit dem Seitenverhältnis des Fensters mit. Die frühere
+Ausnahme für die 3. Mannschaft (65 %) ist damit weg.
+
+**In den Bildern** sass die Mannschaft je nach Foto bei 58–64 % der
+Bildhöhe statt bei 50 %. Gemessen an einem Kontaktbogen mit
+10 %-Linien:
+
+| Foto | Mannschaft vorher | oben weggeschnitten |
+| --- | --- | --- |
+| `FCS1_Web2627.jpg` | 49 % | — (war schon mittig) |
+| `FCS_2_Web2627.jpg` | 52 % | — (war schon mittig) |
+| `FCS3_Web2627.jpg` | 64 % | 28 % |
+| `FrauenUri1_Web2627.jpg` | 58 % | 17 % |
+| `Ba_Junioren_26-27.jpg` | 61 % | 22 % |
+| `FF14_Team_26-27.jpg` | 63 % | 26 % |
+
+Rechenweg: Liegt die Mannschaft zwischen den Anteilen `oben` und
+`unten` der Bildhöhe, bringt das Wegschneiden von `(oben + unten) − 1`
+am oberen Rand ihre Mitte auf 50 %. Nur oben schneiden, nie unten —
+sonst fehlen die Füsse.
+
+**Damit gilt für jedes neue Teamfoto:** vor dem Hochladen oben
+beschneiden, bis die Mannschaft mittig sitzt. Das gehört ins Bild, nicht
+ins CSS — sonst braucht jedes Team wieder seine eigene Ausnahme. Der
+Hinweis steht auch im CSS-Kommentar.
+
+Alle sechs Team-Heros wurden danach bei 1600 px Fensterbreite
+gerendert und gegen eine eingezeichnete Mittellinie geprüft.
 
 ## 3. Neuer Rechner: was gebraucht wird
 

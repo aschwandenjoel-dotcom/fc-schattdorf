@@ -12,11 +12,19 @@
 #      · «Erfolgreiche Englische Woche mit 2 Siegen!» (Frauen) — im
 #        Artikel das Jubelbild, als Beitragsbild (Hero der Startseite
 #        und News-Kacheln) das Mannschaftsfoto im Querformat
-#      · «Cb-Junioren: Urner Derby erst in der Schlussphase
-#        entschieden» (Junioren)
+#      · «Urner Derby erst in der Schlussphase entschieden» (Junioren)
 #   B) Neues Teamfoto der Ba-Junioren — Teamseite, Teams-Übersicht und
 #      der letzte Ba-Beitrag «Erneute Niederlage für die Ba-Junioren».
 #   C) Erstes Teamfoto für Team Uri FF14 (bisher Platzhalter).
+#   E) Alle Teamfotos sitzen jetzt senkrecht mittig. Bisher stand die
+#      Mannschaft auf mehreren Fotos zu tief im Bild; der Hero zeigte
+#      dann viel Himmel und schnitt unten ab. Die Fotos sind oben
+#      beschnitten, bis die Mannschaftsmitte auf 50 % liegt, und das
+#      CSS steht neu auf `object-position: center` (Theme-Deploy).
+#      Deshalb geht auch FCS3_Web2627.jpg nochmals mit — an der
+#      3. Mannschaft ändert sich sonst nichts, das Foto ist nur neu
+#      beschnitten und braucht dafür keine CSS-Ausnahme mehr.
+#
 #   D) Neues Mannschaftsfoto der Frauen auf /aktive/frauen-uri-1/ —
 #      die Datei kommt hier mit, der Dateiname steht aber in der
 #      Vorlage page-frauen-uri-1.php. Deshalb GEHÖRT DAZU:
@@ -26,17 +34,17 @@
 #      — genau der Fehler vom 09.09. mit muoser-weiss.png.
 #
 # Ablauf:
-#   1. Sieben Bilddateien übertragen, jede auf HTTP 200 prüfen
+#   1. Acht Bilddateien übertragen, jede auf HTTP 200 prüfen
 #   2. Token-geschütztes PHP samt Textliste in den Webroot legen,
 #      Probelauf fahren
 #   3. Nach Rückfrage scharf ausführen; das Skript löscht sich selbst
 #   4. Reste entfernen, 60 s warten (Hostpoint-Seitencache), prüfen
 #
-# Zum Titel des Cb-Berichts: die Quelle überschreibt ihn mit «Urner
-# Derby erst in der Schlussphase entschieden» — genau wie den Bericht
-# der Ca-Junioren vom 02.09.2026 (derselbe Einsender). Damit in der
-# News-Liste nicht zweimal dieselbe Zeile steht, ist «Cb-Junioren: »
-# vorangestellt. Der Text der Quelle bleibt unverändert.
+# Zum Titel des Cb-Berichts: er lautet wie in der Quelle, also genau
+# gleich wie der Bericht der Ca-Junioren vom 02.09.2026 (derselbe
+# Einsender). Nur der Slug bekommt die Endung «-cb», weil der Ca-Bericht
+# den naheliegenden schon belegt — sonst haengte WordPress ein
+# nichtssagendes «-2» an.
 #
 # Vorher einmal ./scripts/pull-prod-db.sh laufen lassen — der Dump in
 # backups/ ist der Rückweg, falls etwas schiefgeht.
@@ -66,6 +74,7 @@ BILDER=(
   "2026/09/Team_Uri_Frauen_09-09-2026.jpg"  # Jubelbild im Frauen-Beitrag
   "2026/09/Team_Uri_Frauen_Team_26-27.jpg"  # Beitragsbild Frauen (Hero/Kachel)
   "2026/06/FrauenUri1_Web2627.jpg"          # Hero /aktive/frauen-uri-1/
+  "2026/06/FCS3_Web2627.jpg"                # nur neu beschnitten, siehe unten
 )
 # FCS_1_Team_Web.jpg (Gunzwil-Vorschau) liegt bereits live.
 
@@ -118,7 +127,7 @@ printf "\n\033[1;33mProbelauf oben plausibel? Jetzt wirklich in die Live-DB schr
 read -r answer
 if [ "$answer" != "j" ] && [ "$answer" != "J" ]; then
   echo "Abgebrochen – räume Skript und Textliste vom Server…"
-  echo "Hinweis: die sieben Bilddateien liegen bereits live. Das stört nichts —"
+  echo "Hinweis: die acht Bilddateien liegen bereits live. Das stört nichts —"
   echo "         ohne die DB-Änderung bindet sie nur noch niemand ein."
   exit 0
 fi
@@ -162,7 +171,7 @@ pruefe "Frauen-Bericht steht"        "$F" 'Englische Woche'                ">0"
 pruefe "Titel ohne «Team Uri Frauen:»" "$F" '<title>Team Uri Frauen:'      "0"
 pruefe "Jubelbild im Artikel"        "$F" 'Team_Uri_Frauen_09-09-2026'     ">0"
 pruefe "Mannschaftsfoto als og:image" "$F" 'og:image[^>]*Team_Uri_Frauen_Team_26-27' ">0"
-C="/cb-junioren-urner-derby-erst-in-der-schlussphase-entschieden/"
+C="/urner-derby-erst-in-der-schlussphase-entschieden-cb/"
 pruefe "Cb-Bericht steht"            "$C" 'Derbysieg'                      ">0"
 pruefe "Cb-Bericht mit Teamfoto"     "$C" 'Cb_Junioren_25-26'              ">0"
 pruefe "alle drei auf der Startseite" "/" 'Charaktertest auf dem Gr'       ">0"
@@ -190,7 +199,8 @@ if [ "$ok" = "1" ]; then
   echo
   echo "  NOCH OFFEN: ./scripts/deploy-theme.sh — erst damit zeigt"
   echo "  /aktive/frauen-uri-1/ das neue Mannschaftsfoto (Dateiname"
-  echo "  steht in der Vorlage). Die beiden Prüfungen oben schlagen"
+  echo "  steht in der Vorlage) und greift object-position: center für"
+  echo "  alle Team-Heros. Die beiden Frauen-Prüfungen oben schlagen"
   echo "  bis dahin fehl."
 else
   printf "\033[1;31mFertig, ABER mindestens eine Prüfung passt nicht.\033[0m\n"

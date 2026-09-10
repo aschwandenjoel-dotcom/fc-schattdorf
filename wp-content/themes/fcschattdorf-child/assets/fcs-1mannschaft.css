@@ -116,7 +116,17 @@ body.page-id-46 .entry-header, body.fcs-team-page .entry-header  { padding: 0 !i
   height: auto;
   min-height: 300px;
   object-fit: cover;
-  object-position: center 35%;
+  /* Genau die Mitte. Vorher standen hier 35 %, das zeigte mehr vom
+     oberen Bildrand und schob die Mannschaft nach unten aus der Mitte.
+     50 % ist ausserdem der einzige Wert, der unabhaengig von der
+     Fenstergroesse haelt: nur bei 50 % faellt die Bildmitte immer auf
+     die Kastenmitte, jeder andere Wert verschiebt den Ausschnitt mit
+     dem Seitenverhaeltnis des Fensters mit.
+     Die Bedingung dafuer liegt bei den Bildern, nicht im CSS: Die
+     Mannschaft muss im Teamfoto senkrecht mittig sitzen. Fotos mit viel
+     Himmel darueber werden vor dem Hochladen oben beschnitten, bis die
+     Mannschaftsmitte auf 50 % liegt (siehe UEBERGABE.md, Abschnitt 2m). */
+  object-position: center;
   display: block;
 }
 /* ── Titelbild füllt den ersten Bildschirm ──────────────────────────
@@ -143,15 +153,10 @@ body.page-id-46 .entry-header, body.fcs-team-page .entry-header  { padding: 0 !i
   }
 }
 
-/* Ausnahme 3. Mannschaft: auf diesem Mannschaftsfoto steht das Team
-   tiefer im Bild als bei den uebrigen Teams. Mit den gemeinsamen 35 %
-   schnitt das breite Band der vorderen Reihe die Beine ab. 65 % nimmt
-   den Ueberhang oben weg statt unten – dann ist die Mannschaft samt
-   Fuessen drin und oben bleibt Luft (geprueft an 35/50/60/65/70/75 %,
-   ab 75 % wird es fuer die hintere Reihe am oberen Rand eng). */
-body.page-template-page-3mannschaft .fc1m-photo img {
-  object-position: center 65%;
-}
+/* Die fruehere Ausnahme fuer die 3. Mannschaft (object-position 65 %)
+   ist weg. Sie war noetig, weil dort die Mannschaft tief im Bild stand;
+   jetzt ist das Foto selbst entsprechend beschnitten und braucht wie
+   alle anderen keinen Sonderfall mehr. */
 
 /* Der Verlauf trägt den weissen Titel – nur so weit, wie er gebraucht wird. */
 .fc1m-herobar {
