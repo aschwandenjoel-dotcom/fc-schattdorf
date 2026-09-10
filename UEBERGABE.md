@@ -1475,6 +1475,26 @@ Hinweis steht auch im CSS-Kommentar.
 Alle sechs Team-Heros wurden danach bei 1600 px Fensterbreite
 gerendert und gegen eine eingezeichnete Mittellinie geprüft.
 
+### 2n. Startseite zeigt nur noch einen Termin (10.09.2026)
+
+Der Abschnitt «Termine & Spielbetrieb» führte bis zu vier kommende
+Termine. Auf Wunsch der Redaktion steht dort jetzt nur noch der
+**nächste**; alle weiteren erreicht man über «Weitere Termine» auf
+`/events/`. Eine Zeile in `front-page.php`:
+`fcs_get_events( true, 4 )` -> `fcs_get_events( true, 1 )`.
+
+Das Layout hält: das rote Band ist ein Raster aus zwei Spalten mit
+`align-items: start` — die linke Spalte wird einfach kürzer, die
+IFV-Links rechts bleiben, wo sie sind. Bei 1440 px nachgeprüft.
+
+**Hinweis fürs Nachprüfen mit Screenshots:** die Kacheln blenden über
+einen `IntersectionObserver` ein (`.fcx-reveal` -> `.is-in`). Springt
+man per Skript zum Abschnitt, feuert der Observer nicht zuverlässig und
+die Karten bleiben unsichtbar — das sieht nach einem Layoutfehler aus,
+ist aber keiner. Im Testaufbau vorher
+`document.querySelectorAll('.fcx-reveal').forEach(e => e.classList.add('is-in'))`
+ausführen.
+
 ## 3. Neuer Rechner: was gebraucht wird
 
 **Aus dem Repo kommt alles an Code**, inklusive Child-Theme, `scripts/`

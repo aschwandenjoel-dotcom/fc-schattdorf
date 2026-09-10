@@ -76,12 +76,14 @@ foreach ( $slides as $s ) {
 }
 
 /* ── Events laden (eigener fcs_event-CPT – gepflegt im Admin unter
-   «Events», dieselbe Quelle wie die /events/-Seite). Nur kommende
-   Termine, max. 4. Keine hartkodierten Inhalte mehr. ─────────────── */
+   «Veranstaltungen», dieselbe Quelle wie die /events/-Seite). Nur der
+   naechste kommende Termin; alle weiteren stehen hinter «Weitere
+   Termine» auf /events/ (Rueckmeldung vom 10.09.2026, vorher vier).
+   Keine hartkodierten Inhalte mehr. ─────────────────────────────── */
 $events = array();
 if ( function_exists( 'fcs_get_events' ) ) {
 	$upper = function_exists( 'mb_strtoupper' ) ? 'mb_strtoupper' : 'strtoupper';
-	foreach ( fcs_get_events( true, 4 ) as $ev ) {
+	foreach ( fcs_get_events( true, 1 ) as $ev ) {
 		if ( empty( $ev['datum'] ) ) {
 			continue;
 		}
