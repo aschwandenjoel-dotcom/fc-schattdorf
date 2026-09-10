@@ -40,7 +40,7 @@ get_header();
   <!-- ── Hero: Teamfoto mit Titel ── -->
   <div class="fc1m-hero">
     <div class="fc1m-photo">
-      <img src="<?php echo esc_url( $up . 'FrauenUri1_Web2526.jpg' ); ?>" alt="Frauen Team Uri FC Schattdorf">
+      <img src="<?php echo esc_url( $up . 'FrauenUri1_Web2627.jpg' ); ?>" alt="Frauen Team Uri FC Schattdorf">
     </div>
     <div class="fc1m-herobar">
       <div class="fc1m-herobar__inner">

@@ -2,22 +2,31 @@
 # ====================================================================
 # Deploy: Redaktions-Nachträge vom 10.09.2026
 #
-# Reine Inhaltsänderung — kein Theme-Code (DB-Teil:
-# deploy/fcs-inhalte-1009.php.tpl, Texte: deploy/news-import-1009.json):
+# Inhalte und Bilddateien (DB-Teil: deploy/fcs-inhalte-1009.php.tpl,
+# Texte: deploy/news-import-1009.json). Ein Punkt braucht zusätzlich
+# einen Theme-Deploy — siehe D):
 #
 #   A) Drei neue Beiträge:
 #      · «Charaktertest auf dem Grünen Wald» — Matchvorschau gegen den
 #        FC Gunzwil vom 12.09.2026 (1. Mannschaft)
-#      · «Team Uri Frauen: Erfolgreiche Englische Woche mit 2 Siegen!»
-#        (Frauen)
+#      · «Erfolgreiche Englische Woche mit 2 Siegen!» (Frauen) — im
+#        Artikel das Jubelbild, als Beitragsbild (Hero der Startseite
+#        und News-Kacheln) das Mannschaftsfoto im Querformat
 #      · «Cb-Junioren: Urner Derby erst in der Schlussphase
 #        entschieden» (Junioren)
 #   B) Neues Teamfoto der Ba-Junioren — Teamseite, Teams-Übersicht und
 #      der letzte Ba-Beitrag «Erneute Niederlage für die Ba-Junioren».
 #   C) Erstes Teamfoto für Team Uri FF14 (bisher Platzhalter).
+#   D) Neues Mannschaftsfoto der Frauen auf /aktive/frauen-uri-1/ —
+#      die Datei kommt hier mit, der Dateiname steht aber in der
+#      Vorlage page-frauen-uri-1.php. Deshalb GEHÖRT DAZU:
+#      danach einmal `./scripts/deploy-theme.sh`.
+#      Reihenfolge bewusst so: erst die Datei (dieses Skript), dann die
+#      Vorlage. Andersherum zeigte die Seite kurzzeitig ein leeres Bild
+#      — genau der Fehler vom 09.09. mit muoser-weiss.png.
 #
 # Ablauf:
-#   1. Fünf Bilddateien übertragen, jede auf HTTP 200 prüfen
+#   1. Sieben Bilddateien übertragen, jede auf HTTP 200 prüfen
 #   2. Token-geschütztes PHP samt Textliste in den Webroot legen,
 #      Probelauf fahren
 #   3. Nach Rückfrage scharf ausführen; das Skript löscht sich selbst
@@ -54,7 +63,9 @@ BILDER=(
   "2026/06/FF14_Team_26-27.jpg"             # Teamseite + Teams-Übersicht FF14
   "2026/09/Ba_Junioren_26-27.jpg"           # Bild im Ba-Beitrag
   "2026/09/Cb_Junioren_25-26.jpg"           # Bild im Cb-Beitrag
-  "2026/09/Team_Uri_Frauen_09-09-2026.jpg"  # Bild im Frauen-Beitrag
+  "2026/09/Team_Uri_Frauen_09-09-2026.jpg"  # Jubelbild im Frauen-Beitrag
+  "2026/09/Team_Uri_Frauen_Team_26-27.jpg"  # Beitragsbild Frauen (Hero/Kachel)
+  "2026/06/FrauenUri1_Web2627.jpg"          # Hero /aktive/frauen-uri-1/
 )
 # FCS_1_Team_Web.jpg (Gunzwil-Vorschau) liegt bereits live.
 
@@ -107,7 +118,7 @@ printf "\n\033[1;33mProbelauf oben plausibel? Jetzt wirklich in die Live-DB schr
 read -r answer
 if [ "$answer" != "j" ] && [ "$answer" != "J" ]; then
   echo "Abgebrochen – räume Skript und Textliste vom Server…"
-  echo "Hinweis: die fünf Bilddateien liegen bereits live. Das stört nichts —"
+  echo "Hinweis: die sieben Bilddateien liegen bereits live. Das stört nichts —"
   echo "         ohne die DB-Änderung bindet sie nur noch niemand ein."
   exit 0
 fi
@@ -146,9 +157,11 @@ echo "  Neue Beiträge"
 G="/charaktertest-auf-dem-gruenen-wald/"
 pruefe "Vorschau Gunzwil steht"      "$G" 'Reaktion vor eigenem Publikum'  ">0"
 pruefe "Vorschau mit Mannschaftsbild" "$G" 'FCS_1_Team_Web'                ">0"
-F="/team-uri-frauen-erfolgreiche-englische-woche-mit-2-siegen/"
+F="/erfolgreiche-englische-woche-mit-2-siegen/"
 pruefe "Frauen-Bericht steht"        "$F" 'Englische Woche'                ">0"
-pruefe "Frauen-Bericht mit Bild"     "$F" 'Team_Uri_Frauen_09-09-2026'     ">0"
+pruefe "Titel ohne «Team Uri Frauen:»" "$F" '<title>Team Uri Frauen:'      "0"
+pruefe "Jubelbild im Artikel"        "$F" 'Team_Uri_Frauen_09-09-2026'     ">0"
+pruefe "Mannschaftsfoto als og:image" "$F" 'og:image[^>]*Team_Uri_Frauen_Team_26-27' ">0"
 C="/cb-junioren-urner-derby-erst-in-der-schlussphase-entschieden/"
 pruefe "Cb-Bericht steht"            "$C" 'Derbysieg'                      ">0"
 pruefe "Cb-Bericht mit Teamfoto"     "$C" 'Cb_Junioren_25-26'              ">0"
@@ -161,6 +174,10 @@ pruefe "altes Bild weg (auch og:image)" "$B" 'Ba-GeringQWEB'               "0"
 pruefe "Teamseite Ba"   "/junioren/teams/junioren-b-junioren-a/" 'Ba_Junioren_26-27\.jpg' ">0"
 pruefe "Übersicht Ba"   "/junioren/teams/"                       'Ba_Junioren_26-27\.jpg' ">0"
 
+echo "  Frauen (Aktive)"
+pruefe "neues Mannschaftsfoto" "/aktive/frauen-uri-1/" 'FrauenUri1_Web2627\.jpg' ">0"
+pruefe "altes Foto weg"        "/aktive/frauen-uri-1/" 'FrauenUri1_Web2526\.jpg' "0"
+
 echo "  Team Uri FF14"
 pruefe "Teamseite FF14" "/junioren/teams/team-uri-ff14/" 'FF14_Team_26-27\.jpg' ">0"
 pruefe "Übersicht FF14" "/junioren/teams/"               'FF14_Team_26-27\.jpg' ">0"
@@ -170,6 +187,11 @@ if [ "$ok" = "1" ]; then
   printf "\033[1;32mFertig – alle Prüfungen grün.\033[0m\n"
   echo "  Die Matchvorschau steht auf dem 10.09., das Spiel gegen Gunzwil"
   echo "  ist am Samstag, 12.09.2026, 18.00 Uhr auf dem Grünen Wald."
+  echo
+  echo "  NOCH OFFEN: ./scripts/deploy-theme.sh — erst damit zeigt"
+  echo "  /aktive/frauen-uri-1/ das neue Mannschaftsfoto (Dateiname"
+  echo "  steht in der Vorlage). Die beiden Prüfungen oben schlagen"
+  echo "  bis dahin fehl."
 else
   printf "\033[1;31mFertig, ABER mindestens eine Prüfung passt nicht.\033[0m\n"
   echo "  Hinweis: Hostpoint-Seitencache kann nachhängen – nach 1–2 min erneut prüfen."

@@ -60,9 +60,16 @@ fast-forward in `main` — kann gelöscht werden. Wichtig für den Betrieb:
   Domain einmal auslösen. Phase C (Search Console, 404-Log, Mail
   beobachten, cyon/UBIQ) steht in `UMSTELLUNG.md`.
 
-**Ein Deploy steht aus:** `./deploy/deploy-inhalte-1009.sh` — drei neue
-Beiträge und zwei Teamfotos (Abschnitt 2l). Reine Inhaltsänderung, kein
-Theme-Code, jederzeit fahrbar.
+**Zwei Schritte stehen aus, in dieser Reihenfolge (Abschnitt 2l):**
+
+1. `./deploy/deploy-inhalte-1009.sh` — drei neue Beiträge, Teamfotos Ba
+   und FF14, neues Mannschaftsfoto der Frauen. Überträgt sieben
+   Bilddateien und macht danach die DB-Änderungen.
+2. `./scripts/deploy-theme.sh` — nur wegen `page-frauen-uri-1.php`: der
+   Dateiname des Frauen-Heros steht in der Vorlage, nicht in der DB.
+   **Diese Reihenfolge ist Absicht** — erst die Datei, dann die
+   Vorlage. Andersherum zeigte `/aktive/frauen-uri-1/` kurzzeitig ein
+   leeres Bild, genau der Fehler vom 09.09. mit `muoser-weiss.png`.
 
 **Alles vom 09.09.2026 ist live** und wurde nachgeprüft: gelaufen sind
 `deploy-liveticker.sh`, `scripts/deploy-theme.sh` (zweimal — der zweite
@@ -1318,7 +1325,7 @@ gelöscht.
 | Titel | Kategorie | Bild | Quelle |
 | --- | --- | --- | --- |
 | Charaktertest auf dem Grünen Wald | 1. Mannschaft | `FCS_1_Team_Web.jpg` (lag schon live) | `2026-09-12_FC Gunzwil (H).docx` |
-| Team Uri Frauen: Erfolgreiche Englische Woche mit 2 Siegen! | Frauen | `Team_Uri_Frauen_09-09-2026.jpg` | `Zeitungsbericht Team Uri Frauen I_09.09.26.docx` |
+| Erfolgreiche Englische Woche mit 2 Siegen! | Frauen | Artikel `Team_Uri_Frauen_09-09-2026.jpg`, Beitragsbild `Team_Uri_Frauen_Team_26-27.jpg` | `Zeitungsbericht Team Uri Frauen I_09.09.26.docx` |
 | Cb-Junioren: Urner Derby erst in der Schlussphase entschieden | Junioren | `Cb_Junioren_25-26.jpg` | `Spielbericht Cb Junioren FC Schattdorf FC Altdorf.docx` |
 
 Aufbau wie beim Nachtrag vom 07.09.: Bildblock, Fliesstext, fett
@@ -1344,6 +1351,42 @@ Beitrag mit Datum in der Zukunft einen **geplanten** Beitrag, der nicht
 auf der Website steht. Das DB-Skript fängt das zusätzlich ab und nimmt
 dann die aktuelle Zeit.
 
+**Der Frauen-Bericht hat zwei Bilder** (Rückmeldung vom 10.09.2026).
+Der Titel der Quelle beginnt mit «Team Uri Frauen: » — das ist weg, die
+Kategorie sagt es ohnehin; Titel und Slug lauten jetzt «Erfolgreiche
+Englische Woche mit 2 Siegen!».
+
+Wichtiger ist das Bild. Das Jubelbild ist **hochkant** (1536×2048). Im
+Hero der Startseite, der rund 2,1:1 breit ist und mit
+`background-size: cover` arbeitet, bleibt davon nur ein waagrechter
+Streifen von etwa 35 % der Bildhöhe sichtbar — und der wird um das
+Anderthalbfache hochskaliert. Ergebnis: zu nah dran und flau. Das lässt
+sich mit demselben Bild **nicht** beheben; ein Hochformat in einem
+breiten Hero zeigt zwangsläufig nur einen Ausschnitt.
+
+Deshalb trägt der Beitrag jetzt **zwei Bilder**: im Artikel weiterhin
+das Jubelbild (neu in voller Quellauflösung statt auf 1200 px
+verkleinert), als **Beitragsbild** — und damit im Hero und in den
+News-Kacheln — das Mannschaftsfoto im Querformat
+(`Team_Uri_Frauen_Team_26-27.jpg`, 2000 px). Dort sieht man das ganze
+Team mit Luft ringsum, gestochen scharf. Soll im Hero doch das
+Jubelbild stehen, genügt es, `beitragsbild` aus dem Frauen-Eintrag in
+`deploy/news-import-1009.json` zu entfernen.
+
+**Dazu ein zweiter Yoast-Stolperstein.** Ein Beitragsbild, das erst
+nach `wp_insert_post()` per `set_post_thumbnail()` gesetzt wird, kennt
+Yoast beim Bauen seiner Indexable-Zeile noch nicht — es nahm das erste
+Bild im Text, also wieder das Hochformat. Das Beitragsbild geht deshalb
+als `meta_input` **mit in den Insert**. Der Deploy prüft das mit dem
+Muster `og:image[^>]*Team_Uri_Frauen_Team_26-27`.
+
+**Neues Mannschaftsfoto der Frauen auf `/aktive/frauen-uri-1/`**
+(`~/Downloads/Damen_Mannschaftsfoto.jpg`, 5282×3521 → 2500 px, wie
+`FCS1_Web2627.jpg`). Der Dateiname steht wie bei der 1. und
+3. Mannschaft in der **Vorlage** (`page-frauen-uri-1.php`,
+`FrauenUri1_Web2526.jpg` -> `FrauenUri1_Web2627.jpg`), nicht in der DB
+— deshalb der zusätzliche Theme-Deploy.
+
 **Neues Teamfoto der Ba-Junioren** (`~/Downloads/Ba Junioren_Teamfoto.jpeg`,
 2000×1500). Es geht an drei Stellen ein:
 
@@ -1357,7 +1400,7 @@ dann die aktuelle Zeit.
 5150×3433, 13 MB — auf 2000 px verkleinert). Seite #806 stand ebenfalls
 auf dem Platzhalter.
 
-**Fünf neue Dateien in `wp-content/uploads/`** (Ordner ist über
+**Sieben neue Dateien in `wp-content/uploads/`** (Ordner ist über
 `.gitignore` ausgenommen, liegt also nur lokal und nach dem Deploy
 live). Schritt 1 des Skripts überträgt sie und prüft jede auf HTTP 200:
 
@@ -1367,7 +1410,9 @@ live). Schritt 1 des Skripts überträgt sie und prüft jede auf HTTP 200:
 | `2026/06/FF14_Team_26-27.jpg` (2000 px) | `FF14 Teamfoto.jpg` |
 | `2026/09/Ba_Junioren_26-27.jpg` (1600 px) | dieselbe Quelle, News-Grösse |
 | `2026/09/Cb_Junioren_25-26.jpg` (1600 px) | aus `2026/06/Cb_Junioren_25-26.jpg` |
-| `2026/09/Team_Uri_Frauen_09-09-2026.jpg` (1200×1600) | `Damen Team Uri 1_Zeitungsberichtbild.jpeg` |
+| `2026/09/Team_Uri_Frauen_09-09-2026.jpg` (1536×2048) | `Damen Team Uri 1_Zeitungsberichtbild.jpeg`, volle Quellauflösung |
+| `2026/09/Team_Uri_Frauen_Team_26-27.jpg` (2000 px) | `Damen_Mannschaftsfoto.jpg`, Beitragsbild des Frauen-Berichts |
+| `2026/06/FrauenUri1_Web2627.jpg` (2500 px) | `Damen_Mannschaftsfoto.jpg`, Hero `/aktive/frauen-uri-1/` |
 
 Damit bleiben die Grössen des Projekts erhalten: **Teamfotos 2000 px**
 in `2026/06`, **News-Bilder 1600 px** in `2026/09` (Hochformat auf
@@ -1382,10 +1427,6 @@ Links auf Facebook und WhatsApp zeigten sonst noch tagelang das alte
 Bild. Deshalb im DB-Skript **erst `set_post_thumbnail()`, dann
 `wp_update_post()`** — die Reihenfolge ist der ganze Trick. Der
 Deploy prüft es mit dem Muster `Ba-GeringQWEB` (erwartet 0).
-
-Nicht angefasst: `~/Downloads/Damen_Mannschaftsfoto.jpg` (14 MB) lag
-zwar daneben, war aber nicht Teil des Auftrags — der Frauen-Bericht
-bekam das Zeitungsberichtbild.
 
 ## 3. Neuer Rechner: was gebraucht wird
 

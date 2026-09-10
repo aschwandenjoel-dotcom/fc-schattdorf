@@ -86,6 +86,7 @@ $noetig = array(
 	$news_basedir . 'Cb_Junioren_25-26.jpg',
 	$news_basedir . 'Team_Uri_Frauen_09-09-2026.jpg',
 	$news_basedir . 'FCS_1_Team_Web.jpg',
+	$news_basedir . 'Team_Uri_Frauen_Team_26-27.jpg',
 	$team_basedir . 'Ba_Junioren_26-27.jpg',
 	$team_basedir . 'FF14_Team_26-27.jpg',
 );
@@ -151,12 +152,30 @@ foreach ( $daten as $e ) {
 		echo "   würde anlegen: Kategorie «{$e['kategorie']}», "
 		   . count( $e['absaetze'] ) . " Absätze (davon "
 		   . count( $zwischentitel ) . " Zwischentitel), Bild "
-		   . ( $e['bild'] ? $e['bild'] : 'keines' ) . "\n";
+		   . ( $e['bild'] ? $e['bild'] : 'keines' )
+		   . ( empty( $e['beitragsbild'] ) ? '' : ", Beitragsbild {$e['beitragsbild']}" ) . "\n";
 		continue;
 	}
 
+	/* Optional ein eigenes Beitragsbild: das steckt im Hero der
+	   Startseite und in den News-Kacheln. Der Frauen-Bericht nutzt das,
+	   weil sein Artikelbild hochkant ist — im breiten Hero bliebe davon
+	   nur ein schmaler Streifen sichtbar, stark vergroessert. */
+	$thumb_id = $bild_id;
+	if ( ! empty( $e['beitragsbild'] ) ) {
+		$eigenes = fcs_anhang( $e['beitragsbild'], $e['titel'], $news_ordner, $news_basedir, $news_baseurl, $dry );
+		if ( -1 === $eigenes ) { $fehler++; continue; }
+		if ( $eigenes > 0 ) { $thumb_id = $eigenes; }
+	}
+
 	$kat = get_term_by( 'name', $e['kategorie'], 'category' );
-	$id  = wp_insert_post( array(
+	/* Das Beitragsbild geht als meta_input mit in wp_insert_post statt
+	   per set_post_thumbnail danach. Grund: Yoast baut seine
+	   Indexable-Zeile (und damit das og:image) waehrend des Speicherns.
+	   Nachtraeglich gesetzt, kennt Yoast das Bild noch nicht und nimmt
+	   das erste Bild im Text — beim Frauen-Bericht also das hochkante
+	   Jubelbild statt des Mannschaftsfotos. */
+	$id = wp_insert_post( array(
 		'post_type'     => 'post',
 		'post_status'   => 'publish',
 		'post_title'    => $e['titel'],
@@ -164,10 +183,11 @@ foreach ( $daten as $e ) {
 		'post_date'     => $datum,
 		'post_content'  => implode( "\n\n", $bloecke ),
 		'post_category' => $kat ? array( (int) $kat->term_id ) : array(),
+		'meta_input'    => $thumb_id > 0 ? array( '_thumbnail_id' => $thumb_id ) : array(),
 	), true );
 	if ( is_wp_error( $id ) ) { echo '   FEHLER: ' . $id->get_error_message() . "\n"; $fehler++; continue; }
-	if ( $bild_id > 0 ) { set_post_thumbnail( $id, $bild_id ); }
-	echo "   angelegt: #{$id}, Kategorie «{$e['kategorie']}»\n";
+	echo "   angelegt: #{$id}, Kategorie «{$e['kategorie']}»"
+		. ( $thumb_id !== $bild_id ? ", Beitragsbild {$e['beitragsbild']}" : '' ) . "\n";
 }
 
 /* ── Helfer: Seitenfeld «Teamfoto» einer Junioren-Seite setzen ──── */
