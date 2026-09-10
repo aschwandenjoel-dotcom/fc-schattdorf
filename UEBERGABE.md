@@ -1501,6 +1501,41 @@ ist aber keiner. Im Testaufbau vorher
 `document.querySelectorAll('.fcx-reveal').forEach(e => e.classList.add('is-in'))`
 ausführen.
 
+### 2o. Stolperstein: Vorschaugrössen nach einem Bildtausch (10.09.2026)
+
+**Was schiefging.** Der Deploy vom 09.09. ersetzte das Porträt von
+Claudia Gisler unter demselben Dateinamen und liess die
+Vorschaugrössen auf dem Server über
+`wp_generate_attachment_metadata()` neu rechnen. Die Volldatei war
+danach korrekt — **vier der acht Vorschaugrössen aber nicht**:
+`-1024x1536`, `-300x300`, `-200x300` und `-150x150` zeigten weiter das
+alte Foto. Richtig neu gerechnet wurden nur `-683x1024`, `-768x1152`,
+`-85x128` und `-21x32`. Warum die Neuberechnung bei den vier nicht
+griff, liess sich von aussen nicht klären.
+
+**Warum das auffällt.** Die Vorstandsseite spielt ein `srcset` aus. Je
+nach Bildschirmbreite und Pixeldichte wählt der Browser eine der
+stehengebliebenen Grössen — ein Teil der Besucher sah also weiter das
+alte Bild, während die Volldatei längst neu war.
+
+**Warum ich es zuerst übersah.** Beim Nachprüfen hatte ich die
+Volldatei und *eine* Vorschau (`-683x1024`) angeschaut, beide waren
+korrekt, und daraus geschlossen, alles sei in Ordnung. Die Rückmeldung
+«das frische Image wurde beim Deploy nicht mitgezogen» war richtig.
+
+**Regel daraus:** Wird eine Bilddatei unter demselben Namen ersetzt,
+die als Mediathek-Eintrag mit `srcset` ausgespielt wird, **die
+Vorschaugrössen nicht auf dem Server rechnen lassen, sondern lokal
+erzeugen und fertig hochladen.** `deploy-inhalte-1009.sh` überträgt
+deshalb alle neun Claudia-Dateien und vergleicht danach jede einzeln
+byteweise (`md5`) mit der lokalen Fassung — eine Abweichung fällt sofort
+auf, statt monatelang unbemerkt zu bleiben.
+
+**Nicht betroffen** sind Bilder, die die Vorlagen als einfaches
+`<img src>` einbinden (Teamfotos wie `FCS3_Web2627.jpg`): dort gibt es
+kein `srcset`, nur die Volldatei zählt. Ebenso wenig neue Dateien mit
+neuem Namen — deren Vorschaugrössen entstehen ohnehin frisch.
+
 ## 3. Neuer Rechner: was gebraucht wird
 
 **Aus dem Repo kommt alles an Code**, inklusive Child-Theme, `scripts/`

@@ -25,6 +25,18 @@
 #      3. Mannschaft ändert sich sonst nichts, das Foto ist nur neu
 #      beschnitten und braucht dafür keine CSS-Ausnahme mehr.
 #
+#   F) Nachtrag zum Deploy vom 09.09.: das neue Portraet von Claudia
+#      Gisler liegt live zwar als Volldatei richtig, VIER der acht
+#      Vorschaugroessen (-1024x1536, -300x300, -200x300, -150x150)
+#      zeigten aber weiter das alte Foto. Das DB-Skript von damals liess
+#      sie ueber wp_generate_attachment_metadata() auf dem Server neu
+#      rechnen — bei diesen vier hat das nicht gegriffen. Weil die
+#      Vorstandsseite ein srcset ausspielt, bekam ein Teil der Besucher
+#      je nach Bildschirmbreite das alte Bild.
+#      Konsequenz: die Vorschaudateien werden nicht mehr auf dem Server
+#      gerechnet, sondern hier fertig hochgeladen und danach per
+#      Pruefsumme gegen die lokalen verglichen.
+#
 #   D) Neues Mannschaftsfoto der Frauen auf /aktive/frauen-uri-1/ —
 #      die Datei kommt hier mit, der Dateiname steht aber in der
 #      Vorlage page-frauen-uri-1.php. Deshalb GEHÖRT DAZU:
@@ -34,7 +46,7 @@
 #      — genau der Fehler vom 09.09. mit muoser-weiss.png.
 #
 # Ablauf:
-#   1. Acht Bilddateien übertragen, jede auf HTTP 200 prüfen
+#   1. 17 Bilddateien übertragen, jede auf HTTP 200 prüfen
 #   2. Token-geschütztes PHP samt Textliste in den Webroot legen,
 #      Probelauf fahren
 #   3. Nach Rückfrage scharf ausführen; das Skript löscht sich selbst
@@ -75,6 +87,16 @@ BILDER=(
   "2026/09/Team_Uri_Frauen_Team_26-27.jpg"  # Beitragsbild Frauen (Hero/Kachel)
   "2026/06/FrauenUri1_Web2627.jpg"          # Hero /aktive/frauen-uri-1/
   "2026/06/FCS3_Web2627.jpg"                # nur neu beschnitten, siehe unten
+  # Portraet Claudia Gisler samt ALLEN Vorschaugroessen — siehe F)
+  "2026/06/Claudia_Gisler.jpg"
+  "2026/06/Claudia_Gisler-1024x1536.jpg"
+  "2026/06/Claudia_Gisler-768x1152.jpg"
+  "2026/06/Claudia_Gisler-683x1024.jpg"
+  "2026/06/Claudia_Gisler-300x300.jpg"
+  "2026/06/Claudia_Gisler-200x300.jpg"
+  "2026/06/Claudia_Gisler-150x150.jpg"
+  "2026/06/Claudia_Gisler-85x128.jpg"
+  "2026/06/Claudia_Gisler-21x32.jpg"
 )
 # FCS_1_Team_Web.jpg (Gunzwil-Vorschau) liegt bereits live.
 
@@ -182,6 +204,19 @@ pruefe "Beitrag zeigt neues Teamfoto" "$B" 'Ba_Junioren_26-27'             ">0"
 pruefe "altes Bild weg (auch og:image)" "$B" 'Ba-GeringQWEB'               "0"
 pruefe "Teamseite Ba"   "/junioren/teams/junioren-b-junioren-a/" 'Ba_Junioren_26-27\.jpg' ">0"
 pruefe "Übersicht Ba"   "/junioren/teams/"                       'Ba_Junioren_26-27\.jpg' ">0"
+
+echo "  Portraet Claudia Gisler (alle Groessen byteweise)"
+for cf in wp-content/uploads/2026/06/Claudia_Gisler*.jpg; do
+  case "$cf" in *.bak*) continue;; esac
+  rel="${cf#wp-content/uploads/}"
+  lcurl -sS --max-time 40 "$LIVE/wp-content/uploads/${rel}" -o /tmp/fcs-claudia-pruef.jpg 2>/dev/null
+  if [ "$(md5 -q /tmp/fcs-claudia-pruef.jpg 2>/dev/null)" = "$(md5 -q "$cf")" ]; then
+    printf "    OK   %s\n" "$(basename "$cf")"
+  else
+    printf "    FEHL %s (live weicht ab)\n" "$(basename "$cf")"; ok=0
+  fi
+done
+rm -f /tmp/fcs-claudia-pruef.jpg
 
 echo "  Frauen (Aktive)"
 pruefe "neues Mannschaftsfoto" "/aktive/frauen-uri-1/" 'FrauenUri1_Web2627\.jpg' ">0"
