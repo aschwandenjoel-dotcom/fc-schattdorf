@@ -14,7 +14,7 @@
 #      Live-Webroot legen und Dump per HTTPS abholen
 #      (MySQL ist auf Hostpoint nur aus Web-Prozessen erreichbar)
 #   3. Vollständigkeit prüfen (Endmarke), Import in die lokale DB
-#   4. URLs auf localhost umschreiben (Host ohne Schema, wegen
+#   4. URLs auf localhost:${WP_PORT} umschreiben (Host ohne Schema, wegen
 #      JSON-escapter URLs z. B. in MailPoet-Vorlagen)
 #
 # Uploads/Medien werden NICHT synchronisiert — bei Bedarf:
@@ -101,14 +101,19 @@ sed -e 's/utf8mb4_uca1400[a-z_]*/utf8mb4_unicode_ci/g' "$DUMP" | \
 gzip -f "$DUMP"
 
 log "4/4  URLs auf lokal umschreiben…"
+# Zielhost aus .env statt fest 8080: wer den Port ändert (z. B. weil 8080
+# von einem SSH-Tunnel belegt ist), bekam sonst eine DB, die auf einen
+# toten Port zeigt, und musste von Hand nachschieben.
+LOKAL="localhost:${WP_PORT:-8080}"
+echo "    Zielhost: ${LOKAL}"
 # Host ohne Schema ersetzen (erfasst auch JSON-escapte URLs), dann Schema angleichen
-wpc search-replace 'www.fcschattdorf.ch' 'localhost:8080' --all-tables --report-changed-only | tail -2
-wpc search-replace 'https://localhost:8080' 'http://localhost:8080' --all-tables --report-changed-only | tail -2
-wpc search-replace 'https:\/\/localhost:8080' 'http:\/\/localhost:8080' --all-tables --report-changed-only | tail -2
+wpc search-replace 'www.fcschattdorf.ch' "$LOKAL" --all-tables --report-changed-only | tail -2
+wpc search-replace "https://$LOKAL" "http://$LOKAL" --all-tables --report-changed-only | tail -2
+wpc search-replace "https:\\/\\/${LOKAL}" "http:\\/\\/${LOKAL}" --all-tables --report-changed-only | tail -2
 wpc cache flush >/dev/null 2>&1 || true
 wpc rewrite flush >/dev/null 2>&1 || true
 
 echo ""
 echo "==> Fertig. Lokale DB = Produktionsstand von ${STAMP}."
 echo "    Rückgängig: gunzip -c backups/db-vor-pull-${STAMP}.sql.gz | docker compose exec -T db mysql -u${DB_USER} -p<pass> ${DB_NAME}"
-curl -s -o /dev/null -w "    Lokale Seite: HTTP %{http_code} (http://localhost:8080)\n" http://localhost:8080/
+curl -s -o /dev/null -w "    Lokale Seite: HTTP %{http_code} (http://${LOKAL})\n" "http://${LOKAL}/"

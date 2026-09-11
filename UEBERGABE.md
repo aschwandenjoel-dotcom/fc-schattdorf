@@ -49,11 +49,12 @@ fast-forward in `main` — kann gelöscht werden. Wichtig für den Betrieb:
 - `wp-config.php` auf Hostpoint setzt `WP_HOME`/`WP_SITEURL` fest auf
   `https://www.fcschattdorf.ch` (Konstanten schlagen die DB); Sicherung
   der alten Fassung liegt daneben als `wp-config.php.bak-20260907`.
-- Das Zertifikat für `fcschattdorf.ch`/`www` ist **kein FreeSSL**, sondern
-  das übernommene Let's-Encrypt-Zertifikat der alten cyon-Seite, gültig
-  bis **17.11.2026** (Hostpoints FreeSSL-Bestellung hing stundenlang).
-  Bis Anfang November muss FreeSSL im Panel übernommen haben — sonst
-  erneuern (Plan B in `UMSTELLUNG.md`, C-Phase).
+- **Zertifikate erledigt (08.09.2026, geprüft 11.09.):** Hostpoints
+  FreeSSL hat übernommen und stellt pro Hostname ein eigenes Zertifikat
+  aus — `www.fcschattdorf.ch`, `fcschattdorf.ch` und
+  `fcschattdorf.dynalias.net`, je gültig bis 07.12.2026, Kette
+  vollständig (`ssl_verify=0`). Das anfangs hochgeladene cyon-Zertifikat
+  und die von Hand gebaute Kette werden nicht mehr gebraucht.
 - Test-Host `fcschattdorf.dynalias.net` leitet per 301 auf www und bleibt
   bis ca. Dezember 2026 (C6).
 - Offen aus B6: Kontaktformular und Fanshop-Testbestellung auf der neuen
