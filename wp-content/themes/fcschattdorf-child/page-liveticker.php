@@ -37,7 +37,7 @@ add_filter( 'body_class', function ( $c ) { $c[] = 'fcx-wine-page'; return $c; }
 get_header();
 
 $text     = fcs_pf( 'lt_text', 'Zurzeit läuft kein Liveticker. Sobald die 1. Mannschaft spielt, findest du hier den Ticker zum Spiel.' );
-$plan_url = fcs_pf( 'lt_spielplan_url', 'https://matchcenter.ifv.ch/default.aspx?oid=7&lng=1&v=329&t=30614&ls=24454&sg=67609&a=pt' );
+$plan_url = fcs_pf( 'lt_spielplan_url', fcs_ifv_spielplan_url( 30614 ) );
 ?>
 
 <div class="fck-page">

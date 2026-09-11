@@ -9,8 +9,9 @@
  * lesen die Werte über die Helfer fcsh_team_*() weiter unten; leere
  * Felder zeigen weiterhin die Standardwerte der Vorlage.
  *
- * Tabellen/Spielpläne (IFV-Links, Matchcenter) bleiben bewusst fest in
- * den Vorlagen — sie ändern höchstens einmal pro Saison.
+ * Tabellen/Spielpläne (IFV-Matchcenter) bleiben bewusst fest in den
+ * Vorlagen: nur die Team-Nummer steht dort, die Links baut inc/fcs-ifv.php
+ * saisonunabhängig.
  */
 defined( 'ABSPATH' ) || exit;
 

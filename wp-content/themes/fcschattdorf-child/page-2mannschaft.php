@@ -38,9 +38,10 @@ $sponsors = fcsh_team_sponsoren( [
     'Arnold Co AG | sp-arnold-coag.png | https://www.arnold-coag.ch/',
 ] );
 
-$tabelle_url  = 'https://matchcenter.ifv.ch/default.aspx?v=329&oid=7&lng=1&t=30615&a=trr';
-$spielplan_url= 'https://matchcenter.ifv.ch/default.aspx?oid=7&lng=1&v=329&t=30615&ls=24457&sg=67622&a=pt';
-$mc_url       = 'https://matchcenter.ifv.ch/default.aspx?v=329&oid=7&lng=1&t=30615&a=re';
+/* IFV-Matchcenter: Team-Nummer bleibt über die Saisons gleich, die
+   Helfer (inc/fcs-ifv.php) lassen den Server die aktuelle Gruppe wählen. */
+$tabelle_url   = fcs_ifv_tabelle_url( 30615 );
+$spielplan_url = fcs_ifv_spielplan_url( 30615 );
 
 get_header();
 ?>

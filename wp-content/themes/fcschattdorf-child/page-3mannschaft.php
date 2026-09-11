@@ -32,9 +32,10 @@ $sponsors = fcsh_team_sponsoren( [
     'Feritec AG | feritec-2026.png | https://www.feritec.ch/',
 ] );
 
-$tabelle_url  = 'https://matchcenter.ifv.ch/default.aspx?v=329&oid=7&lng=1&t=58522&a=trr';
-$spielplan_url= 'https://matchcenter.ifv.ch/default.aspx?oid=7&lng=1&v=329&t=58522&ls=24463&sg=67647&a=pt';
-$mc_url       = 'https://matchcenter.ifv.ch/default.aspx?v=329&oid=7&lng=1&t=58522&a=re';
+/* IFV-Matchcenter: Team-Nummer bleibt über die Saisons gleich, die
+   Helfer (inc/fcs-ifv.php) lassen den Server die aktuelle Gruppe wählen. */
+$tabelle_url   = fcs_ifv_tabelle_url( 58522 );
+$spielplan_url = fcs_ifv_spielplan_url( 58522 );
 
 get_header();
 ?>

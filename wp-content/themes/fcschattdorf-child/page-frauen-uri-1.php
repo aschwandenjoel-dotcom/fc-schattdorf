@@ -28,9 +28,11 @@ $sponsors = fcsh_team_sponsors_from_lines( fcs_pf_lines( 'team_sponsoren', array
     'Raiffeisen | sp-raiffeisen.png | https://www.raiffeisen.ch',
 ) ) );
 
-$tabelle_url  = 'https://matchcenter.ifv.ch/default.aspx?v=326&oid=7&lng=1&t=57596&a=trr';
-$spielplan_url= 'https://matchcenter.ifv.ch/default.aspx?oid=7&lng=1&v=326&t=57596&ls=24614&sg=68064&a=pt';
-$mc_url       = 'https://matchcenter.ifv.ch/default.aspx?v=326&oid=7&lng=1&t=57596&a=re';
+/* IFV-Matchcenter: Team Uri Frauen sind beim FC Altdorf (v=326)
+   gemeldet; die Helfer (inc/fcs-ifv.php) lassen den Server die
+   aktuelle Gruppe wählen. */
+$tabelle_url   = fcs_ifv_tabelle_url( 57596, 326 );
+$spielplan_url = fcs_ifv_spielplan_url( 57596, 326 );
 
 get_header();
 ?>

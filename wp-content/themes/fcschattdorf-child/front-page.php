@@ -138,11 +138,11 @@ $nav = array(
 	array( 'label' => 'Kontakt', 'href' => fcsh_page_url( 'kontakt' ) ),
 );
 
-/* ── IFV-Links ───────────────────────────────────────────────────── */
+/* ── IFV-Links (Helfer in inc/fcs-ifv.php, 30614 = 1. Mannschaft) ── */
 $ifv = array(
-	array( 'label' => 'Tabelle',          'sub' => '1. Mannschaft', 'url' => 'https://matchcenter.ifv.ch/default.aspx?v=329&oid=7&lng=1&t=30614&a=trr' ),
-	array( 'label' => 'Spielplan',        'sub' => '1. Mannschaft', 'url' => 'https://matchcenter.ifv.ch/default.aspx?oid=7&lng=1&v=329&t=30614&ls=24454&sg=67609&a=pt' ),
-	array( 'label' => 'Spielbetrieb FCS', 'sub' => 'alle Teams',    'url' => 'https://www.ifv.ch/Innerschweizerischer-Fussballverband/Vereine-IFV/Verein-IFV.aspx/v-329/a-as/' ),
+	array( 'label' => 'Tabelle',          'sub' => '1. Mannschaft', 'url' => fcs_ifv_tabelle_url( 30614 ) ),
+	array( 'label' => 'Spielplan',        'sub' => '1. Mannschaft', 'url' => fcs_ifv_spielplan_url( 30614 ) ),
+	array( 'label' => 'Spielbetrieb FCS', 'sub' => 'alle Teams',    'url' => fcs_ifv_verein_url() ),
 	/* Feste Adresse /liveticker/ (Vorlage page-liveticker.php): dort pflegt die
 	   Redaktion den jeweils aktuellen Tickaroo-Link, kein Code-Deploy vor dem
 	   Spiel mehr. Solange die Seite fehlt, bleibt der letzte feste Ticker-Link. */

@@ -5,7 +5,8 @@
  * Ergänzt die Feld-Box «Seiteninhalte» (inc/fcs-page-fields.php) um die
  * Felder dieser drei Vorlagen: Betreuerstab und Team-Sponsoren werden als
  * Listen gepflegt (eine Zeile = ein Eintrag, Teile mit « | » getrennt).
- * Die Matchcenter-Links (Tabelle/Spielplan) bleiben in der Vorlage.
+ * Die Matchcenter-Links (Tabelle/Spielplan) bleiben in der Vorlage — dort
+ * steht nur die Team-Nummer, die Links baut inc/fcs-ifv.php.
  */
 defined( 'ABSPATH' ) || exit;
 

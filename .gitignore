@@ -125,3 +125,7 @@ wp-content-backup/
 # Ausgangsmaterial der Redaktion (Bildschirmfotos der Sponsorenlogos vom
 # 05.09.2026). Die daraus abgeleiteten Dateien liegen in uploads/.
 Spielersponsoren-Logo/
+
+# FF17 komplett + IFV-Teams je Juniorenseite (11.09.2026)
+!deploy/deploy-inhalte-1109.sh
+!deploy/fcs-inhalte-1109.php.tpl

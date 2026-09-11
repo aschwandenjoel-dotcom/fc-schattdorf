@@ -32,9 +32,10 @@ $sponsors = fcsh_team_sponsors_from_lines( fcs_pf_lines( 'team_sponsoren', array
     'Maler Nideroest AG | sp-maler-nideroest.jpg | https://www.maler-nideroest-ag.ch/',
 ) ) );
 
-$tabelle_url  = 'https://matchcenter.ifv.ch/default.aspx?v=329&oid=7&lng=1&t=30616&a=trr';
-$spielplan_url= 'https://matchcenter.ifv.ch/default.aspx?oid=7&lng=1&v=329&t=30616&ls=19998&sg=57728&a=pt';
-$mc_url       = 'https://matchcenter.ifv.ch/default.aspx?v=329&oid=7&lng=1&t=30616&a=re';
+/* IFV-Matchcenter: Team-Nummer bleibt über die Saisons gleich, die
+   Helfer (inc/fcs-ifv.php) lassen den Server die aktuelle Gruppe wählen. */
+$tabelle_url   = fcs_ifv_tabelle_url( 30616 );
+$spielplan_url = fcs_ifv_spielplan_url( 30616 );
 
 get_header();
 ?>

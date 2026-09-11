@@ -56,7 +56,7 @@ $squad = fcsh_team_kader( [
     'Sturm | 20 | Mattia Schorno | MattiaSchorno.jpg | coiffure-atmosphair-2026.png | Coiffure AtmospHAIR',
 ] );
 
-// Team-Sponsoren: Name | Logo-Bilddatei | Website (Resultate/Matchcenter zeigt die Seite nicht; IFV-Links oben bleiben fest)
+// Team-Sponsoren: Name | Logo-Bilddatei | Website (Resultate/Matchcenter zeigt die Seite nicht; IFV-Links unten kommen aus inc/fcs-ifv.php)
 $sponsors = fcsh_team_sponsoren( [
     'Muoser | muoser-color.png | https://www.muoser.ch/',
     'Imholz Sport | imholz-sport-color.jpg | http://imholzsport.ch/',
@@ -87,12 +87,12 @@ get_header();
   <section class="fc1m-ifv">
     <div class="fc1m-wrap">
       <div class="fc1m-ifv__grid">
-        <a class="fc1m-ifv__tile" href="https://matchcenter.ifv.ch/default.aspx?v=329&oid=7&lng=1&t=30614&a=trr" target="_blank" rel="noopener noreferrer">
+        <a class="fc1m-ifv__tile" href="<?php echo esc_url( fcs_ifv_tabelle_url( 30614 ) ); ?>" target="_blank" rel="noopener noreferrer">
           <span class="fc1m-ifv__label">Tabelle</span>
           <span class="fc1m-ifv__meta">Rangliste beim IFV</span>
           <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M2 10L10 2M5 2h5v5"/></svg>
         </a>
-        <a class="fc1m-ifv__tile" href="https://matchcenter.ifv.ch/default.aspx?oid=7&lng=1&v=329&t=30614&ls=24454&sg=67609&a=pt" target="_blank" rel="noopener noreferrer">
+        <a class="fc1m-ifv__tile" href="<?php echo esc_url( fcs_ifv_spielplan_url( 30614 ) ); ?>" target="_blank" rel="noopener noreferrer">
           <span class="fc1m-ifv__label">Spielplan</span>
           <span class="fc1m-ifv__meta">Alle Spiele beim IFV</span>
           <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M2 10L10 2M5 2h5v5"/></svg>

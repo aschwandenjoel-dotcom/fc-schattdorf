@@ -24,6 +24,11 @@ $up = wp_upload_dir()['baseurl'] . '/2026/06/';
       definiert in inc/fcs-fields-junioren-team.php) ────────────────── */
 $title = fcs_pf( 'jt_titel', get_the_title() );
 $photo = fcs_pf( 'jt_foto', 'Mannschaftsfoto_Platzhalter.jpg' );
+/* Senkrechte Lage im Hero: das CSS zentriert (object-position: center);
+   das Feld verschiebt den Ausschnitt nur für diese Seite, etwa wenn die
+   Mannschaft im Foto so hoch steht, dass die Köpfe oben wegfallen. */
+$photo_pos = (int) preg_replace( '/\D/', '', (string) fcs_pf( 'jt_foto_pos', '' ) );
+$photo_style = ( $photo_pos > 0 && $photo_pos < 100 && 50 !== $photo_pos ) ? ' style="object-position: center ' . $photo_pos . '%"' : '';
 
 /* Betreuerstab: eine Zeile pro Person «Rolle | Name | Portrait-Dateiname» */
 $staff = [];
@@ -87,7 +92,7 @@ get_header();
   <!-- ── Hero: Teamfoto mit Titel ── -->
   <div class="fc1m-hero">
     <div class="fc1m-photo">
-      <img src="<?php echo esc_url( $up . $photo ); ?>" alt="<?php echo esc_attr( $title ); ?> FC Schattdorf">
+      <img src="<?php echo esc_url( $up . $photo ); ?>" alt="<?php echo esc_attr( $title ); ?> FC Schattdorf"<?php echo $photo_style; ?>>
     </div>
     <div class="fc1m-herobar">
       <div class="fc1m-herobar__inner fcjt-herobar">
@@ -132,26 +137,30 @@ get_header();
 
   <!-- ── Tabelle & Spielplan beim IFV ── -->
   <?php
-  /* Solange kein teamspezifischer Matchcenter-Link hinterlegt ist
-     (Felder «Tabelle»/«Spielplan» der Seite), führen die Kacheln auf die
-     IFV-Vereinsseite mit dem Spielbetrieb aller FCS-Teams. */
-  $ifv_fallback  = 'https://www.ifv.ch/Innerschweizerischer-Fussballverband/Vereine-IFV/Verein-IFV.aspx/v-329/a-as/';
-  $tabelle_url   = fcs_pf( 'jt_tabelle', $ifv_fallback );
-  $spielplan_url = fcs_pf( 'jt_spielplan', $ifv_fallback );
+  /* Kacheln aus dem Seitenfeld «IFV-Teams» (Kürzel | Team-Nummer |
+     Vereinsnummer, eine Zeile pro Team — Helfer in inc/fcs-ifv.php).
+     Seiten mit mehreren Teams (Ea/Eb, Fa/Fb/Fc) bekommen je Team ein
+     Kachelpaar. Ohne Eintrag greifen die freien Link-Felder, und ganz
+     ohne Angaben die IFV-Vereinsseite mit dem Spielbetrieb aller
+     FCS-Teams. */
+  $ifv_kacheln = fcs_ifv_kacheln( fcs_pf_lines( 'jt_ifv' ) );
+  if ( empty( $ifv_kacheln ) ) {
+      $ifv_kacheln = array(
+          array( 'Tabelle',   'Rangliste beim IFV',   fcs_pf( 'jt_tabelle',   fcs_ifv_verein_url() ) ),
+          array( 'Spielplan', 'Alle Spiele beim IFV', fcs_pf( 'jt_spielplan', fcs_ifv_verein_url() ) ),
+      );
+  }
   ?>
   <section class="fc1m-ifv">
     <div class="fc1m-wrap">
-      <div class="fc1m-ifv__grid">
-        <a class="fc1m-ifv__tile" href="<?php echo esc_url( $tabelle_url ); ?>" target="_blank" rel="noopener noreferrer">
-          <span class="fc1m-ifv__label">Tabelle</span>
-          <span class="fc1m-ifv__meta">Rangliste beim IFV</span>
+      <div class="fc1m-ifv__grid<?php echo 1 === count( $ifv_kacheln ) ? ' fc1m-ifv__grid--einzeln' : ''; ?>">
+        <?php foreach ( $ifv_kacheln as $k ) : ?>
+        <a class="fc1m-ifv__tile" href="<?php echo esc_url( $k[2] ); ?>" target="_blank" rel="noopener noreferrer">
+          <span class="fc1m-ifv__label"><?php echo esc_html( $k[0] ); ?></span>
+          <span class="fc1m-ifv__meta"><?php echo esc_html( $k[1] ); ?></span>
           <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M2 10L10 2M5 2h5v5"/></svg>
         </a>
-        <a class="fc1m-ifv__tile" href="<?php echo esc_url( $spielplan_url ); ?>" target="_blank" rel="noopener noreferrer">
-          <span class="fc1m-ifv__label">Spielplan</span>
-          <span class="fc1m-ifv__meta">Alle Spiele beim IFV</span>
-          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M2 10L10 2M5 2h5v5"/></svg>
-        </a>
+        <?php endforeach; ?>
       </div>
     </div>
   </section>
