@@ -748,6 +748,14 @@ body.fcx-wine-page #content{background:var(--fcx-wine);}
 .fcsh-parallax__txt{left:var(--fcx-pad);bottom:clamp(2rem,5vw,3.5rem);right:var(--fcx-pad);z-index:1;}
 .fcsh-parallax__txt p{font-size:.6875rem;font-weight:800;letter-spacing:.2em;opacity:.75;}
 .fcsh-parallax__txt h2{font-size:clamp(1.75rem,4vw,3.25rem);letter-spacing:-.025em;}
+/* Schmal: das Band richtet sich nach dem Text statt nach einer festen
+   Hoehe. Mit clamp(20rem, 42vh, 26rem) blieben auf dem Telefon rund 200 px
+   leeres Muster ueber den zwei Zeilen (Rueckmeldung 11.09.: «oberhalb noch
+   zu viel freies schwarz-rotes Muster»). Jetzt nur noch 3rem Luft oben. */
+@media(max-width:600px){
+  .fcsh-parallax{height:auto;min-height:0;padding:3rem var(--fcx-pad) 1.75rem;}
+  .fcsh-parallax__txt{position:relative;} /* relative statt static: so bleibt z-index:1 wirksam und der Text liegt ueber dem Streifenmuster */
+}
 
 /* ── FOOTER ────────────────────────────────────────────────── */
 /* Schrift explizit: auf Unterseiten fehlt die .fcsh-Body-Klasse,

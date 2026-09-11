@@ -192,12 +192,24 @@
 
 /* ── Schmale Bildschirme: Umschalter unter den Titel, Feld volle Breite ── */
 @media (max-width: 40rem) {
-  .fcjt-herobar { align-items: stretch; }
-  .fcjt-switch { width: 100%; margin-bottom: 0; }
-  .fcjt-switch__btn { width: 100%; justify-content: space-between; }
-  /* Auf dem Handy ist das Titelbild niedrig – hier klappt es nach unten. */
+  /* Der Knopf behaelt seine natuerliche Breite und steht unter dem
+     Titel; ueber die volle Breite gezogen wirkte er «kuenstlich
+     vergroessert» (Rueckmeldung 12.09.). Etwas kleiner als auf dem
+     Desktop, ohne Glas-Effekt — er liegt hier auf dem dunklen Balken,
+     nicht mehr auf dem Foto. */
+  .fcjt-herobar { align-items: flex-start; flex-direction: column; gap: .75rem; }
+  .fcjt-switch { width: auto; margin-bottom: 0; }
+  .fcjt-switch__btn {
+    width: auto;
+    padding: .6rem 1rem;
+    font-size: .6875rem;
+    background: transparent;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  /* Auf dem Handy klappt das Feld nach unten, so breit wie der Balken. */
   .fcjt-switch__panel {
-    right: auto; left: 0; width: 100%;
+    right: auto; left: 0; width: calc(100vw - 2.5rem);
     bottom: auto; top: calc(100% - 1px);
   }
 }

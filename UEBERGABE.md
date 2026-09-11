@@ -1,6 +1,6 @@
 # Übergabe / Rechnerwechsel
 
-Stand: **10.09.2026**. Diese Datei beschreibt, was gerade offen ist und was
+Stand: **12.09.2026**. Diese Datei beschreibt, was gerade offen ist und was
 auf einem neuen Rechner eingerichtet werden muss. Die dauerhaften
 Projektregeln stehen in `CLAUDE.md`, das Setup der lokalen Umgebung in
 `README.md`.
@@ -60,16 +60,24 @@ fast-forward in `main` — kann gelöscht werden. Wichtig für den Betrieb:
   Domain einmal auslösen. Phase C (Search Console, 404-Log, Mail
   beobachten, cyon/UBIQ) steht in `UMSTELLUNG.md`.
 
-**Zwei Schritte stehen aus, in dieser Reihenfolge (Abschnitt 2l):**
+**Ein Schritt steht aus:** `./scripts/deploy-theme.sh` — zwei
+Responsive-Korrekturen vom 12.09. (Abschnitt 2r): der Claim-Text «Seit
+1933 …» liegt auf dem Telefon wieder über dem Streifenmuster, und das
+Teamfoto der Teamseiten wird auf dem Telefon ganz gezeigt, Titel und
+Umschalter darunter. Reiner Theme-Deploy, keine DB, keine Bilder.
 
-1. `./deploy/deploy-inhalte-1009.sh` — drei neue Beiträge, Teamfotos Ba
-   und FF14, neues Mannschaftsfoto der Frauen. Überträgt sieben
-   Bilddateien und macht danach die DB-Änderungen.
-2. `./scripts/deploy-theme.sh` — nur wegen `page-frauen-uri-1.php`: der
-   Dateiname des Frauen-Heros steht in der Vorlage, nicht in der DB.
-   **Diese Reihenfolge ist Absicht** — erst die Datei, dann die
-   Vorlage. Andersherum zeigte `/aktive/frauen-uri-1/` kurzzeitig ein
-   leeres Bild, genau der Fehler vom 09.09. mit `muoser-weiss.png`.
+**Erledigt und live nachgeprüft (12.09.2026, 00:10):** der Deploy vom
+11.09. ist komplett gelaufen — `deploy-inhalte-1109.sh` und der
+Theme-Deploy. Live geprüft: FF17-Teamfoto und Porträts, Claudia Gisler
+unter `Claudia_Gisler_2026.jpg`, Team-Kacheln (Da zeigt `t=30622`),
+1. Mannschaft ohne die alte Gruppe `ls=24454`. Die Prüfliste der
+Team-Nummern in Abschnitt 2p (jede Kachel einmal anklicken) bleibt
+offen — das kann nur jemand im Browser tun.
+
+**Erledigt und live nachgeprüft (11.09.2026):** die beiden Schritte vom
+10.09. (`deploy-inhalte-1009.sh` und der Theme-Deploy) sind gelaufen —
+der Frauen-Hero zeigt `FrauenUri1_Web2627.jpg`, das alte Foto ist weg,
+FF14 hat ihr Teamfoto auch live.
 
 **Alles vom 09.09.2026 ist live** und wurde nachgeprüft: gelaufen sind
 `deploy-liveticker.sh`, `scripts/deploy-theme.sh` (zweimal — der zweite
@@ -1535,6 +1543,251 @@ auf, statt monatelang unbemerkt zu bleiben.
 `<img src>` einbinden (Teamfotos wie `FCS3_Web2627.jpg`): dort gibt es
 kein `srcset`, nur die Volldatei zählt. Ebenso wenig neue Dateien mit
 neuem Namen — deren Vorschaugrössen entstehen ohnehin frisch.
+
+### 2p. Team Uri FF17 komplett, Tabelle/Spielplan je Mannschaft (11.09.2026)
+
+Zwei Aufträge: die FF17 hat jetzt Teamfoto und Betreuerporträts, und
+die Kacheln «Tabelle» und «Spielplan» führen auf jeder Teamseite zum
+jeweiligen Team im IFV-Matchcenter statt auf den Spielbetrieb des
+ganzen Vereins. Deploy: `./deploy/deploy-inhalte-1109.sh`
+(DB-Teil `deploy/fcs-inhalte-1109.php.tpl`), danach
+`./scripts/deploy-theme.sh`. Lokal ist beides schon durchgespielt (DB
+frisch von live gezogen, DB-Skript lokal gefahren, Seiten geprüft).
+
+**Bilder** (alle in `2026/06`, nur lokal bis zum Deploy):
+
+| Datei | Quelle in `~/Downloads` | Bearbeitung |
+| --- | --- | --- |
+| `FF17_Team_26-27.jpg` (2000×1243) | `ffu17 teamfoto .jpg` (4906×3242, ESC) | unten 5,9 % weg, Mannschaft von 47 % auf 50 % Bildhöhe (gemessen über den Hautton-Anteil je Zeile: vorher 6–88 %, jetzt 6,5–93 %). Ausnahmsweise unten statt oben beschnitten — dort war nur Asphalt, die Mannschaft stand zu hoch, nicht zu tief. Reicht trotzdem nicht: das Foto ist so eng, dass der breite Hero die Köpfe der hinteren Reihe anschnitt (Rückmeldung 11.09.). Deshalb steht auf dieser Seite das neue Feld **«Teamfoto: senkrechte Lage» auf 15** (erst 25, Rückmeldung «ganz wenig weiter runter») — die Vorlage setzt dann `object-position: center 15%` inline, nur für diese Seite; alle anderen bleiben bei der Mitte. Geprüft bei 1440×900 und 1920×1080: alle Köpfe mit Luft, dafür fehlen unten die Schuhe. |
+| `Sam_Buerer_2627.jpg` (1201×1600) | `Betreuer FF17.JPG` | Team-Uri-Dress; ersetzt auf der FF17-Seite das ältere `sam_buerer_2.jpg` |
+| `Noreen_Haefliger.jpg` (1201×1600) | `Betreuerin FF17.JPG` | bisher Silhouette |
+
+Stolperstein bei den Porträts: die Kamera hat sie liegend gespeichert
+(5328×4000) mit **EXIF-Orientierung 8**. `sips -Z` behält den Tag und
+die liegenden Pixel; `sips -r 270` dreht die Pixel, lässt den Tag aber
+stehen — Browser drehen dann doppelt. Funktioniert hat der Weg über BMP
+(`sips -s format bmp -Z 1600`, dann zurück nach JPEG, Qualität 88): BMP
+kennt keine Orientierung, sips brennt sie beim Formatwechsel ein.
+Ergebnis: stehende Pixel, kein Orientierungs-Tag. PNG als Zwischenformat
+taugt nicht, sips schreibt den Tag dort mit (eXIf-Chunk).
+
+Nicht angefasst: `page-betreuer.php` (Betreuer-Übersicht der Junioren)
+führt Sam Bürer weiter mit `sam_buerer_2.jpg` und der Rolle «Betreuer
+Junioren Dd» — hartkodiert in der Vorlage, redaktionell zu klären.
+
+**Tabelle/Spielplan je Team.** Das Matchcenter adressiert Teams über
+`v` (Verein: FC Schattdorf 329, FC Altdorf 326) und `t` (Team).
+Beides bleibt über die Saisons gleich — die 1. Mannschaft ist seit
+mindestens 2022 `t=30614`. Der Spielplan (`a=pt`) trägt zusätzlich
+`ls` (Liga-Saison) und `sg` (Gruppe), **und die wechseln jede Saison.**
+Genau das war der stille Fehler: der Spielplan-Link der 1. Mannschaft
+(`ls=24454&sg=67609`) gehört laut Webarchiv zur Saison 2025/26 (die
+2. Liga 2026/27 heisst dort `ls=25894&sg=70458`), 2., 3. und Frauen
+ebenso, die Senioren zeigten sogar noch auf die Gruppe von 2022/23.
+Mit `ls=0&sg=0` wählt der Server die aktuelle Gruppe selbst — belegt
+an Schnappschüssen von März 2023 und **März 2026** (ESC Erstfeld,
+`t=30602&ls=0&sg=0&a=pt` rendert den laufenden Spielplan).
+
+Neu baut `inc/fcs-ifv.php` alle Links: `fcs_ifv_tabelle_url( t, v )`
+(`a=trr`, Resultate + Rangliste), `fcs_ifv_spielplan_url( t, v )`
+(`a=pt` mit `ls=0&sg=0`), `fcs_ifv_verein_url()` (Rückfall).
+Aktiv-Vorlagen, Startseite und Liveticker-Vorgabe rufen die Helfer mit
+ihrer Team-Nummer auf; von Hand geschriebene Matchcenter-Links gibt es
+im Theme nicht mehr (`grep matchcenter` findet nur noch den nackten
+Link im Footer und den Helfer).
+
+Die Juniorenseiten bekommen das Seitenfeld **«IFV-Teams»** (`jt_ifv`,
+eine Zeile pro Team: `Kürzel | Team-Nummer | Vereinsnummer | ohne
+Tabelle`; Vereinsnummer darf fehlen = 329, Altdorf 326, Erstfeld 327;
+die Spalten ab der dritten sind in beliebiger Reihenfolge erlaubt —
+eine Zahl ist die Vereinsnummer, ein Text mit «Tabelle» schaltet die
+Tabellen-Kachel ab). **Alle E- und F-Teams sowie FF11 stehen auf «ohne
+Tabelle»** (Wunsch vom 11.09.: im Kinderfussball braucht es keine
+Rangliste), sie zeigen nur «Spielplan». Seiten mit mehreren Teams
+(Ea/Eb, Ed/Ee, Fa/Fb/Fc) zeigen je Team seine Kacheln mit Kürzel
+(«Spielplan Ea», «Spielplan Eb») — das Raster (`auto-fit,
+minmax(15rem)`) bricht von selbst um, auf dem Telefon zwei Spalten.
+**Eine einzelne Kachel** (Ec, Fd, FF11) lief über die ganze Breite —
+Rückmeldung «soll nicht extra länger gemacht werden». Die Vorlage
+hängt dann `fc1m-ifv__grid--einzeln` an: zwei feste Spalten, die
+Kachel ist so breit wie eine von zweien; unter 536 px Fensterbreite
+eine Spalte — exakt dort, wo `auto-fit` zwei Kacheln untereinander
+setzt (2 × 15rem + 1rem Abstand + 2 × 1.25rem Rand). Geprüft bei 540
+(halbe Breite) und 500 px (volle Breite, wie ein Paar dort). Ohne
+Eintrag greifen die freien Link-Felder «Tabelle»/«Spielplan», ganz ohne
+Angaben die IFV-Vereinsseite.
+
+**Kacheln auf dem Telefon kompakter** (Rückmeldung 11.09.: «auf
+responsiv design zu gross»). Unter 600 px in `fcs-1mannschaft.css`:
+Band 1rem statt clamp(1.5rem…) hoch, Kachel-Innenabstand .625rem /
+.875rem statt 1rem / 1.25rem, Titel 1rem statt 1.375rem, Untertitel
+.6875rem, Pfeil 11 px, Abstand .625rem. Gilt für alle Teamseiten,
+Aktive wie Junioren (gleiches Stylesheet). Geprüft bei 500 px auf Da
+(zwei Kacheln), Fa/Fb/Fc (drei) und Ec (eine).
+
+**Woher die Nummern stammen — und was zu prüfen ist.** ifv.ch,
+matchcenter.ifv.ch und football.ch sperren maschinelle Zugriffe
+(Cloudflare, «Block Bot Score 1», auch für Headless-Chrome). Die
+Nummern kommen aus dem Webarchiv: Matchcenter-Vereinsseite `v=329`
+vom **21.10.2025** (Saison 2025/26). Die Zuordnung der Buchstaben zu
+den Nummern setzt voraus, dass der Verein für 2026/27 die
+Team-Einträge in clubcorner beibehalten und nur Fe/Ff, Df und Ef
+gelöscht hat (so liest sich die Teammeldung in Abschnitt 2a). Das ist
+plausibel, aber nicht belegt — **nach dem Theme-Deploy jede
+Tabellen-Kachel einmal anklicken** und prüfen, ob das Matchcenter das
+richtige Team nennt:
+
+| Seite | Feld «IFV-Teams» | Name im Matchcenter 2025/26 |
+| --- | --- | --- |
+| Aa | `Aa \| 30617` | Youth League A |
+| Ba | `Ba \| 42180` | Junioren B 1. Stärkeklasse a |
+| Bb | `Bb \| 30618` | Junioren B 3. Stärkeklasse b |
+| Ca | `Ca \| 30619` | Junioren C 1. Stärkeklasse a |
+| Cb | `Cb \| 30620` | Junioren C 3. Stärkeklasse b |
+| Da | `Da \| 30622` | Junioren D-9 a |
+| Db | `Db \| 30623` | Junioren D-9 b |
+| Dc | `Dc \| 50554` | Junioren D-9 c |
+| Dd | `Dd \| 58109` | Junioren D-9 d |
+| De | `De \| 76734` | Junioren D-7 e (D-7 f = 76735 ist aufgelöst) |
+| Ea/Eb | `Ea \| 30625 \| ohne Tabelle`, `Eb \| 30626 \| ohne Tabelle` | Junioren E a, E b |
+| Ec | `Ec \| 47203 \| ohne Tabelle` | Junioren E c |
+| Ed/Ee | `Ed \| 52702 \| ohne Tabelle`, `Ee \| 54128 \| ohne Tabelle` | Junioren E d, E e (E f = 57684 aufgelöst) |
+| Fa/Fb/Fc | `Fa \| 71266 \| ohne Tabelle`, `Fb \| 46556 \| ohne Tabelle`, `Fc \| 50565 \| ohne Tabelle` | Junioren F a, F b, F c |
+| Fd | `Fd \| 48899 \| ohne Tabelle` | Junioren F d (F e = 52705, F f = 53419 aufgelöst) |
+| FF11 | `FF11 \| 76737 \| ohne Tabelle` | Juniorinnen E / FF-11, Mädchen Team Uri FF-11 — beim FC Schattdorf gemeldet |
+| FF14 | `FF14 \| 79188 \| 326` | beim FC Altdorf; Nummer von der Redaktion am 11.09. geliefert, nicht aus dem Archiv |
+| FF17 | `FF17 \| 78478 \| 327` | beim ESC Erstfeld; Nummer von der Redaktion am 11.09. geliefert, nicht aus dem Archiv |
+
+Stimmt ein Team nicht, im Live-Admin auf der Seite unter
+«Seiteninhalte» die Nummer korrigieren — kein Deploy nötig. Die
+Nummer steht in der Matchcenter-Adresse des Teams (`t=…`): Matchcenter
+→ Verein → FC Schattdorf → Team anklicken.
+
+**FF14 und FF17: Nummern von der Redaktion.** Beide Teams sind neu in
+2026/27 und im Archiv nicht zu finden (der ESC-Schnappschuss vom März
+2026 kennt noch keine FF17). Die Redaktion hat die Matchcenter-Links
+am 11.09. nachgereicht: FF14 beim FC Altdorf (`v=326`, `t=79188`),
+FF17 beim ESC Erstfeld (`v=327`, `t=78478`). Beide zeigen Tabelle und
+Spielplan. Die zwischenzeitlich gesetzten freien Link-Felder auf die
+Vereinsseiten leert das DB-Skript wieder (live waren sie nie gesetzt).
+Für künftige neue Teams gilt derselbe Weg: Matchcenter → Verein → Team
+anklicken, `t=…` aus der Adresse ins Feld «IFV-Teams» eintragen, bei
+fremdem Verein mit dessen `v=…` als dritter Spalte. Kein Deploy nötig.
+
+Nicht klärbar ohne Zugriff, gehört zur Prüfliste: ob `ls=0&sg=0` bei
+einem Team, das gerade zwischen zwei Runden steht, die richtige Runde
+wählt (2023 zeigte es die aktuelle Frühjahrsrunde). Die Frage nach
+Tabellen im Kinderfussball hat sich erledigt — E und F zeigen
+bewusst keine.
+
+**Lokale Prüfung (11.09.2026):** Aa–De und FF14 je zwei Kacheln mit
+`t=…&a=trr` und `t=…&ls=0&sg=0&a=pt`; Ea/Eb zwei, Fa/Fb/Fc drei, Ec,
+Fd und FF11 je eine halbbreite Spielplan-Kachel, nirgends «Tabelle
+E…/F…»; FF17 auf `t=78478` (v=327), FF14 auf `t=79188` (v=326);
+1. Mannschaft, Startseite und Liveticker
+ohne `ls=24454`; Senioren ohne `ls=19998`; Frauen mit `v=326`.
+Screenshots bei 1440×900, 1920×1080 und 500 px: FF17-Hero mit allen
+Köpfen, Betreuerstab mit beiden Porträts, Kachelraster sauber.
+Beachten: `esc_url()` schreibt das `&` als `&#038;` — Prüfmuster mit
+`&amp;` finden nichts, das Deploy-Skript nutzt deshalb `&#038;`.
+
+### 2q. Startseite: Claim-Band auf dem Telefon kompakter (11.09.2026)
+
+Rückmeldung: über «Seit 1933 für unsere Zukunft am Ball» stand im
+schmalen Layout zu viel leeres rot-schwarzes Muster. Ursache: das Band
+hatte eine feste Höhe `clamp(20rem, 42vh, 26rem)` und der Text sass
+absolut am unteren Rand — auf einem 390-px-Telefon rund 290 px Band bei
+etwa 100 px Text. Neu unter 600 px (`fcs-front.css`, Abschnitt
+CLAIM-BAND): `height:auto`, Innenabstand `3rem` oben und `1.75rem`
+unten, der Textblock ist `position:static`. Das Band misst jetzt 176 px
+bei 390 px Breite. Desktop unverändert (die Regel liegt in einer
+`max-width:600px`-Abfrage; `fcs-front.css` lädt auf der Startseite
+nach `fcs-home.css` und gewinnt damit).
+
+**Claudia Gisler: Porträt unter neuem Dateinamen** (Teil D des
+DB-Skripts, Rückmeldung 11.09.: «claudia und claudia neu sind nicht
+identisch»). Das neue Foto mit der neuen Brille (`Claudia_Web_neu.jpg`,
+1280×1920) lag seit dem 10.09. byteweise korrekt live — aber unter dem
+**alten Dateinamen** `Claudia_Gisler.jpg`. Browser, die die
+Vorstandsseite schon kannten, und der Hostpoint-Cache lieferten
+darum weiter das alte Bild; ein Byte-Vergleich auf dem Server zeigt
+das nicht. Lehre: **ein Bildtausch braucht einen neuen Dateinamen.**
+Neu heisst die Datei `Claudia_Gisler_2026.jpg`; die acht
+Vorschaugrössen sind lokal gerechnet (`wp_generate_attachment_metadata`
+im Container) und werden mitgeliefert und byteweise geprüft — der
+Server rechnet nichts. Das DB-Skript hängt Mediathek-Eintrag #218 auf
+die neue Datei um (Dateipfad, Metadaten, GUID), entfernt das
+Smush-Backup, das noch auf den alten Namen zeigte, und ersetzt die
+Bild-URL im Block der Vorstandsseite #35 (dort steht `src` fest im
+Inhalt, nur das srcset kommt aus den Metadaten). Die alten Dateien
+bleiben liegen, nichts verweist mehr darauf. Lokal geprüft: Seite
+zeigt nur noch den neuen Namen, alle sieben srcset-Dateien HTTP 200.
+
+**Werkzeug dazu — `scripts/screenshot-element.mjs`.** Mit Chrome
+`--screenshot` sieht man auf der Startseite nur den Hero (100svh, füllt
+jeden Viewport, auch 9000 px hohe). Das Skript steuert Chrome per
+DevTools-Protokoll, setzt die Viewport-Breite nach dem Laden und
+fotografiert den Bereich um einen CSS-Selektor:
+`node scripts/screenshot-element.mjs http://localhost:8080/ .fcsh-parallax 390 /tmp/claim.png 120`.
+Zwei Stolpersteine sind darin schon umschifft: die Metrik-Vorgabe vor
+der Navigation bleibt wirkungslos (innerWidth 1), und wer den Viewport
+auf Seitenhöhe vergrössert, um «alles» zu sehen, bekommt wieder nur
+den Hero — er wächst mit.
+
+### 2r. Responsive: Claim-Text über dem Muster, Teamfoto ganz (12.09.2026)
+
+Zwei Rückmeldungen zum Telefon-Layout, beides nur CSS, beides noch
+nicht live (Theme-Deploy steht aus, siehe Abschnitt 2).
+
+**Claim-Band «Seit 1933 …»:** «die schwarze Linie ist über seit 1933».
+Ursache war mein Umbau vom 11.09. (Abschnitt 2q): der Textblock stand
+auf `position:static`, damit verliert `z-index:1` seine Wirkung und das
+Streifenmuster aus `.fcsh-parallax::before` legte sich über die Schrift.
+Jetzt `position:relative` — z-index greift wieder, Text liegt oben.
+Geprüft bei 390 px.
+
+**Teamfoto auf den Teamseiten:** «sehr klein — kann man das nicht
+besser lösen?». Bis 40rem war das Titelbild eine 300 px hohe Box
+(`min-height`), die vom querformatigen Foto links und rechts fast ein
+Fünftel abschnitt; dazu lagen Titel und «Team wechseln» mit ihrem
+Verlauf über der unteren Hälfte — vom Foto blieb wenig. Neu unter 40rem
+(`fcs-1mannschaft.css`, Block «Telefon»): das Foto behält sein eigenes
+Seitenverhältnis (`aspect-ratio:auto`, kein `min-height`) und bleibt
+unverdeckt, der Titelbalken steht als dunkler Block darunter
+(`position:static`, Hintergrund `--dark`). Das Bild ist damit in der
+Höhe etwas kleiner (FF17: 242 statt 300 px bei 390 px Breite), zeigt
+aber die ganze Mannschaft ohne Überlagerung. 40rem ist dieselbe Grenze,
+ab der der Team-Umschalter nach unten aufklappt. Gilt für alle
+Teamseiten (Aktive und Junioren, gleiches Stylesheet). Das Feld
+«senkrechte Lage» (FF17: 15) wirkt nur noch auf dem Desktop, wo das
+Foto beschnitten wird.
+
+**«Team wechseln» auf dem Telefon:** Rückmeldung «weniger lang, sieht
+künstlich vergrössert aus». Der Knopf lief bis 40rem über die volle
+Breite (`width:100%`, Pfeil rechts aussen). Neu behält er seine
+natürliche Breite, steht als eigene Zeile unter dem Titel
+(`.fcjt-herobar` als Spalte), ist etwas kleiner (.6875rem, Innenabstand
+.6rem/1rem) und ohne Glas-Effekt — er liegt jetzt auf dem dunklen
+Balken, nicht mehr auf dem Foto. Das aufklappende Feld bleibt so breit
+wie der Balken (`calc(100vw - 2.5rem)`), denn es hängt am Knopf und
+würde sonst mit ihm schrumpfen. Datei `fcs-junioren-team.css`, Block
+`@media (max-width: 40rem)`.
+
+**Stolperstein CSS-Reihenfolge:** die Telefon-Regel stand zuerst VOR
+der Grundregel `.fc1m-herobar{position:absolute}` — gleiche
+Spezifität, die spätere Grundregel gewann, die Media-Query blieb
+wirkungslos. Der Block steht jetzt hinter den Herobar-Regeln, mit
+Kommentar. Gemessen per DevTools-Protokoll bei 390 px: Foto 242 px,
+Titelbalken 123 px direkt darunter, 1. Mannschaft 260 + 62 px.
+
+**Zu `scripts/screenshot-element.mjs`:** das Aufnehmen jenseits des
+Viewports hängt seit dem 12.09. auf diesem Rechner reproduzierbar
+(Chrome antwortet auf `Page.captureScreenshot` nicht mehr, auch nach
+Neustart der Prozesse). Die Messwerte (`computed:`-Zeile) kommen
+weiterhin zuverlässig — dafür taugt das Skript auf jeden Fall. Für
+Bilder oberhalb der Falz reicht Chrome `--screenshot` mit
+`--window-size=500,…` (unter 500 px Breite legt Chrome die Seite
+trotzdem breiter aus).
 
 ## 3. Neuer Rechner: was gebraucht wird
 

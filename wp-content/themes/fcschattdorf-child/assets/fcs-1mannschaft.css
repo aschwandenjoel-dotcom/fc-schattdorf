@@ -186,6 +186,26 @@ body.page-id-46 .entry-header, body.fcs-team-page .entry-header  { padding: 0 !i
   text-wrap: balance;
 }
 
+/* ── Telefon: das Foto ganz zeigen, Titel und Umschalter darunter ──
+   Bis 40rem war das Titelbild eine 300px hohe Box (min-height), die vom
+   querformatigen Foto links und rechts fast ein Fuenftel abschnitt, und
+   Titel plus «Team wechseln» lagen mit ihrem Verlauf ueber der unteren
+   Haelfte — vom Foto blieb wenig zu sehen (Rueckmeldung 12.09.: «sehr
+   klein»). Jetzt behaelt das Foto sein eigenes Seitenverhaeltnis und
+   bleibt unverdeckt; der Titelbalken steht als dunkler Block darunter.
+   40rem ist dieselbe Grenze, ab der der Team-Umschalter nach unten
+   aufklappt (fcs-junioren-team.css). Der Block steht bewusst NACH der
+   Grundregel .fc1m-herobar — gleiche Spezifitaet, spaeter gewinnt. */
+@media (max-width: 40rem) {
+  .fc1m-photo img { aspect-ratio: auto; height: auto; min-height: 0; }
+  .fc1m-herobar {
+    position: static;
+    padding-top: 1rem;
+    background: var(--dark);
+  }
+  .fc1m-herobar__inner { padding-bottom: 1.25rem; }
+}
+
 /* ════════════════════════════════════════════════════════════════
    TABELLE & SPIELPLAN – rotes Band direkt unter dem Titelbild
    ════════════════════════════════════════════════════════════════ */
@@ -216,6 +236,15 @@ body.page-id-46 .entry-header, body.fcs-team-page .entry-header  { padding: 0 !i
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
   gap: 1rem;
+}
+/* Eine einzelne Kachel (E-/F-Teams, FF11: nur Spielplan) soll nicht ueber
+   die ganze Breite laufen, sondern so breit sein wie eine von zweien.
+   Der Umbruch auf eine Spalte liegt dort, wo auto-fit oben zwei Kacheln
+   untereinander setzt: 2 x 15rem + 1rem Abstand = 496px Inhalt, plus
+   2 x 1.25rem Rand der schmalen .fc1m-wrap = 536px Fensterbreite. */
+.fc1m-ifv__grid--einzeln { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 535px) {
+  .fc1m-ifv__grid--einzeln { grid-template-columns: 1fr; }
 }
 /* Kleiner Text steht auf weisser Karte, nie direkt auf dem Rot. */
 .fc1m-ifv__tile {
@@ -490,7 +519,15 @@ a.fc1m-sponsor-box__name:focus-visible { outline: 3px solid var(--red); outline-
   .fc1m-player-grid  { grid-template-columns: repeat(2, 1fr); }
   .fc1m-wrap         { padding: 0 1.25rem; }
   .fc1m-herobar__inner { padding-left: 1.25rem; padding-right: 1.25rem; }
-  .fc1m-ifv__tile    { padding: 1rem 2.5rem 1rem 1.25rem; }
+  /* Kacheln «Tabelle»/«Spielplan» auf dem Telefon kompakter: kleinere
+     Schrift, weniger Innenabstand, schmaleres Band (Rueckmeldung 11.09.:
+     «auf responsiv design zu gross»). */
+  .fc1m-ifv          { padding: 1rem 0; }
+  .fc1m-ifv__grid    { gap: .625rem; }
+  .fc1m-ifv__tile    { padding: .625rem 2rem .625rem .875rem; }
+  .fc1m-ifv__label   { font-size: 1rem; }
+  .fc1m-ifv__meta    { margin-top: .125rem; font-size: .6875rem; }
+  .fc1m-ifv__tile svg { top: .875rem; right: .875rem; width: 11px; height: 11px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
