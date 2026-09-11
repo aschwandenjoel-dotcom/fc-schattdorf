@@ -1,6 +1,6 @@
 # Übergabe / Rechnerwechsel
 
-Stand: **08.09.2026**. Diese Datei beschreibt, was gerade offen ist und was
+Stand: **11.09.2026**. Diese Datei beschreibt, was gerade offen ist und was
 auf einem neuen Rechner eingerichtet werden muss. Die dauerhaften
 Projektregeln stehen in `CLAUDE.md`, das Setup der lokalen Umgebung in
 `README.md`.
@@ -49,28 +49,26 @@ fast-forward in `main` — kann gelöscht werden. Wichtig für den Betrieb:
 - `wp-config.php` auf Hostpoint setzt `WP_HOME`/`WP_SITEURL` fest auf
   `https://www.fcschattdorf.ch` (Konstanten schlagen die DB); Sicherung
   der alten Fassung liegt daneben als `wp-config.php.bak-20260907`.
-- Das Zertifikat für `fcschattdorf.ch`/`www` ist **kein FreeSSL**, sondern
-  das übernommene Let's-Encrypt-Zertifikat der alten cyon-Seite, gültig
-  bis **17.11.2026** (Hostpoints FreeSSL-Bestellung hing stundenlang).
-  Bis Anfang November muss FreeSSL im Panel übernommen haben — sonst
-  erneuern (Plan B in `UMSTELLUNG.md`, C-Phase).
+- **Zertifikate erledigt (08.09.2026, geprüft 11.09.):** Hostpoints
+  FreeSSL hat übernommen und stellt pro Hostname ein eigenes Zertifikat
+  aus — `www.fcschattdorf.ch`, `fcschattdorf.ch` und
+  `fcschattdorf.dynalias.net`, je gültig bis 07.12.2026, Kette
+  vollständig (`ssl_verify=0`). Das anfangs hochgeladene cyon-Zertifikat
+  und die von Hand gebaute Kette werden nicht mehr gebraucht.
 - Test-Host `fcschattdorf.dynalias.net` leitet per 301 auf www und bleibt
   bis ca. Dezember 2026 (C6).
 - Offen aus B6: Kontaktformular und Fanshop-Testbestellung auf der neuen
   Domain einmal auslösen. Phase C (Search Console, 404-Log, Mail
   beobachten, cyon/UBIQ) steht in `UMSTELLUNG.md`.
 
-**Zwei Deploys stehen aus:**
+**Kein Deploy offen.** Am 08.09.2026 sind auch die letzten beiden
+gelaufen und live nachgeprüft (11.09.2026):
 
-0. `./deploy/deploy-liveticker.sh` — feste Adresse `/liveticker/` (08.09.2026):
-   Theme (Vorlage `page-liveticker.php`, Felder, Startseiten-Link) via
-   `scripts/deploy-theme.sh`, dann Seite «Liveticker» per DB-Skript anlegen.
-   Danach pflegt die Redaktion den Tickaroo-Link im Seitenfeld statt im
-   Code. Lokal getestet (Hinweisseite, 302-Weiterleitung, Idempotenz).
-1. `./deploy/deploy-news-1577-bild.sh` — setzt Beitragsbild und
-   Kategorie von «Bittere 2:3 Niederlage gegen Hünenberg» auf den
-   Stand der Quelle (Abschnitt 2j). Reine DB-Änderung, keine Dateien,
-   jederzeit.
+- `deploy-liveticker.sh` — `/liveticker/` zeigt die Hinweisseite, die
+  Startseite verlinkt darauf. Die Redaktion pflegt den Tickaroo-Link
+  jetzt im Seitenfeld «Link zum aktuellen Ticker» statt im Code.
+- `deploy-news-1577-bild.sh` — «Bittere 2:3 Niederlage gegen Hünenberg»
+  trägt Bild `FCS_2_Web` und Kategorie «2. Mannschaft».
 
 **Erledigt und live nachgeprüft (06./07.09.2026):** Redaktions-
 Rückmeldungen (2a), News-Nachtrag mit 25 Beiträgen (2b), 1. Mannschaft

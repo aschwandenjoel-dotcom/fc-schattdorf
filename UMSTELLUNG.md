@@ -314,27 +314,29 @@ curl -s  https://www.fcschattdorf.ch/ | grep -c dynalias                        
 - [ ] **C5 UBIQ abmelden.** Joomla-Seite darf offline; Search-Console-
       Eigentum und DMARC-`rua` an den Verein übergeben; klären, ob die
       Mailgun-Subdomain `m.fcschattdorf.ch` noch gebraucht wird.
-- [ ] **C0 Zertifikatskette vervollständigen (dringlich vor 17.11.2026).** Das
-      übernommene cyon-Zertifikat hängt an Let's Encrypts Generation-Y-Root
-      («ISRG Root YR»), die in den Browser-Trust-Stores noch fehlt. Hostpoint
-      liefert nur das Zwischenzertifikat YR1 aus; Chrome/Safari holen das
-      cross-signierte «Root YR by ISRG Root X1» selbst nach (AIA) und zeigen
-      die Seite als sicher, **Firefox und ältere Clients nicht**. Beheben:
-      (a) im Hostpoint-Panel die Kette hinterlegen — Dateien liegen in
-      `~/Downloads` (`fcschattdorf-fullchain.crt` = Leaf + YR1 + Root YR-by-X1,
-      alternativ `…-leaf-und-yr1.crt` + `…-root-yr-by-x1.crt`); das Formular
-      lehnte am 08.09. ein 2-Zertifikate-Bundle mit «PEM: no start line» ab →
-      Hostpoint-Support (0844 040404); oder (b) FreeSSL übernehmen lassen
-      (Panel: Status prüfen; liefert die Kette automatisch richtig). Danach
-      prüfen: `openssl s_client -connect www.fcschattdorf.ch:443 -servername
-      www.fcschattdorf.ch -showcerts </dev/null | grep ' s:'` muss drei
-      Zertifikate zeigen (Leaf, YR1, Root YR).
-- [x] **C0b IPv6 (08.09.2026).** Ein iPad im Heim-WLAN landete auf der alten
-      Seite: der Router lieferte den am 07.09. gelöschten AAAA-Record (cyon)
-      weiter aus dem Cache, IPv6 wird bevorzugt. Behoben durch neuen
-      `@` AAAA auf Hostpoints IPv6 `2a00:d70:0:b:2002:0:d91a:3d86` (cyon,
-      TTL 300) — Hostpoint liefert die Seite über IPv6 aus, vom iPad
-      bestätigt. `check-live.sh` prüft den AAAA seit dem 05.09. mit.
+- [x] **C0 Zertifikate** *(erledigt 08.09.2026, geprüft 11.09.)*. Das am
+      07.09. von cyon übernommene Zertifikat hing an Let's Encrypts
+      Generation-Y-Root («ISRG Root YR»), die den Browser-Trust-Stores noch
+      fehlt; Hostpoint lieferte nur das Zwischenzertifikat YR1 aus, sodass
+      Chrome und Safari die Kette selbst über AIA fertigbauen mussten und
+      Firefox gewarnt hätte. Die von Hand gebaute Kette liess sich im Panel
+      nicht hinterlegen («PEM: no start line»). Erledigt hat es **FreeSSL**:
+      Hostpoint stellt seit dem 08.09. pro Hostname ein eigenes Zertifikat
+      aus — `www.fcschattdorf.ch`, `fcschattdorf.ch` und
+      `fcschattdorf.dynalias.net`, je bis 07.12.2026, Kette vollständig
+      (`curl … -w '%{ssl_verify_result}'` = 0). Die Dateien in `~/Downloads`
+      (cyon-Zertifikat, Schlüssel, selbst gebaute Bundles) werden nicht mehr
+      gebraucht — sicher ablegen oder löschen.
+- [x] **C0b IPv6 (08.–11.09.2026).** Ein iPad im Heim-WLAN landete auf der
+      alten Seite: der Router lieferte den am 07.09. gelöschten AAAA-Record
+      (cyon) weiter aus dem Cache, und IPv6 hat Vorrang vor IPv4. Stand
+      11.09.: die Zone hat **keinen AAAA** (ns1/ns2.cyon.ch, Cloudflare und
+      Google antworten leer), die alten Caches sind abgelaufen — alle
+      Besucher kommen über IPv4 bei Hostpoint an, der Fehler ist weg.
+      Ein AAAA auf Hostpoints IPv6 `2a00:d70:0:b:2002:0:d91a:3d86` wäre
+      möglich, ist aber nicht nötig; wer ihn setzt, prüft vorher vom
+      Mobilfunk aus, ob Hostpoint die Seite über IPv6 ausliefert.
+      `check-live.sh` prüft einen vorhandenen AAAA seit dem 05.09. mit.
 - [ ] **C5b Sicherheitsnetz cyon.** Sobald der Rückweg nicht mehr gebraucht
       wird: in `my.cyon` die alte Website auf `https://www.fcschattdorf.ch`
       weiterleiten (statt Joomla auszuliefern). Dann führt jeder veraltete
