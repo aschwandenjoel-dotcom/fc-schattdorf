@@ -1,6 +1,6 @@
 # Übergabe / Rechnerwechsel
 
-Stand: **12.09.2026**. Diese Datei beschreibt, was gerade offen ist und was
+Stand: **16.09.2026, 11:30**. Diese Datei beschreibt, was gerade offen ist und was
 auf einem neuen Rechner eingerichtet werden muss. Die dauerhaften
 Projektregeln stehen in `CLAUDE.md`, das Setup der lokalen Umgebung in
 `README.md`.
@@ -61,11 +61,27 @@ fast-forward in `main` — kann gelöscht werden. Wichtig für den Betrieb:
   Domain einmal auslösen. Phase C (Search Console, 404-Log, Mail
   beobachten, cyon/UBIQ) steht in `UMSTELLUNG.md`.
 
-**Ein Schritt steht aus:** `./scripts/deploy-theme.sh` — zwei
-Responsive-Korrekturen vom 12.09. (Abschnitt 2r): der Claim-Text «Seit
-1933 …» liegt auf dem Telefon wieder über dem Streifenmuster, und das
-Teamfoto der Teamseiten wird auf dem Telefon ganz gezeigt, Titel und
-Umschalter darunter. Reiner Theme-Deploy, keine DB, keine Bilder.
+**Nichts steht aus.** Alle Deploys sind gelaufen.
+
+**Erledigt und live nachgeprüft (16.09.2026, ~11:20):**
+`deploy-inhalte-1609.sh` (Abschnitt 2v) ist gelaufen — Ca-Bericht mit
+Mannschaftsfoto als `og:image`, 14 Teamfotos auf Teamseiten und
+Übersicht, alle Porträt-Stichproben grün, Token-Skript und Textliste
+vom Server verschwunden (HTTP 404). Eine einzige Prüfung meldete FEHL
+(«Übersicht zeigt FF11_Team_26-27 nicht») — ein Fehlalarm des Skripts,
+kein Fehler der Seite: `printf | grep -q` schliesst die Pipe beim
+ersten Treffer, printf meldet «Broken pipe», und `pipefail` macht
+daraus einen Fehlschlag. Direkt nachgeprüft: die Übersicht zeigt FF11.
+Die Zeile im Skript ist auf `grep -c <<< …` umgebaut, damit das nicht
+wieder passiert; künftige Skripte sollen die Übersichtsprüfung so
+schreiben.
+
+**Erledigt und live nachgeprüft (16.09.2026, 08:15):** alle drei
+Schritte vom 15.09. sind gelaufen — `deploy-gruempi-lose.sh`
+(Losnummern-PDF HTTP 200), `scripts/deploy-theme.sh` (Hero-JSON
+liefert den A-Junioren-Titel mit echtem Apostroph, `fcs-zoom.css`
+live) und `deploy-inhalte-1509.sh` (Gunzwil-Bericht steht, Kader zeigt
+«Bilger Mattli Bomatter Gisler», Schibli-Logo byteweise identisch).
 
 **Erledigt und live nachgeprüft (12.09.2026, 00:10):** der Deploy vom
 11.09. ist komplett gelaufen — `deploy-inhalte-1109.sh` und der
@@ -1789,6 +1805,344 @@ weiterhin zuverlässig — dafür taugt das Skript auf jeden Fall. Für
 Bilder oberhalb der Falz reicht Chrome `--screenshot` mit
 `--window-size=500,…` (unter 500 px Breite legt Chrome die Seite
 trotzdem breiter aus).
+
+### 2s. Bild-Zoom für Porträts (12.09.2026)
+
+Auftrag: «Zoom-Funktion, wenn man auf ein Teambild in Betreuer klickt».
+Gemeint ist der Betreuerstab auf den Teamseiten — eine eigene
+Betreuer-Übersicht gibt es nicht (`page-betreuer.php` ist keiner Seite
+zugewiesen, `/junioren/betreuer/` leitet auf «Betreuer werden»).
+
+Neu `inc/fcs-zoom.php` mit `assets/fcs-zoom.css` und `assets/fcs-zoom.js`,
+geladen auf den sechs Team-Vorlagen und `page-betreuer.php`. Ein Klick
+(oder Enter/Leertaste, die Kacheln sind per Tab erreichbar) auf ein
+Porträt im Betreuerstab, im Kader der 1. Mannschaft oder auf einer
+Betreuer-Karte öffnet es gross in einem `<dialog>` über der Seite:
+Ink-Grund, Bild bis 80 vh, darunter Name und Rolle, Schliessen-Knopf
+oben rechts im Stil von `.fcx-btn--onphoto`, alles eckig. Klick
+irgendwo oder Escape schliesst, der Fokus kehrt zur Kachel zurück, die
+Seite dahinter scrollt nicht. Kein Fremdcode.
+
+Was das Skript bewusst auslässt: Silhouetten (Dateiname enthält
+«Silhouette») bekommen weder Zoom noch Zeiger, und das Sponsor-Badge in
+der Kachel (`img[class*="badge"]`) wird beim Ermitteln der Bild-URL
+übersprungen — sonst öffnete sich das Logo statt der Person. Die URL
+kommt aus dem `<img>` oder dem `background-image` der Kachel; die
+Vorlagen mussten dafür nicht angefasst werden.
+
+**Nachträge vom 12.09. (zweite Rückmeldung):** Der Schliessen-Knopf
+war blau statt rot — Astra färbt `<button>` bei Hover/Fokus mit seiner
+Akzentfarbe, und diese Regeln schlugen durch. Jetzt fest Vereinsrot
+(`--fcx-red-solid`) mit `!important` auf Hintergrund, Rahmen, Farbe und
+Schatten; Hover/Fokus heller (`--fcx-red`), weisser Rahmen. Ausserdem
+ist das **grosse Teamfoto im Titelbild** (`.fc1m-photo`) auf allen
+Teamseiten zoombar, Aktive wie Junioren — gedacht fürs Telefon, wo es
+klein ist, gilt aber auf jeder Breite (auf dem Desktop zeigt der Zoom
+das unbeschnittene Foto). Beschriftung: Teamname aus
+`.fc1m-herobar__title` plus «Teamfoto». Der Platzhalter
+(`Mannschaftsfoto_Platzhalter.jpg`) bleibt wie die Silhouetten ohne
+Zoom (Muster `silhouette|platzhalter`).
+
+Geprüft per DevTools-Protokoll: FF17 zwei Kacheln, beide zoombar,
+Dialog zeigt `Sam_Buerer_2627.jpg` mit «Sam Bürer / Betreuer»; 1.
+Mannschaft: Kader und Betreuerstab zoombar, Badge bleibt aussen vor;
+Titelbild FF17 öffnet `FF17_Team_26-27.jpg` mit «Team Uri FF17 /
+Teamfoto», Knopf `rgb(217,38,28)`; Ea/Eb (Platzhalter) nicht zoombar.
+
+### 2t. Grümpelturnier: Losnummern und Ziehungsprotokoll (13.09.2026)
+
+Auftrag: Die alte Joomla-Seite verlinkte unter «Dorf- und
+Grümpelturnier» ein PDF «Gezogene Losnummern Grümpelturnier 2026»; auf
+der neuen Seite fehlte es. Dazu das vom Notar beglaubigte
+Ziehungsprotokoll aus `~/Downloads/Ziehungsprotokoll beglaubigt.pdf`
+(der Auftrag nannte es «Zahlungsprotokoll»).
+
+**Woher das alte PDF kommt:** Die Joomla-Seite läuft bei cyon weiter
+und antwortet, wenn man den Server direkt anspricht —
+`curl --resolve www.fcschattdorf.ch:443:149.126.4.95 …`. Die alte
+Turnierseite liegt unter `/event/dorf-und-gruempelturnier`, das PDF
+unter `/images/gezogene_Losnummern_Grümpelturnier_2026.pdf` (Umlaut
+URL-kodiert). Das lokale `import/fcschattdorf/` hatte es nicht, der
+Scrape lag vor dem Turnier. Inhaltlich ist es das Ziehungsprotokoll in
+digitaler Form (16 Gewinne, Ziehung 20.06.2026, Preise bis 30.09.2026
+über losverkauf@fcschattdorf.ch); die Fassung aus den Downloads ist der
+Scan mit Notarstempel und Unterschrift.
+
+**Umsetzung:** Neues Seitenfeld `gt_downloads` («Weitere Downloads»,
+eine Zeile pro PDF: `Titel | PDF-URL | Beschreibung | Rubrik`), die
+Vorlage `page-gruempelturnier.php` rendert daraus Karten in derselben
+Form wie den Reglement-Kasten, direkt darunter; leer = kein Block. Die
+beiden Dateien liegen in `2026/06` neben dem Reglement
+(`Losnummern_Gruempi_2026.pdf`, `Ziehungsprotokoll_Gruempi_2026.pdf`)
+und werden als Mediathek-Einträge angelegt, damit die Redaktion sie
+findet. Deploy `./deploy/deploy-gruempi-lose.sh` (DB-Teil
+`fcs-gruempi-lose.php.tpl`), danach Theme-Deploy; die Seite liegt
+unter `/gruempelturnier/` (kein Elternpfad). Lokal durchgespielt und
+geprüft: beide Karten mit Rubrik «Losverkauf», beide PDFs HTTP 200.
+
+Stolperstein am Rande: Colima lief nach dem Rechner-Neustart nicht
+mehr — `colima start` und `docker compose up -d`, dann geht es weiter.
+
+### 2u. Redaktions-Nachträge vom 15.09.2026
+
+`./deploy/deploy-inhalte-1509.sh` (DB-Teil:
+`deploy/fcs-inhalte-1509.php.tpl`, Texte:
+`deploy/news-import-1509.json`). Lokal auf dem frisch gezogenen
+Live-Stand vom 15.09.2026 (08:55, zweiter Pull nach den Rückmeldungen)
+durchgespielt: Probelauf, scharfer Lauf und zweiter Lauf («SKIP»
+überall) grün, das Skript hat sich samt Textliste selbst gelöscht; die
+lokalen Prüfmuster (Beiträge, Hero-Reihenfolge, `og:image`, Kader mit
+Nummern) grün.
+
+**Drei neue Beiträge** (neuester zuerst — Rückmeldung vom 15.09.: die
+1. Mannschaft soll zuerst kommen, deshalb 08:00/07:59/07:58):
+
+| Titel | Kategorie | Bild | Quelle |
+| --- | --- | --- | --- |
+| Schattdorf belohnt sich spät | 1. Mannschaft | `FCS_1_Team_Web.jpg` (Anhang #814, lag schon live) | `FCSggFCGunzwil.docx` |
+| Verdient erkämpftes Unentschieden in letzter Sekunde | Junioren | `Db_12-09-2026.jpg` (neu, 1600×901) | `Spielbericht Db Junioren SC Kriens -FC Schattdorf Db.docx` |
+| Auch im Cup läuft's rund für die A-Junioren | Junioren | `A_Junioren_09-09-2026.jpg` (neu, 1600×1200) | Text aus der Anfrage, Bild `Siegerfoto A junioren.jpg` |
+
+Aufbau wie bei den Nachträgen vom 07./10.09.: Bildblock, dann
+Fliesstext; Zwischentitel haben die Quellen keine. Beim Db-Bericht
+entfallen wie üblich Einsender, Zeitungsrubrik, Resultatzeile und
+Fotohinweise (SC Kriens – FC Schattdorf Db 3:3 vom 12.09.2026). Der
+Gunzwil-Bericht (2:1 vom 12.09.2026) hiess in der Quelle «Schattdorf
+belohnt sich spät für leidenschaftlichen Auftritt» — auf Rückmeldung
+gekürzt auf «Schattdorf belohnt sich spät» (Slug entsprechend); das
+Zitat «Feuer und Flamme für Schwarz-Rot» steht in Guillemets statt der
+deutschen „…“-Zeichen der Word-Datei. Der A-Junioren-Beitrag hatte
+keinen Quelltitel — der Titel ist aus dem ersten Satz gebildet
+(Cupspiel vom Mittwoch, 09.09.2026, 5:1 gegen das Team Wiggertal).
+Beitragsdaten am Vormittag des 15.09. (08:00/07:59/07:58).
+
+Beide neuen Bilder in `wp-content/uploads/2026/09/` (Ordner ist über
+`.gitignore` ausgenommen, liegt also nur lokal und nach dem Deploy
+live): das Kabinenfoto unverändert (war schon 1600 px), das
+Db-Mannschaftsfoto aus `Siegerfoto_Db.jpg` (4624×2604) unbeschnitten
+auf 1600×901 verkleinert, Qualität 88. Zwischenzeitlich war es auf
+Wunsch links beschnitten (Mannschaft mittig) — das wurde am 15.09.
+wieder zurückgenommen, es bleibt der volle Ausschnitt. Am Rande
+gelernt: `sips --cropOffset` schneidet auf diesem macOS stillschweigend
+zentriert statt am angegebenen Versatz; für echte Ausschnitte GD im
+Container nehmen (so ist das Schibli-Logo unten entstanden). Schritt 1
+des Skripts überträgt die Bilder und prüft jede auf HTTP 200.
+
+**Kader der 1. Mannschaft — Aschwanden und Herger:** Joel Aschwanden
+bekommt den Kopfsponsor «Bilger Mattli Bomatter Gisler», Logo `bmbg-color.svg`
+— dieselbe Datei, die der Sponsor «BMBG» (#495) auf `/sponsoren/`
+nutzt; sie liegt schon live in `2026/06`. Ausserdem tauschen Joel
+Aschwanden und Noel Herger die Rückennummer: Aschwanden neu **21**,
+Herger neu **23**; weil die Anzeige nach Nummer sortiert, tauschen die
+beiden damit auch den Platz im Kader. Das Kader steht im Seitenfeld
+«Kader» der Seite #46 (Feld `fcs_team_kader`), nicht in der Vorlage.
+Das DB-Skript ersetzt genau diese zwei Zeilen:
+
+- `Verteidigung | 23 | Joel Aschwanden | Joel_Aschwanden.jpg` ->
+  `Verteidigung | 21 | Joel Aschwanden | Joel_Aschwanden.jpg | bmbg-color.svg | Bilger Mattli Bomatter Gisler`
+- `Mittelfeld | 21 | Noel Herger | Noel_Herger.jpg` ->
+  `Mittelfeld | 23 | Noel Herger | Noel_Herger.jpg`
+
+Steht eine Zeile nicht mehr so im Feld (Redaktion hat im Admin
+gearbeitet), meldet es für diese Zeile ABBRUCH und nennt sie zum
+Nachtragen von Hand. Der Fallback in `page-1mannschaft.php` ist im
+Repo gleich nachgezogen. Unter der Karte steht der volle Kanzleiname
+«Bilger Mattli Bomatter Gisler» (Rückmeldung vom 15.09.; die erste
+Fassung hatte «Bilger Mattli Bomatter»). Der Deploy prüft die Paare
+Nr./Name pro Spielerkarte.
+
+**Schibli-Logo (Kopfsponsor Ben Arnold) sass im Badge links**
+(Rückmeldung vom 15.09.). Ursache war die Datei, nicht das CSS: das
+Badge zentriert mit `object-fit: contain`, die PNG
+`schibli-elektrotechnik-2026.png` (516×156) hatte aber rechts 90 px
+transparenten Rand — der zählt zur Bildfläche, also rückte die
+Wortmarke nach links. Datei per GD auf 426×156 beschnitten (Alpha
+erhalten), gleicher Name, wird vom Deploy ersetzt und danach byteweise
+verglichen. Das Original liegt lokal als
+`schibli-elektrotechnik-2026.orig.png` und wird nicht deployt.
+
+**Nebenfund, behoben in `front-page.php`:** der Hero der Startseite
+übergibt die Titel der fünf neusten Beiträge als JSON an
+`fcs-home.js`, das sie per `textContent` setzt. `get_the_title()`
+liefert aber den texturierten Titel mit HTML-Entities — der Apostroph
+in «läuft's» stand deshalb als `&#8217;` wörtlich im Hero. Jetzt wird
+der Titel für das JSON mit `html_entity_decode()` decodiert; die
+HTML-Ausgaben der Kacheln waren nie betroffen. Geht mit dem
+Theme-Deploy mit — deshalb der Theme-Deploy **vor**
+`deploy-inhalte-1509.sh`, sonst zeigt der Hero den Titel bis dahin
+falsch.
+
+### 2v. Ca-Bericht, Teamfotos und Betreuer-Porträts Junioren 2026/27 (16.09.2026)
+
+`./deploy/deploy-inhalte-1609.sh` (DB-Teil:
+`deploy/fcs-inhalte-1609.php.tpl`, Text: `deploy/news-import-1609.json`).
+Lokal auf dem frisch gezogenen Live-Stand vom 16.09.2026 (10:05)
+durchgespielt: Probelauf, scharfer Lauf und zweiter Lauf («SKIP»
+überall) grün, Skript samt Textliste selbst gelöscht; lokale
+Prüfmuster (Beitrag, `og:image`, Hero-Reihenfolge, 14 Teamseiten, 14
+Kacheln der Übersicht, Porträt-Stichproben) grün.
+
+**Neuer Beitrag «Weiter ohne Verlustpunkte»** (Junioren): Spielbericht
+Ca, FC Schattdorf Ca – FC Stans Ca 17:1 vom 12.09.2026, Quelle
+`Spielbericht Ca Junioren FC Schattdorf - FC Stans.docx`; wie üblich
+ohne Einsender, Rubrik, Resultatzeile und Fotohinweis, ein
+Fliesstext-Absatz. **Datiert auf 15.09., 07:57**, also hinter die drei
+Beiträge vom 15.09. — so bleibt der Gunzwil-Bericht der 1. Mannschaft
+zuoberst im Hero (Rückmeldung vom 15.09.); der Ca-Bericht ist Slide 4
+von 5.
+
+**Der Beitrag hat zwei Bilder** (Rückmeldung vom 16.09.: «Titelbild
+auf der Startseite zu stark hereingezoomt»). Im Artikel steht die
+Spielszene `2026/09/Ca_12-09-2026.jpg` (1600×1067 aus
+`Ca Matchberichtbild.JPG`, 6000×4000). Als **Beitragsbild** — Hero der
+Startseite und News-Kacheln — dient das Mannschaftsfoto der Ca in
+News-Grösse (`2026/09/Ca_Junioren_26-27.jpg`, 1600×910). Grund: der
+Hero ist `100vh - 6.25rem` hoch und arbeitet mit `background-size:
+cover`; auf dem Telefon (390×844) bleibt von jedem Querformat nur der
+mittlere Drittel der Breite sichtbar. Bei einer Spielszene mit zwei
+Spielern in der Mitte wirkt das wie ein starker Zoom, beim
+Mannschaftsfoto sieht man einen Ausschnitt des Teams — dasselbe Muster
+wie beim Frauen-Bericht vom 10.09. (Abschnitt 2l). Auf dem Desktop war
+die Spielszene fast vollständig zu sehen; es ist ein Telefon-Effekt.
+Wer den Hero auf dem Telefon grundsätzlich weniger «zoomen» lassen
+will, müsste seine Höhe dort verkleinern (CSS, `fcs-front.css`) — das
+ist bewusst nicht Teil dieses Deploys. Das DB-Skript setzt das
+Beitragsbild als `meta_input` mit in den Insert (Yoast-`og:image`) und
+tauscht es bei einem schon bestehenden Beitrag nachträglich (erst
+`set_post_thumbnail()`, dann `wp_update_post()`).
+
+**Teamfotos 2026/27 für 14 Juniorenteams.** Der Ordner
+`~/Downloads/Juniorenfotos/` (53 Dateien `DSC*.jpg`, 2000 px breit)
+kam ohne Zuordnung. Er enthält 15 Teamfotos und 38 Betreuer-Porträts,
+in Aufnahmereihenfolge: auf jedes Teamfoto folgen die Porträts seiner
+Betreuer. Zugeordnet über zwei unabhängige Merkmale, die sich bei allen
+14 Teams decken: (1) die Betreuer auf dem Bild, verglichen mit den
+bestehenden Porträts in `2026/06` (Kontaktbogen mit Namen), und (2)
+die Trikotsponsoren, die den Sponsorlisten der Teamseiten
+(`fcs_jt_sponsoren`) entsprechen.
+
+| Team | Datei (neu in `2026/06`) | Quelle | Erkannt an |
+| --- | --- | --- | --- |
+| Bb | `Bb_Junioren_26-27.jpg` | DSC05679 | Sebastian Herzog, Bernhard Gisler; Trikot Bäckerei Schillig |
+| Ca | `Ca_Junioren_26-27.jpg` | DSC05493 | André Zgraggen, Fabian Bachmann, Adi Tresch; Trikot Arnold AG |
+| Cb | `Cb_Junioren_26-27.jpg` | DSC05443 | Sandro Zamuner, Endrit Krasniqi, Bruno Inderbitzin; Trikot Kebab Hüsli |
+| Da | `Da_Junioren_26-27.jpg` | DSC05609 | Trikot Merck (De ist anderweitig belegt); Betreuer nicht in der Mediathek |
+| Db | `Db_Junioren_26-27.jpg` | DSC05524 | Daniel Reichmuth, René Gnos; Trikot Zahnarzt Uri |
+| Dc | `Dc_Junioren_26-27.jpg` | DSC05478 | Trikot Gasthaus Brückli; ein Betreuer ohne Mediathek-Porträt |
+| Dd | `Dd_Junioren_26-27.jpg` | DSC05411 | Daniel Triolo, Elias Müller, Fabio Achermann (Trikots noch Maler Nideröst) |
+| De | `De_Junioren_26-27.jpg` | DSC05328 | Christian Meier, Manuel Gnos; Trikot Merck |
+| Ea/Eb | `EaEb_Junioren_26-27.jpg` | DSC04430 | Jacqueline Kempf-Imholz, Mario Trovatelli; Trikot GIPO/local.ch |
+| Ec | `Ec_Junioren_26-27.jpg` | DSC04376 | Trikot Gisler Transporte; Betreuerin und Betreuer ohne Mediathek-Porträt |
+| Ed/Ee | `EdEe_Junioren_26-27.jpg` | DSC05629 | vier Betreuer (Deplazes, Welti, Venzin, Gnos); Trikot UKB |
+| Fa/Fb/Fc | `FaFbFc_Junioren_26-27.jpg` | DSC05279 | Sandro Zwyssig, Andre Schelbert, Luan Krosa; Trikot SATA AG |
+| Fd | `Fd_Junioren_26-27.jpg` | DSC05341 | Christian Esins; Trikot local.ch |
+| Team Uri FF11 | `FF11_Team_26-27.jpg` | DSC05572 | Michael Gisler, Ruedi Herger; Trikot Gasthaus Brückli |
+
+Unsicherste Zuordnungen: **Da** (nur über das Merck-Trikot, die beiden
+Betreuer auf dem Bild fehlen in der Mediathek — Kari Schilter ist ohne
+Foto gelistet, Markus Baumann ist nicht auf dem Bild) und **Ec** (nur
+über das Gisler-Transporte-Trikot; Betreuerin DSC04397 und Betreuer
+DSC04388 haben keine Mediathek-Porträts, passen aber zu Christina
+Gisler und Lulzim Musliu, beide ohne Foto gelistet). Für **FF11** gibt
+es zwei Aufnahmen: DSC05572 (drei Betreuer in Vereinskleidung) ist
+gesetzt, DSC05556 zeigt zusätzlich einen Herrn in schwarzer Kochjacke
+und eine Betreuerin in Blau — falls das die vollständige Betreuung ist,
+Datei tauschen. **Aa** hat kein Teamfoto im Ordner; **Ba, FF14, FF17**
+hatten schon eines und wurden nicht angefasst (das Skript setzt nur
+leere Felder).
+
+**Beschnitt:** alle 14 Fotos sind oben beschnitten, bis die
+Mannschaftsmitte (Köpfe bis Schuhe) auf 50 % der Bildhöhe liegt —
+zwischen 7 % (Bb, Ed/Ee) und 18 % (Dc), gemessen über ein
+10-%-Raster; Breite bleibt 2000 px, progressives JPEG, Qualität 88,
+per GD im Container (`sips --cropOffset` schneidet auf diesem macOS
+stillschweigend zentriert). Sitzt eine Mannschaft im Hero trotzdem zu
+hoch oder zu tief: Feld «Teamfoto: senkrechte Lage» der Teamseite.
+
+**Betreuer-Porträts 2026/27: 27 ersetzt, 9 Silhouetten gefüllt**
+(Auftrag vom 16.09.). Der Ordner enthält 36 Porträts (plus zwei Spassbilder der Fd,
+DSC05359/05365). Zugeordnet über Kopfausschnitte im direkten Vergleich
+mit den bestehenden Porträts in `2026/06` (Kontaktbögen mit Namen) und
+über die Reihenfolge im Ordner (auf jedes Teamfoto folgen die Porträts
+seiner Betreuer). Neue Dateien heissen `<Vorname>_<Nachname>_2627.jpg`
+(1600 px hoch, Qualität 88, progressiv — wie `Thomas_Zberg_2627.jpg`);
+die alten Dateien bleiben liegen. Getauscht wird der Dateiname in allen
+Seitenfeldern, in denen er steht: Betreuerstab der Teamseiten
+(`fcs_jt_betreuer`), Leitungsteam Fussballschule (`fcs_fs_team`, #58),
+Kontakte Trainingslager (`fcs_tl_kontakte`, #59) und die Person
+«Jacqueline Kempf» (`fcs_pe_bild`, #688). Nur veröffentlichte
+Beiträge; die Ef-Seite im Papierkorb (#430) bleibt unangetastet. Das
+Vorstandsbild von René Gnos (`Rene_Gnos_hoch.jpg`) ist eine eigene
+Aufnahme und bleibt.
+
+| Neu | Alt | Person | Team(s) |
+| --- | --- | --- | --- |
+| DSC05694 → `Bernhard_Gisler_2627.jpg` | `Bernhard_Gisler.jpg` | Bernhard Gisler | Bb |
+| DSC05700 → `Sebastian_Herzog_2627.jpg` | `Sebastian_Herzog.jpg` | Sebastian Herzog | Bb |
+| DSC05521 → `Andre_Zgraggen_2627.jpg` | `Andre_Zgraggen.jpg` | André Zgraggen | Ca |
+| DSC05510 → `Fabian_Bachmann_2627.jpg` | `Fabian_Bachmann.jpg` | Fabian Bachmann | Ca |
+| DSC05514 → `Adi_Tresch_2627.jpg` | `Adi_Tresch.jpg` | Adrian Tresch | Ca |
+| DSC05461 → `Sandro_Zamuner_2627.jpg` | `Sandro_Zamuner.jpg` | Sandro Zamuner | Cb, Trainingslager |
+| DSC05450 → `Endrit_Krasniqi_2627.jpg` | `Endrit_Krasniqi.jpg` | Endrit Krasniqi | Cb |
+| DSC05463 → `Bruno_Inderbitzin_2627.jpg` | `Bruno_Inderbitzin_2.jpg` | Bruno Inderbitzin | Cb |
+| DSC05547 → `Daniel_Reichmuth_2627.jpg` | `Reichmuth_Daniel.jpg` | Daniel Reichmuth | Db |
+| DSC05541 → `Rene_Gnos_2627.jpg` | `Rene_Gnos.jpg` | René Gnos | Db |
+| DSC05408 → `Daniel_Triolo_2627.jpg` | `Daniel_Triolo.jpg` | Daniel Triolo | Dd |
+| DSC05392 → `Elias_Mueller_2627.jpg` | `Elias_Mueller.jpg` | Elias Müller | Dd |
+| DSC05397 → `Fabio_Achermann_2627.jpg` | `Fabio_Achermann.jpg` | Fabio Achermann | Dd |
+| DSC05312 → `Christian_Meier_2627.jpg` | `Christian_Meier.jpg` | Christian Meier | De |
+| DSC05322 → `Manuel_Gnos_2627.jpg` | `Manuel_Gnos.jpg` | Manuel Gnos | De |
+| DSC04448 → `Jacqueline_Kempf_2627.jpg` | `Jacqueline_Kempf.jpg` | Jacqueline Kempf-Imholz | Ea/Eb, Fussballschule, Person |
+| DSC04437 → `Mario_Trovatelli_2627.jpg` | `Mario_Trova.jpg` | Mario Trovatelli | Ea/Eb |
+| DSC05669 → `Andre_Deplazes_2627.jpg` | `Andre_Deplazes.jpg` | Andre Deplazes | Ed/Ee |
+| DSC05663 → `Simon_Welti_2627.jpg` | `Simon_Welti.jpg` | Simon Welti | Ed/Ee |
+| DSC05650 → `Mathias_Venzin_2627.jpg` | `Ti_Venzin.jpg` | Mathias Venzin | Ed/Ee |
+| DSC05655 → `Simon_Gnos_2627.jpg` | `Simon_Gnos.jpg` | Simon Gnos | Ed/Ee |
+| DSC05294 → `Sandro_Zwyssig_2627.jpg` | `Sandro_Zwyssig.jpg` | Sandro Zwyssig | Fa/Fb/Fc |
+| DSC05307 → `Andre_Schelbert_2627.jpg` | `Andre_Schelbert.jpg` | Andre Schelbert | Fa/Fb/Fc |
+| DSC05300 → `Luan_Krosa_2627.jpg` | `Luan_Krosa.jpg` | Luan Krosa | Fa/Fb/Fc |
+| DSC05376 → `Christian_Esins_2627.jpg` | `Christian_Esins.jpg` | Christian Esins | Fd |
+| DSC05577 → `Michael_Gisler_2627.jpg` | `Michael_Gisler.jpg` | Michael Gisler | FF11 |
+| DSC05584 → `Ruedi_Herger_2627.jpg` | `Ruedi_Herger.jpg` | Ruedi Herger | FF11 |
+
+Am wenigsten sicher innerhalb dieser 27: das Paar Reichmuth/Gnos
+(DSC05547 hat die Augenbrauen und den Haaransatz von
+`Reichmuth_Daniel.jpg`; DSC05541 die nach oben gekämmten Haare von
+`Rene_Gnos.jpg`) und das Trio Deplazes/Welti/Venzin (DSC05669 lacht
+breit wie `Andre_Deplazes.jpg`, DSC05663 hat den kurzen Haaransatz und
+Bartschatten von `Simon_Welti.jpg`, DSC05650 die Frisur und das Lachen
+von `Ti_Venzin.jpg`). Bei Zweifel die vier Dateien im Admin ansehen.
+
+**Die 9 Betreuer ohne Mediathek-Porträt** hatten bisher eine
+Silhouette. Die Namen ergaben sich aus der Ordner-Reihenfolge und der
+Betreuerliste des jeweiligen Teams; die Redaktion hat sie am 16.09.
+bestätigt (DSC05588 = Arturo Schneeberger, damit DSC05625 = Marino
+Arnold). Abschnitt D des DB-Skripts ersetzt hier nicht einen
+Dateinamen, sondern sucht im Betreuerstab der Teamseite die Zeile mit
+dem Namen und setzt die dritte Spalte — nur wenn dort eine Silhouette
+(oder nichts) steht; ein echtes Porträt bliebe erhalten (HINWEIS).
+
+| Datei | Person | Team |
+| --- | --- | --- |
+| DSC05686 → `Heiri_Stadler_2627.jpg` | Heiri Stadler | Bb |
+| DSC05612 → `Kari_Schilter_2627.jpg` | Kari Schilter | Da |
+| DSC05485 → `Philippe_Waridel_2627.jpg` | Philippe Waridel | Dc |
+| DSC05403 → `Sebi_Gisler_2627.jpg` | Sebi Gisler | Dd |
+| DSC04388 → `Lulzim_Musliu_2627.jpg` | Lulzim Musliu | Ec |
+| DSC04397 → `Christina_Gisler_2627.jpg` | Christina Gisler | Ec |
+| DSC05385 → `Filipos_Hagos_2627.jpg` | Filipos Hagos | Fd |
+| DSC05625 → `Marino_Arnold_2627.jpg` | Marino Arnold | FF11 |
+| DSC05588 → `Arturo_Schneeberger_2627.jpg` | Arturo Schneeberger | FF11 |
+
+**Tim Riesen (Dc) und Noel Herger (De)** bekommen auf Wunsch vom
+16.09. ihr Spielerporträt der 1. Mannschaft (`Tim_Riesen.jpg`,
+`Noel_Herger.jpg`, liegen schon live in `2026/06`) — derselbe
+Mechanismus wie bei den Silhouetten oben, ohne Upload.
+
+**Silhouetten, die bleiben** (kein Bild im Ordner): Shukri Frangu
+(Cb) und die drei FF14-Betreuer Philipp Bissig, Luca Forte, Heinz
+Gisler. Ohne neues Porträt bleiben ausserdem Fabio Moser (Bb) und
+Ramanan Ananthavettivelu (Fa/Fb/Fc), die ein älteres Bild haben.
 
 ## 3. Neuer Rechner: was gebraucht wird
 
