@@ -144,3 +144,6 @@ Spielersponsoren-Logo/
 !deploy/deploy-inhalte-1609.sh
 !deploy/fcs-inhalte-1609.php.tpl
 !deploy/news-import-1609.json
+
+# Korrektur Portraets Tresch/Bachmann (16.09.2026)
+!deploy/deploy-portraets-tresch-bachmann.sh

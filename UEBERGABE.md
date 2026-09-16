@@ -2080,8 +2080,8 @@ Aufnahme und bleibt.
 | DSC05694 → `Bernhard_Gisler_2627.jpg` | `Bernhard_Gisler.jpg` | Bernhard Gisler | Bb |
 | DSC05700 → `Sebastian_Herzog_2627.jpg` | `Sebastian_Herzog.jpg` | Sebastian Herzog | Bb |
 | DSC05521 → `Andre_Zgraggen_2627.jpg` | `Andre_Zgraggen.jpg` | André Zgraggen | Ca |
-| DSC05510 → `Fabian_Bachmann_2627.jpg` | `Fabian_Bachmann.jpg` | Fabian Bachmann | Ca |
-| DSC05514 → `Adi_Tresch_2627.jpg` | `Adi_Tresch.jpg` | Adrian Tresch | Ca |
+| DSC05514 → `Fabian_Bachmann_2627.jpg` | `Fabian_Bachmann.jpg` | Fabian Bachmann | Ca |
+| DSC05510 → `Adi_Tresch_2627.jpg` | `Adi_Tresch.jpg` | Adrian Tresch | Ca |
 | DSC05461 → `Sandro_Zamuner_2627.jpg` | `Sandro_Zamuner.jpg` | Sandro Zamuner | Cb, Trainingslager |
 | DSC05450 → `Endrit_Krasniqi_2627.jpg` | `Endrit_Krasniqi.jpg` | Endrit Krasniqi | Cb |
 | DSC05463 → `Bruno_Inderbitzin_2627.jpg` | `Bruno_Inderbitzin_2.jpg` | Bruno Inderbitzin | Cb |
@@ -2104,6 +2104,13 @@ Aufnahme und bleibt.
 | DSC05376 → `Christian_Esins_2627.jpg` | `Christian_Esins.jpg` | Christian Esins | Fd |
 | DSC05577 → `Michael_Gisler_2627.jpg` | `Michael_Gisler.jpg` | Michael Gisler | FF11 |
 | DSC05584 → `Ruedi_Herger_2627.jpg` | `Ruedi_Herger.jpg` | Ruedi Herger | FF11 |
+
+**Korrektur 16.09. (Rückmeldung):** Tresch und Bachmann waren
+vertauscht — DSC05510 ist Adrian Tresch, DSC05514 Fabian Bachmann.
+Dateien mit gleichem Namen neu erzeugt,
+`./deploy/deploy-portraets-tresch-bachmann.sh` überträgt nur diese
+zwei und vergleicht byteweise; keine DB-Änderung. Tabelle oben ist
+bereits korrigiert.
 
 Am wenigsten sicher innerhalb dieser 27: das Paar Reichmuth/Gnos
 (DSC05547 hat die Augenbrauen und den Haaransatz von
