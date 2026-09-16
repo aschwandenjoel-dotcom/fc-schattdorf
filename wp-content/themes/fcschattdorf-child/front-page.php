@@ -72,7 +72,15 @@ $slides = array_slice( $items, 0, 5 );
 /* Hero-Daten für JS */
 $hero_json = array();
 foreach ( $slides as $s ) {
-	$hero_json[] = array( 'tag' => $s['tag'], 'date' => $s['date'], 'title' => $s['title'], 'url' => $s['url'] );
+	$hero_json[] = array(
+		'tag'   => $s['tag'],
+		'date'  => $s['date'],
+		/* Das JS setzt den Titel per textContent, HTML-Entities aus
+		   wptexturize (z. B. &#8217; für den Apostroph in «läuft's»)
+		   stünden dort sonst wörtlich im Hero. Deshalb hier decodieren. */
+		'title' => html_entity_decode( $s['title'], ENT_QUOTES | ENT_HTML5, 'UTF-8' ),
+		'url'   => $s['url'],
+	);
 }
 
 /* ── Events laden (eigener fcs_event-CPT – gepflegt im Admin unter

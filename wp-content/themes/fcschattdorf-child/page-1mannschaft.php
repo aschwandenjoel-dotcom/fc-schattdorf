@@ -38,7 +38,7 @@ $squad = fcsh_team_kader( [
     'Verteidigung | 13 | David Baumann | David_Baumann.jpg | gasthaus-brueckli-2026.jpg | Gasthaus Brückli',
     'Verteidigung | 18 | Franco Heinzer | HeinzerFranco.jpg | franco_heinzer_sp.jpg | Heidi Nails',
     'Verteidigung | 22 | Robin Zurfluh | Robin_Zurfluh.jpg',
-    'Verteidigung | 23 | Joel Aschwanden | Joel_Aschwanden.jpg',
+    'Verteidigung | 21 | Joel Aschwanden | Joel_Aschwanden.jpg | bmbg-color.svg | Bilger Mattli Bomatter Gisler',
     'Verteidigung | 24 | Sandro Imbach | Sandro_Imbach.jpg',
     'Mittelfeld | 5 | Gian-Luca Tresch | GianLuca_Tresch.jpg | zurich-2026.png | Zurich',
     'Mittelfeld | 6 | Joachim Gisler | GislerJoachim.jpg | Noah_Noel_Joecha.jpg | Synaxis Altdorf',
@@ -51,7 +51,7 @@ $squad = fcsh_team_kader( [
     'Mittelfeld | 15 | Nico Bissig | NicoBissig.jpg | raiffeisen_logo.png | Raiffeisen',
     'Mittelfeld | 17 | Ben Arnold | Ben_Arnold.jpg | schibli-elektrotechnik-2026.png | Schibli Elektrotechnik',
     'Mittelfeld | 19 | Nico Zgraggen | Nico_Zgraggen_2627.jpg | gasthaus-brueckli-2026.jpg | Gasthaus Brückli',
-    'Mittelfeld | 21 | Noel Herger | Noel_Herger.jpg',
+    'Mittelfeld | 23 | Noel Herger | Noel_Herger.jpg',
     'Sturm | 16 | Patrik Stampfli | StampfliPatrik.jpg | gasthaus-brueckli-2026.jpg | Gasthaus Brückli',
     'Sturm | 20 | Mattia Schorno | MattiaSchorno.jpg | coiffure-atmosphair-2026.png | Coiffure AtmospHAIR',
 ] );

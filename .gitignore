@@ -129,3 +129,18 @@ Spielersponsoren-Logo/
 # FF17 komplett + IFV-Teams je Juniorenseite (11.09.2026)
 !deploy/deploy-inhalte-1109.sh
 !deploy/fcs-inhalte-1109.php.tpl
+
+# Losnummern + Ziehungsprotokoll Gruempelturnier (13.09.2026)
+!deploy/deploy-gruempi-lose.sh
+!deploy/fcs-gruempi-lose.php.tpl
+
+# Cupsieg A-Junioren, Db-Bericht Kriens, Gunzwil-Bericht 1. Mannschaft,
+# Kopfsponsor Joel Aschwanden (15.09.2026)
+!deploy/deploy-inhalte-1509.sh
+!deploy/fcs-inhalte-1509.php.tpl
+!deploy/news-import-1509.json
+
+# Ca-Bericht Stans + Teamfotos Junioren 2026/27 (16.09.2026)
+!deploy/deploy-inhalte-1609.sh
+!deploy/fcs-inhalte-1609.php.tpl
+!deploy/news-import-1609.json
