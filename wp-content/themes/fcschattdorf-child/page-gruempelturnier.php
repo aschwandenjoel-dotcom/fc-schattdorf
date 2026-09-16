@@ -38,6 +38,14 @@ $kategorien  = fcs_pf_lines( 'gt_kategorien', array(
 ) );
 $reg_titel   = fcs_pf( 'gt_reglement_titel', 'Reglement Grümpelturnier 2026' );
 $reg_pdf     = fcs_pf( 'gt_reglement_pdf', $up . 'Reglement_Gruempi_2026.pdf' );
+/* Weitere Downloads (Losnummern, Ziehungsprotokoll …): «Titel | PDF-URL |
+   Beschreibung | Rubrik». Leer = kein Block. */
+$downloads   = array();
+foreach ( fcs_pf_lines( 'gt_downloads' ) as $zeile ) {
+    $t = array_map( 'trim', explode( '|', $zeile ) );
+    if ( count( $t ) < 2 || '' === $t[1] ) { continue; }
+    $downloads[] = array( 'titel' => $t[0], 'url' => $t[1], 'text' => $t[2] ?? '', 'rubrik' => ( $t[3] ?? '' ) !== '' ? $t[3] : 'Download' );
+}
 $rahmen      = fcs_pf_lines( 'gt_rahmenprogramm', array(
 	'Public Viewing FIFA WM 2026 | Passend zum Turnier läuft die FIFA Weltmeisterschaft 2026. Ausgewählte Spiele werden live auf der Anlage gezeigt.',
 	'Grillstand | Frisch vom Grill – an beiden Tagen sorgt unser Grillstand für die kulinarische Verpflegung der Spieler und Zuschauer.',
@@ -157,6 +165,25 @@ $sp_weitere  = fcs_pf_lines( 'gt_sponsor_weitere', array(
           Reglement herunterladen
         </a>
       </div>
+
+      <?php foreach ( $downloads as $d ) : ?>
+      <!-- Weiterer Download (Seitenfeld «Weitere Downloads»), gleiche Karte wie das Reglement -->
+      <div style="margin-top:1rem;padding:1.5rem 2rem;background:#fff;border-radius:14px;box-shadow:0 2px 12px rgba(0,0,0,.07);display:flex;align-items:center;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-size:.6875rem;font-weight:800;text-transform:uppercase;letter-spacing:.14em;color:#E30613;margin-bottom:.3rem;"><?php echo esc_html( $d['rubrik'] ); ?></div>
+          <div style="font-size:1.0625rem;font-weight:800;color:#111;"><?php echo esc_html( $d['titel'] ); ?></div>
+          <?php if ( $d['text'] ) : ?>
+          <div style="font-size:.875rem;color:#6b7280;margin-top:.2rem;"><?php echo esc_html( $d['text'] ); ?></div>
+          <?php endif; ?>
+        </div>
+        <a href="<?php echo esc_url( $d['url'] ); ?>"
+           style="display:inline-flex;align-items:center;gap:.625rem;background:#E30613;color:#fff;text-decoration:none;font-size:.875rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;padding:.875rem 1.75rem;border-radius:8px;white-space:nowrap;flex-shrink:0;"
+           target="_blank" rel="noopener">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 15V3m0 12-4-4m4 4 4-4M3 17v2a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2"/></svg>
+          PDF herunterladen
+        </a>
+      </div>
+      <?php endforeach; ?>
 
     </div>
   </section>

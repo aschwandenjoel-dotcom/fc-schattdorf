@@ -55,6 +55,7 @@ add_filter( 'fcs_page_fields_config', function ( $config ) {
 		'gt_kategorien'       => array( 'label' => 'Kategorien (eine pro Zeile: Gruppe | Name | Zusatz | Spielplan-PDF-URL)', 'type' => 'textarea' ),
 		'gt_reglement_titel'  => array( 'label' => 'Reglement: Titel (z. B. Reglement Grümpelturnier 2026)', 'type' => 'text' ),
 		'gt_reglement_pdf'    => array( 'label' => 'Reglement: PDF-Link (URL aus der Mediathek)', 'type' => 'url' ),
+		'gt_downloads'        => array( 'label' => 'Weitere Downloads unter dem Reglement, z. B. Losnummern und Ziehungsprotokoll (einer pro Zeile: Titel | PDF-URL | Beschreibung | Rubrik — Rubrik optional, Standard «Download»)', 'type' => 'textarea' ),
 		'gt_rahmenprogramm'   => array( 'label' => 'Rahmenprogramm (ein Punkt pro Zeile: Titel | Text)', 'type' => 'textarea' ),
 		'gt_sponsoren_dank'   => array( 'label' => 'Sponsoren: Dankestext unter der Überschrift', 'type' => 'textarea' ),
 		'gt_sponsor_haupt'    => array( 'label' => 'Hauptsponsor (einer pro Zeile: Name | Logo-URL | Website)', 'type' => 'textarea' ),

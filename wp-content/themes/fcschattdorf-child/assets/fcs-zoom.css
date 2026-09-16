@@ -1,0 +1,99 @@
+/* ════════════════════════════════════════════════════════════════
+   BILD-ZOOM – Porträt gross über der Seite (inc/fcs-zoom.php)
+   Sprache des Overlay-Menüs: Ink-Grund, weisse Haarlinien, alles eckig.
+   ════════════════════════════════════════════════════════════════ */
+.fcs-zoomable { cursor: zoom-in; }
+.fcs-zoomable:focus-visible { outline: 3px solid var(--fcx-red, #e63124); outline-offset: 3px; }
+
+.fcs-zoom {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: rgba(16, 18, 20, .94);
+  color: #fff;
+  z-index: 10000;
+}
+.fcs-zoom::backdrop { background: transparent; }
+.fcs-zoom[open] { display: grid; place-items: center; }
+
+.fcs-zoom__fig {
+  margin: 0;
+  padding: 1rem;
+  display: grid;
+  justify-items: center;
+  gap: .875rem;
+  max-width: 100vw;
+}
+.fcs-zoom__img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: min(92vw, 60rem);
+  max-height: 80vh;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, .35);
+  cursor: zoom-out;
+}
+.fcs-zoom__cap {
+  text-align: center;
+  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+}
+.fcs-zoom__cap strong {
+  display: block;
+  font-size: .875rem;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.fcs-zoom__cap span {
+  display: block;
+  margin-top: .3rem;
+  font-size: .75rem;
+  letter-spacing: .04em;
+  opacity: .7;
+}
+
+/* Schliessen-Knopf in Vereinsrot. !important, weil Astra fuer <button>
+   eigene Farben (Blau auf Hover/Fokus) setzt, die sonst durchschlagen. */
+.fcs-zoom__close {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  width: 2.75rem;
+  height: 2.75rem;
+  display: grid;
+  place-items: center;
+  padding: 0 !important;
+  border: 1px solid rgba(255, 255, 255, .7) !important;
+  border-radius: 0 !important;
+  background: var(--fcx-red-solid, #d9261c) !important;
+  color: #fff !important;
+  box-shadow: none !important;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.fcs-zoom__close:hover,
+.fcs-zoom__close:focus,
+.fcs-zoom__close:active {
+  background: var(--fcx-red, #e63124) !important;
+  border-color: #fff !important;
+  color: #fff !important;
+}
+.fcs-zoom__close:focus-visible { outline: 3px solid var(--fcx-red, #e63124); outline-offset: 3px; }
+
+/* Seite dahinter steht still */
+html.fcs-zoom-open { overflow: hidden; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .fcs-zoom[open] .fcs-zoom__img { animation: fcs-zoom-in .18s var(--fcx-ease, ease-out); }
+  @keyframes fcs-zoom-in {
+    from { opacity: 0; transform: scale(.96); }
+    to   { opacity: 1; transform: none; }
+  }
+}
