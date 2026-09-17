@@ -147,3 +147,8 @@ Spielersponsoren-Logo/
 
 # Korrektur Portraets Tresch/Bachmann (16.09.2026)
 !deploy/deploy-portraets-tresch-bachmann.sh
+
+# Generischer News-Deploy + Textliste 17.09.2026 (Hergiswil-Vorschau)
+!deploy/deploy-news.sh
+!deploy/fcs-news.php.tpl
+!deploy/news-import-1709.json

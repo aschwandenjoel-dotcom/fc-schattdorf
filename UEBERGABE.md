@@ -1,6 +1,6 @@
 # Übergabe / Rechnerwechsel
 
-Stand: **16.09.2026, 11:30**. Diese Datei beschreibt, was gerade offen ist und was
+Stand: **17.09.2026**. Diese Datei beschreibt, was gerade offen ist und was
 auf einem neuen Rechner eingerichtet werden muss. Die dauerhaften
 Projektregeln stehen in `CLAUDE.md`, das Setup der lokalen Umgebung in
 `README.md`.
@@ -61,7 +61,16 @@ fast-forward in `main` — kann gelöscht werden. Wichtig für den Betrieb:
   Domain einmal auslösen. Phase C (Search Console, 404-Log, Mail
   beobachten, cyon/UBIQ) steht in `UMSTELLUNG.md`.
 
-**Nichts steht aus.** Alle Deploys sind gelaufen.
+**Ein Schritt steht aus:**
+
+1. `./deploy/deploy-news.sh 1709` — Matchvorschau der 1. Mannschaft
+   «Nächste Bewährungsprobe in Hergiswil» (Abschnitt 2w). Kein
+   Theme-Deploy nötig. Das Bild liegt schon live, der Deploy lädt
+   nichts hoch.
+
+Ebenfalls offen: `./deploy/deploy-portraets-tresch-bachmann.sh`
+(Korrektur der vertauschten Porträts, Abschnitt 2v), falls noch nicht
+gelaufen.
 
 **Erledigt und live nachgeprüft (16.09.2026, ~11:20):**
 `deploy-inhalte-1609.sh` (Abschnitt 2v) ist gelaufen — Ca-Bericht mit
@@ -2150,6 +2159,42 @@ Mechanismus wie bei den Silhouetten oben, ohne Upload.
 (Cb) und die drei FF14-Betreuer Philipp Bissig, Luca Forte, Heinz
 Gisler. Ohne neues Porträt bleiben ausserdem Fabio Moser (Bb) und
 Ramanan Ananthavettivelu (Fa/Fb/Fc), die ein älteres Bild haben.
+
+### 2w. Vorschau Hergiswil und generischer News-Deploy (17.09.2026)
+
+**Neuer Beitrag «Nächste Bewährungsprobe in Hergiswil»**
+(1. Mannschaft): Matchvorschau FC Hergiswil – FC Schattdorf, Samstag
+19.09.2026, 17.00 Uhr, Grossmatt. Quelle
+`~/Downloads/2026-09-19_FC Hergiswil (A).docx`, drei fette
+Zwischentitel wie bei der Gunzwil-Vorschau, Bild das Mannschaftsfoto
+`2026/09/FCS_1_Team_Web.jpg` (liegt live). Datum 17.09., 13:00 —
+neuester Beitrag, damit zuoberst im Hero. Textliste
+`deploy/news-import-1709.json`. Lokal auf dem Live-Stand vom 17.09.
+(13:15) durchgespielt: Probelauf, scharf (#890), zweiter Lauf SKIP,
+Skript 404, Prüfungen grün, drei `<h3>` im Artikel.
+
+**Neu: News-Beiträge brauchen keine Einzelskripte mehr.** Drei
+wiederverwendbare Teile ersetzen die bisherigen `deploy-inhalte-*`
+für den News-Anteil:
+
+- `scripts/docx-news.py` — Word-Datei → JSON-Eintrag. Erkennt beide
+  Vorlagen der Redaktion: ganzer Absatz fett (= Zwischentitel) und
+  fetter Kopf + `<w:br/>` + Fliesstext im selben Absatz (Vorschauen
+  der 1. Mannschaft; die früheren Extraktionen hatten den Kopf an den
+  Absatz geklebt). Lässt Einsender/Rubrik/Resultat/Foto-Zeilen weg,
+  streicht Teampräfixe im Titel, setzt Guillemets.
+- `deploy/fcs-news.php.tpl` — generisches DB-Skript, liest
+  `news-import-<TAG>.json`; Bilder im Monatsordner des Beitragsdatums,
+  optionales `beitragsbild`, Beitragsbild-Tausch bei bestehendem Slug
+  in Yoast-sicherer Reihenfolge.
+- `deploy/deploy-news.sh <TAG> [--lokal]` — überträgt nur Bilder, die
+  live fehlen oder abweichen (md5-Vergleich), Probelauf, Rückfrage,
+  scharf, 60 s, Prüfung (Artikel erreichbar, Bild, `og:image`,
+  Startseite). `--lokal` spielt Probelauf/scharf/zweiter Lauf gegen
+  Docker durch. Läuft mit macOS-bash 3.2 (kein `mapfile`).
+
+Der Ablauf samt Redaktionsregeln steht als Skill in
+`.claude/skills/wp-news/SKILL.md` (Aufruf `/wp-news`).
 
 ## 3. Neuer Rechner: was gebraucht wird
 
