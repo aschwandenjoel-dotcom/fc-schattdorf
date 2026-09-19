@@ -152,3 +152,6 @@ Spielersponsoren-Logo/
 !deploy/deploy-news.sh
 !deploy/fcs-news.php.tpl
 !deploy/news-import-1709.json
+
+# 2. Mannschaft: Auswaertssieg Steinhausen (19.09.2026)
+!deploy/news-import-1909.json

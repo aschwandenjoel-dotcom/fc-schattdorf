@@ -1,6 +1,6 @@
 # Übergabe / Rechnerwechsel
 
-Stand: **17.09.2026**. Diese Datei beschreibt, was gerade offen ist und was
+Stand: **19.09.2026**. Diese Datei beschreibt, was gerade offen ist und was
 auf einem neuen Rechner eingerichtet werden muss. Die dauerhaften
 Projektregeln stehen in `CLAUDE.md`, das Setup der lokalen Umgebung in
 `README.md`.
@@ -63,14 +63,15 @@ fast-forward in `main` — kann gelöscht werden. Wichtig für den Betrieb:
 
 **Ein Schritt steht aus:**
 
-1. `./deploy/deploy-news.sh 1709` — Matchvorschau der 1. Mannschaft
-   «Nächste Bewährungsprobe in Hergiswil» (Abschnitt 2w). Kein
-   Theme-Deploy nötig. Das Bild liegt schon live, der Deploy lädt
-   nichts hoch.
+1. `./deploy/deploy-news.sh 1909` — Spielbericht der 2. Mannschaft
+   «FC Schattdorf jubelt auswärts über 1:4-Sieg gegen den SC
+   Steinhausen» (Abschnitt 2x). Kein Theme-Deploy, kein Bild-Upload
+   (Mannschaftsfoto liegt live).
 
-Ebenfalls offen: `./deploy/deploy-portraets-tresch-bachmann.sh`
-(Korrektur der vertauschten Porträts, Abschnitt 2v), falls noch nicht
-gelaufen.
+**Erledigt und live nachgeprüft (19.09.2026):** `deploy-news.sh 1709`
+(Hergiswil-Vorschau, HTTP 200) und
+`deploy-portraets-tresch-bachmann.sh` (Ca-Seite zeigt die Datei, live
+byteweise identisch mit lokal).
 
 **Erledigt und live nachgeprüft (16.09.2026, ~11:20):**
 `deploy-inhalte-1609.sh` (Abschnitt 2v) ist gelaufen — Ca-Bericht mit
@@ -2195,6 +2196,19 @@ für den News-Anteil:
 
 Der Ablauf samt Redaktionsregeln steht als Skill in
 `.claude/skills/wp-news/SKILL.md` (Aufruf `/wp-news`).
+
+### 2x. Spielbericht 2. Mannschaft gegen Steinhausen (19.09.2026)
+
+Erster Beitrag über den Skill `/wp-news`. Quelle
+`~/Downloads/Sc Steinhausen 12.09.2026.docx` (SC Steinhausen – FC
+Schattdorf 2 1:4 vom 12.09.2026), Titel wie in der Quelle, sechs fette
+Zwischentitel als `<h3>`, 14 Absätze Fliesstext. Bild das
+Mannschaftsfoto `2026/09/FCS_2_Web.jpg` (Anhang #827, liegt live wie
+bei den bisherigen Beiträgen der 2. Mannschaft). Datum 19.09., 11:45 —
+neuester Beitrag, damit zuoberst im Hero vor der Hergiswil-Vorschau.
+Textliste `deploy/news-import-1909.json`. Lokal auf dem Live-Stand vom
+19.09. (11:50) durchgespielt: Probelauf, scharf (#891), zweiter Lauf
+SKIP, Skript 404, vier Prüfungen grün, sechs `<h3>` im Artikel.
 
 ## 3. Neuer Rechner: was gebraucht wird
 
