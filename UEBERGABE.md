@@ -64,8 +64,7 @@ fast-forward in `main` — kann gelöscht werden. Wichtig für den Betrieb:
 **Ein Schritt steht aus:**
 
 1. `./deploy/deploy-news.sh 1909` — Spielbericht der 2. Mannschaft
-   «FC Schattdorf jubelt auswärts über 1:4-Sieg gegen den SC
-   Steinhausen» (Abschnitt 2x). Kein Theme-Deploy, kein Bild-Upload
+   «Auswärtssieg in Steinhausen» (Abschnitt 2x). Kein Theme-Deploy, kein Bild-Upload
    (Mannschaftsfoto liegt live).
 
 **Erledigt und live nachgeprüft (19.09.2026):** `deploy-news.sh 1709`
@@ -2201,13 +2200,15 @@ Der Ablauf samt Redaktionsregeln steht als Skill in
 
 Erster Beitrag über den Skill `/wp-news`. Quelle
 `~/Downloads/Sc Steinhausen 12.09.2026.docx` (SC Steinhausen – FC
-Schattdorf 2 1:4 vom 12.09.2026), Titel wie in der Quelle, sechs fette
-Zwischentitel als `<h3>`, 14 Absätze Fliesstext. Bild das
+Schattdorf 2 1:4 vom 12.09.2026). Der Quelltitel «FC Schattdorf jubelt
+auswärts über 1:4-Sieg gegen den SC Steinhausen» war der Redaktion zu
+lang — gekürzt auf «Auswärtssieg in Steinhausen» (Slug
+`auswaertssieg-in-steinhausen`). Sechs fette Zwischentitel als `<h3>`, 14 Absätze Fliesstext. Bild das
 Mannschaftsfoto `2026/09/FCS_2_Web.jpg` (Anhang #827, liegt live wie
 bei den bisherigen Beiträgen der 2. Mannschaft). Datum 19.09., 11:45 —
 neuester Beitrag, damit zuoberst im Hero vor der Hergiswil-Vorschau.
 Textliste `deploy/news-import-1909.json`. Lokal auf dem Live-Stand vom
-19.09. (11:50) durchgespielt: Probelauf, scharf (#891), zweiter Lauf
+19.09. (12:05, nach der Kürzung erneut) durchgespielt: Probelauf, scharf (#892), zweiter Lauf
 SKIP, Skript 404, vier Prüfungen grün, sechs `<h3>` im Artikel.
 
 ## 3. Neuer Rechner: was gebraucht wird
