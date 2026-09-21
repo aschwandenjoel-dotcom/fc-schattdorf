@@ -1,6 +1,6 @@
 # Übergabe / Rechnerwechsel
 
-Stand: **21.09.2026**. Diese Datei beschreibt, was gerade offen ist und was
+Stand: **21.09.2026, 14:00**. Diese Datei beschreibt, was gerade offen ist und was
 auf einem neuen Rechner eingerichtet werden muss. Die dauerhaften
 Projektregeln stehen in `CLAUDE.md`, das Setup der lokalen Umgebung in
 `README.md`.
@@ -2090,7 +2090,7 @@ Aufnahme und bleibt.
 
 | Neu | Alt | Person | Team(s) |
 | --- | --- | --- | --- |
-| DSC05694 → `Bernhard_Gisler_2627.jpg` | `Bernhard_Gisler.jpg` | Bernhard Gisler | Bb |
+| DSC05686 → `Bernhard_Gisler_2627.jpg` | `Bernhard_Gisler.jpg` | Bernhard Gisler | Bb |
 | DSC05700 → `Sebastian_Herzog_2627.jpg` | `Sebastian_Herzog.jpg` | Sebastian Herzog | Bb |
 | DSC05521 → `Andre_Zgraggen_2627.jpg` | `Andre_Zgraggen.jpg` | André Zgraggen | Ca |
 | DSC05514 → `Fabian_Bachmann_2627.jpg` | `Fabian_Bachmann.jpg` | Fabian Bachmann | Ca |
@@ -2118,6 +2118,14 @@ Aufnahme und bleibt.
 | DSC05577 → `Michael_Gisler_2627.jpg` | `Michael_Gisler.jpg` | Michael Gisler | FF11 |
 | DSC05584 → `Ruedi_Herger_2627.jpg` | `Ruedi_Herger.jpg` | Ruedi Herger | FF11 |
 
+**Korrektur 21.09. (Rückmeldung von Heiri Stadler):** Stadler und
+Bernhard Gisler (Bb) waren vertauscht — DSC05686 (Brille) ist Bernhard
+Gisler, DSC05694 (graues Haar) Heiri Stadler. Dateien unter gleichem
+Namen neu erzeugt; Übertragung mit dem neuen generischen
+`./deploy/deploy-uploads.sh <pfad …>` (scp + Prüfsumme, keine
+DB-Änderung), das künftig alle solchen Einzeldatei-Korrekturen
+abdeckt. Tabellen sind korrigiert.
+
 **Korrektur 16.09. (Rückmeldung):** Tresch und Bachmann waren
 vertauscht — DSC05510 ist Adrian Tresch, DSC05514 Fabian Bachmann.
 Dateien mit gleichem Namen neu erzeugt,
@@ -2144,7 +2152,7 @@ dem Namen und setzt die dritte Spalte — nur wenn dort eine Silhouette
 
 | Datei | Person | Team |
 | --- | --- | --- |
-| DSC05686 → `Heiri_Stadler_2627.jpg` | Heiri Stadler | Bb |
+| DSC05694 → `Heiri_Stadler_2627.jpg` | Heiri Stadler | Bb |
 | DSC05612 → `Kari_Schilter_2627.jpg` | Kari Schilter | Da |
 | DSC05485 → `Philippe_Waridel_2627.jpg` | Philippe Waridel | Dc |
 | DSC05403 → `Sebi_Gisler_2627.jpg` | Sebi Gisler | Dd |

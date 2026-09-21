@@ -158,3 +158,6 @@ Spielersponsoren-Logo/
 
 # 1. Mannschaft Hergiswil-Bericht + Ca Cupsieg Hochdorf (21.09.2026)
 !deploy/news-import-2109.json
+
+# Generisch: einzelne Upload-Dateien ersetzen (21.09.2026)
+!deploy/deploy-uploads.sh
