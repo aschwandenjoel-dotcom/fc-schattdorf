@@ -1,6 +1,6 @@
 # Übergabe / Rechnerwechsel
 
-Stand: **19.09.2026**. Diese Datei beschreibt, was gerade offen ist und was
+Stand: **21.09.2026**. Diese Datei beschreibt, was gerade offen ist und was
 auf einem neuen Rechner eingerichtet werden muss. Die dauerhaften
 Projektregeln stehen in `CLAUDE.md`, das Setup der lokalen Umgebung in
 `README.md`.
@@ -63,9 +63,13 @@ fast-forward in `main` — kann gelöscht werden. Wichtig für den Betrieb:
 
 **Ein Schritt steht aus:**
 
-1. `./deploy/deploy-news.sh 1909` — Spielbericht der 2. Mannschaft
-   «Auswärtssieg in Steinhausen» (Abschnitt 2x). Kein Theme-Deploy, kein Bild-Upload
-   (Mannschaftsfoto liegt live).
+1. `./deploy/deploy-news.sh 2109` — Hergiswil-Bericht der
+   1. Mannschaft und Cupsieg der Ca-Junioren (Abschnitt 2y). Ein
+   Bild-Upload (Ca-Jubelbild), kein Theme-Deploy.
+
+**Erledigt und live nachgeprüft (21.09.2026):** `deploy-news.sh 1909`
+(Steinhausen-Bericht) ist gelaufen — der Beitrag stand im gezogenen
+Live-Stand.
 
 **Erledigt und live nachgeprüft (19.09.2026):** `deploy-news.sh 1709`
 (Hergiswil-Vorschau, HTTP 200) und
@@ -2210,6 +2214,33 @@ neuester Beitrag, damit zuoberst im Hero vor der Hergiswil-Vorschau.
 Textliste `deploy/news-import-1909.json`. Lokal auf dem Live-Stand vom
 19.09. (12:05, nach der Kürzung erneut) durchgespielt: Probelauf, scharf (#892), zweiter Lauf
 SKIP, Skript 404, vier Prüfungen grün, sechs `<h3>` im Artikel.
+
+### 2y. Hergiswil-Bericht 1. Mannschaft und Ca-Cupsieg (21.09.2026)
+
+Über `/wp-news`, Textliste `deploy/news-import-2109.json`, zwei
+Beiträge; lokal auf dem Live-Stand vom 21.09. (11:35) durchgespielt:
+Probelauf, scharf (#893/#895), zweiter Lauf SKIP, Skript 404, acht
+Prüfungen grün, Hero-Reihenfolge 1. Mannschaft vor Ca.
+
+| Titel | Kategorie | Bild | Quelle |
+| --- | --- | --- | --- |
+| Enttäuschender Auftritt in Hergiswil | 1. Mannschaft | `FCS_1_Team_Web.jpg` (liegt live) | `FCSggFCHergiswil.docx` (19.09.2026); Quelltitel «Schattdorf mit enttäuschendem Auftritt in Hergiswil» gekürzt |
+| Eine Runde weiter | Junioren | `2026/09/Ca_16-09-2026.jpg` (neu, 1600×1200, Jubelbild Kabine) | `Spielbericht Ca Junioren FC Hochdorf -FC Schattdorf.docx` (Cup 2. Runde, 2:7 in Hochdorf, 16.09.2026) |
+
+Beim Ca-Bericht wie üblich Einsender, Rubrik, Datum, Resultatzeile und
+Fotohinweise weg; «(le)» klebte in der Quelle am letzten Satz
+(«statt.(le)») und ist mit Leerzeichen getrennt. Das Jubelbild ist wie
+beim A-Junioren-Cupsieg vom 15.09. direkt Beitragsbild (Kabinenfoto mit
+der ganzen Mannschaft; auf dem Telefon bleibt der mittlere Drittel mit
+mehreren Spielern sichtbar). Datum 21.09., 11:20 und 11:19 — die
+1. Mannschaft zuerst.
+
+**Stolperstein beim lokalen Test:** die Beitragsdaten lagen beim
+ersten Lauf zwei Minuten in der Zukunft; das Skript setzt dann «jetzt»
+ein, beide Beiträge bekamen dieselbe Sekunde und die Hero-Reihenfolge
+war zufällig. Daten für die Textliste immer klar in die Vergangenheit
+legen (mindestens eine Viertelstunde), auch wenn der Live-Deploy erst
+später läuft.
 
 ## 3. Neuer Rechner: was gebraucht wird
 

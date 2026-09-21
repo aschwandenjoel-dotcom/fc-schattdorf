@@ -99,7 +99,10 @@ Artikel), optional `beitragsbild` (Hero/Kacheln), `absaetze`,
   Fliesstext. Die Vorschauen der 1. Mannschaft haben drei fette
   Zwischentitel — die bleiben.
 - **Datum nie in der Zukunft** (WordPress plant sonst statt zu
-  veröffentlichen; das Skript fängt es ab und nimmt «jetzt»).
+  veröffentlichen; das Skript fängt es ab und nimmt «jetzt»). Bei
+  mehreren Beiträgen deshalb die Daten mindestens eine Viertelstunde
+  in die Vergangenheit legen — sonst bekommen alle dieselbe Sekunde
+  und die Hero-Reihenfolge wird zufällig (passiert am 21.09.).
 
 ## Stolpersteine
 
