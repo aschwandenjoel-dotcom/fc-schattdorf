@@ -91,6 +91,19 @@ Artikel), optional `beitragsbild` (Hero/Kacheln), `absaetze`,
   Frauen-Bericht 10.09., Ca-Bericht 16.09.
 - **Mannschaft mittig** bei Mannschaftsfotos: oben beschneiden, bis
   die Mannschaft (Köpfe bis Schuhe) auf 50 % der Höhe sitzt.
+- **Flyer und Plakate** (hochkant, Text bis an den Rand) nicht
+  beschneiden — der Hero schnitte auf dem Telefon Text ab. Stattdessen
+  eine Querformat-Leinwand 2100×1000 in der Hintergrundfarbe des Flyers
+  bauen (Farbe mit `imagecolorat` aus einer Ecke abgreifen) und den
+  Flyer mittig auf **85 % der Leinwandhöhe** setzen; das ist die
+  gemessene Grenze, bei der auf dem Telefon nichts wegfällt (Hero zeigt
+  dort nur ein Viertel der Breite, plus 6 % Ken-Burns-Zoom) und der
+  Flyer auf dem Desktop nicht verloren wirkt. Vorbild: Weihnachtsfeier
+  23.09. Der Flyer selbst bleibt als `bild` im Artikel.
+- **Flyer aus einem gespeicherten Instagram-Beitrag** (`.mhtml`): das
+  Bild steckt als MIME-Teil im Archiv, mit Python `email` herauslösen
+  (grösster `image/*`-Teil). Wenn möglich nach dem Original (PDF)
+  fragen — die Instagram-Fassung ist neu komprimiert.
 - **Guillemets** «…» statt „…“; Apostrophe sind erlaubt — die
   Startseite decodiert Entities im Hero seit 15.09.
 - **Spielberichte der Junioren:** Einsender, Telefon, Rubrikzeilen

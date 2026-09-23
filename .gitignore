@@ -165,3 +165,6 @@ Spielersponsoren-Logo/
 # Vorstand: P-Nummer Rene Gnos entfernen (23.09.2026)
 !deploy/deploy-vorstand-p-nummer.sh
 !deploy/fcs-vorstand-p-nummer.php.tpl
+
+# Save the Date Weihnachtsfeier (23.09.2026)
+!deploy/news-import-2309.json

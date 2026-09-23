@@ -1,6 +1,6 @@
 # Übergabe / Rechnerwechsel
 
-Stand: **23.09.2026**. Diese Datei beschreibt, was gerade offen ist und was
+Stand: **23.09.2026, 17:00**. Diese Datei beschreibt, was gerade offen ist und was
 auf einem neuen Rechner eingerichtet werden muss. Die dauerhaften
 Projektregeln stehen in `CLAUDE.md`, das Setup der lokalen Umgebung in
 `README.md`.
@@ -66,6 +66,8 @@ fast-forward in `main` — kann gelöscht werden. Wichtig für den Betrieb:
 1. `./deploy/deploy-vorstand-p-nummer.sh` — P-Nummer und E-Mail-Link
    bei René Gnos auf `/verein/vorstand/` (Abschnitt 2z). Nur DB, keine
    Dateien.
+2. `./deploy/deploy-news.sh 2309` — «Save the Date: Weihnachtsfeier»
+   (Abschnitt 2aa). Zwei Bilder gehen mit.
 
 **Erledigt und live nachgeprüft (23.09.2026):** `deploy-news.sh 2109`
 (Hergiswil-Bericht und Ca-Cupsieg, beide HTTP 200) und
@@ -2287,6 +2289,53 @@ stehen **im Seiteninhalt** der Seite #35 (Gutenberg-Absätze), nicht in
 einem Seitenfeld und nicht in der Vorlage. Deshalb ein eigenes
 Token-Skript mit Prüfung des erwarteten Alt-Werts (`str_replace` auf
 `post_content`, ABBRUCH bei Abweichung).
+
+### 2aa. Save the Date: Weihnachtsfeier (23.09.2026)
+
+Auftrag: den Flyer der Weihnachtsfeier als «Save the Date» unter News
+aufschalten. Über `/wp-news`, Textliste `deploy/news-import-2309.json`;
+lokal auf dem Live-Stand vom 23.09. durchgespielt, alle Prüfungen grün.
+
+Beitrag «Save the Date: Weihnachtsfeier», Kategorie **Verein**, drei
+kurze Absätze (Datum, Ort, Hinweis auf Programm und Anmeldung).
+Eckdaten vom Flyer: Samstag, 28. November 2026, ab 18.00 Uhr,
+Uristiersaal Altdorf.
+
+**Herkunft des Flyers:** `~/Downloads/Flyer Weihnachtsfeier.mhtml` —
+der Instagram-Beitrag des Vereins vom 20.09.2026, als Webseite
+gespeichert. Die Bilddatei steckt im MHTML-Archiv (MIME-Teile); mit
+Python `email` herausgelöst, das Flyerbild ist der grösste Teil
+(1350×1687). **Falls das Original (PDF oder Druckdatei) auftaucht:
+damit ersetzen, die Instagram-Fassung ist neu komprimiert.**
+
+**Zwei Bilder, weil der Flyer hochkant ist:**
+
+| Datei | Zweck |
+| --- | --- |
+| `2026/09/Weihnachtsfeier_2026_Flyer.jpg` (1280×1600) | Bild im Artikel, Flyer ganz |
+| `2026/09/Weihnachtsfeier_2026_Hero.jpg` (2100×1000) | Beitragsbild für Hero und News-Kacheln |
+
+Das Beitragsbild ist **keine Beschneidung**, sondern eine
+Querformat-Leinwand im Flyer-Rot (`#FF5454`, aus dem Flyer abgegriffen)
+mit dem Flyer mittig darauf. Das ist hier die Lösung des
+Hochformat-Problems: eine Beschneidung schnitt auf dem Telefon immer
+Text ab, weil der Hero dort nur den mittleren Drittel der Breite zeigt.
+Auf der Leinwand bleibt der Flyer ganz, und die roten Ränder sind
+unsichtbar, weil sie dieselbe Farbe haben wie sein Hintergrund.
+
+**Die Flyerhöhe auf der Leinwand ist 85 % — das ist gemessen, nicht
+geraten.** Bei 100 % schnitt der Hero auf dem Telefon «SAVE THE DATE»
+an, bei 72 % wirkte der Flyer auf dem Desktop verloren. Zu bedenken
+sind zwei Dinge: der Hero zeigt auf dem Telefon nur
+`Höhe × Fensterverhältnis` an Breite (bei 390×744 rund ein Viertel der
+Leinwand), und der Ken-Burns-Zoom startet bei `scale(1.06)`, nimmt also
+nochmals 6 % weg. Für künftige Flyer: dieselbe Leinwand bauen und die
+85 % übernehmen.
+
+**Der Termin steht bereits unter Events** (`fcs_event` #862,
+28.11.2026, Uristier-Saal, ab 18.00 Uhr) und deckt sich mit dem Flyer —
+dort war nichts zu tun. #866 ist die Ausgabe 2027 (04.12.2027, Zeit
+folgt).
 
 ## 3. Neuer Rechner: was gebraucht wird
 
