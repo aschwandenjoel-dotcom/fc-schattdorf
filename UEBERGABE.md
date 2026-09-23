@@ -1,6 +1,6 @@
 # Übergabe / Rechnerwechsel
 
-Stand: **21.09.2026, 14:00**. Diese Datei beschreibt, was gerade offen ist und was
+Stand: **23.09.2026**. Diese Datei beschreibt, was gerade offen ist und was
 auf einem neuen Rechner eingerichtet werden muss. Die dauerhaften
 Projektregeln stehen in `CLAUDE.md`, das Setup der lokalen Umgebung in
 `README.md`.
@@ -63,9 +63,13 @@ fast-forward in `main` — kann gelöscht werden. Wichtig für den Betrieb:
 
 **Ein Schritt steht aus:**
 
-1. `./deploy/deploy-news.sh 2109` — Hergiswil-Bericht der
-   1. Mannschaft und Cupsieg der Ca-Junioren (Abschnitt 2y). Ein
-   Bild-Upload (Ca-Jubelbild), kein Theme-Deploy.
+1. `./deploy/deploy-vorstand-p-nummer.sh` — P-Nummer bei René Gnos auf
+   `/verein/vorstand/` entfernen (Abschnitt 2z). Nur DB, keine Dateien.
+
+**Erledigt und live nachgeprüft (23.09.2026):** `deploy-news.sh 2109`
+(Hergiswil-Bericht und Ca-Cupsieg, beide HTTP 200) und
+`deploy-uploads.sh` für den Tausch Stadler/Bernhard Gisler (live
+byteweise identisch mit lokal).
 
 **Erledigt und live nachgeprüft (21.09.2026):** `deploy-news.sh 1909`
 (Steinhausen-Bericht) ist gelaufen — der Beitrag stand im gezogenen
@@ -2249,6 +2253,28 @@ ein, beide Beiträge bekamen dieselbe Sekunde und die Hero-Reihenfolge
 war zufällig. Daten für die Textliste immer klar in die Vergangenheit
 legen (mindestens eine Viertelstunde), auch wenn der Live-Deploy erst
 später läuft.
+
+### 2z. Vorstand: P-Nummer bei René Gnos entfernt (23.09.2026)
+
+Rückmeldung: die Festnetznummer soll weg. Er war der einzige
+Vorstandseintrag mit «P:»-Zeile, alle anderen führen nur «M:».
+
+`./deploy/deploy-vorstand-p-nummer.sh` (DB-Teil
+`deploy/fcs-vorstand-p-nummer.php.tpl`). Lokal auf dem Live-Stand vom
+23.09. durchgespielt: Probelauf, scharfer Lauf, zweiter Lauf («SKIP»),
+Skript 404, Seite zeigt nur noch die Mobilnummer.
+
+**Wichtig für künftige Vorstandsänderungen:** die Kontaktangaben
+stehen **im Seiteninhalt** der Seite #35 (Gutenberg-Absätze), nicht in
+einem Seitenfeld und nicht in der Vorlage. Deshalb ein eigenes
+Token-Skript mit Prüfung des erwarteten Alt-Werts (`str_replace` auf
+`post_content`, ABBRUCH bei Abweichung).
+
+**Nebenbefund, bewusst nicht geändert:** der E-Mail-Link bei René Gnos
+zeigt auf `finanzen@fcschattdorf.ch` — dieselbe Adresse wie bei
+Claudia Gisler (Finanzen). Für den Sportchef wäre vermutlich eine
+eigene Adresse gemeint. Das war nicht Teil des Auftrags; bei Bedarf
+mit dem Verein klären und im selben Absatz mitziehen.
 
 ## 3. Neuer Rechner: was gebraucht wird
 

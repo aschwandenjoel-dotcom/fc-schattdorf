@@ -161,3 +161,7 @@ Spielersponsoren-Logo/
 
 # Generisch: einzelne Upload-Dateien ersetzen (21.09.2026)
 !deploy/deploy-uploads.sh
+
+# Vorstand: P-Nummer Rene Gnos entfernen (23.09.2026)
+!deploy/deploy-vorstand-p-nummer.sh
+!deploy/fcs-vorstand-p-nummer.php.tpl
