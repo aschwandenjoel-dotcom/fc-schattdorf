@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 # ====================================================================
-# Deploy: P-Nummer bei René Gnos auf /verein/vorstand/ entfernen
+# Deploy: Kontaktangaben René Gnos auf /verein/vorstand/
+#
+#   1. Festnetznummer «P: 041 870 19 15» entfernen
+#   2. E-Mail-Link finanzen@fcschattdorf.ch -> renegnos@bluewin.ch
+#      (finanzen@ gehört Claudia Gisler; eine Adresse
+#      sportchef@fcschattdorf.ch gibt es nicht, renegnos@bluewin.ch
+#      steht auf «Mitglied werden» für dieselbe Rolle)
 #
 # Nur DB, keine Dateien, kein Theme-Deploy. Der Kontaktblock steht im
 # Seiteninhalt der Vorstandsseite (Gutenberg), nicht in einem
@@ -49,7 +55,8 @@ sleep 60
 log "4/4  Seite prüfen…"
 ok=1
 body="$(lcurl -sSL --max-time 60 "$LIVE/verein/vorstand/")"
-for muster in "P: 041 870 19 15|0" "M: 079 420 61 20|>0" "Ren.* Gnos|>0" "Sportchef|>0"; do
+for muster in "P: 041 870 19 15|0" "M: 079 420 61 20|>0" "Ren.* Gnos|>0" "Sportchef|>0" \
+              "mailto:renegnos@bluewin\.ch|>0"; do
   m="${muster%%|*}"; erw="${muster#*|}"
   n="$(grep -c "$m" <<< "$body" || true)"
   if { [ "$erw" = ">0" ] && [ "$n" != "0" ]; } || { [ "$erw" = "0" ] && [ "$n" = "0" ]; }; then
@@ -61,7 +68,8 @@ done
 
 echo
 if [ "$ok" = "1" ]; then
-  printf "\033[1;32mFertig – P-Nummer ist weg, Mobilnummer steht.\033[0m\n"
+  printf "\033[1;32mFertig – P-Nummer weg, E-Mail auf renegnos@bluewin.ch.\033[0m\n"
+  echo "  Die Adresse finanzen@fcschattdorf.ch steht weiterhin bei Claudia Gisler."
 else
   printf "\033[1;31mFertig, ABER mindestens eine Prüfung passt nicht.\033[0m\n"
   echo "  Hinweis: Hostpoint-Seitencache kann nachhängen – nach 1–2 min erneut prüfen."

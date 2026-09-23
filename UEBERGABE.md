@@ -63,8 +63,9 @@ fast-forward in `main` — kann gelöscht werden. Wichtig für den Betrieb:
 
 **Ein Schritt steht aus:**
 
-1. `./deploy/deploy-vorstand-p-nummer.sh` — P-Nummer bei René Gnos auf
-   `/verein/vorstand/` entfernen (Abschnitt 2z). Nur DB, keine Dateien.
+1. `./deploy/deploy-vorstand-p-nummer.sh` — P-Nummer und E-Mail-Link
+   bei René Gnos auf `/verein/vorstand/` (Abschnitt 2z). Nur DB, keine
+   Dateien.
 
 **Erledigt und live nachgeprüft (23.09.2026):** `deploy-news.sh 2109`
 (Hergiswil-Bericht und Ca-Cupsieg, beide HTTP 200) und
@@ -2254,27 +2255,38 @@ war zufällig. Daten für die Textliste immer klar in die Vergangenheit
 legen (mindestens eine Viertelstunde), auch wenn der Live-Deploy erst
 später läuft.
 
-### 2z. Vorstand: P-Nummer bei René Gnos entfernt (23.09.2026)
+### 2z. Vorstand: Kontaktangaben René Gnos (23.09.2026)
 
-Rückmeldung: die Festnetznummer soll weg. Er war der einzige
-Vorstandseintrag mit «P:»-Zeile, alle anderen führen nur «M:».
+Zwei Korrekturen im Sportchef-Absatz:
+
+1. **Festnetznummer «P: 041 870 19 15» entfernt** (Rückmeldung). Er
+   war der einzige Vorstandseintrag mit «P:»-Zeile, alle anderen
+   führen nur «M:».
+2. **E-Mail-Link von `finanzen@fcschattdorf.ch` auf
+   `renegnos@bluewin.ch`.** `finanzen@` gehört Claudia Gisler —
+   Kopierfehler aus dem Nachbarblock. Eine Adresse
+   `sportchef@fcschattdorf.ch` gibt es **nicht**: im ganzen Bestand
+   kommen nur `admin@`, `finanzen@`, `infrastruktur@`,
+   `juniorenabteilung@`, `kommunikation@`, `losverkauf@`,
+   `marketing@`, `praesident@`, `spiko@` und `veranstaltungen@` vor.
+   Belegt ist für die Rolle Sportchef nur `renegnos@bluewin.ch` (steht
+   auf «Mitglied werden», Seitenfeld `fcs_mw_tracks` der Seite #36).
+   Vom Verein am 23.09. bestätigt. Sollte später ein Postfach
+   `sportchef@fcschattdorf.ch` bei cyon eingerichtet werden, hier und
+   auf «Mitglied werden» nachziehen.
 
 `./deploy/deploy-vorstand-p-nummer.sh` (DB-Teil
 `deploy/fcs-vorstand-p-nummer.php.tpl`). Lokal auf dem Live-Stand vom
 23.09. durchgespielt: Probelauf, scharfer Lauf, zweiter Lauf («SKIP»),
-Skript 404, Seite zeigt nur noch die Mobilnummer.
+Skript 404. Seite zeigt danach: keine P-Nummer, Mobilnummer steht,
+`renegnos@bluewin.ch` einmal (Gnos) und `finanzen@fcschattdorf.ch`
+weiterhin einmal (Claudia Gisler).
 
 **Wichtig für künftige Vorstandsänderungen:** die Kontaktangaben
 stehen **im Seiteninhalt** der Seite #35 (Gutenberg-Absätze), nicht in
 einem Seitenfeld und nicht in der Vorlage. Deshalb ein eigenes
 Token-Skript mit Prüfung des erwarteten Alt-Werts (`str_replace` auf
 `post_content`, ABBRUCH bei Abweichung).
-
-**Nebenbefund, bewusst nicht geändert:** der E-Mail-Link bei René Gnos
-zeigt auf `finanzen@fcschattdorf.ch` — dieselbe Adresse wie bei
-Claudia Gisler (Finanzen). Für den Sportchef wäre vermutlich eine
-eigene Adresse gemeint. Das war nicht Teil des Auftrags; bei Bedarf
-mit dem Verein klären und im selben Absatz mitziehen.
 
 ## 3. Neuer Rechner: was gebraucht wird
 
