@@ -2323,14 +2323,27 @@ Text ab, weil der Hero dort nur den mittleren Drittel der Breite zeigt.
 Auf der Leinwand bleibt der Flyer ganz, und die roten Ränder sind
 unsichtbar, weil sie dieselbe Farbe haben wie sein Hintergrund.
 
-**Die Flyerhöhe auf der Leinwand ist 85 % — das ist gemessen, nicht
-geraten.** Bei 100 % schnitt der Hero auf dem Telefon «SAVE THE DATE»
-an, bei 72 % wirkte der Flyer auf dem Desktop verloren. Zu bedenken
-sind zwei Dinge: der Hero zeigt auf dem Telefon nur
-`Höhe × Fensterverhältnis` an Breite (bei 390×744 rund ein Viertel der
-Leinwand), und der Ken-Burns-Zoom startet bei `scale(1.06)`, nimmt also
-nochmals 6 % weg. Für künftige Flyer: dieselbe Leinwand bauen und die
-85 % übernehmen.
+**Die Flyerhöhe auf der Leinwand ist 58 %, seine Mitte liegt bei 43 %
+der Höhe — beides gerechnet, nicht geschätzt.** Die erste Fassung
+stand auf 85 %; die Redaktion meldete am 23.09., der Flyer sei auf der
+Startseite noch angeschnitten. Die Rechnung dazu:
+
+- Der Hero zeigt bei `background-size: cover` nur
+  `Leinwandhöhe × Fensterverhältnis` an **Breite** — bei 390×744 sind
+  das 524 px der 1000 px hohen Leinwand, **unabhängig von der
+  Leinwandbreite**. Die Leinwand breiter zu machen hilft also nicht.
+- Der Ken-Burns-Zoom startet bei `scale(1.06)` und nimmt weitere 6 %
+  weg: es bleiben **495 px**.
+- Der Flyer ist 1350×1687, auf der Leinwand also `Höhe × 0,8` breit.
+  Bei 85 % waren das 680 px — 185 px zu viel, deshalb fiel «SAVE THE
+  DATE» weg. Bei 58 % sind es 464 px und alles bleibt drin.
+
+Die Mitte bei 43 % statt 50 % hebt den Flyer leicht an, weil der Hero
+unten den Beitragstitel und einen dunklen Verlauf darüberlegt. Der
+Flyer liegt damit auf 14 %–72 % der Höhe; auf sehr breiten Fenstern
+(2000×780) ist das Band 11 %–89 % sichtbar, es passt also auch dort.
+
+Für künftige Flyer: dieselbe Leinwand und dieselben Werte übernehmen.
 
 **Der Termin steht bereits unter Events** (`fcs_event` #862,
 28.11.2026, Uristier-Saal, ab 18.00 Uhr) und deckt sich mit dem Flyer —

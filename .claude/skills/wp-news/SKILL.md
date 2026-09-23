@@ -95,11 +95,16 @@ Artikel), optional `beitragsbild` (Hero/Kacheln), `absaetze`,
   beschneiden — der Hero schnitte auf dem Telefon Text ab. Stattdessen
   eine Querformat-Leinwand 2100×1000 in der Hintergrundfarbe des Flyers
   bauen (Farbe mit `imagecolorat` aus einer Ecke abgreifen) und den
-  Flyer mittig auf **85 % der Leinwandhöhe** setzen; das ist die
-  gemessene Grenze, bei der auf dem Telefon nichts wegfällt (Hero zeigt
-  dort nur ein Viertel der Breite, plus 6 % Ken-Burns-Zoom) und der
-  Flyer auf dem Desktop nicht verloren wirkt. Vorbild: Weihnachtsfeier
-  23.09. Der Flyer selbst bleibt als `bild` im Artikel.
+  Flyer darauf auf **58 % der Leinwandhöhe**, Mitte bei **43 %**.
+  Rechnung dahinter: der Hero zeigt auf dem Telefon nur
+  `Leinwandhöhe × Fensterverhältnis` an Breite (bei 390×744 sind das
+  524 px), der Ken-Burns-Zoom `scale(1.06)` nimmt weitere 6 % weg, es
+  bleiben 495 px. Ein Hochformat 4:5 ist `Höhe × 0,8` breit, also passt
+  höchstens 58 %. **Eine breitere Leinwand hilft nicht** — die sichtbare
+  Breite hängt nur an der Höhe. Die 43 % heben den Flyer über den
+  Titel, den der Hero unten darüberlegt. Vorbild: Weihnachtsfeier
+  23.09. (erst 85 %, von der Redaktion als angeschnitten gemeldet).
+  Der Flyer selbst bleibt als `bild` im Artikel.
 - **Flyer aus einem gespeicherten Instagram-Beitrag** (`.mhtml`): das
   Bild steckt als MIME-Teil im Archiv, mit Python `email` herauslösen
   (grösster `image/*`-Teil). Wenn möglich nach dem Original (PDF)
