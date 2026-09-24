@@ -171,3 +171,7 @@ Spielersponsoren-Logo/
 
 # Matchvorschau 1. Mannschaft gegen Emmenbruecke (24.09.2026)
 !deploy/news-import-2409.json
+
+# Apero-Termin auf 10.04.2027 (24.09.2026)
+!deploy/deploy-apero-datum.sh
+!deploy/fcs-apero-datum.php.tpl

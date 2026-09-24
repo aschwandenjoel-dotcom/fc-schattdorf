@@ -66,6 +66,8 @@ fast-forward in `main` — kann gelöscht werden. Wichtig für den Betrieb:
 1. `./deploy/deploy-news.sh 2409` — Matchvorschau der 1. Mannschaft
    gegen den FC Emmenbrücke (Abschnitt 2ab). Kein Bild-Upload, kein
    Theme-Deploy.
+2. `./deploy/deploy-apero-datum.sh` — Apéro neu am 10.04.2027
+   (Abschnitt 2ac). Nur DB.
 
 **Erledigt und live nachgeprüft (24.09.2026):** `deploy-news.sh 2309`
 (Save the Date Weihnachtsfeier, HTTP 200) und
@@ -2357,6 +2359,30 @@ Spiel: Samstag, 26.09.2026, 18.00 Uhr, Grüner Wald. Datum des Beitrags
 Lokal auf dem Live-Stand vom 24.09. durchgespielt: Probelauf, scharf
 (#900), zweiter Lauf SKIP, Skript 404, vier Prüfungen grün, drei
 `<h3>` im Artikel.
+
+### 2ac. Apéro-Termin auf den 10.04.2027 (24.09.2026)
+
+Rückmeldung: der Ehren-/Freimitglieder- und Sponsorenapéro findet neu
+am **10. April 2027** statt (vorher 24.04.2027).
+
+`./deploy/deploy-apero-datum.sh` (DB-Teil
+`deploy/fcs-apero-datum.php.tpl`). Geändert wird nur das Feld
+`fcs_ev_datum` des `fcs_event`-Eintrags #863; Ort und Zeit bleiben auf
+«Wird bekannt gegeben». Das alte Datum kam sonst nirgends vor —
+geprüft über Postmeta, Seiteninhalte und Theme.
+
+Das Skript prüft den erwarteten alten Wert und bricht ab, wenn die
+Redaktion dort inzwischen etwas geändert hat. Lokal auf dem Live-Stand
+vom 24.09. durchgespielt: Probelauf, scharfer Lauf, zweiter Lauf
+(«SKIP»), Skript 404; `/events/` zeigt «10. April 2027», das alte
+Datum kommt nicht mehr vor, und die Terminliste bleibt richtig
+sortiert (Vorrundenabschluss, Weihnachtsfeier, Apéro, Kick-in-one,
+Grümpelturnier).
+
+**Zum Aufbau der Termine:** sie liegen im CPT `fcs_event`, Datum im
+Feld `fcs_ev_datum` als `Y-m-d`; dazu `fcs_ev_zeit`/`fcs_ev_ort` (plus
+Kurzfassungen für die Kacheln). Für weitere Terminänderungen ist
+dieses Skript die Vorlage.
 
 ## 3. Neuer Rechner: was gebraucht wird
 
