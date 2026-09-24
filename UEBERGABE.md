@@ -1,6 +1,6 @@
 # Übergabe / Rechnerwechsel
 
-Stand: **23.09.2026, 17:00**. Diese Datei beschreibt, was gerade offen ist und was
+Stand: **24.09.2026**. Diese Datei beschreibt, was gerade offen ist und was
 auf einem neuen Rechner eingerichtet werden muss. Die dauerhaften
 Projektregeln stehen in `CLAUDE.md`, das Setup der lokalen Umgebung in
 `README.md`.
@@ -63,11 +63,14 @@ fast-forward in `main` — kann gelöscht werden. Wichtig für den Betrieb:
 
 **Ein Schritt steht aus:**
 
-1. `./deploy/deploy-vorstand-p-nummer.sh` — P-Nummer und E-Mail-Link
-   bei René Gnos auf `/verein/vorstand/` (Abschnitt 2z). Nur DB, keine
-   Dateien.
-2. `./deploy/deploy-news.sh 2309` — «Save the Date: Weihnachtsfeier»
-   (Abschnitt 2aa). Zwei Bilder gehen mit.
+1. `./deploy/deploy-news.sh 2409` — Matchvorschau der 1. Mannschaft
+   gegen den FC Emmenbrücke (Abschnitt 2ab). Kein Bild-Upload, kein
+   Theme-Deploy.
+
+**Erledigt und live nachgeprüft (24.09.2026):** `deploy-news.sh 2309`
+(Save the Date Weihnachtsfeier, HTTP 200) und
+`deploy-vorstand-p-nummer.sh` — die Vorstandsseite zeigt keine
+P-Nummer mehr und den E-Mail-Link auf `renegnos@bluewin.ch`.
 
 **Erledigt und live nachgeprüft (23.09.2026):** `deploy-news.sh 2109`
 (Hergiswil-Bericht und Ca-Cupsieg, beide HTTP 200) und
@@ -2336,6 +2339,24 @@ nochmals 6 % weg. Für künftige Flyer: dieselbe Leinwand bauen und die
 28.11.2026, Uristier-Saal, ab 18.00 Uhr) und deckt sich mit dem Flyer —
 dort war nichts zu tun. #866 ist die Ausgabe 2027 (04.12.2027, Zeit
 folgt).
+
+### 2ab. Matchvorschau gegen Emmenbrücke (24.09.2026)
+
+Über `/wp-news`, Textliste `deploy/news-import-2409.json`. Quelle
+`~/Downloads/2026-09-26_FC Emmenbrücke (H).docx`, Vorlage wie die
+bisherigen Vorschauen der 1. Mannschaft: drei fette Zwischentitel
+(«Zurück vor heimischem Publikum», «Den Blick wieder nach vorne
+richten», «Heimstärke ausspielen»), Titel der Quelle «Antwort auf dem
+Grünen Wald gesucht» unverändert übernommen — kurz genug. Bild das
+Mannschaftsfoto `2026/09/FCS_1_Team_Web.jpg` (Anhang #814, liegt
+live), deshalb überträgt der Deploy keine Datei.
+
+Spiel: Samstag, 26.09.2026, 18.00 Uhr, Grüner Wald. Datum des Beitrags
+24.09., 10:00 — neuester Beitrag, damit zuoberst im Hero.
+
+Lokal auf dem Live-Stand vom 24.09. durchgespielt: Probelauf, scharf
+(#900), zweiter Lauf SKIP, Skript 404, vier Prüfungen grün, drei
+`<h3>` im Artikel.
 
 ## 3. Neuer Rechner: was gebraucht wird
 

@@ -168,3 +168,6 @@ Spielersponsoren-Logo/
 
 # Save the Date Weihnachtsfeier (23.09.2026)
 !deploy/news-import-2309.json
+
+# Matchvorschau 1. Mannschaft gegen Emmenbruecke (24.09.2026)
+!deploy/news-import-2409.json
