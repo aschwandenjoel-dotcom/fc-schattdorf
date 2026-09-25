@@ -21,7 +21,8 @@ $up = wp_upload_dir()['baseurl'] . '/2026/06/';
 /* Betreuerstab & Sponsoren kommen aus der Feld-Box «Seiteninhalte»
    (inc/fcs-fields-teams-fs.php); leere Felder zeigen die Fallback-Daten. */
 $staff = fcsh_team_staff_from_lines( fcs_pf_lines( 'team_staff', array(
-    'Betreuerin | Dominique Scheiber | Domi_Scheiber.jpg',
+    'Trainer | Fabrice Arnold | Fabrice_Arnold_2627.jpg',
+    'Verantwortliche Frauenfussball Uri | Dominique Scheiber | Dominique_Scheiber_2627.jpg',
 ) ) );
 
 $sponsors = fcsh_team_sponsors_from_lines( fcs_pf_lines( 'team_sponsoren', array(

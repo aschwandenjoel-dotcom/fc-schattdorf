@@ -179,3 +179,7 @@ Spielersponsoren-Logo/
 # Fuenf neue Betreuer-Portraets FF14 und Frauen (25.09.2026)
 !deploy/deploy-betreuer-2509.sh
 !deploy/fcs-betreuer-2509.php.tpl
+
+# Rolle Dominique Scheiber (25.09.2026)
+!deploy/deploy-frauen-rolle.sh
+!deploy/fcs-frauen-rolle.php.tpl

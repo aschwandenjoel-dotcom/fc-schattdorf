@@ -77,6 +77,8 @@ fast-forward in `main` — kann gelöscht werden. Wichtig für den Betrieb:
    Reine Theme-Änderung.
 5. `./deploy/deploy-uploads.sh 2026/06/brand-automobile-2026.png` —
    das beschnittene Logo (Abschnitt 2ag). Eine Datei, keine DB.
+6. `./deploy/deploy-frauen-rolle.sh` — Dominique Scheiber neu
+   «Verantwortliche Frauenfussball Uri» (Abschnitt 2ah). Nur DB.
 
 **Erledigt und live nachgeprüft (24.09.2026):** `deploy-news.sh 2309`
 (Save the Date Weihnachtsfeier, HTTP 200) und
@@ -2563,6 +2565,30 @@ wirkt neben schlanken Wortmarken schnell gross. Im Vergleich von 72,
 Nachwuchs-Sponsoren unten) war 92px der Punkt, an dem es deutlich
 grösser ist, ohne die Reihen zu erschlagen; ab etwa 112px kippt es.
 Nur das Feld `height` in der Sponsorenliste, keine neue Datei.
+
+### 2ah. Dominique Scheiber: neue Rolle (25.09.2026)
+
+Rückmeldung von ihr selbst, kurz nachdem der Betreuer-Deploy (2ad)
+live war: sie ist **nicht mehr Betreuerin**, sondern
+**«Verantwortliche Frauenfussball Uri»**.
+
+`./deploy/deploy-frauen-rolle.sh` (DB-Teil
+`deploy/fcs-frauen-rolle.php.tpl`). Geändert wird nur die erste Spalte
+ihrer Zeile im Seitenfeld «Betreuerstab» der Seite #49; Name, Bild und
+der Trainer-Eintrag von Fabrice Arnold bleiben unberührt. Das Skript
+prüft die alte Rolle und bricht bei Abweichung ab.
+
+Lokal auf dem Live-Stand vom 25.09. durchgespielt: Probelauf, scharfer
+Lauf, zweiter Lauf («SKIP»), Skript 404; die Seite zeigt die neue Rolle
+und «Betreuerin» kommt dort nicht mehr vor. Die Bezeichnung ist lang
+und bricht auf der Karte sauber auf zwei Zeilen um — im Browser
+angeschaut, passt.
+
+Der Fallback in `page-frauen-uri-1.php` ist mitgezogen: er stand noch
+auf dem Stand vor 2ad (nur Dominique Scheiber als Betreuerin mit
+`Domi_Scheiber.jpg`) und führt jetzt beide Personen mit den neuen
+Bildern. Für die Anzeige nicht nötig, das Seitenfeld hat Vorrang —
+geht mit dem nächsten Theme-Deploy mit.
 
 ## 3. Neuer Rechner: was gebraucht wird
 
