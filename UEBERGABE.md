@@ -1,6 +1,6 @@
 # Übergabe / Rechnerwechsel
 
-Stand: **24.09.2026**. Diese Datei beschreibt, was gerade offen ist und was
+Stand: **25.09.2026**. Diese Datei beschreibt, was gerade offen ist und was
 auf einem neuen Rechner eingerichtet werden muss. Die dauerhaften
 Projektregeln stehen in `CLAUDE.md`, das Setup der lokalen Umgebung in
 `README.md`.
@@ -68,6 +68,8 @@ fast-forward in `main` — kann gelöscht werden. Wichtig für den Betrieb:
    Theme-Deploy.
 2. `./deploy/deploy-apero-datum.sh` — Apéro neu am 10.04.2027
    (Abschnitt 2ac). Nur DB.
+3. `./deploy/deploy-betreuer-2509.sh` — fünf neue Betreuer-Porträts
+   (Abschnitt 2ad). Fünf Bilder gehen mit.
 
 **Erledigt und live nachgeprüft (24.09.2026):** `deploy-news.sh 2309`
 (Save the Date Weihnachtsfeier, HTTP 200) und
@@ -2383,6 +2385,46 @@ Grümpelturnier).
 Feld `fcs_ev_datum` als `Y-m-d`; dazu `fcs_ev_zeit`/`fcs_ev_ort` (plus
 Kurzfassungen für die Kacheln). Für weitere Terminänderungen ist
 dieses Skript die Vorlage.
+
+### 2ad. Fünf neue Betreuer-Porträts (25.09.2026)
+
+Lieferung in `~/Downloads/transfer-01a0d3c7/` (fünf Dateien, ~3600×5400,
+einheitlich vor Holzwand aufgenommen). `Fabrice Arnold.jpg` lag
+zusätzlich lose in `~/Downloads`, identisch; von Dominique Scheiber gibt
+es zwei fast gleiche Aufnahmen, genommen ist die aus dem
+Transfer-Ordner. Alle auf **1600 px Höhe**, Qualität 88, progressiv,
+als `<Vorname>_<Nachname>_2627.jpg` in `2026/06`.
+
+`./deploy/deploy-betreuer-2509.sh` (DB-Teil
+`deploy/fcs-betreuer-2509.php.tpl`). Lokal auf dem Live-Stand vom
+25.09. durchgespielt: Probelauf, scharfer Lauf, zweiter Lauf («SKIP»
+überall), Skript 404, neun Prüfmuster grün, beide Betreuerkarten im
+Browser angeschaut.
+
+| Person | Datei | Wohin |
+| --- | --- | --- |
+| Philipp Bissig | `Philipp_Bissig_2627.jpg` | Team Uri FF14, ersetzt Silhouette |
+| Luca Forte | `Luca_Forte_2627.jpg` | Team Uri FF14, ersetzt Silhouette |
+| Heinz Gisler | `Heinz_Gisler_2627.jpg` | Team Uri FF14, ersetzt Silhouette |
+| Dominique Scheiber | `Dominique_Scheiber_2627.jpg` | Frauen Team Uri, ersetzt `Domi_Scheiber.jpg` |
+| Fabrice Arnold | `Fabrice_Arnold_2627.jpg` | Frauen Team Uri, **neu als Trainer** |
+
+**Damit sind die letzten Silhouetten der FF14 weg** — offen bleibt nur
+noch Shukri Frangu (Cb), von ihm gibt es kein Bild.
+
+**Fabrice Arnold war ein Sonderfall.** Er stand nirgends auf einer
+veröffentlichten Seite: die alte Betreuerseite (#56,
+`page-betreuer.php`) liegt im **Papierkorb**, dort war er als
+«Betreuer Junioren Dd» geführt. In den Spielberichten der Frauen heisst
+es aber durchgehend «die Equipe von Fabrice Arnold». Am 25.09. bestätigt:
+er kommt als **Trainer** auf die Frauen-Teamseite, vor die Betreuerin
+(Trainer zuoberst, wie bei den Aktiven). Sein altes Bild
+`Fabrice_Arnold_2.jpg` bleibt liegen, wird aber nicht mehr gebraucht.
+
+**Der Betreuerstab der Frauen stand bisher im Seitenfeld
+`fcs_team_staff` der Seite #49** (Vorlage `page-frauen-uri-1.php`, Feld
+aus `inc/fcs-fields-teams-fs.php`) und enthielt genau eine Zeile. Das
+Skript prüft diesen alten Wert und bricht ab, wenn er abweicht.
 
 ## 3. Neuer Rechner: was gebraucht wird
 

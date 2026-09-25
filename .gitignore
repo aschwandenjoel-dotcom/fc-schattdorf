@@ -175,3 +175,7 @@ Spielersponsoren-Logo/
 # Apero-Termin auf 10.04.2027 (24.09.2026)
 !deploy/deploy-apero-datum.sh
 !deploy/fcs-apero-datum.php.tpl
+
+# Fuenf neue Betreuer-Portraets FF14 und Frauen (25.09.2026)
+!deploy/deploy-betreuer-2509.sh
+!deploy/fcs-betreuer-2509.php.tpl
