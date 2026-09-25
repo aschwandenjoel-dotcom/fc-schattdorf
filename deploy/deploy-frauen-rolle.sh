@@ -1,10 +1,13 @@
 #!/usr/bin/env bash
 # ====================================================================
-# Deploy: Dominique Scheiber neu «Verantwortliche Frauenfussball Uri»
+# Deploy: Rollen im Betreuerstab der Frauen-Teamseite (25.09.2026)
 #
-# Rückmeldung von ihr selbst (25.09.2026): sie ist nicht mehr
-# Betreuerin. Nur DB (Seitenfeld «Betreuerstab» der Frauen-Teamseite),
-# keine Dateien. Der Fallback in page-frauen-uri-1.php ist im Repo
+#   · Dominique Scheiber: «Betreuerin» -> «Verantwortliche
+#     Frauenfussball Uri» (von ihr selbst gemeldet)
+#   · Fabrice Arnold: «Trainer» -> «Betreuer»
+#
+# Nur DB (Seitenfeld «Betreuerstab» der Frauen-Teamseite), keine
+# Dateien. Der Fallback in page-frauen-uri-1.php ist im Repo
 # ebenfalls nachgezogen und geht mit dem nächsten Theme-Deploy mit —
 # für die Anzeige nicht nötig, das Seitenfeld hat Vorrang.
 #
@@ -50,7 +53,8 @@ sleep 60
 log "4/4  Seite prüfen…"
 ok=1
 body="$(lcurl -sSL --max-time 60 "$LIVE/aktive/frauen-uri-1/")"
-for muster in "Verantwortliche Frauenfussball Uri|>0" "Betreuerin|0" "Dominique Scheiber|>0" "Fabrice Arnold|>0"; do
+for muster in "Verantwortliche Frauenfussball Uri|>0" "Betreuerin|0" "Trainer|0" \
+              "Dominique Scheiber|>0" "Fabrice Arnold|>0" "Betreuer|>0"; do
   m="${muster%%|*}"; erw="${muster#*|}"
   n="$(grep -c "$m" <<< "$body" || true)"   # kein printf|grep -q (pipefail-Fehlalarm)
   if { [ "$erw" = ">0" ] && [ "$n" != "0" ]; } || { [ "$erw" = "0" ] && [ "$n" = "0" ]; }; then
@@ -62,7 +66,7 @@ done
 
 echo
 if [ "$ok" = "1" ]; then
-  printf "\033[1;32mFertig – Dominique Scheiber steht neu als «Verantwortliche Frauenfussball Uri».\033[0m\n"
+  printf "\033[1;32mFertig – Scheiber «Verantwortliche Frauenfussball Uri», Arnold «Betreuer».\033[0m\n"
 else
   printf "\033[1;31mFertig, ABER mindestens eine Prüfung passt nicht.\033[0m\n"
   echo "  Hinweis: Hostpoint-Seitencache kann nachhängen – nach 1–2 min erneut prüfen."
