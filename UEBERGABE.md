@@ -72,7 +72,8 @@ fast-forward in `main` — kann gelöscht werden. Wichtig für den Betrieb:
    (Abschnitt 2ad). Fünf Bilder gehen mit.
 4. `./scripts/deploy-theme.sh` — «Portrait» entfernt, Navigation und
    Overlay-Fusszeile zusammengelegt, IFV-Link aus der Fusszeile
-   gestrichen, Brand-Automobile-Logo grösser (Abschnitte 2ae bis 2ag).
+   gestrichen, Logos Brand Automobile und Gasthaus Brückli grösser
+   (Abschnitte 2ae bis 2ag).
    Reine Theme-Änderung.
 5. `./deploy/deploy-uploads.sh 2026/06/brand-automobile-2026.png` —
    das beschnittene Logo (Abschnitt 2ag). Eine Datei, keine DB.
@@ -2511,7 +2512,7 @@ Damit ist die Doppelpflege im Overlay ganz weg — **Navigation
 (`fcsh_get_overlay_nav()`) und Fusszeile (`fcsh_overlay_foot()`) stehen
 nur noch in `functions.php`.**
 
-### 2ag. Brand Automobile grösser (25.09.2026)
+### 2ag. Sponsorenlogos auf der Startseite grösser (25.09.2026)
 
 Rückmeldung: «Brand Automobile etwas grösser und farbig».
 
@@ -2552,6 +2553,16 @@ eine farbige Datei vom Sponsor bekommt: einfach als
 `brand-automobile-2026.png` ablegen (Ränder wie oben beschneiden) und
 mit `deploy-uploads.sh` hochladen, Theme-Änderung braucht es dann
 keine.
+
+**Gasthaus Brückli: 72px -> 92px** (Rückmeldung gleich danach). Hier
+war die Datei in Ordnung — das Logo ist quadratisch (447×447) mit
+vollflächig orangem Grund und füllt seinen Rahmen ganz aus. Genau
+deshalb stand es auf einer festen, kleineren Höhe: ein satter Farbblock
+wirkt neben schlanken Wortmarken schnell gross. Im Vergleich von 72,
+88, 100 und 112px zwischen den Nachbarreihen (Co-Sponsoren oben,
+Nachwuchs-Sponsoren unten) war 92px der Punkt, an dem es deutlich
+grösser ist, ohne die Reihen zu erschlagen; ab etwa 112px kippt es.
+Nur das Feld `height` in der Sponsorenliste, keine neue Datei.
 
 ## 3. Neuer Rechner: was gebraucht wird
 

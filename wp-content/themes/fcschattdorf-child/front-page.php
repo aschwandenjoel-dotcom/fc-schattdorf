@@ -144,7 +144,11 @@ $sponsor_groups = array(
 		array( 'img' => $up . 'Cash.png',                   'img_color' => $up . 'cash-2026.png',               'name' => 'cash.',              'url' => 'https://cashsport.ch/' ),
 	)),
 	array( 'label' => 'Club-Sponsoren', 'items' => array(
-		array( 'img' => $up . 'gasthaus-brueckli-2026.jpg', 'img_color' => $up . 'gasthaus-brueckli-2026.jpg', 'name' => 'Gasthaus Brückli',  'url' => 'https://www.brueckli.ch/', 'height' => '72px' ),
+		/* Quadratisches Logo mit vollflächigem Grund — wirkt neben
+		   schlanken Wortmarken schnell gross, stand deshalb lange auf
+		   72px. Auf Wunsch vom 25.09.2026 auf 92px; ab etwa 112px
+		   erschlägt es die Nachbarreihen. */
+		array( 'img' => $up . 'gasthaus-brueckli-2026.jpg', 'img_color' => $up . 'gasthaus-brueckli-2026.jpg', 'name' => 'Gasthaus Brückli',  'url' => 'https://www.brueckli.ch/', 'height' => '92px' ),
 	)),
 	array( 'label' => 'Nachwuchs-Sponsoren', 'items' => array(
 		array( 'img' => $up . 'ewa-gray.png',               'img_color' => $up . 'ewa-color.svg',               'name' => 'EWA energieUri',    'url' => 'https://www.energieuri.ch/' ),
