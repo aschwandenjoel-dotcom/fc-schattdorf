@@ -110,8 +110,10 @@ if ( function_exists( 'fcs_get_events' ) ) {
 $nav = array(
 	array( 'label' => 'Home', 'href' => home_url( '/' ), 'active' => true ),
 	array( 'label' => 'News', 'href' => fcsh_page_url( 'news', home_url( '/news/' ) ) ),
+	/* Kein Eintrag «Portrait»: der zeigte auf die Vereins-Seite selbst,
+	   die keine eigene Porträt-Seite ist. Das Overlay der übrigen Seiten
+	   (fcsh_get_overlay_nav() in functions.php) führte ihn schon nicht. */
 	array( 'label' => 'Verein', 'children' => array(
-		array( 'Portrait', fcsh_page_url( 'verein' ) ),
 		array( 'Vorstand', fcsh_page_url( 'verein/vorstand', fcsh_page_url( 'vorstand' ) ) ),
 		array( 'Mitglied werden', fcsh_page_url( 'verein/mitglied-werden', fcsh_page_url( 'mitglied-werden' ) ) ),
 		array( 'Fanshop', fcsh_page_url( 'verein/fanshop', fcsh_page_url( 'fanshop' ) ) ),

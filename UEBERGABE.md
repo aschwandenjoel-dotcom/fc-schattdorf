@@ -70,6 +70,8 @@ fast-forward in `main` — kann gelöscht werden. Wichtig für den Betrieb:
    (Abschnitt 2ac). Nur DB.
 3. `./deploy/deploy-betreuer-2509.sh` — fünf neue Betreuer-Porträts
    (Abschnitt 2ad). Fünf Bilder gehen mit.
+4. `./scripts/deploy-theme.sh` — Menüeintrag «Portrait» entfernt
+   (Abschnitt 2ae). Reine Theme-Änderung.
 
 **Erledigt und live nachgeprüft (24.09.2026):** `deploy-news.sh 2309`
 (Save the Date Weihnachtsfeier, HTTP 200) und
@@ -2425,6 +2427,41 @@ er kommt als **Trainer** auf die Frauen-Teamseite, vor die Betreuerin
 `fcs_team_staff` der Seite #49** (Vorlage `page-frauen-uri-1.php`, Feld
 aus `inc/fcs-fields-teams-fs.php`) und enthielt genau eine Zeile. Das
 Skript prüft diesen alten Wert und bricht ab, wenn er abweicht.
+
+### 2ae. Menüeintrag «Portrait» entfernt (25.09.2026)
+
+Rückmeldung: Unter «Verein» steht im Menü ein Punkt «Portrait», den es
+nicht geben sollte. Stimmt — er zeigte auf `/verein/` selbst, also auf
+die Elternseite, die keine eigene Porträt-Seite ist.
+
+**Die Navigation steht an zwei Stellen im Theme**, und nur eine war
+betroffen:
+
+- `front-page.php` (`$nav`, ab Zeile 110) — gilt **nur für die
+  Startseite**, dort stand «Portrait». Entfernt.
+- `functions.php` (`fcsh_get_overlay_nav()`, ab Zeile 119) — gilt für
+  **alle übrigen Seiten** und führte den Eintrag schon nicht.
+
+Deshalb tauchte er nur auf der Startseite auf, im Overlay wie im
+Desktop-Dropdown. Lokal geprüft: «Portrait» kommt im Markup der
+Startseite nicht mehr vor, das Untermenü beginnt mit «Vorstand».
+
+**Die beiden Nav-Arrays sind weiterhin nicht deckungsgleich** — der
+Startseite fehlen vier Einträge, die das Overlay der übrigen Seiten
+führt. Alle vier Seiten existieren und sind veröffentlicht:
+
+| Fehlt auf der Startseite | Seite |
+| --- | --- |
+| Junioren > Juniorenkonzept | #61, `junioren/juniorenkonzept` |
+| Junioren > Tauschbörse | #62, `junioren/tauschboerse` |
+| Sponsoren > Sponsoren | #73, `sponsoren` |
+| Sponsoren > Top-Club 88 | #349, `sponsoren/top-club-88` |
+
+Auf der Startseite ist «Sponsoren» ein direkter Link statt eines
+Untermenüs. Ob das Absicht ist, war nicht Teil des Auftrags — bei
+Gelegenheit mit dem Verein klären. **Wer künftig einen Menüpunkt
+ändert, muss beide Stellen anfassen**, sonst laufen sie weiter
+auseinander.
 
 ## 3. Neuer Rechner: was gebraucht wird
 
