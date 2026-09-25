@@ -72,7 +72,10 @@ fast-forward in `main` — kann gelöscht werden. Wichtig für den Betrieb:
    (Abschnitt 2ad). Fünf Bilder gehen mit.
 4. `./scripts/deploy-theme.sh` — «Portrait» entfernt, Navigation und
    Overlay-Fusszeile zusammengelegt, IFV-Link aus der Fusszeile
-   gestrichen (Abschnitte 2ae und 2af). Reine Theme-Änderung.
+   gestrichen, Brand-Automobile-Logo grösser (Abschnitte 2ae bis 2ag).
+   Reine Theme-Änderung.
+5. `./deploy/deploy-uploads.sh 2026/06/brand-automobile-2026.png` —
+   das beschnittene Logo (Abschnitt 2ag). Eine Datei, keine DB.
 
 **Erledigt und live nachgeprüft (24.09.2026):** `deploy-news.sh 2309`
 (Save the Date Weihnachtsfeier, HTTP 200) und
@@ -2507,6 +2510,48 @@ WhatsApp-Kanal.
 Damit ist die Doppelpflege im Overlay ganz weg — **Navigation
 (`fcsh_get_overlay_nav()`) und Fusszeile (`fcsh_overlay_foot()`) stehen
 nur noch in `functions.php`.**
+
+### 2ag. Brand Automobile grösser (25.09.2026)
+
+Rückmeldung: «Brand Automobile etwas grösser und farbig».
+
+**Grösser — erledigt, und die Ursache war die Datei.** Gemessen:
+`brand-automobile-2026.png` war 984×500, der sichtbare Inhalt lag aber
+nur zwischen y 200 und 299 — **20 % der Bildhöhe**. Zum Vergleich die
+Nachbarlogos derselben Reihe: Imholz 80 %, cash 74 %. Weil das CSS
+(`.fcx-spgroup__item img` in `fcs-front.css`) die **ganze Datei** auf
+`height: clamp(3.25rem,6vw,5rem)` bringt, blieb von Brand nur ein
+Fünftel übrig — es wirkte daneben winzig.
+
+Zwei Schritte:
+
+1. **Leere Ränder weggeschnitten** (GD im Container, Alpha erhalten):
+   neu 934×112. Gleicher Dateiname, alte Fassung liegt daneben als
+   `brand-automobile-2026.bak.png`. Das wirkt auch auf
+   `/sponsoren/` (Sponsor #485 nutzt dieselbe Datei) — dort füllt das
+   Logo die Box jetzt sichtbar besser.
+2. **Breite freigegeben.** Beschnitten ist das Logo 8.3:1; die
+   Vorgabe `max-width: 14rem` hätte es sofort wieder flach gedrückt.
+   Die Sponsorenliste in `front-page.php` kennt neu ein Feld
+   `max_width` neben dem bestehenden `height`, Brand steht auf
+   **20rem**. Im direkten Vergleich mit 14/20/26rem war 20rem die
+   Grösse, bei der es zu Imholz und cash passt, ohne sie zu erschlagen.
+
+**Farbig — nicht möglich, es fehlt die Vorlage.** Im Projekt liegen
+sieben Brand-Dateien, alle grau oder schwarz (`…-2026.png`,
+`…-color.png` trotz des Namens grau, `…-gray.png`, `…-dark.png`,
+`brand-schwarz.png`, `brand-weiss-raw.png`, `brand-sp-orig.jpg`). Auch
+die Firmen-Website liefert nur `logo_brand-automobile_weiss.png`
+(1000×193, einfarbig) — das entspricht der schon vorhandenen
+Dark/Weiss-Fassung. Ein mehrfarbiges Logo gibt es dort nicht.
+
+Farbe hätten nur die vier Markenzeichen im erweiterten Logo (BMW,
+MINI, Opel, Suzuki). Die von Hand einzufärben hiesse, fremde
+Markenzeichen nachzubauen — **bewusst nicht gemacht**. Wenn der Verein
+eine farbige Datei vom Sponsor bekommt: einfach als
+`brand-automobile-2026.png` ablegen (Ränder wie oben beschneiden) und
+mit `deploy-uploads.sh` hochladen, Theme-Änderung braucht es dann
+keine.
 
 ## 3. Neuer Rechner: was gebraucht wird
 

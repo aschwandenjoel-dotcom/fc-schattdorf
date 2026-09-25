@@ -136,7 +136,10 @@ $sponsor_groups = array(
 		array( 'img' => $up . 'GAMMA_4in1_CMYK.png',        'img_color' => $up . 'gamma-color-transparent.png', 'name' => 'GAMMA',             'url' => 'https://www.gamma-holding.ch/' ),
 	)),
 	array( 'label' => 'Co-Sponsoren', 'items' => array(
-		array( 'img' => $up . 'brand-automobile-gray.png',  'img_color' => $up . 'brand-automobile-2026.png',   'name' => 'Brand Automobile',  'url' => 'https://www.brand-automobile.ch/' ),
+		/* Sehr breite Wortmarke (8.3:1) mit den vier Marken. Die
+		   Standardbreite von 14rem drückt sie auf eine Höhe, bei der sie
+		   neben den Nachbarlogos verschwindet — deshalb hier 20rem. */
+		array( 'img' => $up . 'brand-automobile-gray.png',  'img_color' => $up . 'brand-automobile-2026.png',   'name' => 'Brand Automobile',  'url' => 'https://www.brand-automobile.ch/', 'max_width' => '20rem' ),
 		array( 'img' => $up . 'imholz-sport-gray.png',      'img_color' => $up . 'imholz-sport-color-transparent.png', 'name' => 'Sport Imholz',      'url' => 'http://imholzsport.ch/' ),
 		array( 'img' => $up . 'Cash.png',                   'img_color' => $up . 'cash-2026.png',               'name' => 'cash.',              'url' => 'https://cashsport.ch/' ),
 	)),
@@ -335,7 +338,14 @@ $sponsor_lead = array_shift( $sponsor_groups );
 			<div class="fcx-spgroup__items">
 				<?php foreach ( $g['items'] as $sp ) : ?>
 					<a class="fcx-spgroup__item" href="<?php echo esc_url( $sp['url'] ); ?>" target="_blank" rel="noopener noreferrer">
-						<img src="<?php echo esc_url( $sp['img_color'] ?? $sp['img'] ); ?>" alt="<?php echo esc_attr( $sp['name'] ); ?>" loading="lazy"<?php if ( ! empty( $sp['height'] ) ) echo ' style="height:' . esc_attr( $sp['height'] ) . '"'; ?>>
+						<?php
+						/* Feinjustierung je Logo: «height» und «max_width»
+						   überschreiben die Vorgaben aus fcs-front.css. */
+						$sp_style = '';
+						if ( ! empty( $sp['height'] ) )    { $sp_style .= 'height:' . $sp['height'] . ';'; }
+						if ( ! empty( $sp['max_width'] ) ) { $sp_style .= 'max-width:' . $sp['max_width'] . ';'; }
+						?>
+						<img src="<?php echo esc_url( $sp['img_color'] ?? $sp['img'] ); ?>" alt="<?php echo esc_attr( $sp['name'] ); ?>" loading="lazy"<?php if ( $sp_style ) echo ' style="' . esc_attr( $sp_style ) . '"'; ?>>
 					</a>
 				<?php endforeach; ?>
 			</div>
