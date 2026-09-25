@@ -70,7 +70,8 @@ fast-forward in `main` — kann gelöscht werden. Wichtig für den Betrieb:
    (Abschnitt 2ac). Nur DB.
 3. `./deploy/deploy-betreuer-2509.sh` — fünf neue Betreuer-Porträts
    (Abschnitt 2ad). Fünf Bilder gehen mit.
-4. `./scripts/deploy-theme.sh` — Menüeintrag «Portrait» entfernt
+4. `./scripts/deploy-theme.sh` — «Portrait» entfernt und die
+   Startseiten-Navigation mit dem Overlay zusammengelegt
    (Abschnitt 2ae). Reine Theme-Änderung.
 
 **Erledigt und live nachgeprüft (24.09.2026):** `deploy-news.sh 2309`
@@ -2446,22 +2447,32 @@ Deshalb tauchte er nur auf der Startseite auf, im Overlay wie im
 Desktop-Dropdown. Lokal geprüft: «Portrait» kommt im Markup der
 Startseite nicht mehr vor, das Untermenü beginnt mit «Vorstand».
 
-**Die beiden Nav-Arrays sind weiterhin nicht deckungsgleich** — der
-Startseite fehlen vier Einträge, die das Overlay der übrigen Seiten
-führt. Alle vier Seiten existieren und sind veröffentlicht:
+**Nachtrag gleicher Tag: die Doppelpflege ist weg.** Der Vergleich
+zeigte vier weitere Abweichungen — der Startseite fehlten
+Juniorenkonzept (#61), Tauschbörse (#62) sowie das Sponsoren-Untermenü
+mit «Sponsoren» (#73) und «Top-Club 88» (#349); dort war «Sponsoren»
+nur ein direkter Link. Alle vier Seiten sind veröffentlicht. Auf
+Wunsch sollen beide Menüs gleich sein, deshalb führt
+`front-page.php` das Array nicht mehr selbst:
 
-| Fehlt auf der Startseite | Seite |
-| --- | --- |
-| Junioren > Juniorenkonzept | #61, `junioren/juniorenkonzept` |
-| Junioren > Tauschbörse | #62, `junioren/tauschboerse` |
-| Sponsoren > Sponsoren | #73, `sponsoren` |
-| Sponsoren > Top-Club 88 | #349, `sponsoren/top-club-88` |
+```php
+$nav = fcsh_get_overlay_nav();
+```
 
-Auf der Startseite ist «Sponsoren» ein direkter Link statt eines
-Untermenüs. Ob das Absicht ist, war nicht Teil des Auftrags — bei
-Gelegenheit mit dem Verein klären. **Wer künftig einen Menüpunkt
-ändert, muss beide Stellen anfassen**, sonst laufen sie weiter
-auseinander.
+Damit gibt es **eine einzige Quelle** (`functions.php`). Die Struktur
+passte ohne Umbau: beide Arrays hatten dieselbe Form, und das
+`active`-Flag für «Home» ist dort `is_front_page()`, was auf der
+Startseite dasselbe liefert wie das bisher hartkodierte `true`.
+42 Zeilen kopierte Liste sind entfallen.
+
+Geprüft: das Overlay-Markup von `/` und `/verein/vorstand/` ist bis auf
+zwei belanglose Stellen gleich — `fcsh-mitem--active` auf «Home» (so
+gewollt) und zwei SVG-Attribute am Pfeil, die das CSS
+(`.fcsh-mitem__chev` in `fcs-home.css` setzt `fill:none;stroke:currentColor`)
+ohnehin überschreibt.
+
+**Künftig Menüpunkte nur noch in `fcsh_get_overlay_nav()` ändern** —
+die Startseite zieht automatisch nach.
 
 ## 3. Neuer Rechner: was gebraucht wird
 

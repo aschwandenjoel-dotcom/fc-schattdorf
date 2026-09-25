@@ -106,47 +106,15 @@ if ( function_exists( 'fcs_get_events' ) ) {
 	}
 }
 
-/* ── Navigation (auf echte WP-Seiten gemappt) ────────────────────── */
-$nav = array(
-	array( 'label' => 'Home', 'href' => home_url( '/' ), 'active' => true ),
-	array( 'label' => 'News', 'href' => fcsh_page_url( 'news', home_url( '/news/' ) ) ),
-	/* Kein Eintrag «Portrait»: der zeigte auf die Vereins-Seite selbst,
-	   die keine eigene Porträt-Seite ist. Das Overlay der übrigen Seiten
-	   (fcsh_get_overlay_nav() in functions.php) führte ihn schon nicht. */
-	array( 'label' => 'Verein', 'children' => array(
-		array( 'Vorstand', fcsh_page_url( 'verein/vorstand', fcsh_page_url( 'vorstand' ) ) ),
-		array( 'Mitglied werden', fcsh_page_url( 'verein/mitglied-werden', fcsh_page_url( 'mitglied-werden' ) ) ),
-		array( 'Fanshop', fcsh_page_url( 'verein/fanshop', fcsh_page_url( 'fanshop' ) ) ),
-		array( 'Schiedsrichter', fcsh_page_url( 'verein/schiedsrichter', fcsh_page_url( 'schiedsrichter' ) ) ),
-		array( 'Ehren-/Freimitglieder', fcsh_page_url( 'verein/ehrenmitglieder', fcsh_page_url( 'ehrenmitglieder' ) ) ),
-		array( 'Vereinsgeschichte', fcsh_page_url( 'verein/vereinsgeschichte', fcsh_page_url( 'vereinsgeschichte' ) ) ),
-		array( 'So finden Sie uns', fcsh_page_url( 'verein/anfahrt', fcsh_page_url( 'anfahrt' ) ) ),
-		array( 'Vorfall melden', fcsh_page_url( 'verein/vorfall-melden', fcsh_page_url( 'vorfall-melden' ) ) ),
-	) ),
-	array( 'label' => 'Helfereinsätze', 'href' => fcsh_page_url( 'helfereinsaetze' ) ),
-	array( 'label' => 'Aktive', 'children' => array(
-		array( '1. Mannschaft', fcsh_page_url( 'aktive/1-mannschaft', fcsh_page_url( '1-mannschaft' ) ) ),
-		array( '2. Mannschaft', fcsh_page_url( 'aktive/2-mannschaft', fcsh_page_url( '2-mannschaft' ) ) ),
-		array( '3. Mannschaft', fcsh_page_url( 'aktive/3-mannschaft', fcsh_page_url( '3-mannschaft' ) ) ),
-		array( 'Frauen Team Uri', fcsh_page_url( 'aktive/frauen-uri-1', fcsh_page_url( 'frauen-uri-1' ) ) ),
-		array( 'Senioren Team Uri', fcsh_page_url( 'aktive/senioren-uri-1', fcsh_page_url( 'senioren-uri-1' ) ) ),
-	) ),
-	array( 'label' => 'Junioren', 'children' => array(
-		array( 'Juniorengeschichte', fcsh_page_url( 'junioren/juniorengeschichte', fcsh_page_url( 'juniorengeschichte' ) ) ),
-		array( 'Organisation', fcsh_page_url( 'junioren/junioren-organisation', fcsh_page_url( 'junioren-organisation' ) ) ),
-		array( 'Teams', fcsh_page_url( 'junioren/teams', fcsh_page_url( 'teams' ) ) ),
-		array( 'Goalietraining', fcsh_page_url( 'junioren/goalietraining', fcsh_page_url( 'goalietraining' ) ) ),
-		array( 'Fussballschule', fcsh_page_url( 'junioren/fussballschule', fcsh_page_url( 'fussballschule' ) ) ),
-		array( 'Trainingslager', fcsh_page_url( 'junioren/trainingslager', fcsh_page_url( 'trainingslager' ) ) ),
-		array( 'Betreuer werden', fcsh_page_url( 'junioren/betreuer-werden', fcsh_page_url( 'betreuer-werden' ) ) ),
-	) ),
-	array( 'label' => 'Events', 'children' => array(
-		array( 'Alle Events', fcsh_page_url( 'events' ) ),
-		array( 'Dorf- & Grümpelturnier', fcsh_page_url( 'gruempelturnier', fcsh_page_url( 'events' ) ) ),
-	) ),
-	array( 'label' => 'Sponsoren', 'href' => fcsh_page_url( 'sponsoren' ) ),
-	array( 'label' => 'Kontakt', 'href' => fcsh_page_url( 'kontakt' ) ),
-);
+/* ── Navigation ───────────────────────────────────────────────────
+   Eine einzige Quelle: fcsh_get_overlay_nav() in functions.php. Die
+   Startseite baut Kopf und Overlay selbst (functions.php steigt bei
+   is_front_page() aus), führte dafür lange ein zweites, von Hand
+   gepflegtes Array — das lief auseinander: hier stand ein «Portrait»,
+   das es nicht gibt, und es fehlten Juniorenkonzept, Tauschbörse und
+   das Sponsoren-Untermenü. Seit 25.09.2026 wird die Liste geholt
+   statt kopiert; Menüpunkte also nur noch in functions.php ändern. */
+$nav = fcsh_get_overlay_nav();
 
 /* ── IFV-Links (Helfer in inc/fcs-ifv.php, 30614 = 1. Mannschaft) ── */
 $ifv = array(
