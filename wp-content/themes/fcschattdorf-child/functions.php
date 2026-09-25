@@ -118,18 +118,17 @@ add_action( 'template_redirect', function () {
 
 /* ── Fusszeile des Overlays ───────────────────────────────────────
    Eine Quelle für beide Overlays (Startseite und übrige Seiten), sonst
-   läuft es auseinander: der WhatsApp-Kanal fehlte hier lange, und der
-   Matchcenter-Link zeigte auf die allgemeine Startseite des IFV statt
-   auf den Spielbetrieb des FCS. */
+   läuft es auseinander: der WhatsApp-Kanal fehlte hier lange. */
 function fcsh_overlay_foot() {
 	$links = array(
 		array( 'Facebook',       'https://www.facebook.com/fcschattdorf.ch/' ),
 		array( 'Instagram',      'https://www.instagram.com/fcschattdorf1933/' ),
 		array( 'WhatsApp-Kanal', 'https://whatsapp.com/channel/0029VbDULM4FXUugCV1Kiq1M' ),
-		/* Vereinsseite beim IFV mit dem Spielbetrieb aller FCS-Teams.
-		   Nicht matchcenter.ifv.ch ohne Nummer — das ist die allgemeine
-		   Startseite des Verbands und zeigt keinen FCS-Inhalt. */
-		array( 'Spielbetrieb FCS', fcs_ifv_verein_url() ),
+		/* Kein IFV-Link mehr: hier stand «IFV Matchcenter» auf
+		   matchcenter.ifv.ch ohne Vereinsnummer, also auf der
+		   Verbands-Startseite ohne FCS-Inhalt. Am 25.09.2026 gestrichen —
+		   den Spielbetrieb erreicht man über die Kacheln der Teamseiten
+		   und die IFV-Leiste der Startseite. */
 	);
 	?>
 	<div class="fcsh-overlay__foot">
