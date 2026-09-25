@@ -204,13 +204,7 @@ $sponsor_lead = array_shift( $sponsor_groups );
 			<?php endforeach; ?>
 		</div>
 	</nav>
-	<div class="fcsh-overlay__foot">
-		<a href="https://www.facebook.com/fcschattdorf.ch/" target="_blank" rel="noopener">Facebook</a>
-		<a href="https://www.instagram.com/fcschattdorf1933/" target="_blank" rel="noopener">Instagram</a>
-		<a href="https://whatsapp.com/channel/0029VbDULM4FXUugCV1Kiq1M" target="_blank" rel="noopener">WhatsApp-Kanal</a>
-		<a href="https://matchcenter.ifv.ch" target="_blank" rel="noopener">IFV Matchcenter</a>
-		<span>© <?php echo esc_html( date( 'Y' ) ); ?> FC Schattdorf</span>
-	</div>
+	<?php fcsh_overlay_foot(); ?>
 </div>
 
 <!-- ══ HERO-SLIDER ══ -->

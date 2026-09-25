@@ -70,9 +70,9 @@ fast-forward in `main` — kann gelöscht werden. Wichtig für den Betrieb:
    (Abschnitt 2ac). Nur DB.
 3. `./deploy/deploy-betreuer-2509.sh` — fünf neue Betreuer-Porträts
    (Abschnitt 2ad). Fünf Bilder gehen mit.
-4. `./scripts/deploy-theme.sh` — «Portrait» entfernt und die
-   Startseiten-Navigation mit dem Overlay zusammengelegt
-   (Abschnitt 2ae). Reine Theme-Änderung.
+4. `./scripts/deploy-theme.sh` — «Portrait» entfernt, Navigation und
+   Overlay-Fusszeile zusammengelegt, Matchcenter-Link korrigiert
+   (Abschnitte 2ae und 2af). Reine Theme-Änderung.
 
 **Erledigt und live nachgeprüft (24.09.2026):** `deploy-news.sh 2309`
 (Save the Date Weihnachtsfeier, HTTP 200) und
@@ -2473,6 +2473,39 @@ ohnehin überschreibt.
 
 **Künftig Menüpunkte nur noch in `fcsh_get_overlay_nav()` ändern** —
 die Startseite zieht automatisch nach.
+
+### 2af. Matchcenter-Link und Overlay-Fusszeile (25.09.2026)
+
+Rückmeldung: «Matchcenter» im Menü unten führt nicht zum FC Schattdorf,
+sondern zur allgemeinen Seite. Stimmt — der Link war fest
+`https://matchcenter.ifv.ch`, also die Verbands-Startseite ohne jede
+Vereinsnummer.
+
+**Neu zeigt er auf `fcs_ifv_verein_url()`**, die Vereinsseite beim IFV
+mit dem Spielbetrieb aller FCS-Teams
+(`…/Verein-IFV.aspx/v-329/a-as/`). Dieser Helfer aus `inc/fcs-ifv.php`
+wird auf der Startseite schon für die Kachel «Spielbetrieb FCS»
+benutzt. **Die Beschriftung heisst deshalb neu «Spielbetrieb FCS»**
+statt «IFV Matchcenter» — das Ziel ist nicht mehr das Matchcenter.
+
+Eine Matchcenter-Adresse für den ganzen Verein liess sich **nicht
+ermitteln**: `matchcenter.ifv.ch` antwortet auf maschinelle Zugriffe
+mit HTTP 403 («Ein maschineller Zugriff ist nicht erlaubt»). Deshalb
+keine geratene Adresse, sondern der im Projekt belegte Helfer. Wer eine
+echte Matchcenter-Vereinsadresse kennt, kann sie in
+`fcsh_overlay_foot()` eintragen.
+
+**Die Fusszeile stand zweimal im Code** und war dadurch ebenfalls
+auseinandergelaufen: in `functions.php` fehlte der **WhatsApp-Kanal**,
+den `front-page.php` führte (laut Abschnitt 2a soll er überall stehen).
+Jetzt gibt es `fcsh_overlay_foot()` in `functions.php`, beide Overlays
+rufen sie auf. Geprüft: die Fusszeile von `/` und `/verein/vorstand/`
+ist byteweise identisch und enthält Facebook, Instagram,
+WhatsApp-Kanal und Spielbetrieb FCS.
+
+Damit ist die Doppelpflege im Overlay ganz weg — **Navigation
+(`fcsh_get_overlay_nav()`) und Fusszeile (`fcsh_overlay_foot()`) stehen
+nur noch in `functions.php`.**
 
 ## 3. Neuer Rechner: was gebraucht wird
 

@@ -116,6 +116,31 @@ add_action( 'template_redirect', function () {
 	}
 } );
 
+/* ── Fusszeile des Overlays ───────────────────────────────────────
+   Eine Quelle für beide Overlays (Startseite und übrige Seiten), sonst
+   läuft es auseinander: der WhatsApp-Kanal fehlte hier lange, und der
+   Matchcenter-Link zeigte auf die allgemeine Startseite des IFV statt
+   auf den Spielbetrieb des FCS. */
+function fcsh_overlay_foot() {
+	$links = array(
+		array( 'Facebook',       'https://www.facebook.com/fcschattdorf.ch/' ),
+		array( 'Instagram',      'https://www.instagram.com/fcschattdorf1933/' ),
+		array( 'WhatsApp-Kanal', 'https://whatsapp.com/channel/0029VbDULM4FXUugCV1Kiq1M' ),
+		/* Vereinsseite beim IFV mit dem Spielbetrieb aller FCS-Teams.
+		   Nicht matchcenter.ifv.ch ohne Nummer — das ist die allgemeine
+		   Startseite des Verbands und zeigt keinen FCS-Inhalt. */
+		array( 'Spielbetrieb FCS', fcs_ifv_verein_url() ),
+	);
+	?>
+	<div class="fcsh-overlay__foot">
+		<?php foreach ( $links as $l ) : ?>
+		<a href="<?php echo esc_url( $l[1] ); ?>" target="_blank" rel="noopener"><?php echo esc_html( $l[0] ); ?></a>
+		<?php endforeach; ?>
+		<span>&copy; <?php echo esc_html( date( 'Y' ) ); ?> FC Schattdorf</span>
+	</div>
+	<?php
+}
+
 /* ── Overlay-Nav-Array ────────────────────────────────────────────── */
 function fcsh_get_overlay_nav() {
 	$on_news = ( is_home() || is_singular( 'post' ) || is_category() || is_tag() );
@@ -353,12 +378,7 @@ add_action( 'wp_body_open', function () {
 			<?php endforeach; ?>
 		</div>
 	</nav>
-	<div class="fcsh-overlay__foot">
-		<a href="https://www.facebook.com/fcschattdorf.ch/" target="_blank" rel="noopener">Facebook</a>
-		<a href="https://www.instagram.com/fcschattdorf1933/" target="_blank" rel="noopener">Instagram</a>
-		<a href="https://matchcenter.ifv.ch" target="_blank" rel="noopener">IFV Matchcenter</a>
-		<span>© <?php echo esc_html( date( 'Y' ) ); ?> FC Schattdorf</span>
-	</div>
+	<?php fcsh_overlay_foot(); ?>
 </div>
 	<?php
 } );
