@@ -1,6 +1,6 @@
 # Übergabe / Rechnerwechsel
 
-Stand: **25.09.2026**. Diese Datei beschreibt, was gerade offen ist und was
+Stand: **27.09.2026**. Diese Datei beschreibt, was gerade offen ist und was
 auf einem neuen Rechner eingerichtet werden muss. Die dauerhaften
 Projektregeln stehen in `CLAUDE.md`, das Setup der lokalen Umgebung in
 `README.md`.
@@ -63,22 +63,19 @@ fast-forward in `main` — kann gelöscht werden. Wichtig für den Betrieb:
 
 **Ein Schritt steht aus:**
 
-1. `./deploy/deploy-news.sh 2409` — Matchvorschau der 1. Mannschaft
-   gegen den FC Emmenbrücke (Abschnitt 2ab). Kein Bild-Upload, kein
+1. `./deploy/deploy-news.sh 2709` — Matchbericht der 1. Mannschaft
+   gegen den FC Emmenbrücke (Abschnitt 2ai). Kein Bild-Upload, kein
    Theme-Deploy.
-2. `./deploy/deploy-apero-datum.sh` — Apéro neu am 10.04.2027
-   (Abschnitt 2ac). Nur DB.
-3. `./deploy/deploy-betreuer-2509.sh` — fünf neue Betreuer-Porträts
-   (Abschnitt 2ad). Fünf Bilder gehen mit.
-4. `./scripts/deploy-theme.sh` — «Portrait» entfernt, Navigation und
-   Overlay-Fusszeile zusammengelegt, IFV-Link aus der Fusszeile
-   gestrichen, Logos Brand Automobile und Gasthaus Brückli grösser
-   (Abschnitte 2ae bis 2ag).
-   Reine Theme-Änderung.
-5. `./deploy/deploy-uploads.sh 2026/06/brand-automobile-2026.png` —
-   das beschnittene Logo (Abschnitt 2ag). Eine Datei, keine DB.
-6. `./deploy/deploy-frauen-rolle.sh` — Rollen im Betreuerstab der
-   Frauen (Abschnitt 2ah). Nur DB.
+
+**Erledigt und live nachgeprüft (27.09.2026):** alle sechs Schritte
+vom 24./25.09. sind gelaufen — `deploy-news.sh 2409`
+(Emmenbrücke-Vorschau), `deploy-apero-datum.sh`,
+`deploy-betreuer-2509.sh`, `scripts/deploy-theme.sh`,
+`deploy-uploads.sh` für das Brand-Logo und `deploy-frauen-rolle.sh`.
+Live geprüft: Vorschau und Save-the-Date erreichbar, die Frauenseite
+zeigt «Verantwortliche Frauenfussball Uri» und kein «Betreuerin» oder
+«Trainer» mehr, «Portrait» ist aus dem Startseiten-Menü verschwunden,
+das Brand-Logo live byteweise identisch mit der beschnittenen Fassung.
 
 **Erledigt und live nachgeprüft (24.09.2026):** `deploy-news.sh 2309`
 (Save the Date Weihnachtsfeier, HTTP 200) und
@@ -2602,6 +2599,24 @@ auf dem Stand vor 2ad (nur Dominique Scheiber als Betreuerin mit
 `Domi_Scheiber.jpg`) und führt jetzt beide Personen mit den neuen
 Bildern und Rollen. Für die Anzeige nicht nötig, das Seitenfeld hat Vorrang —
 geht mit dem nächsten Theme-Deploy mit.
+
+### 2ai. Matchbericht gegen Emmenbrücke (27.09.2026)
+
+Über `/wp-news`, Textliste `deploy/news-import-2709.json`. Quelle
+`~/Downloads/FCSggFCEmmenbrücke.docx` — Heimspiel FC Schattdorf gegen
+FC Emmenbrücke vom 26.09.2026, 0:3. Sechs Fliesstext-Absätze, keine
+Zwischentitel (die haben nur die Vorschauen). Bild das Mannschaftsfoto
+`2026/09/FCS_1_Team_Web.jpg` (Anhang #814, liegt live), deshalb
+überträgt der Deploy keine Datei.
+
+**Titel gekürzt** wie bei den letzten Berichten: aus «Schattdorf bleibt
+gegen Emmenbrücke ohne Punkte» wurde «Ohne Punkte gegen Emmenbrücke»,
+Slug entsprechend.
+
+Datum 27.09., 17:00 — neuester Beitrag, steht zuoberst im Hero vor der
+eigenen Vorschau vom 24.09. Lokal auf dem Live-Stand vom 27.09.
+durchgespielt: Probelauf, scharf (#902), zweiter Lauf SKIP, Skript
+404, vier Prüfungen grün.
 
 ## 3. Neuer Rechner: was gebraucht wird
 

@@ -183,3 +183,6 @@ Spielersponsoren-Logo/
 # Rolle Dominique Scheiber (25.09.2026)
 !deploy/deploy-frauen-rolle.sh
 !deploy/fcs-frauen-rolle.php.tpl
+
+# Matchbericht 1. Mannschaft gegen Emmenbruecke (27.09.2026)
+!deploy/news-import-2709.json
