@@ -189,3 +189,7 @@ Spielersponsoren-Logo/
 
 # Matchberichte 2. Mannschaft, Ba und Db (29.09.2026)
 !deploy/news-import-2909.json
+
+# Tamara Eller aus der Junioren-Organisation (29.09.2026)
+!deploy/deploy-person-eller.sh
+!deploy/fcs-person-eller.php.tpl

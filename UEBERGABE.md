@@ -61,10 +61,12 @@ fast-forward in `main` — kann gelöscht werden. Wichtig für den Betrieb:
   Domain einmal auslösen. Phase C (Search Console, 404-Log, Mail
   beobachten, cyon/UBIQ) steht in `UMSTELLUNG.md`.
 
-**Ein Schritt steht aus:**
+**Zwei Schritte stehen aus:**
 
 1. `./deploy/deploy-news.sh 2909` — drei Matchberichte (2. Mannschaft,
    Ba, Db; Abschnitt 2aj). Zwei Bilder gehen mit.
+2. `./deploy/deploy-person-eller.sh` — Tamara Eller aus der
+   Junioren-Organisation (Abschnitt 2ak). Nur DB.
 
 **Erledigt und live nachgeprüft (29.09.2026):** `deploy-news.sh 2709`
 (Emmenbrücke-Bericht, HTTP 200).
@@ -2661,6 +2663,33 @@ nur dann aus dem Text entfernt, wenn er *aus* dem Text stammte. Jetzt
 wird der Quelltitel immer bestimmt und entfernt, `--titel`
 überschreibt nur noch die Beschriftung. Gegengeprüft: ohne `--titel`
 verhält sich das Werkzeug unverändert.
+
+### 2ak. Tamara Eller aus der Junioren-Organisation (29.09.2026)
+
+Rückmeldung von ihr selbst: sie hat das Ämtli «Fotos» nicht mehr und
+möchte von der Seite genommen werden.
+
+`./deploy/deploy-person-eller.sh` (DB-Teil
+`deploy/fcs-person-eller.php.tpl`). Der Eintrag ist ein
+**`fcs_person`-Beitrag** (#697, Bereich `junioren-organisation`, Rolle
+`Fotos`) und wandert in den **Papierkorb** — nicht endgültig gelöscht,
+die Redaktion kann ihn im Admin wiederherstellen. Das Skript prüft
+Titel, Bereich und Rolle und bricht bei Abweichung ab.
+
+**Aline Kempf trägt dieselbe Rolle**, die Rubrik «Fotos» auf
+`/junioren/junioren-organisation/` bleibt also bestehen; sie steht
+danach allein in der letzten Rasterreihe, was im dreispaltigen Layout
+normal aussieht (im Browser geprüft).
+
+**Ihr Name bleibt in drei Spielberichten der Frauen** stehen (#281,
+#813, #872) — dort ist sie Torschützin, das ist Fliesstext und hat mit
+dem Ämtli nichts zu tun.
+
+**Zur Struktur:** die Junioren-Organisation wird nicht aus einem
+Seitenfeld gespeist, sondern aus dem CPT `fcs_person` mit den Feldern
+`fcs_pe_bereich`, `fcs_pe_rolle`, `fcs_pe_email`, `fcs_pe_tel`,
+`fcs_pe_bild`; die Reihenfolge steuert `menu_order` (10er-Schritte).
+Für weitere Personenänderungen ist dieses Skript die Vorlage.
 
 ## 3. Neuer Rechner: was gebraucht wird
 
