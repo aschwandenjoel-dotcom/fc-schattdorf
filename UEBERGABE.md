@@ -2703,7 +2703,8 @@ lagen übereinander**, gemessen statt geraten:
 | --- | --- | --- |
 | Das Foto selbst (Gegenlicht) | untere Hälfte 84 von 255 | 118 (Gamma 1,5) |
 | `.tl-hero__img` über schwarzem Grund | `opacity: .8`, per Zoom-Animation auf `.88` | `opacity: 1` |
-| `.tl-hero__slash` (Verlauf für die Schrift) | rechts 72 %, unten 78 % Schwarz | 58 % / 66 % |
+| `.tl-hero__slash`, Verlauf von links | 72 % Schwarz | **28 %** |
+| `.tl-hero__slash`, Verlauf von unten | 78 % Schwarz | 66 % |
 
 Multipliziert ergab das im unteren Bildteil noch rund ein Fünftel der
 ursprünglichen Helligkeit.
@@ -2720,12 +2721,18 @@ deshalb genügt `./scripts/deploy-theme.sh`, kein Datei-Upload:
    Theme und würde mitdeployt.
 2. `opacity` des Hero-Bildes auf 1, auch im Keyframe `tlHeroZoom` und
    im `prefers-reduced-motion`-Block.
-3. Den Verlauf abgeschwächt, aber unten und links genug gelassen —
-   dort sitzen Titel, Datum und Ort.
+3. Den Verlauf abgeschwächt. **In zwei Runden:** zuerst nur unten
+   (78 -> 66 %) und links auf 58 %, nach der Rückmeldung «links immer
+   noch zu dunkel» der Seitenverlauf weiter auf **28 %**. Verglichen
+   wurden 58 / 40 / 28 / 0 % — ohne Seitenverlauf setzt sich der
+   Textblock zu wenig ab, bei 28 % ist die linke Bildhälfte offen und
+   der Text bleibt klar. Den Kontrast trägt jetzt im Wesentlichen der
+   Verlauf von unten plus der `text-shadow` am Titel.
 
-**Lesbarkeit geprüft, nicht angenommen:** hinter Datum und Ort liegt
-der Hintergrund bei 41 von 255 (Kontrast 14,5:1), hinter dem grossen
-Titel bei 122 (4,3:1). Für Fliesstext wären 4,5:1 nötig, für grosse
+**Lesbarkeit geprüft, nicht angenommen** (Werte nach der zweiten
+Runde): hinter Datum und Ort liegt der Hintergrund bei 52 von 255
+(Kontrast 12,4:1), hinter dem grossen Titel bei 127 (4,0:1); die linke
+Bildseite oben kam von deutlich dunkler auf 127. Für Fliesstext wären 4,5:1 nötig, für grosse
 fette Schrift verlangt WCAG 3:1 — der Titel ist bis 4,25 rem gross und
 900 fett. Dazu kommt der bestehende `text-shadow` (0 2px 22px,
 55 % Schwarz), der lokal hinter den Buchstaben abdunkelt und in der

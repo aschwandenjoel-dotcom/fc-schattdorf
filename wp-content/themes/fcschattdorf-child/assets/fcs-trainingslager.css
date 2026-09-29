@@ -93,18 +93,20 @@ body.page-id-59 .entry-header { padding: 0 !important; margin: 0 !important; }
 @keyframes tlFadeIn { from { opacity: 0; } }
 
 /* Abdunkeln, damit die Schrift auf jedem Foto lesbar bleibt.
-   Am 29.09.2026 abgeschwächt (rechts 72->58 %, unten 78->66 %): das
-   Hero-Foto ist im Gegenlicht aufgenommen und war unten ohnehin dunkel,
-   zusammen mit dem alten Verlauf verschwand die Mannschaft im Schwarz.
-   Unten und links bleibt genug Abdunklung für die weisse Schrift —
-   dort sitzen Titel, Datum und Ort. */
+   Am 29.09.2026 zweimal abgeschwächt: erst unten 78->66 %, dann auf
+   Rückmeldung («links immer noch zu dunkel») der Seitenverlauf
+   72->58->28 %. Das Hero-Foto ist im Gegenlicht aufgenommen und war
+   unten ohnehin dunkel; zusammen mit dem alten Verlauf verschwand die
+   Mannschaft im Schwarz. Den Kontrast für die weisse Schrift trägt
+   jetzt im Wesentlichen der Verlauf von unten plus der text-shadow am
+   Titel — der Seitenverlauf setzt den Textblock nur noch leicht ab. */
 .tl-hero__slash {
   position: absolute; inset: 0; pointer-events: none;
   background:
     linear-gradient(
       to right,
-      rgba(0,0,0,.58) 0%,
-      rgba(0,0,0,.30) 38%,
+      rgba(0,0,0,.28) 0%,
+      rgba(0,0,0,.14) 38%,
       transparent 70%
     ),
     linear-gradient(
