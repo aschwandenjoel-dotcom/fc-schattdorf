@@ -1,6 +1,6 @@
 # Übergabe / Rechnerwechsel
 
-Stand: **27.09.2026**. Diese Datei beschreibt, was gerade offen ist und was
+Stand: **29.09.2026**. Diese Datei beschreibt, was gerade offen ist und was
 auf einem neuen Rechner eingerichtet werden muss. Die dauerhaften
 Projektregeln stehen in `CLAUDE.md`, das Setup der lokalen Umgebung in
 `README.md`.
@@ -63,9 +63,11 @@ fast-forward in `main` — kann gelöscht werden. Wichtig für den Betrieb:
 
 **Ein Schritt steht aus:**
 
-1. `./deploy/deploy-news.sh 2709` — Matchbericht der 1. Mannschaft
-   gegen den FC Emmenbrücke (Abschnitt 2ai). Kein Bild-Upload, kein
-   Theme-Deploy.
+1. `./deploy/deploy-news.sh 2909` — drei Matchberichte (2. Mannschaft,
+   Ba, Db; Abschnitt 2aj). Zwei Bilder gehen mit.
+
+**Erledigt und live nachgeprüft (29.09.2026):** `deploy-news.sh 2709`
+(Emmenbrücke-Bericht, HTTP 200).
 
 **Erledigt und live nachgeprüft (27.09.2026):** alle sechs Schritte
 vom 24./25.09. sind gelaufen — `deploy-news.sh 2409`
@@ -2617,6 +2619,48 @@ Datum 27.09., 17:00 — neuester Beitrag, steht zuoberst im Hero vor der
 eigenen Vorschau vom 24.09. Lokal auf dem Live-Stand vom 27.09.
 durchgespielt: Probelauf, scharf (#902), zweiter Lauf SKIP, Skript
 404, vier Prüfungen grün.
+
+### 2aj. Drei Matchberichte vom Wochenende (29.09.2026)
+
+Über `/wp-news`, Textliste `deploy/news-import-2909.json`. Lokal auf
+dem Live-Stand vom 29.09. durchgespielt: Probelauf, scharf
+(#904/#905/#907), zweiter Lauf SKIP, Skript 404, zwölf Prüfmuster
+grün.
+
+| Titel | Kategorie | Bild | Quelle |
+| --- | --- | --- | --- |
+| Keine Chance für Brunnen | 2. Mannschaft | `2026/09/FCS2_26-09-2026.jpg` (neu, 1600×1200) | `Fc Brunnen 26.09.2026.docx`, 7:0 vom 26.09. |
+| Erster Sieg nach einem wahren Krimi | Junioren | `2026/09/Ba_Junioren_26-27.jpg` (liegt live) | `Spielbericht Ba Junioren … FC Sempach.docx`, 5:4 vom 27.09. |
+| Niederlage im Derby gegen den FC Altdorf | Junioren | `2026/09/Db_26-09-2026.jpg` (neu, 1600×901) | `Spielbericht Db Junioren … SC Cham-1.docx`, 4:1 vom 26.09. |
+
+Reihenfolge im Hero: Aktive zuerst (2. Mannschaft), dann die Junioren
+nach Spieldatum — Ba (27.09.) vor Db (26.09.). Daten 08:00/07:59/07:58.
+
+**Drei Stolpersteine in den Quellen:**
+
+- **Der Db-Dateiname führt in die Irre.** «Spielbericht Db Junioren FC
+  Schattdorf - SC Cham-1.docx» beschreibt in Wahrheit FC Altdorf Da –
+  FC Schattdorf Db 4:1, das Derby auf der Schützenmatte. Der Name ist
+  offenbar aus einer älteren Datei übernommen (die echte Cham-Datei
+  vom 27.08. liegt daneben). **Immer den Inhalt lesen, nicht dem
+  Dateinamen trauen.** Dasselbe beim Ba: die Datei heisst «… Bb-FC
+  Sempach», der Bericht ist aber vom Ba.
+- **Zum Ba kam kein Bild.** Wiederverwendet ist das Mannschaftsfoto
+  `Ba_Junioren_26-27.jpg`, das seit dem 10.09. in `2026/09` liegt.
+- **Das Db-Foto ist nicht beschnitten.** Nur auf 1600 px verkleinert —
+  am 15.09. war ein Beschnitt «Mannschaft mittig» bei einem
+  Db-News-Bild ausdrücklich zurückgenommen worden (Abschnitt 2u). Die
+  Regel gilt für Teamfotos auf Teamseiten, nicht für News-Bilder.
+
+**Fehler in `scripts/docx-news.py` behoben.** Mit `--titel` liess das
+Werkzeug den **Quelltitel als Absatz im Text stehen** — beim
+2.-Mannschaft-Bericht wäre «FC Schattdorf 2 lässt Brunnen keine
+Chance» als vierter Zwischentitel erschienen, beim Db als
+Zwischentitel und beim Ba als erster Absatz. Ursache: der Titel wurde
+nur dann aus dem Text entfernt, wenn er *aus* dem Text stammte. Jetzt
+wird der Quelltitel immer bestimmt und entfernt, `--titel`
+überschreibt nur noch die Beschriftung. Gegengeprüft: ohne `--titel`
+verhält sich das Werkzeug unverändert.
 
 ## 3. Neuer Rechner: was gebraucht wird
 

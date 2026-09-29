@@ -186,3 +186,6 @@ Spielersponsoren-Logo/
 
 # Matchbericht 1. Mannschaft gegen Emmenbruecke (27.09.2026)
 !deploy/news-import-2709.json
+
+# Matchberichte 2. Mannschaft, Ba und Db (29.09.2026)
+!deploy/news-import-2909.json

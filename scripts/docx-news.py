@@ -65,12 +65,18 @@ def main():
         bloecke.append(('P', text.replace('\n', ' ')))
     # Rubrik/Einsender/Resultat/Fotozeilen raus
     inhalt = [(k, t) for k, t in bloecke if not SKIP.match(t) and not RESULTAT.search(t)]
-    titel = a.titel
-    if not titel:
-        for k, t in inhalt:
-            if k == 'H': titel = t; break
-        if not titel: titel = inhalt[0][1]
-        inhalt = [(k, t) for k, t in inhalt if t != titel]
+    # Quelltitel immer bestimmen und aus dem Text nehmen — auch wenn
+    # --titel etwas anderes vorgibt, sonst bliebe er als erster Absatz
+    # bzw. Zwischentitel im Beitrag stehen.
+    quelltitel = None
+    for k, t in inhalt:
+        if k == 'H':
+            quelltitel = t
+            break
+    if quelltitel is None and inhalt:
+        quelltitel = inhalt[0][1]
+    inhalt = [(k, t) for k, t in inhalt if t != quelltitel]
+    titel = a.titel or quelltitel
     # Teampräfix «Cb-Junioren: …» / «Team Uri Frauen: …» weg (Regel vom 10.09.2026)
     titel = re.sub(r'^[^:]{2,30}:\s+', '', titel)
     absaetze = [t for _, t in inhalt]
