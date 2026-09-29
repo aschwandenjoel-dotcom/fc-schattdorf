@@ -61,14 +61,16 @@ fast-forward in `main` — kann gelöscht werden. Wichtig für den Betrieb:
   Domain einmal auslösen. Phase C (Search Console, 404-Log, Mail
   beobachten, cyon/UBIQ) steht in `UMSTELLUNG.md`.
 
-**Zwei Schritte stehen aus:**
+**Ein Schritt steht aus:**
 
-1. `./deploy/deploy-news.sh 2909` — drei Matchberichte (2. Mannschaft,
-   Ba, Db; Abschnitt 2aj). Zwei Bilder gehen mit.
-2. `./deploy/deploy-person-eller.sh` — Tamara Eller aus der
-   Junioren-Organisation (Abschnitt 2ak). Nur DB.
-3. `./scripts/deploy-theme.sh` — helleres Hero-Bild im Trainingslager
-   (Abschnitt 2al). Bild und CSS liegen im Theme.
+1. `./deploy/deploy-junioren-orga.sh` — Kommunikation und Social Media
+   in der Junioren-Organisation neu besetzt (Abschnitt 2am). Nur DB.
+
+**Erledigt und live nachgeprüft (29.09.2026, abends):** alles
+Vorherige ist gelaufen — `deploy-news.sh 2909` (drei Matchberichte,
+alle HTTP 200), `deploy-person-eller.sh` (Tamara Eller weg von der
+Orga-Seite) und `scripts/deploy-theme.sh` (das aufgehellte
+Trainingslager-Hero liegt live byteweise identisch mit dem Repo).
 
 **Erledigt und live nachgeprüft (29.09.2026):** `deploy-news.sh 2709`
 (Emmenbrücke-Bericht, HTTP 200).
@@ -2741,6 +2743,44 @@ Abdunkeln** — das wäre genau das Gegenteil des Auftrags.
 
 Auf dem Telefon (390 px) ebenfalls angeschaut: Mannschaft erkennbar,
 Titel lesbar.
+
+### 2am. Junioren-Organisation: Kommunikation und Social Media (29.09.2026)
+
+Rückmeldung: Dominique Scheiber macht das Ämtli nicht mehr, ihre
+Doppelfunktion «Kommunikation & Social Media» wird **geteilt**.
+
+`./deploy/deploy-junioren-orga.sh` (DB-Teil
+`deploy/fcs-junioren-orga.php.tpl`). Nur DB — beide Porträts liegen
+schon in `2026/06`, kein Datei-Upload, kein Theme-Deploy.
+
+| | Person | Rolle | Bild | E-Mail | Position |
+| --- | --- | --- | --- | --- | --- |
+| raus | Dominique Scheiber | Kommunikation & Social Media | — | — | war 50 |
+| neu | Joel Aschwanden | Kommunikation | `Joel_Aschwanden.jpg` | `kommunikation@fcschattdorf.ch` | 50 |
+| neu | Marvin Burch | Social Media | `Silhouette_Male_v2.jpg` | keine | 65 |
+
+**Drei Entscheide, die der Verein kennen sollte:**
+
+- **Die Funktionsadresse `kommunikation@fcschattdorf.ch` geht an Joel
+  Aschwanden.** Sie hing an der Rolle, nicht an der Person, und wäre
+  sonst nirgends mehr auf der Seite erreichbar. Setzt das voraus, dass
+  er Zugriff auf das Postfach bekommt — sonst im Admin leeren.
+- **Von Marvin Burch gibt es kein Foto**, deshalb die Silhouette wie
+  bei Linus Epp. Keine E-Mail, wie bei den übrigen
+  Social-Media-Einträgen (May Van der Ven, Lea Deplazes, Nadine
+  Scheiber).
+- **Position 65** stellt Marvin Burch an den Anfang der
+  Social-Media-Gruppe, weil er dort Dominique Scheibers Part übernimmt.
+  Die bestehenden Nummern (70/80/90) bleiben unangetastet.
+
+**Dominique Scheiber bleibt auf der Frauen-Teamseite** als
+«Verantwortliche Frauenfussball Uri» (Abschnitt 2ah) — das steht in
+einem Seitenfeld und ist ein anderer Mechanismus als der
+`fcs_person`-Eintrag hier. Der Deploy prüft beides: auf der Orga-Seite
+darf sie nicht mehr vorkommen, auf der Frauenseite muss sie stehen.
+
+Ihr Orga-Eintrag wandert wie bei Tamara Eller in den **Papierkorb**,
+nicht endgültig weg. Das Skript prüft vorher ihre alte Rolle.
 
 ## 3. Neuer Rechner: was gebraucht wird
 

@@ -193,3 +193,7 @@ Spielersponsoren-Logo/
 # Tamara Eller aus der Junioren-Organisation (29.09.2026)
 !deploy/deploy-person-eller.sh
 !deploy/fcs-person-eller.php.tpl
+
+# Junioren-Organisation: Kommunikation und Social Media (29.09.2026)
+!deploy/deploy-junioren-orga.sh
+!deploy/fcs-junioren-orga.php.tpl
