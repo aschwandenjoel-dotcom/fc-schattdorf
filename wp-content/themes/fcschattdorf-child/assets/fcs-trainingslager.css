@@ -60,12 +60,16 @@ body.page-id-59 .entry-header { padding: 0 !important; margin: 0 !important; }
   position: absolute; inset: 0;
   width: 100%; height: 100%;
   object-fit: cover; object-position: center 40%;
-  opacity: .8;
+  /* Volle Deckkraft. Bis 29.09.2026 lief das Bild auf .8/.88 gegen den
+     schwarzen Grund — zusammen mit dem Verlauf unten war die Mannschaft
+     kaum mehr zu erkennen. Der Kontrast für die Schrift kommt jetzt
+     allein aus .tl-hero__slash. */
+  opacity: 1;
   transform: scale(1.08);
   animation: tlHeroZoom 12s ease-out forwards;
 }
 @keyframes tlHeroZoom {
-  to { transform: scale(1); opacity: .88; }
+  to { transform: scale(1); }
 }
 
 /* Einblenden der Hero-Texte.
@@ -84,25 +88,30 @@ body.page-id-59 .entry-header { padding: 0 !important; margin: 0 !important; }
   .tl-hero__meta,
   .tl-hero__cta        { animation: tlFadeIn .3s var(--tl-ease) backwards; }
   .tl-hero__line > *   { animation: tlFadeIn .3s .1s var(--tl-ease) backwards; }
-  .tl-hero__img        { animation: none; transform: none; opacity: .88; }
+  .tl-hero__img        { animation: none; transform: none; opacity: 1; }
 }
 @keyframes tlFadeIn { from { opacity: 0; } }
 
-/* Abdunkeln, damit die Schrift auf jedem Foto lesbar bleibt */
+/* Abdunkeln, damit die Schrift auf jedem Foto lesbar bleibt.
+   Am 29.09.2026 abgeschwächt (rechts 72->58 %, unten 78->66 %): das
+   Hero-Foto ist im Gegenlicht aufgenommen und war unten ohnehin dunkel,
+   zusammen mit dem alten Verlauf verschwand die Mannschaft im Schwarz.
+   Unten und links bleibt genug Abdunklung für die weisse Schrift —
+   dort sitzen Titel, Datum und Ort. */
 .tl-hero__slash {
   position: absolute; inset: 0; pointer-events: none;
   background:
     linear-gradient(
       to right,
-      rgba(0,0,0,.72) 0%,
-      rgba(0,0,0,.45) 38%,
+      rgba(0,0,0,.58) 0%,
+      rgba(0,0,0,.30) 38%,
       transparent 70%
     ),
     linear-gradient(
       to top,
-      rgba(0,0,0,.78) 0%,
-      rgba(0,0,0,.40) 38%,
-      rgba(0,0,0,.08) 68%,
+      rgba(0,0,0,.66) 0%,
+      rgba(0,0,0,.26) 38%,
+      rgba(0,0,0,.04) 68%,
       transparent 100%
     );
 }

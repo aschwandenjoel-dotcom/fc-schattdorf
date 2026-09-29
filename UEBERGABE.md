@@ -67,6 +67,8 @@ fast-forward in `main` — kann gelöscht werden. Wichtig für den Betrieb:
    Ba, Db; Abschnitt 2aj). Zwei Bilder gehen mit.
 2. `./deploy/deploy-person-eller.sh` — Tamara Eller aus der
    Junioren-Organisation (Abschnitt 2ak). Nur DB.
+3. `./scripts/deploy-theme.sh` — helleres Hero-Bild im Trainingslager
+   (Abschnitt 2al). Bild und CSS liegen im Theme.
 
 **Erledigt und live nachgeprüft (29.09.2026):** `deploy-news.sh 2709`
 (Emmenbrücke-Bericht, HTTP 200).
@@ -2690,6 +2692,48 @@ Seitenfeld gespeist, sondern aus dem CPT `fcs_person` mit den Feldern
 `fcs_pe_bereich`, `fcs_pe_rolle`, `fcs_pe_email`, `fcs_pe_tel`,
 `fcs_pe_bild`; die Reihenfolge steuert `menu_order` (10er-Schritte).
 Für weitere Personenänderungen ist dieses Skript die Vorlage.
+
+### 2al. Trainingslager: Titelbild aufgehellt (29.09.2026)
+
+Rückmeldung: das Titelbild wirkt viel zu dunkel. Stimmt — die
+Mannschaft im unteren Bildteil war kaum zu erkennen. **Drei Ursachen
+lagen übereinander**, gemessen statt geraten:
+
+| Schicht | vorher | jetzt |
+| --- | --- | --- |
+| Das Foto selbst (Gegenlicht) | untere Hälfte 84 von 255 | 118 (Gamma 1,5) |
+| `.tl-hero__img` über schwarzem Grund | `opacity: .8`, per Zoom-Animation auf `.88` | `opacity: 1` |
+| `.tl-hero__slash` (Verlauf für die Schrift) | rechts 72 %, unten 78 % Schwarz | 58 % / 66 % |
+
+Multipliziert ergab das im unteren Bildteil noch rund ein Fünftel der
+ursprünglichen Helligkeit.
+
+Umgesetzt in drei Schritten, alle im **Theme** (nicht in `uploads`) —
+deshalb genügt `./scripts/deploy-theme.sh`, kein Datei-Upload:
+
+1. `assets/img/tl/tl26-hero.jpg` mit **Gamma 1,5** aufgehellt (GD im
+   Container, `imagegammacorrect`). Gamma statt fester Helligkeit, weil
+   es die Schatten anhebt und den Himmel nicht ausbrennt. Im Vergleich
+   1,3 / 1,5 / 1,7 war 1,5 der Punkt, an dem die Gesichter da sind und
+   das Bild noch nicht flau wirkt. **Die alte Fassung steckt in der
+   Git-Historie** — bewusst keine `.bak`-Datei, die läge sonst im
+   Theme und würde mitdeployt.
+2. `opacity` des Hero-Bildes auf 1, auch im Keyframe `tlHeroZoom` und
+   im `prefers-reduced-motion`-Block.
+3. Den Verlauf abgeschwächt, aber unten und links genug gelassen —
+   dort sitzen Titel, Datum und Ort.
+
+**Lesbarkeit geprüft, nicht angenommen:** hinter Datum und Ort liegt
+der Hintergrund bei 41 von 255 (Kontrast 14,5:1), hinter dem grossen
+Titel bei 122 (4,3:1). Für Fliesstext wären 4,5:1 nötig, für grosse
+fette Schrift verlangt WCAG 3:1 — der Titel ist bis 4,25 rem gross und
+900 fett. Dazu kommt der bestehende `text-shadow` (0 2px 22px,
+55 % Schwarz), der lokal hinter den Buchstaben abdunkelt und in der
+Flächenmessung gar nicht auftaucht. Deshalb **kein zusätzliches
+Abdunkeln** — das wäre genau das Gegenteil des Auftrags.
+
+Auf dem Telefon (390 px) ebenfalls angeschaut: Mannschaft erkennbar,
+Titel lesbar.
 
 ## 3. Neuer Rechner: was gebraucht wird
 
