@@ -197,3 +197,6 @@ Spielersponsoren-Logo/
 # Junioren-Organisation: Kommunikation und Social Media (29.09.2026)
 !deploy/deploy-junioren-orga.sh
 !deploy/fcs-junioren-orga.php.tpl
+
+# Cupsieg 3. Mannschaft gegen Brunnen (30.09.2026)
+!deploy/news-import-3009.json

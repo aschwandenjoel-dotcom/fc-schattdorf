@@ -1,6 +1,6 @@
 # Übergabe / Rechnerwechsel
 
-Stand: **29.09.2026**. Diese Datei beschreibt, was gerade offen ist und was
+Stand: **30.09.2026**. Diese Datei beschreibt, was gerade offen ist und was
 auf einem neuen Rechner eingerichtet werden muss. Die dauerhaften
 Projektregeln stehen in `CLAUDE.md`, das Setup der lokalen Umgebung in
 `README.md`.
@@ -61,10 +61,12 @@ fast-forward in `main` — kann gelöscht werden. Wichtig für den Betrieb:
   Domain einmal auslösen. Phase C (Search Console, 404-Log, Mail
   beobachten, cyon/UBIQ) steht in `UMSTELLUNG.md`.
 
-**Ein Schritt steht aus:**
+**Zwei Schritte stehen aus:**
 
 1. `./deploy/deploy-junioren-orga.sh` — Kommunikation und Social Media
    in der Junioren-Organisation neu besetzt (Abschnitt 2am). Nur DB.
+2. `./deploy/deploy-news.sh 3009` — Cupsieg der 3. Mannschaft
+   (Abschnitt 2an). Ein Bild geht mit.
 
 **Erledigt und live nachgeprüft (29.09.2026, abends):** alles
 Vorherige ist gelaufen — `deploy-news.sh 2909` (drei Matchberichte,
@@ -2781,6 +2783,39 @@ darf sie nicht mehr vorkommen, auf der Frauenseite muss sie stehen.
 
 Ihr Orga-Eintrag wandert wie bei Tamara Eller in den **Papierkorb**,
 nicht endgültig weg. Das Skript prüft vorher ihre alte Rolle.
+
+### 2an. Cupsieg der 3. Mannschaft (30.09.2026)
+
+Über `/wp-news`, Textliste `deploy/news-import-3009.json`. **Der Text
+kam nicht als Word-Datei, sondern direkt in der Anfrage** — eine
+Social-Media-Meldung mit Emoji und Unicode-Schmuckschrift
+(«𝟓. 𝐋𝐢𝐠𝐚 𝐂𝐮𝐩», «𝘗. 𝘎𝘢𝘮𝘮𝘢»). Solche Zeichen sind
+Mathematical-Bold/Italic-Varianten und gehören nicht in den
+Fliesstext; mit `unicodedata.normalize('NFKC', …)` werden daraus
+normale Buchstaben. Nach dem Import gegengeprüft: im Beitrag steht
+kein einziges Zeichen oberhalb U+2000 mehr.
+
+| | |
+| --- | --- |
+| Titel | Cupfight bis zur letzten Sekunde |
+| Kategorie | 3. Mannschaft (der erste Beitrag dieser Kategorie) |
+| Bild | `2026/09/FCS3_Cupsieg_Brunnen.jpg` (neu, 1600×900) aus `Cupsieg FCS3.jpg` |
+| Spiel | 5. Liga Cup, 1/16-Final, FC Brunnen III – FC Schattdorf III 2:3 |
+
+**Aufbau:** die Rubrikzeile («5. Liga Cup, 1/16-Final: FC Brunnen III
+– FC Schattdorf III 2:3») steht als `<h3>` über dem Text, weil dem
+Bericht sonst jeder Kontext fehlte — er beginnt direkt mit dem
+Spielverlauf. Vorbild ist der Untertitel im Brunnen-Bericht der
+2. Mannschaft (Abschnitt 2aj). Die Torschützenliste am Schluss ist
+unter dem Zwischentitel «Die Tore» zu einem Absatz zusammengefasst;
+als fünf Einzelabsätze hätte sie den Beitrag zerrissen. Die
+Torstände stehen wie in der Vorlage aus Sicht des Heimteams Brunnen
+(also 1:2, 1:3), während der Fliesstext aus Schattdorfer Sicht
+erzählt — so kam es, das bleibt unverändert.
+
+Lokal auf dem Live-Stand vom 30.09. durchgespielt: Probelauf, scharf
+(#911), zweiter Lauf SKIP, Skript 404, vier Prüfungen grün, Beitrag im
+Browser angeschaut.
 
 ## 3. Neuer Rechner: was gebraucht wird
 
